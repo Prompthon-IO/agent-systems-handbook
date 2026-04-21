@@ -10,10 +10,10 @@ tutorial track.
 
 ## Suggested sequence
 
-1. [Case Studies](../case-studies/README.md)
-2. [Ecosystem](../ecosystem/README.md)
-3. [Foundations](../foundations/README.md)
-4. [Patterns](../patterns/README.md)
+1. [Deep Research Agents](../case-studies/deep-research-agents.md)
+2. [Agents Vs Workflows](../foundations/agents-vs-workflows.md)
+3. [Agent Platforms And Low-Code Builders](../ecosystem/agent-platforms-and-low-code-builders.md)
+4. [Agent Memory And Retrieval](../patterns/agent-memory-and-retrieval.md)
 5. [Radar](../radar/README.md)
 
 ## What this path optimizes for
@@ -26,4 +26,6 @@ tutorial track.
 
 If you want the production-minded view of evaluation, interoperability,
 reliability, and operations, continue into
-[Systems](../systems/README.md).
+[Context Engineering](../systems/context-engineering.md),
+[Protocols And Interoperability](../systems/protocols-and-interoperability.md),
+and [Evaluation And Observability](../systems/evaluation-and-observability.md).

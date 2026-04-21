@@ -17,3 +17,14 @@ to care about any specific framework, vendor, or implementation stack.
 Start with universal questions, plain language, and durable mental models.
 This is the first stop for global readers who want conceptual clarity before
 they go deeper into implementation details.
+
+## Current pages
+
+- [What Are Agent Systems](./what-are-agent-systems.md): a practical definition
+  of agent systems as software loops, not just chat surfaces.
+- [Agents Vs Workflows](./agents-vs-workflows.md): when to use deterministic
+  orchestration, bounded autonomy, or a hybrid design.
+- [History Of Agent Ideas](./history-of-agent-ideas.md): a short problem-driven
+  history from symbolic systems to modern agent stacks.
+- [LLM Foundations For Agent Systems](./llm-foundations-for-agent-systems.md):
+  the minimum model concepts needed to design agent systems well.

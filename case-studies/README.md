@@ -18,3 +18,8 @@ architecture choices to recognizable agent products and workflows.
 Each case study should start with a user problem, then move through system
 shape, tool choices, memory strategy, evaluation questions, and likely failure
 modes.
+
+## Current pages
+
+- [Deep Research Agents](./deep-research-agents.md): a bounded look at
+  planning, evidence collection, synthesis, and citation discipline.

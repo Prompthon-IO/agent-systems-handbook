@@ -39,6 +39,25 @@ The current repository now separates evergreen handbook content, fast-moving
 ecosystem coverage, audience guides, and contributor scaffolding so the
 project can grow without collapsing back into one long chapter stream.
 
+## Current Draft Pages
+
+The first public article wave now covers these core handbook pages:
+
+- [What Are Agent Systems](./foundations/what-are-agent-systems.md)
+- [History Of Agent Ideas](./foundations/history-of-agent-ideas.md)
+- [LLM Foundations For Agent Systems](./foundations/llm-foundations-for-agent-systems.md)
+- [Agents Vs Workflows](./foundations/agents-vs-workflows.md)
+- [Agent Memory And Retrieval](./patterns/agent-memory-and-retrieval.md)
+- [Reasoning And Control Patterns](./patterns/reasoning-and-control-patterns.md)
+- [Planning And Reflection](./patterns/planning-and-reflection.md)
+- [Agent Runtime Building Blocks](./patterns/agent-runtime-building-blocks.md)
+- [Context Engineering](./systems/context-engineering.md)
+- [Protocols And Interoperability](./systems/protocols-and-interoperability.md)
+- [Evaluation And Observability](./systems/evaluation-and-observability.md)
+- [Deep Research Agents](./case-studies/deep-research-agents.md)
+- [Agent Frameworks](./ecosystem/agent-frameworks.md)
+- [Agent Platforms And Low-Code Builders](./ecosystem/agent-platforms-and-low-code-builders.md)
+
 ## Start Here
 
 Choose the guide that matches what you want to do first.

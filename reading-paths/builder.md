@@ -5,12 +5,21 @@ applications.
 
 ## Suggested sequence
 
-1. [Foundations](../foundations/README.md)
-2. [Patterns](../patterns/README.md)
-3. [Systems](../systems/README.md)
-4. [Case Studies](../case-studies/README.md)
-5. [Ecosystem](../ecosystem/README.md)
-6. [Radar](../radar/README.md)
+1. [What Are Agent Systems](../foundations/what-are-agent-systems.md)
+2. [History Of Agent Ideas](../foundations/history-of-agent-ideas.md)
+3. [LLM Foundations For Agent Systems](../foundations/llm-foundations-for-agent-systems.md)
+4. [Agents Vs Workflows](../foundations/agents-vs-workflows.md)
+5. [Reasoning And Control Patterns](../patterns/reasoning-and-control-patterns.md)
+6. [Planning And Reflection](../patterns/planning-and-reflection.md)
+7. [Agent Memory And Retrieval](../patterns/agent-memory-and-retrieval.md)
+8. [Agent Runtime Building Blocks](../patterns/agent-runtime-building-blocks.md)
+9. [Context Engineering](../systems/context-engineering.md)
+10. [Protocols And Interoperability](../systems/protocols-and-interoperability.md)
+11. [Evaluation And Observability](../systems/evaluation-and-observability.md)
+12. [Deep Research Agents](../case-studies/deep-research-agents.md)
+13. [Agent Frameworks](../ecosystem/agent-frameworks.md)
+14. [Agent Platforms And Low-Code Builders](../ecosystem/agent-platforms-and-low-code-builders.md)
+15. [Radar](../radar/README.md)
 
 ## What this path optimizes for
 
