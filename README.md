@@ -31,46 +31,36 @@
 
 ## Overview
 
-This repository is a repo-native handbook scaffold for understanding how agent
-systems are designed, compared, built, evaluated, and operated in practice.
-It is structured as a global field guide rather than a single linear course.
+This repository is a public handbook for understanding how agent systems are
+designed, compared, built, evaluated, and operated in practice. It is
+structured as a field guide rather than a single linear course, so readers can
+move between foundations, patterns, systems, ecosystem coverage, and case
+studies without losing the thread.
 
-The current repository now separates evergreen handbook content, fast-moving
-ecosystem coverage, audience guides, and contributor scaffolding so the
-project can grow without collapsing back into one long chapter stream.
+The repository is organized around durable public surfaces. Handbook pages live
+in the lane folders, audience guides live under `reading-paths/`, contribution
+support lives in the contributor docs, and mature outward-facing extensions can
+be tracked in `publications/`. The goal is to keep articles, notes, and example
+projects in the place where contributors and readers would actually expect to
+find them.
 
-## Current Draft Pages
+## Contributor Guide
 
-The first public article wave now covers these core handbook pages:
+If you want to contribute to the public handbook, start from the contributor
+docs rather than from ad hoc internal working material.
 
-- [What Are Agent Systems](./foundations/what-are-agent-systems.md)
-- [History Of Agent Ideas](./foundations/history-of-agent-ideas.md)
-- [LLM Foundations For Agent Systems](./foundations/llm-foundations-for-agent-systems.md)
-- [Agents Vs Workflows](./foundations/agents-vs-workflows.md)
-- [Agent Memory And Retrieval](./patterns/agent-memory-and-retrieval.md)
-- [Reasoning And Control Patterns](./patterns/reasoning-and-control-patterns.md)
-- [Planning And Reflection](./patterns/planning-and-reflection.md)
-- [Agent Runtime Building Blocks](./patterns/agent-runtime-building-blocks.md)
-- [Context Engineering](./systems/context-engineering.md)
-- [Protocols And Interoperability](./systems/protocols-and-interoperability.md)
-- [Evaluation And Observability](./systems/evaluation-and-observability.md)
-- [Deep Research Agents](./case-studies/deep-research-agents.md)
-- [Agent Frameworks](./ecosystem/agent-frameworks.md)
-- [Agent Platforms And Low-Code Builders](./ecosystem/agent-platforms-and-low-code-builders.md)
+Public contributions in this repository currently fit into these paths:
 
-## Contributor Surfaces
+- handbook articles in `foundations/`, `patterns/`, `systems/`, `ecosystem/`, or `case-studies/`
+- radar notes in [`radar/`](./radar/)
+- source projects in lane-local `examples/` folders
+- curated reference notes in [`contributor-kit/reference-notes/`](./contributor-kit/reference-notes/README.md)
+- publication extensions in [`publications/`](./publications/README.md) once a handbook page is ready for an outward-facing article or distribution surface
 
-The repo now supports four public contribution types:
-
-- handbook articles
-- radar notes
-- lane-local source projects
-- curated reference notes
-
-Start from [Contributing](./CONTRIBUTING.md) and
-[Contributor Kit](./contributor-kit/README.md). Example projects stay in this
-same repository under lane-local `examples/` folders instead of being split
-into separate repos by default.
+Start with [Contributing](./CONTRIBUTING.md) and
+[Contributor Kit](./contributor-kit/README.md). Those pages define the public
+workflow, templates, review standards, and placement rules for handbook
+articles, notes, and code that belong in this repository.
 
 ## Start Here
 
@@ -101,7 +91,7 @@ Choose the guide that matches what you want to do first.
     <td valign="top" width="50%">
       <h3>Contributor</h3>
       <p>For people who want to shape the handbook by adding, revising, curating, or maintaining pages, notes, and starter projects.</p>
-      <p><strong>What you get:</strong> A contributor path into the editorial workflow, source-project templates, and source-aware contribution scaffolding.</p>
+      <p><strong>What you get:</strong> A public contributor path into the editorial workflow, templates, review rules, and the correct published surface for each contribution type.</p>
       <p><a href="./reading-paths/contributor.md">Open the Contributor guide</a></p>
     </td>
   </tr>
