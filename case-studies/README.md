@@ -23,3 +23,8 @@ modes.
 
 - [Deep Research Agents](./deep-research-agents.md): a bounded look at
   planning, evidence collection, synthesis, and citation discipline.
+
+## Example starters
+
+- [Deep Research Agent Starter](./examples/deep-research-agent-starter/README.md):
+  a small project scaffold for planning, evidence collection, and cited output.

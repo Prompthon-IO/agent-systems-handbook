@@ -1,0 +1,48 @@
+# Radar Note Guidelines
+
+Use this guide for short, time-scoped notes in `radar/`.
+
+## What radar is for
+
+Radar notes are for updates that are useful now but too unstable for evergreen
+handbook pages.
+
+Good fits:
+
+- framework or protocol watch items
+- short market updates
+- category shifts
+- emerging terminology worth tracking
+
+## Placement and naming
+
+- Place notes in `radar/`
+- Use date-scoped filenames such as `2026-04-protocol-watch.md`
+
+## Required shape
+
+Start from [Radar Note Template](./templates/radar-note-template.md).
+
+Required sections:
+
+- `Summary`
+- `Why It Matters`
+- `Evidence And Sources`
+- `Signals To Watch`
+- `Update Log`
+
+## Working rules
+
+- Keep the note short and scannable.
+- Make the time boundary explicit in the title, filename, or content.
+- Cite concrete sources instead of vague market impressions.
+- Do not turn a radar note into an evergreen tutorial page.
+
+## Completion standard
+
+A radar note is ready for review when it:
+
+- is clearly time-scoped
+- has enough evidence to justify the signal
+- avoids oversized background explanation
+- links to a related evergreen page when relevant

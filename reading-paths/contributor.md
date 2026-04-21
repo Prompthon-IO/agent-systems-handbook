@@ -3,23 +3,33 @@
 Best for people who want to shape the handbook itself by adding, revising,
 curating, or maintaining pages.
 
-Start with [Contributor Kit](../contributor-kit/README.md) for the working
-assets, then use [Handbook Structure](../contributor-kit/handbook-structure.md)
-for the internal structure, editorial direction, and reference-boundary notes.
+Start with [Contributing](../CONTRIBUTING.md) for the public workflow, then use
+[Contributor Kit](../contributor-kit/README.md) for the working assets and
+[Handbook Structure](../contributor-kit/handbook-structure.md) for the repo
+map and reference boundary.
+
+## Supported contribution types
+
+- handbook articles
+- radar notes
+- source projects
+- curated reference notes
 
 ## Suggested sequence
 
-1. [Contributor Kit](../contributor-kit/README.md)
-2. [Handbook Structure](../contributor-kit/handbook-structure.md)
-3. [Publications](../publications/README.md)
-4. [Metadata Schema](../publications/metadata-schema.md)
-5. [Radar](../radar/README.md)
-6. [Ecosystem](../ecosystem/README.md)
-7. [References](../references/README.md)
+1. [Contributing](../CONTRIBUTING.md)
+2. [Contributor Kit](../contributor-kit/README.md)
+3. [Article Guidelines](../contributor-kit/article-guidelines.md)
+4. [Radar Note Guidelines](../contributor-kit/radar-note-guidelines.md)
+5. [Source Project Guidelines](../contributor-kit/source-project-guidelines.md)
+6. [Reference Note Guidelines](../contributor-kit/reference-note-guidelines.md)
+7. [Review Checklist](../contributor-kit/review-checklist.md)
+8. [Handbook Structure](../contributor-kit/handbook-structure.md)
+9. [References](../references/README.md)
 
 ## What this path optimizes for
 
 - Editorial consistency
 - Small, manageable contribution units
-- Clear metadata and update expectations
+- Clear templates and review expectations
 - Safe use of reference material

@@ -25,3 +25,8 @@ options, hosted options, and clear guidance on who should care.
   conversation-oriented, graph-oriented, and engineering-first frameworks.
 - [Agent Platforms And Low-Code Builders](./agent-platforms-and-low-code-builders.md):
   when to choose builder-first, platform-first, or automation-first surfaces.
+
+## Example starters
+
+- [LangGraph Starter](./examples/langgraph-starter/README.md): a minimal graph
+  example that future framework comparisons can share.

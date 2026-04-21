@@ -10,7 +10,9 @@ door can stay lightweight.
 - Imported reference material remains available under `references/`.
 - Audience guides and contributor templates are in place for future content
   work.
-- Most topic pages are still to be authored.
+- The first public handbook article wave is drafted.
+- Public contributor guidance now covers articles, radar notes, source
+  projects, and curated reference notes.
 
 ## What this handbook covers
 
@@ -35,6 +37,16 @@ door can stay lightweight.
 | `publications/` | Metadata and structure for external reading extensions |
 | `contributor-kit/` | Templates and editorial scaffolding for contributions |
 | `references/` | Imported source material and planning documents |
+
+Lane-local example projects live only where code is natural in v1:
+
+- `patterns/examples/`
+- `systems/examples/`
+- `ecosystem/examples/`
+- `case-studies/examples/`
+
+Curated contributor-facing source maps live in
+`contributor-kit/reference-notes/`.
 
 ## Editorial direction
 

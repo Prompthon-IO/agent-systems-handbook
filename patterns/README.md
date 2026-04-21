@@ -30,3 +30,9 @@ They should stay useful even as individual frameworks rise or fall.
   critique-and-refine patterns improve quality on longer tasks.
 - [Agent Runtime Building Blocks](./agent-runtime-building-blocks.md): the
   runtime components that show up beneath most frameworks and custom agents.
+
+## Example starters
+
+- [Agent Memory Retrieval Starter](./examples/agent-memory-retrieval-starter/README.md):
+  a small code sketch for separating active notes, retrieval inputs, and
+  durable artifacts.

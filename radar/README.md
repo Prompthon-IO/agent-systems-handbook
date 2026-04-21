@@ -16,3 +16,8 @@ forced into evergreen handbook chapters too early.
 Keep entries short, timely, and easy to update. This is the easiest surface
 for junior contributors and the fastest way for the repository to stay current
 without destabilizing the evergreen structure.
+
+## Current notes
+
+- [Protocol Watch](./2026-04-protocol-watch.md): a sample time-scoped note on
+  how to track protocol boundaries without collapsing them together.

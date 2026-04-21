@@ -58,6 +58,20 @@ The first public article wave now covers these core handbook pages:
 - [Agent Frameworks](./ecosystem/agent-frameworks.md)
 - [Agent Platforms And Low-Code Builders](./ecosystem/agent-platforms-and-low-code-builders.md)
 
+## Contributor Surfaces
+
+The repo now supports four public contribution types:
+
+- handbook articles
+- radar notes
+- lane-local source projects
+- curated reference notes
+
+Start from [Contributing](./CONTRIBUTING.md) and
+[Contributor Kit](./contributor-kit/README.md). Example projects stay in this
+same repository under lane-local `examples/` folders instead of being split
+into separate repos by default.
+
 ## Start Here
 
 Choose the guide that matches what you want to do first.
@@ -86,8 +100,8 @@ Choose the guide that matches what you want to do first.
     </td>
     <td valign="top" width="50%">
       <h3>Contributor</h3>
-      <p>For people who want to shape the handbook itself by adding, revising, curating, or maintaining pages.</p>
-      <p><strong>What you get:</strong> A contributor path into the editorial workflow, structure notes, and source-aware contribution scaffolding.</p>
+      <p>For people who want to shape the handbook by adding, revising, curating, or maintaining pages, notes, and starter projects.</p>
+      <p><strong>What you get:</strong> A contributor path into the editorial workflow, source-project templates, and source-aware contribution scaffolding.</p>
       <p><a href="./reading-paths/contributor.md">Open the Contributor guide</a></p>
     </td>
   </tr>

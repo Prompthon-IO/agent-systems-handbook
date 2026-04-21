@@ -28,3 +28,8 @@ and operational tradeoffs.
   tool access, agent collaboration, and network discovery fit together.
 - [Evaluation And Observability](./evaluation-and-observability.md): how to
   measure capability and explain failures in production-minded agent systems.
+
+## Example starters
+
+- [Weather MCP Server Starter](./examples/weather-mcp-server-starter/README.md):
+  a thin protocol-facing tool service sketch for future interop examples.
