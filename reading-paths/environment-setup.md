@@ -5,7 +5,7 @@ Practitioner, Builder, and Contributor paths.
 
 ## What this setup is for
 
-- reading the lab locally
+- reading Prompthon Agentic Lab locally
 - running the current repo-owned starter code
 - verifying example projects before or after contribution work
 
@@ -22,8 +22,8 @@ toolchain.
 ## Clone the repository
 
 ```bash
-git clone https://github.com/Prompthon-IO/agent-systems-lab.git
-cd agent-systems-lab
+git clone https://github.com/Prompthon-IO/prompthon-agentic-lab.git
+cd prompthon-agentic-lab
 ```
 
 ## Optional virtual environment

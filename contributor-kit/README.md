@@ -1,7 +1,7 @@
 # Contributor Kit
 
 This directory holds the public scaffolding needed to let contributors add or
-revise lab content without guessing the repository rules.
+revise Prompthon Agentic Lab content without guessing the repository rules.
 
 Start with [Contributing](../CONTRIBUTING.md) for the shared flow, then come
 here for templates, guidelines, and review assets.
@@ -21,7 +21,7 @@ here for templates, guidelines, and review assets.
 - [Radar Note Template](./templates/radar-note-template.md)
 - [Reference Note Template](./templates/reference-note-template.md)
 - [Source Project Template](./templates/source-project-template/README.md)
-- [Lab Structure](./lab-structure.md)
+- [Prompthon Agentic Lab Structure](./lab-structure.md)
 - [Article Guidelines](./article-guidelines.md)
 - [Radar Note Guidelines](./radar-note-guidelines.md)
 - [Source Project Guidelines](./source-project-guidelines.md)

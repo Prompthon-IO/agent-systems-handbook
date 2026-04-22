@@ -1,6 +1,7 @@
 # Contributing
 
-This repository accepts more than one kind of public contribution.
+This repository accepts more than one kind of public contribution to Prompthon
+Agentic Lab.
 
 The first question is not "article or code?" It is "what kind of artifact are
 you adding?"

@@ -1,8 +1,8 @@
-# Lab Structure
+# Prompthon Agentic Lab Structure
 
-This document holds the internal structure and reference notes that support the
-lab. It is intentionally separate from the top-level README so the front
-door can stay lightweight.
+This document holds the internal structure and reference notes that support
+Prompthon Agentic Lab. It is intentionally separate from the top-level README
+so the front door can stay lightweight.
 
 ## Current status
 

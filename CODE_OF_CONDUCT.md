@@ -1,7 +1,8 @@
 # Code Of Conduct
 
-This repository is a public working lab. We want contributions, critique,
-and review to stay specific, respectful, and useful for the next person.
+Prompthon Agentic Lab is a public working lab. We want contributions,
+critique, and review to stay specific, respectful, and useful for the next
+person.
 
 This code of conduct applies in this repository and in project-linked community
 spaces used to coordinate lab work.

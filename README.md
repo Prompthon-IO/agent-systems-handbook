@@ -3,10 +3,10 @@
     <img src="https://github.com/Prompthon-IO.png?size=160" alt="Prompthon IO" width="96" height="96" />
   </a>
 
-  <h1>Agent Systems Lab</h1>
+  <h1>Prompthon Agentic Lab</h1>
 
   <p>
-    A working lab repository from <strong>Prompthon IO</strong> for organizing
+    A public working lab from <strong>Prompthon IO</strong> for organizing
     practical knowledge about modern agent systems, from core concepts to
     production-minded implementation patterns.
   </p>
@@ -14,18 +14,18 @@
   <p>
     <a href="https://github.com/Prompthon-IO">Organization</a>
     ·
-    <a href="https://github.com/Prompthon-IO/agent-systems-lab">Repository</a>
+    <a href="https://github.com/Prompthon-IO/prompthon-agentic-lab">Repository</a>
     ·
-    <a href="https://github.com/Prompthon-IO/agent-systems-lab/issues">Issues</a>
+    <a href="https://github.com/Prompthon-IO/prompthon-agentic-lab/issues">Issues</a>
     ·
     <a href="https://discord.gg/sDE2HhGTg4">Discord</a>
   </p>
 
   <p>
-    <img src="https://img.shields.io/github/last-commit/Prompthon-IO/agent-systems-lab?style=flat-square" alt="Last commit" />
-    <img src="https://img.shields.io/github/stars/Prompthon-IO/agent-systems-lab?style=flat-square" alt="GitHub stars" />
-    <img src="https://img.shields.io/github/forks/Prompthon-IO/agent-systems-lab?style=flat-square" alt="GitHub forks" />
-    <img src="https://img.shields.io/github/issues/Prompthon-IO/agent-systems-lab?style=flat-square" alt="GitHub issues" />
+    <img src="https://img.shields.io/github/last-commit/Prompthon-IO/prompthon-agentic-lab?style=flat-square" alt="Last commit" />
+    <img src="https://img.shields.io/github/stars/Prompthon-IO/prompthon-agentic-lab?style=flat-square" alt="GitHub stars" />
+    <img src="https://img.shields.io/github/forks/Prompthon-IO/prompthon-agentic-lab?style=flat-square" alt="GitHub forks" />
+    <img src="https://img.shields.io/github/issues/Prompthon-IO/prompthon-agentic-lab?style=flat-square" alt="GitHub issues" />
   </p>
 </div>
 
@@ -33,7 +33,8 @@
 
 ## Overview
 
-This repository is a public lab for understanding how agent systems are
+Prompthon Agentic Lab is a public repository for understanding how agent
+systems are
 designed, compared, built, evaluated, and operated in practice. It is
 structured as a field guide rather than a single linear course, so readers can
 move between foundations, patterns, systems, ecosystem coverage, and case
@@ -48,7 +49,7 @@ find them.
 
 ## Contributor Guide
 
-If you want to contribute to the public lab, start from the contributor
+If you want to contribute to Prompthon Agentic Lab, start from the contributor
 docs rather than from ad hoc internal working material.
 
 Public contributions in this repository currently fit into these paths:

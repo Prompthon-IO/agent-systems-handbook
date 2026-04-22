@@ -1,5 +1,5 @@
-name: Lab Content Proposal
-description: Propose a new lab page, a major revision, a radar note, or a curated reference contribution.
+name: Prompthon Agentic Lab Content Proposal
+description: Propose a new Prompthon Agentic Lab page, a major revision, a radar note, or a curated reference contribution.
 title: "[Content]: "
 body:
   - type: markdown
@@ -8,8 +8,8 @@ body:
         Use this form for public lab content work.
 
         Before filing, review:
-        - [Contributing](https://github.com/Prompthon-IO/agent-systems-lab/blob/main/CONTRIBUTING.md)
-        - [Contributor Kit](https://github.com/Prompthon-IO/agent-systems-lab/tree/main/contributor-kit)
+        - [Contributing](https://github.com/Prompthon-IO/prompthon-agentic-lab/blob/main/CONTRIBUTING.md)
+        - [Contributor Kit](https://github.com/Prompthon-IO/prompthon-agentic-lab/tree/main/contributor-kit)
   - type: dropdown
     id: contribution_type
     attributes:

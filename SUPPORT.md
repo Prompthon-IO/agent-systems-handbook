@@ -1,6 +1,7 @@
 # Support
 
-Use the support path that matches the kind of help you need.
+Use the support path that matches the kind of help you need in Prompthon
+Agentic Lab.
 
 ## Before opening anything
 
