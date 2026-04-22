@@ -1,7 +1,7 @@
 # Radar
 
 This lane is the fast-moving layer for changes in the field that should not be
-forced into evergreen handbook chapters too early.
+forced into evergreen lab chapters too early.
 
 ## What belongs here
 

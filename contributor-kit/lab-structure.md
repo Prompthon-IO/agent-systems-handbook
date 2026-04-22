@@ -1,20 +1,20 @@
-# Handbook Structure
+# Lab Structure
 
 This document holds the internal structure and reference notes that support the
-handbook. It is intentionally separate from the top-level README so the front
+lab. It is intentionally separate from the top-level README so the front
 door can stay lightweight.
 
 ## Current status
 
-- The top-level handbook lanes are now scaffolded in the repository.
+- The top-level lab lanes are now scaffolded in the repository.
 - Imported reference material remains available under `references/`.
 - Audience guides and contributor templates are in place for future content
   work.
-- The first public handbook article wave is drafted.
+- The first public lab article wave is drafted.
 - Public contributor guidance now covers articles, radar notes, source
   projects, and curated reference notes.
 
-## What this handbook covers
+## What this lab covers
 
 - Agent system fundamentals and terminology
 - Reusable agent patterns and workflow mechanisms
@@ -33,7 +33,7 @@ door can stay lightweight.
 | `ecosystem/` | Topic-first comparisons of tools, models, and platforms |
 | `case-studies/` | Story-led examples for major agent archetypes |
 | `radar/` | Fast-moving market and protocol tracking |
-| `reading-paths/` | Audience-first entry points into the handbook |
+| `reading-paths/` | Audience-first entry points into the lab |
 | `publications/` | Metadata and structure for external reading extensions |
 | `contributor-kit/` | Templates and editorial scaffolding for contributions |
 | `references/` | Imported source material and planning documents |

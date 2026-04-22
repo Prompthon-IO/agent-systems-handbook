@@ -5,7 +5,7 @@ Practitioner, Builder, and Contributor paths.
 
 ## What this setup is for
 
-- reading the handbook locally
+- reading the lab locally
 - running the current repo-owned starter code
 - verifying example projects before or after contribution work
 
@@ -22,8 +22,8 @@ toolchain.
 ## Clone the repository
 
 ```bash
-git clone https://github.com/Prompthon-IO/agent-systems-handbook.git
-cd agent-systems-handbook
+git clone https://github.com/Prompthon-IO/agent-systems-lab.git
+cd agent-systems-lab
 ```
 
 ## Optional virtual environment

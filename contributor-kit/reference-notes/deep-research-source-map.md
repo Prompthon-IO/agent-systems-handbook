@@ -38,7 +38,7 @@ Excluded:
 ## Source Map
 
 - [Deep Research Agents](../../case-studies/deep-research-agents.md): current
-  repo-native handbook page and the best public starting point in this repo.
+  repo-native lab page and the best public starting point in this repo.
 - [Hello-Agents Chapter 14](../../references/hello-agents-main/docs/chapter14/Chapter14-Automated-Deep-Research-Agent.md):
   conceptual source input for the original planning-search-summarize-report
   loop.
@@ -55,7 +55,7 @@ The stable spine across these materials is consistent:
 - synthesis quality depends on context control and citation discipline
 - trust comes from traceability, not from polished prose alone
 
-The current handbook page already covers that spine well. Future work should
+The current lab page already covers that spine well. Future work should
 extend it sideways into evaluation, artifact strategy, and more comparative
 implementation references rather than re-explaining the same loop.
 

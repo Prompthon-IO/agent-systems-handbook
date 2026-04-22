@@ -41,7 +41,7 @@ def check_memory_starter() -> None:
         state,
         "fact",
         "retrieval should remain explicit",
-        "handbook smoke test",
+        "lab smoke test",
     )
 
     trace = trace_module.build_trace(

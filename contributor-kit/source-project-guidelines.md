@@ -53,7 +53,7 @@ Use `starter` unless the project is meaningfully complete and documented.
 
 ## Working rules
 
-- Keep the project linked to the handbook. Every starter should point back to a
+- Keep the project linked to the lab. Every starter should point back to a
   related page or lane README.
 - Keep external-source influence visible in `SOURCE_NOTES.md`.
 - Do not copy upstream README text or large code blocks.

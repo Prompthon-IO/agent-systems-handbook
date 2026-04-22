@@ -1,0 +1,49 @@
+name: Maintainer Or Process Proposal
+description: Propose changes to repository governance, review flow, templates, labels, or contributor process.
+title: "[Process]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for repository process and governance work.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Current problem
+      description: Describe the maintainer or contributor pain point.
+      placeholder: Contributors are unclear about...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Explain the process, template, or governance update you want to make.
+      placeholder: We should introduce...
+    validations:
+      required: true
+  - type: checkboxes
+    id: surfaces
+    attributes:
+      label: Affected surfaces
+      options:
+        - label: Branch and merge rules
+        - label: Issue intake
+        - label: Pull request review flow
+        - label: Labels or milestones
+        - label: Contributor documentation
+        - label: Maintainer operations
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Tradeoffs and risks
+      description: Note costs, migration concerns, or reasons not to do this yet.
+      placeholder: This would improve consistency, but...
+  - type: textarea
+    id: success
+    attributes:
+      label: What success looks like
+      description: Define the observable outcome if this change is adopted.
+      placeholder: New contributors can...
+    validations:
+      required: true

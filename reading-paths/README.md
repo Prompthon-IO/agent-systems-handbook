@@ -1,6 +1,6 @@
 # Reading Paths
 
-This directory turns the repository into a path-first handbook instead of a
+This directory turns the repository into a path-first lab instead of a
 single chapter stream.
 
 ## Primary guides

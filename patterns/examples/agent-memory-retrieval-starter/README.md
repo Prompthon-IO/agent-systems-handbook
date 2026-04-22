@@ -16,7 +16,7 @@ starter is intentionally narrower: it highlights the boundary between what the
 agent is currently holding, what it can retrieve, and what it should preserve
 as an artifact.
 
-## Related Handbook Pages
+## Related Lab Pages
 
 - [Agent Memory And Retrieval](../../agent-memory-and-retrieval.md)
 - [Patterns Overview](../../README.md)

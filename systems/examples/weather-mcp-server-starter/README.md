@@ -15,7 +15,7 @@ Protocol examples are easier to reason about when they focus on one tool
 boundary. This starter keeps the scope to request validation, predictable tool
 shapes, and response packaging.
 
-## Related Handbook Pages
+## Related Lab Pages
 
 - [Protocols And Interoperability](../../protocols-and-interoperability.md)
 - [Systems Overview](../../README.md)

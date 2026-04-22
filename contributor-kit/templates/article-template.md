@@ -44,7 +44,7 @@ List the primary sources or references used to support the page.
 
 ## Reading Extensions
 
-Link to related handbook pages or external readings.
+Link to related lab pages or external readings.
 
 ## Update Log
 

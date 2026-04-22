@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Contribution Guide
+    url: https://github.com/Prompthon-IO/agent-systems-lab/blob/main/CONTRIBUTING.md
+    about: Review contribution types, placement rules, and the shared PR flow before opening a new item.
+  - name: Contributor Kit
+    url: https://github.com/Prompthon-IO/agent-systems-lab/tree/main/contributor-kit
+    about: Use the contributor kit for templates, review checklist details, and artifact-specific guidance.
+  - name: Support And Questions
+    url: https://github.com/Prompthon-IO/agent-systems-lab/blob/main/SUPPORT.md
+    about: Use the support guide for help paths, discussion routing, and where to ask early questions.
+  - name: Community Discord
+    url: https://discord.gg/sDE2HhGTg4
+    about: Use Discord for early discussion, orientation questions, or help choosing the right contribution surface.
+  - name: Security Reporting
+    url: https://github.com/Prompthon-IO/agent-systems-lab/blob/main/SECURITY.md
+    about: Do not use public issues for security vulnerabilities or sensitive reports.

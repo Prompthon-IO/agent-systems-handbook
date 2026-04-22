@@ -1,6 +1,6 @@
 # Article Guidelines
 
-Use this guide for evergreen handbook pages.
+Use this guide for evergreen lab pages.
 
 ## Where articles belong
 
@@ -36,7 +36,7 @@ Required sections:
 - Write in repo-native English.
 - Use source inputs for concepts and citations, not as prose to preserve.
 - Keep diagrams simple and repo-owned.
-- Link to related handbook pages so the article is part of the larger map.
+- Link to related lab pages so the article is part of the larger map.
 - Keep the page durable. If a claim is likely to age fast, either verify it or
   write it in non-time-sensitive language.
 

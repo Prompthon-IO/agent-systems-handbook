@@ -1,6 +1,6 @@
 # Review Checklist
 
-Use this checklist for handbook articles, radar notes, source projects, and
+Use this checklist for lab articles, radar notes, source projects, and
 curated reference notes.
 
 ## PR checklist
@@ -10,7 +10,7 @@ curated reference notes.
 - The matching template or required structure was followed.
 - The content is repo-native and not copied from upstream material.
 - Citations or source notes are present where needed.
-- The contribution links back into the handbook so it is discoverable.
+- The contribution links back into the lab so it is discoverable.
 - Status and maintenance expectations are clear.
 
 ## Reviewer rubric

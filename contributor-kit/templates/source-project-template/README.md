@@ -13,9 +13,9 @@ Describe what this project demonstrates in one short paragraph.
 Explain the narrow concept, workflow, or system boundary this project is meant
 to illustrate.
 
-## Related Handbook Pages
+## Related Lab Pages
 
-- Link to the most relevant handbook page or lane README.
+- Link to the most relevant lab page or lane README.
 
 ## Folder Structure
 

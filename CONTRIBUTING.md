@@ -7,7 +7,7 @@ you adding?"
 
 ## Supported contribution types
 
-- `handbook article`: an evergreen page in `foundations/`, `patterns/`,
+- `lab article`: an evergreen page in `foundations/`, `patterns/`,
   `systems/`, `ecosystem/`, or `case-studies/`
 - `radar note`: a short, time-scoped field update in `radar/`
 - `source project`: a repo-owned example or starter under a lane-local
@@ -16,7 +16,7 @@ you adding?"
   under `contributor-kit/reference-notes/`
 
 `publications/` is not a first-wave community contribution surface. Treat it as
-an editorial extension area for mature handbook pages.
+an editorial extension area for mature lab pages.
 
 ## Start here
 
@@ -43,7 +43,7 @@ Use the matching guide before you draft anything:
 
 ## Where each contribution belongs
 
-- Handbook articles live directly in the relevant lane folder.
+- Lab articles live directly in the relevant lane folder.
 - Radar notes live in `radar/`.
 - Source projects live only in:
   - `patterns/examples/`

@@ -1,0 +1,88 @@
+name: Lab Content Proposal
+description: Propose a new lab page, a major revision, a radar note, or a curated reference contribution.
+title: "[Content]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for public lab content work.
+
+        Before filing, review:
+        - [Contributing](https://github.com/Prompthon-IO/agent-systems-lab/blob/main/CONTRIBUTING.md)
+        - [Contributor Kit](https://github.com/Prompthon-IO/agent-systems-lab/tree/main/contributor-kit)
+  - type: dropdown
+    id: contribution_type
+    attributes:
+      label: Contribution type
+      description: Pick the artifact you want to add or revise.
+      options:
+        - Lab article
+        - Major revision to an existing lab page
+        - Radar note
+        - Curated reference note
+        - Publication follow-on
+    validations:
+      required: true
+  - type: dropdown
+    id: target_lane
+    attributes:
+      label: Target lane or surface
+      description: Choose the most likely home for the contribution.
+      options:
+        - foundations
+        - patterns
+        - systems
+        - ecosystem
+        - case-studies
+        - radar
+        - contributor-kit
+        - publications
+    validations:
+      required: true
+  - type: input
+    id: existing_path
+    attributes:
+      label: Existing file or folder, if this revises current content
+      description: Use a repo path such as `patterns/planning-and-reflection.md`.
+      placeholder: patterns/planning-and-reflection.md
+  - type: textarea
+    id: gap
+    attributes:
+      label: What gap or problem are you addressing?
+      description: Explain the missing concept, weak section, stale content, or editorial need.
+      placeholder: The lab covers X and Y, but it does not yet explain...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed content change
+      description: Describe the page, note, or revision you want to add.
+      placeholder: I want to add a page that...
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Source lineage
+      description: List the external sources, internal notes, or existing repo pages that should shape this work.
+      placeholder: "- source project or paper"
+    validations:
+      required: true
+  - type: textarea
+    id: integration
+    attributes:
+      label: Integration plan
+      description: Explain where the work should link back into the lab so it is discoverable.
+      placeholder: Update the lane README, add a reading-path link, and...
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Readiness checks
+      options:
+        - label: I reviewed the relevant contributor guidance before filing this issue.
+          required: true
+        - label: I understand that imported material under `references/` is source input, not publishable copy.
+          required: true

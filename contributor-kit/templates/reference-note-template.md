@@ -32,7 +32,7 @@ Summarize the main patterns, disagreements, or useful signals.
 ## Gaps And Follow-up
 
 - What still needs verification?
-- What future handbook page or project could use this note?
+- What future lab page or project could use this note?
 
 ## Update Log
 

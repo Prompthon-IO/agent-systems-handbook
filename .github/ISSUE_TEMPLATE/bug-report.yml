@@ -1,0 +1,52 @@
+name: Bug Or Broken Surface Report
+description: Report a broken link, factual problem, example bug, template problem, or repository workflow issue.
+title: "[Bug]: "
+body:
+  - type: dropdown
+    id: bug_type
+    attributes:
+      label: Problem type
+      options:
+        - Broken link or navigation path
+        - Factual or editorial error
+        - Example project bug
+        - Issue or PR template problem
+        - Repository workflow or automation problem
+        - Other concrete repository defect
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Affected path or URL
+      description: Point to the exact repo path, page, or workflow where the problem appears.
+      placeholder: systems/README.md
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior or content
+      placeholder: The page should link to...
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior or content
+      placeholder: The link currently resolves to...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to reproduce or verify
+      description: Include the concrete steps, commands, or navigation path.
+      placeholder: 1. Open ...
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add screenshots, proposed fixes, or related issue links if useful.

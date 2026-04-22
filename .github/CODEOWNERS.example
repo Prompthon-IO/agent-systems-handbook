@@ -1,0 +1,26 @@
+# Copy this file to `.github/CODEOWNERS` after replacing the placeholder handles
+# with real GitHub usernames or teams. Do not enable required code owner review
+# until the active `CODEOWNERS` file points to valid owners.
+
+# Global fallback owner
+* @REPLACE_WITH_PRIMARY_MAINTAINER
+
+# Governance and entry surfaces
+/.github/ @REPLACE_WITH_PRIMARY_MAINTAINER
+/README.md @REPLACE_WITH_PRIMARY_MAINTAINER
+/CONTRIBUTING.md @REPLACE_WITH_PRIMARY_MAINTAINER
+/CODE_OF_CONDUCT.md @REPLACE_WITH_PRIMARY_MAINTAINER
+/SECURITY.md @REPLACE_WITH_PRIMARY_MAINTAINER
+/SUPPORT.md @REPLACE_WITH_PRIMARY_MAINTAINER
+
+# Lane ownership
+/foundations/ @REPLACE_WITH_FOUNDATIONS_OWNER
+/patterns/ @REPLACE_WITH_PATTERNS_OWNER
+/systems/ @REPLACE_WITH_SYSTEMS_OWNER
+/ecosystem/ @REPLACE_WITH_ECOSYSTEM_OWNER
+/case-studies/ @REPLACE_WITH_CASE_STUDIES_OWNER
+/radar/ @REPLACE_WITH_RADAR_OWNER
+/reading-paths/ @REPLACE_WITH_PRIMARY_MAINTAINER
+/contributor-kit/ @REPLACE_WITH_PRIMARY_MAINTAINER
+/publications/ @REPLACE_WITH_PRIMARY_MAINTAINER
+/scripts/ @REPLACE_WITH_PRIMARY_MAINTAINER

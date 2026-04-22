@@ -1,6 +1,6 @@
 # Publication Metadata Schema
 
-Use this schema as the baseline metadata contract for handbook pages that need
+Use this schema as the baseline metadata contract for lab pages that need
 publication extensions.
 
 ## Core fields

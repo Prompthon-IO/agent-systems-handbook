@@ -1,0 +1,73 @@
+name: Source Project Proposal
+description: "Propose a repo-owned starter, example, or source project under a lane-local `examples/` folder."
+title: "[Source Project]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for new or substantially revised example projects.
+
+        Relevant guidance:
+        - [Contributing](https://github.com/Prompthon-IO/agent-systems-lab/blob/main/CONTRIBUTING.md)
+        - [Source Project Guidelines](https://github.com/Prompthon-IO/agent-systems-lab/blob/main/contributor-kit/source-project-guidelines.md)
+  - type: dropdown
+    id: lane
+    attributes:
+      label: Target lane
+      description: "`foundations/` is intentionally excluded from source projects in v1."
+      options:
+        - patterns
+        - systems
+        - ecosystem
+        - case-studies
+    validations:
+      required: true
+  - type: input
+    id: folder_name
+    attributes:
+      label: Proposed folder name
+      description: Use a concise kebab-case name for the example folder.
+      placeholder: deep-research-agent-starter
+    validations:
+      required: true
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case
+      description: Explain what this example should teach and who it is for.
+      placeholder: This starter should show...
+    validations:
+      required: true
+  - type: textarea
+    id: minimal_scope
+    attributes:
+      label: Minimal deliverable
+      description: Define the smallest acceptable first version.
+      placeholder: "README, SOURCE_NOTES.md, and a small `src/` implementation that demonstrates..."
+    validations:
+      required: true
+  - type: textarea
+    id: repo_fit
+    attributes:
+      label: Why should this be repo-owned?
+      description: Explain why this belongs as a lab example instead of a link to an outside project.
+      placeholder: We need a minimal starter that mirrors the lab's terminology and...
+    validations:
+      required: true
+  - type: textarea
+    id: source_lineage
+    attributes:
+      label: Source lineage and attribution plan
+      description: Note the outside work, references, or prior repo material that will influence the example.
+      placeholder: "- upstream reference repo"
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Readiness checks
+      options:
+        - label: I checked that the target lane is allowed to contain `examples/`.
+          required: true
+        - label: I understand the example should stay minimal, repo-native, and safe on attribution boundaries.
+          required: true

@@ -5,7 +5,7 @@ Use this guide for curated reference notes under
 
 ## What a reference note is
 
-A curated reference note is not a handbook article and not a source project.
+A curated reference note is not a lab article and not a source project.
 It is a structured source roundup that helps future contributors understand a
 topic quickly.
 
@@ -14,7 +14,7 @@ Good fits:
 - source maps
 - comparison roundups
 - bounded reading lists
-- topic briefings for future handbook expansion
+- topic briefings for future lab expansion
 
 ## Placement and naming
 

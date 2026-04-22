@@ -14,7 +14,7 @@ surface.
 
 ## How to use these starters
 
-- Start with the related handbook page linked from each project README.
+- Start with the related lab page linked from each project README.
 - Use [Environment Setup](./environment-setup.md) before running starter-code
   checks locally.
 - Run `python3 scripts/verify_example_projects.py` from the repository root to

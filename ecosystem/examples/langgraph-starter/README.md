@@ -15,7 +15,7 @@ Framework comparison pages are easier to extend when contributors can point to
 small repo-owned examples instead of only to external demos. This starter keeps
 the shape recognizable without turning the repo into a framework tutorial set.
 
-## Related Handbook Pages
+## Related Lab Pages
 
 - [Agent Frameworks](../../agent-frameworks.md)
 - [Ecosystem Overview](../../README.md)

@@ -102,4 +102,4 @@ not to pick one era. It is to combine the right ideas for the actual task.
 
 ## Update Log
 
-- 2026-04-21: Initial repo-native draft based on imported reference material and handbook rewrite rules.
+- 2026-04-21: Initial repo-native draft based on imported reference material and lab rewrite rules.

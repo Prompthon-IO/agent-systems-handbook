@@ -15,7 +15,7 @@ Deep research is a flagship agent product shape in this repo. A small starter
 makes it easier to contribute traces, artifacts, and evaluation ideas later
 without copying a full external implementation.
 
-## Related Handbook Pages
+## Related Lab Pages
 
 - [Deep Research Agents](../../deep-research-agents.md)
 - [Case Studies Overview](../../README.md)

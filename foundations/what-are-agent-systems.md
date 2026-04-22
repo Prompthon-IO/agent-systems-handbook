@@ -110,4 +110,4 @@ Good system design therefore starts by being explicit about boundaries:
 
 ## Update Log
 
-- 2026-04-21: Initial repo-native draft based on imported reference material and handbook rewrite rules.
+- 2026-04-21: Initial repo-native draft based on imported reference material and lab rewrite rules.

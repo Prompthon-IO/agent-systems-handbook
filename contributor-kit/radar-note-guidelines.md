@@ -5,7 +5,7 @@ Use this guide for short, time-scoped notes in `radar/`.
 ## What radar is for
 
 Radar notes are for updates that are useful now but too unstable for evergreen
-handbook pages.
+lab pages.
 
 Good fits:
 
