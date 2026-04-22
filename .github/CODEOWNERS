@@ -1,0 +1,5 @@
+# Single repository owner
+* @dprat0821
+
+# Protect the CODEOWNERS file itself
+/.github/CODEOWNERS @dprat0821

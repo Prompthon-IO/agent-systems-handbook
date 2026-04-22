@@ -47,23 +47,6 @@ be tracked in `publications/`. The goal is to keep articles, notes, and example
 projects in the place where contributors and readers would actually expect to
 find them.
 
-## Contributor Guide
-
-If you want to contribute to Prompthon Agentic Lab, start from the contributor
-docs rather than from ad hoc internal working material.
-
-Public contributions in this repository currently fit into these paths:
-
-- lab articles in `foundations/`, `patterns/`, `systems/`, `ecosystem/`, or `case-studies/`
-- radar notes in [`radar/`](./radar/)
-- source projects in lane-local `examples/` folders
-- curated reference notes in [`contributor-kit/reference-notes/`](./contributor-kit/reference-notes/README.md)
-- publication extensions in [`publications/`](./publications/README.md) once a lab page is ready for an outward-facing article or distribution surface
-
-Start with [Contributing](./CONTRIBUTING.md) and
-[Contributor Kit](./contributor-kit/README.md). Those pages define the public
-workflow, templates, review standards, and placement rules for lab
-articles, notes, and code that belong in this repository.
 
 ## Start Here
 
@@ -99,3 +82,21 @@ Choose the guide that matches what you want to do first.
     </td>
   </tr>
 </table>
+
+## Contributor Guide
+
+If you want to contribute to Prompthon Agentic Lab, start from the contributor
+docs rather than from ad hoc internal working material.
+
+Public contributions in this repository currently fit into these paths:
+
+- lab articles in `foundations/`, `patterns/`, `systems/`, `ecosystem/`, or `case-studies/`
+- radar notes in [`radar/`](./radar/)
+- source projects in lane-local `examples/` folders
+- curated reference notes in [`contributor-kit/reference-notes/`](./contributor-kit/reference-notes/README.md)
+- publication extensions in [`publications/`](./publications/README.md) once a lab page is ready for an outward-facing article or distribution surface
+
+Start with [Contributing](./CONTRIBUTING.md) and
+[Contributor Kit](./contributor-kit/README.md). Those pages define the public
+workflow, templates, review standards, and placement rules for lab
+articles, notes, and code that belong in this repository.
