@@ -36,7 +36,7 @@
 Prompthon Agentic Lab is a public repository for understanding how agent
 systems are
 designed, compared, built, evaluated, and operated in practice. It is
-structured as a field guide rather than a single linear course, so readers can
+structured as a field guide rather than a single linear course, so explorers can
 move between foundations, patterns, systems, ecosystem coverage, and case
 studies without losing the thread.
 
@@ -44,7 +44,7 @@ The repository is organized around durable public surfaces. Lab pages live
 in the lane folders, audience guides live under `reading-paths/`, contribution
 support lives in the contributor docs, and mature outward-facing extensions can
 be tracked in `publications/`. The goal is to keep articles, notes, and example
-projects in the place where contributors and readers would actually expect to
+projects in the place where contributors and explorers would actually expect to
 find them.
 
 
@@ -55,10 +55,10 @@ Choose the guide that matches what you want to do first.
 <table>
   <tr>
     <td valign="top" width="50%">
-      <h3>Reader</h3>
+      <h3>Explorer</h3>
       <p>For people who want a clear, high-level understanding of the space before getting into implementation detail.</p>
       <p><strong>What you get:</strong> A curated set of recommended reads across the lab without a fixed sequence.</p>
-      <p><a href="./reading-paths/reader.md">Open the Reader guide</a></p>
+      <p><a href="./reading-paths/explorer.md">Open the Explorer guide</a></p>
     </td>
     <td valign="top" width="50%">
       <h3>Practitioner</h3>

@@ -1,4 +1,4 @@
-# Reader
+# Explorer
 
 Best for people who want a high-level understanding of agent systems without
 committing to a strict build sequence.

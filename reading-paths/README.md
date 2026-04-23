@@ -5,7 +5,7 @@ single chapter stream.
 
 ## Primary guides
 
-- [Reader](./reader.md): for people who want a high-level understanding and a
+- [Explorer](./explorer.md): for people who want a high-level understanding and a
   recommended set of pages rather than a strict sequence.
 - [Practitioner](./practitioner.md): for people who want to use agent tools and
   skills in real work without becoming professional agent builders.
