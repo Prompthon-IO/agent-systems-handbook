@@ -1,13 +1,19 @@
 ---
 title: Agent Frameworks
 owner: Prompthon IO
-updated: 2026-04-21
+updated: 2026-04-23
 depth: intermediate
 region_tags:
   - global
   - china
 coding_required: optional
-external_readings: []
+external_readings:
+  - title: Microsoft Agent Framework Overview
+    url: https://learn.microsoft.com/en-us/agent-framework/overview/
+  - title: Developer's Guide to Building ADK Agents with Skills
+    url: https://developers.googleblog.com/developers-guide-to-building-adk-agents-with-skills/
+  - title: Supercharge your AI agents: The New ADK Integrations Ecosystem
+    url: https://developers.googleblog.com/supercharge-your-ai-agents-adk-integrations-ecosystem/
 status: draft
 ---
 
@@ -16,9 +22,10 @@ status: draft
 ## Summary
 
 Agent frameworks package recurring runtime problems such as state, tools,
-message passing, and control flow. The right framework is not the one with the
-most features. It is the one whose mental model matches the system you are
-trying to build.
+message passing, and control flow. In 2026, the most useful comparison question
+is no longer just "chat loop or graph?" It is "which abstraction owns the
+work: conversation, explicit workflows, engineering infrastructure, or
+load-on-demand skills and integrations?"
 
 ## Why It Matters
 
@@ -27,89 +34,110 @@ hurt. The pain is familiar:
 
 - duplicated agent loop code
 - unclear state handling
-- hard-to-reuse tools
+- brittle tool wiring
 - weak observability
-- brittle multi-agent coordination
+- hard-to-debug multi-agent coordination
 
-Frameworks matter because they turn those recurring problems into explicit
-abstractions.
+The framework market is now converging and branching at the same time.
+Microsoft is folding AutoGen and Semantic Kernel ideas into Agent Framework.
+Google ADK is pushing a skill-and-integration-first model. Older frameworks
+still matter, but the comparison surface is wider than the original
+conversation-versus-graph split.
 
 ## Mental Model
 
-The imported reference material highlights four useful comparison anchors:
+Six anchors help orient the current landscape:
 
-- `AutoGen`: conversation-driven collaboration
+- `AutoGen`: conversation-first collaboration
+- `CAMEL`: lightweight role-driven collaboration
+- `LangGraph`: graph-structured control flow and recoverable state
+- `Microsoft Agent Framework`: unified agents plus explicit workflows
+- `Google ADK`: code-first agents with skills and integrations loaded on demand
 - `AgentScope`: engineering-first multi-agent infrastructure
-- `CAMEL`: role-playing collaboration with light orchestration
-- `LangGraph`: graph-structured control flow and state management
 
-These are not just product names. They represent different ways of thinking
-about agent software.
+These are not direct substitutes. They reflect different control centers:
 
-- conversation-first frameworks model collaboration as dialogue
-- graph-first frameworks model it as state transitions
-- platform-style frameworks emphasize runtime infrastructure and deployment
+- conversation-first frameworks optimize collaboration as dialogue
+- graph-first frameworks optimize explicit state transitions and orchestration
+- skill-first frameworks optimize reusable expertise and tool ecosystems
+- engineering-first frameworks optimize runtime discipline and production
+  concerns
 
 ## Architecture Diagram
 
 ```mermaid
 flowchart LR
-  Need["System need"] --> Choice{"Primary control model"}
-  Choice --> Chat["Conversation-oriented frameworks"]
-  Choice --> Graph["Graph and state-machine frameworks"]
-  Choice --> Platform["Engineering and runtime platforms"]
+  Need["System need"] --> Choice{"Primary abstraction"}
+  Choice --> Chat["Conversation-first"]
+  Choice --> Graph["Workflow and state"]
+  Choice --> Skill["Skills and integrations"]
+  Choice --> Infra["Engineering infrastructure"]
   Chat --> AutoGen["AutoGen / CAMEL style"]
-  Graph --> LangGraph["LangGraph style"]
-  Platform --> AgentScope["AgentScope style"]
+  Graph --> LangGraph["LangGraph / Agent Framework workflows"]
+  Skill --> ADK["Google ADK style"]
+  Infra --> AgentScope["AgentScope style"]
 ```
 
 ## Tool Landscape
 
 ### Global coverage
 
-- AutoGen is useful when the system should behave like a coordinated group of
-  specialists exchanging messages.
-- CAMEL is useful when role pairing and autonomous collaboration are more
-  important than heavy orchestration.
-- LangGraph is useful when explicit workflow control, loops, and recoverable
-  state transitions matter more than emergent conversation.
+- AutoGen remains useful when a system should behave like a coordinated group
+  of specialists exchanging messages.
+- CAMEL remains useful when role pairing and autonomous collaboration matter
+  more than heavy orchestration.
+- LangGraph remains useful when loops, checkpoints, and recoverable state
+  transitions need to be explicit.
+- Microsoft Agent Framework matters because it combines agent abstractions with
+  enterprise features such as state management, middleware, telemetry, and
+  graph-based workflows. It is the clearest current signal that the AutoGen and
+  Semantic Kernel lines are being pulled into a shared successor.
+- Google ADK matters when agents should load expertise through skills and then
+  connect quickly to external tools, partner platforms, and cloud services.
 
 ### China-linked coverage
 
-- AgentScope represents an engineering-first path with strong attention to
-  large-scale multi-agent construction, message infrastructure, and production
-  concerns.
+- AgentScope remains the clearest engineering-first reference in the current
+  China-linked set, with stronger emphasis on large-scale coordination, runtime
+  infrastructure, and production operations.
 
 ### Selection criteria
 
 - Choose conversation-first frameworks when collaborative behavior is the main
   abstraction.
-- Choose graph-first frameworks when predictable control flow matters most.
-- Choose platform-style frameworks when runtime, scale, and operational
-  concerns are central from the beginning.
+- Choose graph-first frameworks when explicit control flow, checkpointing, or
+  mixed agent-function orchestration matters most.
+- Choose skill-first frameworks when reusable domain instructions and external
+  integrations are central to the design.
+- Choose engineering-first frameworks when operational rigor arrives early and
+  the team expects multi-agent systems to behave like software infrastructure,
+  not just prompts.
+- If the task is deterministic enough to be a workflow or plain function, do
+  not force it into an autonomous agent abstraction.
 
 ## Tradeoffs
 
 - Conversation-oriented frameworks feel natural for collaboration, but they can
-  be harder to debug and constrain.
+  be harder to constrain and debug.
 - Graph-oriented frameworks are easier to reason about operationally, but they
   require more explicit design work upfront.
+- Skill-first frameworks reduce monolithic prompts and speed up reuse, but they
+  introduce another packaging and evaluation boundary.
 - Engineering-heavy frameworks help when production requirements arrive early,
   but they can be excessive for small prototypes.
-- Lightweight role-play patterns are fast to try, but they may not scale cleanly
-  to large coordination graphs.
 
 Useful defaults:
 
-- start from the control model, not from brand familiarity
-- keep framework choice aligned with the product surface and team capability
-- avoid importing distributed-system complexity into a project that is still
-  validating basic task fit
+- start from the control model, not brand familiarity
+- prefer workflows or plain functions for deterministic tasks
+- keep framework choice aligned with product surface and team capability
+- treat integrations and skills as first-class architecture, not afterthoughts
 
 ## Citations
 
 - Source input: [Chapter 6 Framework Development Practice](../references/hello-agents-main/docs/chapter6/Chapter6-Framework-Development-Practice.md)
 - Source input: [Hello-Agents reference boundary](../references/README.md)
+- Current official framework readings are listed in `external_readings`.
 
 ## Reading Extensions
 
@@ -119,4 +147,7 @@ Useful defaults:
 
 ## Update Log
 
-- 2026-04-21: Initial repo-native draft based on imported reference material and lab rewrite rules.
+- 2026-04-23: Refreshed the page with current Microsoft Agent Framework and
+  Google ADK signals.
+- 2026-04-21: Initial repo-native draft based on imported reference material
+  and lab rewrite rules.
