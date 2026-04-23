@@ -23,8 +23,13 @@ modes.
 
 - [Deep Research Agents](./deep-research-agents.md): a bounded look at
   planning, evidence collection, synthesis, and citation discipline.
+- [Customer Support Agents](./customer-support-agents.md): a local-first case
+  study for email triage and policy-grounded reply drafting.
 
 ## Example starters
 
 - [Deep Research Agent Starter](./examples/deep-research-agent-starter/README.md):
   a small project scaffold for planning, evidence collection, and cited output.
+- [Customer Support Email Agent Starter](./examples/customer-support-email-agent-starter/README.md):
+  a small local-document workflow for triaging customer emails and drafting
+  policy-grounded replies.

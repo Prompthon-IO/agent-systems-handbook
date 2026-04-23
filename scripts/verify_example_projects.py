@@ -16,7 +16,12 @@ def load_module(name: str, relative_path: str) -> ModuleType:
     if spec is None or spec.loader is None:
         raise RuntimeError(f"unable to load module from {module_path}")
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    sys.modules[name] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop(name, None)
+        raise
     return module
 
 
@@ -201,12 +206,58 @@ def check_research_starter() -> None:
     assert not review_module.is_ready_to_publish(len(task.evidence), gaps)
 
 
+def check_customer_support_starter() -> None:
+    src_dir = (
+        REPO_ROOT
+        / "case-studies/examples/customer-support-email-agent-starter/src"
+    )
+    sys.path.insert(0, str(src_dir))
+    try:
+        module = load_module(
+            "customer_support_reply_guardrails",
+            "case-studies/examples/customer-support-email-agent-starter/src/reply_guardrails.py",
+        )
+    finally:
+        sys.path.remove(str(src_dir))
+
+    policy_path = REPO_ROOT / ".tmp-customer-support-policy.md"
+    policy_path.write_text(
+        "Refunds are available within 30 days when the customer received the "
+        "wrong item. Chargebacks and privacy requests must escalate to human "
+        "review.",
+        encoding="utf-8",
+    )
+    try:
+        result = module.draft_policy_grounded_reply(
+            "Subject: Refund request\nI received the wrong item yesterday.",
+            str(policy_path),
+        )
+        handoff = module.draft_policy_grounded_reply(
+            "Subject: Privacy request\nPlease delete my data immediately.",
+            str(policy_path),
+        )
+    finally:
+        policy_path.unlink(missing_ok=True)
+
+    assert result.classification == "refund_request"
+    assert result.policy_evidence
+    assert result.needs_human_review is False
+    assert "refund" in result.reply_subject.lower()
+    assert "wrong item" in result.reply_body.lower()
+    assert handoff.classification == "handoff_required"
+    assert handoff.needs_human_review is True
+
+
 def main() -> int:
     checks = [
         ("patterns/examples/agent-memory-retrieval-starter", check_memory_starter),
         ("systems/examples/weather-mcp-server-starter", check_weather_starter),
         ("ecosystem/examples/langgraph-starter", check_langgraph_starter),
         ("case-studies/examples/deep-research-agent-starter", check_research_starter),
+        (
+            "case-studies/examples/customer-support-email-agent-starter",
+            check_customer_support_starter,
+        ),
     ]
 
     failures = 0

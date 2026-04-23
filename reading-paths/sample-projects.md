@@ -11,6 +11,7 @@ surface.
 | Systems | [Weather MCP Server Starter](../systems/examples/weather-mcp-server-starter/README.md) | `starter` | request validation and protocol-facing tool boundaries |
 | Ecosystem | [LangGraph Starter](../ecosystem/examples/langgraph-starter/README.md) | `starter` | a minimal graph-shaped plan, route, synthesize flow |
 | Case Studies | [Deep Research Agent Starter](../case-studies/examples/deep-research-agent-starter/README.md) | `starter` | planning, evidence collection, and citation-aware synthesis |
+| Case Studies | [Customer Support Email Agent Starter](../case-studies/examples/customer-support-email-agent-starter/README.md) | `starter` | email triage, local policy grounding, and safe reply drafting |
 
 ## How to use these starters
 
