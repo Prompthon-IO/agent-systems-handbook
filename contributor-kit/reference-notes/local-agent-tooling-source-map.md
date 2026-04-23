@@ -71,7 +71,7 @@ Excluded:
 - [MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots):
   the clearest official source for local filesystem boundaries. Roots define
   which directories or files a server can understand as available.
-- [MCP resources](https://modelcontextprotocol.io/specification/draft/server/resources):
+- [MCP resources](https://modelcontextprotocol.io/specification/2025-06-18/server/resources):
   the clearest official source for application-driven context surfaces such as
   files, schemas, or application-specific objects.
 - [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp):
