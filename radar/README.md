@@ -19,6 +19,9 @@ without destabilizing the evergreen structure.
 
 ## Current notes
 
+- [Local Agent Watch](./2026-04-local-agent-watch.md): a time-scoped note on
+  how local runtimes, skill bundles, and file-grounded context are converging
+  into a more concrete agent product shape.
 - [April 2026 Interoperability Watch](./2026-04-interoperability-watch.md):
   a current field note on how A2A, A2UI, and MCP are separating into different
   interoperability layers.
