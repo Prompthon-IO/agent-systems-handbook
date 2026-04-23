@@ -19,5 +19,8 @@ without destabilizing the evergreen structure.
 
 ## Current notes
 
+- [April 2026 Interoperability Watch](./2026-04-interoperability-watch.md):
+  a current field note on how A2A, A2UI, and MCP are separating into different
+  interoperability layers.
 - [Protocol Watch](./2026-04-protocol-watch.md): a sample time-scoped note on
   how to track protocol boundaries without collapsing them together.
