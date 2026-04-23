@@ -18,3 +18,6 @@ material and they are not replacements for lab pages.
   contributor-facing comparison of current OpenAI and Google deep-research
   product signals.
 - [Deep Research Source Map](./deep-research-source-map.md)
+- [Local Agent Tooling Source Map](./local-agent-tooling-source-map.md): a
+  contributor-facing source map for local runtimes, skills, MCP roots,
+  resources, and file-grounded agent workflows.
