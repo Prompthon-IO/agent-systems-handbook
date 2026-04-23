@@ -7,11 +7,7 @@
 
   <p><strong>Evolve Through Prompting. Learn Through Building.</strong></p>
 
-  <p>
-    A public field guide for AI-native learners, early builders, and
-    practitioners exploring how modern agent systems are understood, used,
-    built, evaluated, and operated in practice.
-  </p>
+  <p>A public field guide for AI-native learners, early builders, and practitioners exploring how modern agent systems are understood, used, built, evaluated, and operated in practice.</p>
 
   <p>
     <a href="https://github.com/Prompthon-IO"><strong>Organization</strong></a>
@@ -35,52 +31,35 @@
 
 ## Overview
 
-Prompthon Agentic Lab is an AI-native field guide for students,
-practitioners, and builders exploring modern agent systems from different
-angles.
+Prompthon Agentic Lab is an AI-native field guide for students, practitioners, and builders exploring modern agent systems from different angles.
 
-Built on **learn, question, and innovate**, the lab is shaped by learners and
-grounded in real industry practice. It helps readers understand the space,
-apply AI effectively, or build real systems through parallel paths rather than
-a single track.
+Built on **learn, question, and innovate**, the lab is shaped by learners and grounded in real industry practice. It helps readers understand the space, apply AI effectively, or build real systems through parallel paths rather than a single track.
 
 ## Why This Lab Fits AI-Native Learners, Practitioners, And Builders
 
 ### Built on learn, question, and innovate
 
-This repository encourages active learning, critical thinking, and
-experimentation rather than passive consumption.
+This repository encourages active learning, critical thinking, and experimentation rather than passive consumption.
 
 ### Built by learners, not only for learners
 
-Many contributors are learners themselves. That keeps the material close to the
-questions, habits, and learning paths that students, new grads, and
-next-generation AI-native builders actually have.
+Many contributors are learners themselves. That keeps the material close to the questions, habits, and learning paths that students, new grads, and next-generation AI-native builders actually have.
 
 ### Guided by real industry practice
 
-Through Prompthon programs and industry-facing guidance, the lab remains
-connected to how frontier teams think, build, iterate, and evaluate in real
-settings.
+Through Prompthon programs and industry-facing guidance, the lab remains connected to how frontier teams think, build, iterate, and evaluate in real settings.
 
 ### AI-native by design
 
-The content is created through an AI-native workflow that combines
-AI-assisted drafting, synthesis, iteration, and refinement with expert guidance
-and review.
+The content is created through an AI-native workflow that combines AI-assisted drafting, synthesis, iteration, and refinement with expert guidance and review.
 
 ### Designed for different paths, not a single track
 
-The lab is organized for different kinds of learners and different intentions.
-Some people want broad understanding and trend awareness. Some want to apply AI
-tools to daily work and study. Some want to build real systems and
-applications. This repository supports all three without forcing one sequence.
+The lab is organized for different kinds of learners and different intentions. Some people want broad understanding and trend awareness. Some want to apply AI tools to daily work and study. Some want to build real systems and applications. This repository supports all three without forcing one sequence.
 
 ## Start Here
 
-Choose the path that best matches what you want from AI right now. These are
-parallel tracks for different types of learners and builders, not a required
-sequence.
+Choose the path that best matches what you want from AI right now. These are parallel tracks for different types of learners and builders, not a required sequence.
 
 <table>
   <tr>
@@ -115,8 +94,7 @@ sequence.
 
 ## Contributor Guide
 
-If you want to contribute to Prompthon Agentic Lab, start from the contributor
-docs rather than ad hoc internal working material.
+If you want to contribute to Prompthon Agentic Lab, start from the contributor docs rather than ad hoc internal working material.
 
 Public contributions in this repository currently fit into these paths:
 
@@ -129,7 +107,4 @@ Public contributions in this repository currently fit into these paths:
 - publication extensions in [`publications/`](./publications/README.md) once a
   lab page is ready for an outward-facing article or distribution surface
 
-Start with [Contributing](./CONTRIBUTING.md) and the
-[Contributor Kit](./contributor-kit/README.md). Those pages define the public
-workflow, templates, review standards, and placement rules for lab articles,
-notes, and code that belong in this repository.
+Start with [Contributing](./CONTRIBUTING.md) and the [Contributor Kit](./contributor-kit/README.md). Those pages define the public workflow, templates, review standards, and placement rules for lab articles, notes, and code that belong in this repository.
