@@ -6,7 +6,11 @@ depth: advanced
 region_tags:
   - global
 coding_required: optional
-external_readings: []
+external_readings:
+  - https://modelcontextprotocol.io/specification/2025-03-26/basic/transports
+  - https://modelcontextprotocol.io/specification/2025-06-18/client/roots
+  - https://modelcontextprotocol.io/specification/draft/server/resources
+  - https://openai.com/index/new-tools-and-features-in-the-responses-api/
 status: draft
 ---
 
@@ -49,6 +53,18 @@ different layers:
 - collaboration layer: how specialized actors coordinate
 - network layer: how those actors are found and connected
 
+For local-agent systems, MCP also adds two important context-boundary concepts:
+
+- `roots`: filesystem boundaries that tell a server which local directories or
+  files are in scope.
+- `resources`: application-provided context objects such as files, database
+  schemas, or project records that a client can list, read, select, or refresh.
+
+Roots are about the operating boundary. Resources are about the context surface.
+Keeping those separate prevents a common design mistake: giving an agent broad
+"file access" without explaining which local area is allowed and which concrete
+objects are being passed into model context.
+
 ## Architecture Diagram
 
 ```mermaid
@@ -58,6 +74,8 @@ flowchart TD
   Agent --> A2A["A2A: agent-to-agent collaboration"]
   A2A --> ANP["ANP: network discovery and routing"]
   MCP --> Services["External services and data"]
+  MCP --> Roots["Filesystem roots"]
+  MCP --> Resources["Context resources"]
   A2A --> Specialists["Specialist agents"]
   ANP --> Directory["Discovery and network metadata"]
 ```
@@ -77,6 +95,33 @@ Protocol adoption usually follows the maturity of the surrounding system.
 Transport also matters. Local `stdio` style access fits trusted local tooling.
 Remote transports fit shared infrastructure, but they expand the security
 surface and operational burden.
+
+### Local and remote boundaries
+
+The local-versus-remote distinction is not only about where the code runs. It
+also changes what must be governed:
+
+- Local `stdio` servers can fit personal tools, project scripts, and repository
+  workflows because they run as local processes and can see nearby environment
+  state.
+- Remote MCP servers fit shared services and cloud integrations, but they need
+  clearer authentication, authorization, and lifecycle handling.
+- Roots should be treated as explicit permission boundaries, not convenience
+  hints.
+- Resources should be treated as selected context, not automatic permission to
+  crawl everything behind a connector.
+
+OpenAI's remote MCP support in the Responses API makes the remote side more
+concrete for API builders. The MCP roots and resources specifications make the
+local side more concrete for tools that need project or file context.
+
+Useful default:
+
+- Use direct local tools when the system is private, small, and easy to audit.
+- Use local MCP when the same local capability should be discoverable and
+  reusable across agent clients.
+- Use remote MCP when a shared service boundary is more important than the
+  simplicity of a local script.
 
 ## Tradeoffs
 
@@ -100,6 +145,10 @@ Two practical defaults help:
 
 - Source input: [Chapter 10 Agent Communication Protocols](../references/hello-agents-main/docs/chapter10/Chapter10-Agent-Communication-Protocols.md)
 - Source input: [Hello-Agents reference boundary](../references/README.md)
+- Official source: [MCP transports](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports)
+- Official source: [MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots)
+- Official source: [MCP resources](https://modelcontextprotocol.io/specification/draft/server/resources)
+- Official source: [OpenAI Responses API tools and remote MCP support](https://openai.com/index/new-tools-and-features-in-the-responses-api/)
 
 ## Reading Extensions
 
@@ -109,4 +158,6 @@ Two practical defaults help:
 
 ## Update Log
 
+- 2026-04-23: Refreshed the protocol guidance with local roots, resources, and
+  remote MCP boundary notes.
 - 2026-04-21: Initial repo-native draft based on imported reference material and lab rewrite rules.
