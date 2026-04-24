@@ -19,5 +19,5 @@ material and they are not replacements for lab pages.
   product signals.
 - [Deep Research Source Map](./deep-research-source-map.md)
 - [Local Agent Tooling Source Map](./local-agent-tooling-source-map.md): a
-  contributor-facing source map for local runtimes, skills, MCP roots,
-  resources, and file-grounded agent workflows.
+  contributor briefing for keeping local runtimes, skills, MCP roots,
+  resources, connectors, and file-grounded workflows distinct in future drafts.
