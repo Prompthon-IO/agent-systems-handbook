@@ -18,6 +18,8 @@
     ·
     <a href="https://github.com/Prompthon-IO/agentic-lab/subscription"><strong>关注更新</strong></a>
     ·
+    <a href="./CONTRIBUTING.md"><strong>贡献源码</strong></a>
+    ·
     <a href="https://github.com/Prompthon-IO/agentic-lab/issues"><strong>Issues</strong></a>
     ·
     <a href="https://discord.gg/sDE2HhGTg4"><strong>Discord</strong></a>
@@ -38,30 +40,6 @@
 Prompthon Agentic Lab 是一份面向 AI 原生学生、实践者和构建者的实战指南，从不同角度探索现代智能体系统。
 
 基于 **学习、提问和创新** 构建，这个 lab 由学习者塑造，并扎根于真实的行业实践。它帮助读者理解这一领域、有效应用 AI，或通过并行路径而非单一路径构建真实系统。
-
-## Release One 的 GitHub 入口
-
-Release one 应保持清晰的开源入口：Star 仓库、关注更新，并通过公开流程贡献源码。
-
-<table>
-  <tr>
-    <td valign="top" width="33%">
-      <h3>Star 我们</h3>
-      <p>帮助更多学习者和构建者发现 Prompthon Agentic Lab。</p>
-      <p><a href="https://github.com/Prompthon-IO/agentic-lab"><strong>Star 仓库</strong></a></p>
-    </td>
-    <td valign="top" width="33%">
-      <h3>关注更新</h3>
-      <p>Watch 仓库以跟进新页面、starter project 和后续改动。</p>
-      <p><a href="https://github.com/Prompthon-IO/agentic-lab/subscription"><strong>在 GitHub Watch</strong></a></p>
-    </td>
-    <td valign="top" width="33%">
-      <h3>贡献源码</h3>
-      <p>通过公开贡献路径提交文章、radar 笔记、源项目和参考笔记。</p>
-      <p><a href="./CONTRIBUTING.md"><strong>开始贡献</strong></a></p>
-    </td>
-  </tr>
-</table>
 
 ## 为什么这个 lab 适合 AI 原生学习者、实践者和构建者
 

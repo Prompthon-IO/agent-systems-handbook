@@ -16,7 +16,9 @@
     ·
     <a href="https://github.com/Prompthon-IO/agentic-lab"><strong>Star</strong></a>
     ·
-    <a href="https://github.com/Prompthon-IO/agentic-lab/subscription"><strong>Watch</strong></a>
+    <a href="https://github.com/Prompthon-IO/agentic-lab/subscription"><strong>Watch updates</strong></a>
+    ·
+    <a href="./CONTRIBUTING.md"><strong>Contribute source</strong></a>
     ·
     <a href="https://github.com/Prompthon-IO/agentic-lab/issues"><strong>Issues</strong></a>
     ·
@@ -38,30 +40,6 @@
 Prompthon Agentic Lab is an AI-native field guide for students, practitioners, and builders exploring modern agent systems from different angles.
 
 Built on **learn, question, and innovate**, the lab is shaped by learners and grounded in real industry practice. It helps readers understand the space, apply AI effectively, or build real systems through parallel paths rather than a single track.
-
-## Release One On GitHub
-
-Release one should keep the open-source path visible. Star the repository, watch changes as the lab evolves, and contribute source through the public workflow.
-
-<table>
-  <tr>
-    <td valign="top" width="33%">
-      <h3>Star us</h3>
-      <p>Help more learners and builders discover Prompthon Agentic Lab.</p>
-      <p><a href="https://github.com/Prompthon-IO/agentic-lab"><strong>Star the repository</strong></a></p>
-    </td>
-    <td valign="top" width="33%">
-      <h3>Follow changes</h3>
-      <p>Watch the repository to follow updates, new pages, and starter-project work.</p>
-      <p><a href="https://github.com/Prompthon-IO/agentic-lab/subscription"><strong>Watch on GitHub</strong></a></p>
-    </td>
-    <td valign="top" width="33%">
-      <h3>Contribute source</h3>
-      <p>Use the public contribution path for articles, radar notes, source projects, and reference notes.</p>
-      <p><a href="./CONTRIBUTING.md"><strong>Start contributing</strong></a></p>
-    </td>
-  </tr>
-</table>
 
 ## Why This Lab Fits AI-Native Learners, Practitioners, And Builders
 
