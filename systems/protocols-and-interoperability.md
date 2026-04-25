@@ -1,7 +1,7 @@
 ---
 title: Protocols And Interoperability
 owner: Prompthon IO
-updated: 2026-04-21
+updated: 2026-04-24
 depth: advanced
 region_tags:
   - global
@@ -12,7 +12,7 @@ external_readings:
   - title: MCP Specification: Client Roots
     url: https://modelcontextprotocol.io/specification/2025-06-18/client/roots
   - title: MCP Specification: Server Resources
-    url: https://modelcontextprotocol.io/specification/draft/server/resources
+    url: https://modelcontextprotocol.io/specification/2025-06-18/server/resources
   - title: OpenAI: New Tools and Features in the Responses API
     url: https://openai.com/index/new-tools-and-features-in-the-responses-api/
 status: draft
@@ -57,6 +57,14 @@ different layers:
 - collaboration layer: how specialized actors coordinate
 - network layer: how those actors are found and connected
 
+That layer split gives readers a quick test:
+
+| If the question is... | Start with... | Because... |
+| --- | --- | --- |
+| How does the agent call a tool or read a resource? | MCP | The boundary is capability and context access. |
+| How does one agent hand work to another agent-like service? | A2A | The boundary is delegation and collaboration. |
+| How are agents discovered across a larger network? | ANP | The boundary is routing and discovery. |
+
 For local-agent systems, MCP also adds two important context-boundary concepts:
 
 - `roots`: filesystem boundaries that tell a server which local directories or
@@ -68,6 +76,10 @@ Roots are about the operating boundary. Resources are about the context surface.
 Keeping those separate prevents a common design mistake: giving an agent broad
 "file access" without explaining which local area is allowed and which concrete
 objects are being passed into model context.
+
+A local project root, a selected policy file, and a remote CRM connector are
+therefore different things. A strong design names each one instead of hiding
+them behind a generic claim that the agent "has context."
 
 ## Architecture Diagram
 
@@ -119,6 +131,19 @@ OpenAI's remote MCP support in the Responses API makes the remote side more
 concrete for API builders. The MCP roots and resources specifications make the
 local side more concrete for tools that need project or file context.
 
+Read this as a governance split:
+
+- `local stdio`: easiest to inspect, but tied to the user's machine and nearby
+  environment state
+- `remote MCP`: easier to share across systems, but requires stronger auth,
+  lifecycle, and service-boundary decisions
+- `roots`: the directories or files a local server should understand as
+  available
+- `resources`: selected context objects the application exposes for model use
+
+The practical review question is not "does this use MCP?" It is "which
+boundary does MCP make explicit here?"
+
 Useful default:
 
 - Use direct local tools when the system is private, small, and easy to audit.
@@ -151,7 +176,7 @@ Two practical defaults help:
 - Source input: [Hello-Agents reference boundary](../references/README.md)
 - Official source: [MCP transports](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports)
 - Official source: [MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots)
-- Official source: [MCP resources](https://modelcontextprotocol.io/specification/draft/server/resources)
+- Official source: [MCP resources](https://modelcontextprotocol.io/specification/2025-06-18/server/resources)
 - Official source: [OpenAI Responses API tools and remote MCP support](https://openai.com/index/new-tools-and-features-in-the-responses-api/)
 
 ## Reading Extensions
@@ -162,6 +187,8 @@ Two practical defaults help:
 
 ## Update Log
 
+- 2026-04-24: Clarified protocol-layer boundaries and added a quick decision
+  table for MCP, A2A, ANP, roots, resources, and remote MCP.
 - 2026-04-23: Refreshed the protocol guidance with local roots, resources, and
   remote MCP boundary notes.
 - 2026-04-21: Initial repo-native draft based on imported reference material and lab rewrite rules.
