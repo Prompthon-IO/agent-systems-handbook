@@ -1,0 +1,54 @@
+---
+title: "Weather MCP Server 入门项目"
+---
+
+## 概要
+
+这个 starter 勾勒了一个面向协议的工具服务，为智能体使用提供一个小而稳定的天气接口。
+
+## 状态
+
+`starter`
+
+## 存在原因
+
+当协议示例聚焦于单个工具边界时，会更容易理解。这个 starter 将范围限制在请求校验、可预测的工具形态和响应封装上。
+
+## 相关实验室页面
+
+- [Protocols And Interoperability](../../protocols-and-interoperability.mdx)
+- [Systems Overview](../../README.md)
+
+## 文件夹结构
+
+```text
+weather-mcp-server-starter/
+├── index.mdx
+├── SOURCE_NOTES.mdx
+└── src/
+    ├── access_policy.py
+    ├── server.py
+    └── tool_manifest.py
+```
+
+## 快速开始
+
+这是一个 starter，不是一个完成的服务器。示例文件展示了接口形态和处理器边界，但没有引入完整的协议运行时。要做仓库级别的冒烟检查，请在仓库根目录运行 `python3 scripts/verify_example_projects.py`。
+
+## 包含的示例文件
+
+- `src/server.py`：单个工具的最小请求与响应边界
+- `src/tool_manifest.py`：一个简洁示例，说明面向协议的 starter
+  如何声明其输入模式和输出形态
+- `src/access_policy.py`：一个小型授权边界，将权限检查与工具处理器本身分离
+
+## 约束
+
+- 未实现传输层。
+- 不包含真实的天气 API 集成。
+- 认证和权限规则仍然是占位符。
+
+## 下一步
+
+- 添加具体的传输层接口。
+- 添加权限检查和请求日志记录。

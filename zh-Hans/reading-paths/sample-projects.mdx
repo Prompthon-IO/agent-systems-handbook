@@ -1,0 +1,45 @@
+---
+title: "示例项目"
+---
+
+本指南汇集了当前由仓库维护的入门项目，并在一个公开
+页面中展示。
+
+## 当前示例项目
+
+| 赛道 | 项目 | 状态 | 重点 |
+| --- | --- | --- | --- |
+| Patterns | [Agent Memory Retrieval Starter](../patterns/examples/agent-memory-retrieval-starter/index) | `starter` | 活动笔记、工作记忆、检索输入和持久化工件 |
+| Systems | [Weather MCP Server Starter](../systems/examples/weather-mcp-server-starter/index) | `starter` | 请求验证和面向协议的工具边界 |
+| Ecosystem | [LangGraph Starter](../ecosystem/examples/langgraph-starter/index) | `starter` | 一个最小的图状计划、路由、综合流程 |
+| Case Studies | [Deep Research Agent Starter](../case-studies/examples/deep-research-agent-starter/index) | `starter` | 规划、证据收集，以及感知引用的综合 |
+| Case Studies | [Customer Support Email Agent Starter](../case-studies/examples/customer-support-email-agent-starter/index) | `starter` | 邮件分诊、本地策略约束，以及安全回复草拟 |
+
+## 如何使用这些 starter
+
+- 从每个项目索引链接到的相关实验室页面开始。
+- 在本地运行 starter 代码检查之前，先使用 [环境设置](./environment-setup)。
+- 从仓库根目录运行 `python3 scripts/verify_example_projects.py` 来
+  对当前示例代码进行冒烟测试。
+
+## 重要边界
+
+这些项目是公开的 starter 示例，而不是隐藏的内部草稿。它们
+旨在阐明系统形态、代码边界和扩展点。
+
+它们也有意保持不完整：
+
+- 当前仓库中的任何示例项目都不能声称自己是已完成的生产应用
+- 一些示例会验证核心 Python 行为，但尚未连接真实的
+  框架、协议传输、搜索适配器或持久化层
+- 每个项目索引都应清楚说明该项目是 `starter`、
+  `partial` 还是 `runnable`
+
+## 未来项目应放置的位置
+
+未来的源项目应保持在各自赛道内：
+
+- `patterns/examples/`
+- `systems/examples/`
+- `ecosystem/examples/`
+- `case-studies/examples/`

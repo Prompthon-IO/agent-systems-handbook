@@ -1,0 +1,61 @@
+---
+title: "Deep Research 智能体入门项目"
+---
+
+## 概要
+
+这个入门项目将 deep-research 案例研究转化为一个小型项目骨架，
+聚焦于规划、证据收集以及带有引用感知的综合整理。
+
+## 状态
+
+`starter`
+
+## 存在的原因
+
+Deep research 是本仓库中的旗舰智能体产品形态。一个小型入门项目
+可以让后续贡献 traces、artifacts 和评估想法变得更容易，而无需复制
+完整的外部实现。
+
+## 相关 Lab 页面
+
+- [Deep Research Agents](../../deep-research-agents.mdx)
+- [案例研究概览](../../README.md)
+
+## 文件夹结构
+
+```text
+deep-research-agent-starter/
+├── index.mdx
+├── SOURCE_NOTES.mdx
+└── src/
+    ├── citation_formatter.py
+    ├── research_loop.py
+    └── research_review.py
+```
+
+## 快速开始
+
+这是一个入门项目，不是成品。该代码草图聚焦于核心
+循环，并将传输、UI 和持久化排除在范围之外。要在仓库层面做一次
+快速检查，请在仓库根目录运行 `python3 scripts/verify_example_projects.py`。
+
+## 包含的示例文件
+
+- `src/research_loop.py`：最小化的规划、证据和草稿报告循环
+- `src/citation_formatter.py`：一个很小的参考接口，用于将证据
+  行转换为可读的引用
+- `src/research_review.py`：一个简短的研究后质量检查，用于在发布前
+  检查证据覆盖情况
+
+## 限制
+
+- 尚未实现搜索适配器。
+- 引用格式仅用于说明。
+- 尚未接入 artifact 持久化。
+
+## 下一步
+
+- 添加一个真实的证据存储。
+- 添加一个报告 artifact 写入器。
+- 为缺失或薄弱证据添加评估用例。

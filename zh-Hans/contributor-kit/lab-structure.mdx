@@ -1,0 +1,70 @@
+---
+title: "Prompthon Agentic Lab 结构"
+---
+
+本文档保存支撑 Prompthon Agentic Lab 的内部结构和参考说明。它有意与顶层 README 分开，
+这样首页就可以保持轻量。
+
+## 当前状态
+
+- 仓库中已为顶层 lab 分区搭建好基础结构。
+- 导入的参考资料仍可在 `references/` 下获取。
+- 面向不同受众的指南和贡献者模板已就位，可支持未来的内容工作。
+- 第一波公开的 lab 文章草稿已经完成。
+- 面向公众的贡献者指南现在涵盖文章、radar 说明、源项目和精选参考说明。
+
+## 本 lab 覆盖的内容
+
+- 智能体系统基础与术语
+- 可复用的智能体模式和工作流机制
+- 上下文、协议、评估和可靠性等系统性议题
+- 全球与中文智能体工具链的生态对比
+- 面向主要智能体产品类别的故事化案例研究
+- 快速变化的 radar 与出版扩展
+
+## 仓库结构
+
+| Path | Purpose |
+| --- | --- |
+| `foundations/` | 核心概念、术语和心智模型 |
+| `patterns/` | 可复用的智能体设计模式和机制 |
+| `systems/` | 以生产环境为导向的系统主题，如评估与互操作性 |
+| `ecosystem/` | 以主题为先的工具、模型和平台对比 |
+| `case-studies/` | 面向主要智能体原型的故事化示例 |
+| `radar/` | 快速变化的市场和协议追踪 |
+| `reading-paths/` | 面向不同受众的 lab 入口 |
+| `publications/` | 面向外部阅读扩展的元数据和结构 |
+| `contributor-kit/` | 贡献所需的模板和编辑脚手架 |
+| `references/` | 导入的源材料和规划文档 |
+
+仅在 v1 中代码自然适用的位置保留分区本地示例项目：
+
+- `patterns/examples/`
+- `systems/examples/`
+- `ecosystem/examples/`
+- `case-studies/examples/`
+
+面向贡献者的精选来源映射存放在
+`contributor-kit/reference-notes/`。
+
+## 编辑方向
+
+- 先路径，后章节
+- 从问题到架构再到权衡的故事化页面
+- 以主题为先的生态覆盖，并明确区分全球与中文分区
+- `references/` 之外采用仓库原生内容，并进行有源可循的适配
+
+## 参考基础与复用边界
+
+当前的参考基础包括上游 `Hello-Agents` 资料，位于
+[`references/hello-agents-main/`](https://github.com/Prompthon-IO/agentic-lab/tree/main/references/hello-agents-main)。
+
+这些材料在此被用作整理和规划的源输入，而不是本仓库最终发布结构。
+指导这份初始脚手架的策略文档位于
+[`references/global-agent-repository-strategy.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/references/global-agent-repository-strategy.md)。
+
+如果后续从上游材料中改编内容，在发布前应先审查署名和许可约束。
+
+上游源：
+
+- [datawhalechina/Hello-Agents](https://github.com/datawhalechina/Hello-Agents)

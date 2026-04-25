@@ -1,0 +1,53 @@
+---
+title: "智能体记忆检索入门项目"
+---
+
+## 摘要
+
+这个入门项目展示了一种清晰的方式，如何在一个小型智能体循环中分离活动笔记、工作记忆、检索输入和持久化工件。
+
+## 状态
+
+`starter`
+
+## 其存在的原因
+
+记忆示例通常会把所有内容都压缩到一个含糊的历史对象中。这个入门项目刻意缩小了范围：它强调了智能体当前持有的内容、可以检索的内容，以及应该作为工件保留的内容之间的边界。
+
+## 相关实验室页面
+
+- [Agent Memory And Retrieval](../../agent-memory-and-retrieval.mdx)
+- [Patterns Overview](../../README.md)
+
+## 文件夹结构
+
+```text
+agent-memory-retrieval-starter/
+├── index.mdx
+├── SOURCE_NOTES.mdx
+└── src/
+    ├── artifact_policy.py
+    ├── memory_flow.py
+    └── retrieval_trace.py
+```
+
+## 快速开始
+
+这是一个入门项目，不是可运行的应用程序。阅读 `src/memory_flow.py`，了解最小状态形状，并将其作为后续更完整示例的基础。对于仓库级别的冒烟检查，请在仓库根目录运行 `python3 scripts/verify_example_projects.py`。
+
+## 包含的示例文件
+
+- `src/memory_flow.py`：用于活动笔记、检索输入和持久化工件的最小有用状态容器
+- `src/retrieval_trace.py`：一个用于让检索决策可检查的轻量排名与追踪界面
+- `src/artifact_policy.py`：展示入门项目如何将工件提升规则与原始笔记捕获分离的单一位置
+
+## 约束
+
+- 目前尚未接入存储后端。
+- 不包含嵌入或向量数据库集成。
+- 该示例更强调清晰的边界，而非完整性。
+
+## 下一步
+
+- 添加一个简单的持久化层。
+- 添加工件提升规则和检索追踪。

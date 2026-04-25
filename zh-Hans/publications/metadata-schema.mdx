@@ -1,0 +1,30 @@
+---
+title: "出版物元数据模式"
+---
+
+将此模式用作需要出版扩展的实验室页面的基础元数据契约。
+
+## 核心字段
+
+- `owner`：页面所有者或负责编辑
+- `updated`：最近一次有实质内容更新的日期
+- `depth`：预期深度，例如 `foundational`、`intermediate` 或 `advanced`
+- `region_tags`：区域范围标签，例如 `global`、`china` 或 `enterprise`
+- `coding_required`：`no`、`optional` 或 `yes`
+- `external_readings`：外部文章、帖子或配套内容
+
+## 示例
+
+```yaml
+title: Deep Research Agents
+owner: Prompthon IO
+updated: 2026-04-20
+depth: advanced
+region_tags:
+  - global
+  - china
+coding_required: optional
+external_readings:
+  - title: Example companion article
+    url: https://example.com/article
+```

@@ -1,0 +1,27 @@
+# 案例研究
+
+这个栏目将抽象想法转化为有边界、以故事驱动的示例，把架构选择与可识别的智能体产品和工作流联系起来。
+
+## 这里应包含什么
+
+- 深度研究智能体
+- 编码智能体
+- 客户支持智能体
+- 研究助手
+- 旅行与礼宾智能体
+- 文档分析智能体
+- 媒体与内容工作流
+
+## 编辑意图
+
+每个案例研究都应从用户问题开始，然后依次展开系统形态、工具选择、记忆策略、评估问题，以及可能的失败模式。
+
+## 当前页面
+
+- [Deep Research Agents](./deep-research-agents.mdx)：对规划、证据收集、综合整理和引用规范的有边界审视。
+- [Customer Support Agents](./customer-support-agents.mdx)：一个面向本地优先的案例研究，用于电子邮件分流和基于政策的回复草拟。
+
+## 示例入门项目
+
+- [Deep Research Agent Starter](./examples/deep-research-agent-starter/index.mdx)：一个用于规划、证据收集和带引用输出的小型项目脚手架。
+- [Customer Support Email Agent Starter](./examples/customer-support-email-agent-starter/index.mdx)：一个用于客户邮件分流和草拟基于政策回复的小型本地文档工作流。

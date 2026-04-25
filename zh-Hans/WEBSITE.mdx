@@ -1,0 +1,61 @@
+---
+title: "网站发布"
+---
+
+此仓库是为 Mintlify 文档站点准备的。已发布的手册页面以 MDX 为主，而仅供 GitHub 使用的运维文件，如 `README.md`、`CONTRIBUTING.md`、`SECURITY.md` 和 `SUPPORT.md`，则保持为 Markdown。
+
+## 本地预览
+
+Mintlify 当前的 CLI 需要 Node.js 20.17.0 或更高版本。
+
+从仓库根目录运行本地预览：
+
+```bash
+npx mint dev
+```
+
+发布前运行质量检查：
+
+```bash
+npx mint validate
+npx mint broken-links
+```
+
+## 部署
+
+主 Mintlify 部署应通过 Mintlify GitHub 应用连接。Mintlify 会读取 `docs.json`，并在推送更改时发布文档站点。
+
+如果手册应显示在 Vercel 拥有的域名下，请在 Mintlify 子域名存在后，将 Vercel 配置为反向代理：
+
+```json
+{
+  "rewrites": [
+    {
+      "source": "/docs",
+      "destination": "https://YOUR-MINTLIFY-SUBDOMAIN.mintlify.dev/docs"
+    },
+    {
+      "source": "/docs/:match*",
+      "destination": "https://YOUR-MINTLIFY-SUBDOMAIN.mintlify.dev/docs/:match*"
+    }
+  ]
+}
+```
+
+在确认真实的 Mintlify 子域名前，不要添加那个已启用的 `vercel.json`。
+
+## 兼容性策略
+
+Mintlify 是面向学生的阅读层。它应该发布精选的 MDX 页面，而不是每一个原始项目工件。
+
+| 工件类型 | 仓库策略 | 网站策略 |
+| --- | --- | --- |
+| MDX 页面 | 作为源文档提交并维护 | 通过 `docs.json` 发布精选页面 |
+| GitHub 运维 Markdown | 仅保留给 README、贡献、支持、安全和模板等 GitHub 原生场景 | 仅在需要时从站点链接 |
+| Python 源码 | 作为 starter/source code 提交 | 从指南页面链接，或之后将选定文件转换为教程页面 |
+| Jupyter notebooks | 除非有意提升，否则不要放入手册仓库 | 在发布为课程前将选定 notebook 转换为 MDX |
+| HTML/CSS/JS 示例 | 当它们是源文件或演示时提交 | 链接到 GitHub，或单独托管精选演示 |
+| 已构建的 HTML/输出文件 | 默认避免发布 | 仅在有意作为演示推广时单独托管 |
+| 原始参考资料 | 默认保留在已发布站点之外，并由此仓库忽略 | 使用 `.mintignore` 将其排除在公开文档站点之外 |
+
+仓库级 `.gitignore` 会有意忽略原始 `references/` 归档。等这些内容准备好面向学生站点时，再将选定材料提升为 MDX 页面。

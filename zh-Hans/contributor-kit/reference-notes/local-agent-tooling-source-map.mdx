@@ -1,0 +1,114 @@
+---
+title: 本地智能体工具链来源图谱
+owner: Prompthon IO
+updated: 2026-04-24
+scope: local agent tooling, skills, roots, resources, connectors, and file-grounded workflows
+status: draft
+---
+
+## 概述
+
+这份说明汇集了供撰写本地智能体系统内容的贡献者使用的官方来源输入：这些智能体在用户的文件、工具、项目状态和工作流指令附近运行，而不是仅作为远程聊天界面工作。
+
+当草稿需要解释“本地”究竟意味着什么时，可以使用它。真正持久的模式不是某个模型所在的位置，而是以下要素的组合：
+
+- 执行环境或本地工具边界
+- 可复用的技能或工作流打包
+- 明确的文件系统或文档作用范围
+- 可被选择、搜索、读取或刷新的资源
+- 让边界对用户而言清晰可理解的权限规则
+
+## 如何使用这份说明
+
+这是一张来源图谱，不是一篇完整文章。后续贡献者应使用它来：
+
+- 在描述智能体之前先定义边界
+- 为所做的主张选择合适的来源
+- 将本地文件、所选资源、技能和连接器区分开来
+- 补充案例研究示例，展示智能体可以读取、写入和审阅什么
+
+## 为什么它很重要
+
+本地智能体相关话题很容易被夸大。一本有用的手册应当区分几个经常混在一起的关注点：
+
+- `runtime`: 工作执行在哪里进行？
+- `skills`: 可复用的任务知识如何打包？
+- `roots`: 工具面向的服务器可以看到哪些本地文件系统区域？
+- `resources`: 哪些文件、模式、记录或应用对象可以作为模型上下文暴露？
+- `connectors`: 本地和远程服务如何变成可调用的工具？
+
+这种拆分有助于贡献者撰写案例研究和入门项目，而不会假装每一种集成都属于同一种智能体能力。
+
+| 术语 | 读者问题 | 常见错误 |
+| --- | --- | --- |
+| `runtime` | 工作在哪里执行？ | 把所有智能体工作都当作聊天回复 |
+| `skills` | 可复用的任务知识如何打包？ | 把过时指令藏在一个很长的提示词里 |
+| `roots` | 哪些文件系统边界在作用范围内？ | 不说明边界，只说“文件访问” |
+| `resources` | 哪些被选中的对象可以变成上下文？ | 假设每个后端对象都会自动可用 |
+| `connectors` | 哪些系统可以作为工具被调用？ | 把集成访问等同于使用所有数据的权限 |
+
+## 作用范围说明
+
+包括：
+
+- 关于 Responses API 工具、文件搜索、远程 MCP 支持和计算环境的 OpenAI 官方来源材料
+- 关于 roots 和 resources 的官方 MCP 材料
+- 关于本地 stdio 服务器、项目/用户作用域以及 MCP resources 的官方 Claude Code 材料
+
+不包括：
+
+- 第三方 MCP 服务器列表
+- 非官方的提示注入评论
+- 不会改变手册本地智能体心理模型的厂商比较
+- 生产环境电子邮件或 CRM 集成的实现细节
+
+## 来源图谱
+
+- [OpenAI Responses API tools and remote MCP support](https://openai.com/index/new-tools-and-features-in-the-responses-api/):
+  适用于关于托管工具、远程 MCP 支持、文件搜索和长时间运行后台工作的主张。
+- [OpenAI computer environment for agents](https://openai.com/index/equip-responses-api-computer-environment/):
+  适用于关于执行环境、持久文件、shell 访问、压缩，以及作为运行时支持的智能体技能的主张。
+- [MCP introduction](https://modelcontextprotocol.io/docs/getting-started/intro):
+  适用于将 MCP 作为 AI 应用与外部系统之间连接层的稳定、高层级说明。
+- [MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots):
+  当草稿需要解释本地文件系统边界时使用。
+- [MCP resources](https://modelcontextprotocol.io/specification/draft/server/resources):
+  当草稿需要解释由应用控制的上下文表面，例如文件、模式或应用特定对象时使用。
+- [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp):
+  适合作为本地 stdio 服务器、项目作用域 MCP 配置、插件提供的服务器，以及编码智能体工作流中 resources 的实践示例。
+
+## 综合归纳
+
+最强的本地智能体主干是分层的：
+
+1. 用户或宿主应用选择一个运行边界。
+2. 工具和服务器在该边界内暴露能力。
+3. resources 和 roots 描述哪些上下文可以被读取或选择。
+4. skills 打包可重复的任务知识。
+5. 智能体生成可供审阅的产物或动作。
+
+就手册而言，这比简单说“智能体可以访问文件”更有用。本地访问应始终附带边界来说明：哪些文件、哪个服务器、哪种传输、哪些权限，以及什么产物。
+
+同样的原则也适用于 skills 和 connectors。skill 可以告诉智能体如何执行某项任务，但不应被当作最新证据。connector 可以暴露一个有用的系统，但不应暗示有权读取或操作该系统中的所有对象。
+
+## 案例研究切入点
+
+好的本地智能体案例研究应当让边界可见：
+
+- 客户支持邮件智能体：传入消息路径 + 本地政策文档路径
+- 编码智能体：仓库根目录 + issue、测试和分支权限
+- 运维智能体：仪表盘或数据库资源 + 只读查询规则
+- 研究智能体：来源文件夹 + 引用产物输出
+
+每个案例都应说明智能体可以读取什么、可以写入什么，以及什么需要人工审阅。
+
+## 缺口与后续工作
+
+- 增加一条关于本地智能体安全风险的生产就绪说明，尤其是来自不受信任文件和连接器的提示注入风险。
+- 增加一个小型矩阵，对比直接本地脚本、本地 stdio MCP 服务器、远程 MCP 服务器和平台托管工具。
+- 一旦 starter code 包含真实邮箱或 Gmail 适配器，扩展客户支持案例研究。
+
+## 更新日志
+
+- 2026-04-24：通过使用指导、术语边界和更清晰的来源到主张映射，提升了该说明对贡献者的可理解性。
+- 2026-04-23：新增面向贡献者的本地智能体工具链、skills、roots、resources 和 file-grounded workflows 来源图谱。
