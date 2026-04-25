@@ -23,13 +23,13 @@ an editorial extension area for mature lab pages.
 
 Use the matching guide before you draft anything:
 
-- [Contributor Kit](./contributor-kit/README.md)
-- [GitHub Issue Guide](./contributor-kit/github-issue-guide.md)
-- [Article Guidelines](./contributor-kit/article-guidelines.md)
-- [Radar Note Guidelines](./contributor-kit/radar-note-guidelines.md)
-- [Source Project Guidelines](./contributor-kit/source-project-guidelines.md)
-- [Reference Note Guidelines](./contributor-kit/reference-note-guidelines.md)
-- [Review Checklist](./contributor-kit/review-checklist.md)
+- [Contributor Kit](./contributor-kit/index.mdx)
+- [GitHub Issue Guide](./contributor-kit/github-issue-guide.mdx)
+- [Article Guidelines](./contributor-kit/article-guidelines.mdx)
+- [Radar Note Guidelines](./contributor-kit/radar-note-guidelines.mdx)
+- [Source Project Guidelines](./contributor-kit/source-project-guidelines.mdx)
+- [Reference Note Guidelines](./contributor-kit/reference-note-guidelines.mdx)
+- [Review Checklist](./contributor-kit/review-checklist.mdx)
 
 ## Shared working rules
 
@@ -59,7 +59,7 @@ Do not add contributor-created material inside `references/`.
 
 ## Issue intake
 
-Use [GitHub Issue Guide](./contributor-kit/github-issue-guide.md) before filing
+Use [GitHub Issue Guide](./contributor-kit/github-issue-guide.mdx) before filing
 an issue. It explains which repository issue form to use for content proposals,
 source-project proposals, repository feature requests, process changes, and
 bugs.
@@ -75,7 +75,7 @@ bugs.
 ## Review standard
 
 Every public contribution should pass the checks in
-[Review Checklist](./contributor-kit/review-checklist.md):
+[Review Checklist](./contributor-kit/review-checklist.mdx):
 
 - correct type and placement
 - template completeness

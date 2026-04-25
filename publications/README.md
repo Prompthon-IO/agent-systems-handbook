@@ -14,4 +14,4 @@ publishing surfaces such as blog posts, essays, and social extensions.
 Every mature lab page can later point to a small set of external readings.
 Those links should be driven by metadata rather than added ad hoc.
 
-See [metadata-schema.md](./metadata-schema.md) for the current baseline fields.
+See [metadata-schema.mdx](./metadata-schema.mdx) for the current baseline fields.

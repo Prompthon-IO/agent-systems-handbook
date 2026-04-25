@@ -9,7 +9,7 @@ Start with:
 
 - `README.md`
 - `CONTRIBUTING.md`
-- `contributor-kit/README.md`
+- `contributor-kit/index.mdx`
 - `contributor-kit/github-issue-guide.md`
 
 Those documents define the repository structure, contribution types, templates,

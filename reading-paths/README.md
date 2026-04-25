@@ -5,18 +5,18 @@ single chapter stream.
 
 ## Primary guides
 
-- [Explorer](./explorer.md): for people who want a high-level understanding and a
+- [Explorer](./explorer.mdx): for people who want a high-level understanding and a
   recommended set of pages rather than a strict sequence.
-- [Practitioner](./practitioner.md): for people who want to use agent tools and
+- [Practitioner](./practitioner.mdx): for people who want to use agent tools and
   skills in real work without becoming professional agent builders.
-- [Builder](./builder.md): for engineers who want a linear path into
+- [Builder](./builder.mdx): for engineers who want a linear path into
   professional agent design and implementation.
-- [Contributor](./contributor.md): for people who want to edit, curate, or
+- [Contributor](./contributor.mdx): for people who want to edit, curate, or
   extend the repository itself.
 
 ## Shared supporting guides
 
-- [Environment Setup](./environment-setup.md): shared local setup and starter
+- [Environment Setup](./environment-setup.mdx): shared local setup and starter
   verification for practitioner, builder, and contributor paths.
-- [Sample Projects](./sample-projects.md): the public index of current
+- [Sample Projects](./sample-projects.mdx): the public index of current
   repo-owned starter projects.

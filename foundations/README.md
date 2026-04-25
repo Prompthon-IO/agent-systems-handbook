@@ -20,11 +20,11 @@ they go deeper into implementation details.
 
 ## Current pages
 
-- [What Are Agent Systems](./what-are-agent-systems.md): a practical definition
+- [What Are Agent Systems](./what-are-agent-systems.mdx): a practical definition
   of agent systems as software loops, not just chat surfaces.
-- [Agents Vs Workflows](./agents-vs-workflows.md): when to use deterministic
+- [Agents Vs Workflows](./agents-vs-workflows.mdx): when to use deterministic
   orchestration, bounded autonomy, or a hybrid design.
-- [History Of Agent Ideas](./history-of-agent-ideas.md): a short problem-driven
+- [History Of Agent Ideas](./history-of-agent-ideas.mdx): a short problem-driven
   history from symbolic systems to modern agent stacks.
-- [LLM Foundations For Agent Systems](./llm-foundations-for-agent-systems.md):
+- [LLM Foundations For Agent Systems](./llm-foundations-for-agent-systems.mdx):
   the minimum model concepts needed to design agent systems well.

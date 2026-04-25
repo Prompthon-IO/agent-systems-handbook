@@ -22,17 +22,17 @@ They should stay useful even as individual frameworks rise or fall.
 
 ## Current pages
 
-- [Agent Memory And Retrieval](./agent-memory-and-retrieval.md): how agents
+- [Agent Memory And Retrieval](./agent-memory-and-retrieval.mdx): how agents
   separate active state, durable memory, retrieval, and explicit artifacts.
-- [Reasoning And Control Patterns](./reasoning-and-control-patterns.md): how
+- [Reasoning And Control Patterns](./reasoning-and-control-patterns.mdx): how
   think-act-observe loops shape control, explainability, and tool use.
-- [Planning And Reflection](./planning-and-reflection.md): how plan-first and
+- [Planning And Reflection](./planning-and-reflection.mdx): how plan-first and
   critique-and-refine patterns improve quality on longer tasks.
-- [Agent Runtime Building Blocks](./agent-runtime-building-blocks.md): the
+- [Agent Runtime Building Blocks](./agent-runtime-building-blocks.mdx): the
   runtime components that show up beneath most frameworks and custom agents.
 
 ## Example starters
 
-- [Agent Memory Retrieval Starter](./examples/agent-memory-retrieval-starter/README.md):
+- [Agent Memory Retrieval Starter](./examples/agent-memory-retrieval-starter/index.mdx):
   a small code sketch for separating active notes, retrieval inputs, and
   durable artifacts.

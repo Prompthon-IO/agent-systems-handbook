@@ -1,0 +1,73 @@
+# Prompthon Agentic Lab Structure
+
+This document holds the internal structure and reference notes that support
+Prompthon Agentic Lab. It is intentionally separate from the top-level README
+so the front door can stay lightweight.
+
+## Current status
+
+- The top-level lab lanes are now scaffolded in the repository.
+- Imported reference material remains available under `references/`.
+- Audience guides and contributor templates are in place for future content
+  work.
+- The first public lab article wave is drafted.
+- Public contributor guidance now covers articles, radar notes, source
+  projects, and curated reference notes.
+
+## What this lab covers
+
+- Agent system fundamentals and terminology
+- Reusable agent patterns and workflow mechanisms
+- Systems concerns such as context, protocols, evaluation, and reliability
+- Ecosystem comparisons across global and Chinese agent tooling
+- Story-led case studies for major agent product categories
+- Fast-moving radar and publication extensions
+
+## Repository structure
+
+| Path | Purpose |
+| --- | --- |
+| `foundations/` | Core concepts, terminology, and mental models |
+| `patterns/` | Reusable agent design patterns and mechanisms |
+| `systems/` | Production-minded systems topics such as evaluation and interoperability |
+| `ecosystem/` | Topic-first comparisons of tools, models, and platforms |
+| `case-studies/` | Story-led examples for major agent archetypes |
+| `radar/` | Fast-moving market and protocol tracking |
+| `reading-paths/` | Audience-first entry points into the lab |
+| `publications/` | Metadata and structure for external reading extensions |
+| `contributor-kit/` | Templates and editorial scaffolding for contributions |
+| `references/` | Imported source material and planning documents |
+
+Lane-local example projects live only where code is natural in v1:
+
+- `patterns/examples/`
+- `systems/examples/`
+- `ecosystem/examples/`
+- `case-studies/examples/`
+
+Curated contributor-facing source maps live in
+`contributor-kit/reference-notes/`.
+
+## Editorial direction
+
+- Path-first, not chapter-first
+- Story-led pages that move from problem to architecture to tradeoffs
+- Topic-first ecosystem coverage with explicit global and Chinese lanes
+- Repo-native content outside `references/`, with source-aware adaptation
+
+## Reference base and reuse boundary
+
+The current reference base includes the upstream `Hello-Agents` materials under
+[`references/hello-agents-main/`](https://github.com/Prompthon-IO/agentic-lab/tree/main/references/hello-agents-main).
+
+That material is being used here as source input for curation and planning, not
+as the final published structure of this repository. The strategy document that
+guided this first-pass scaffold lives at
+[`references/global-agent-repository-strategy.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/references/global-agent-repository-strategy.md).
+
+If content is later adapted from upstream material, attribution and license
+constraints should be reviewed before publication.
+
+Upstream source:
+
+- [datawhalechina/Hello-Agents](https://github.com/datawhalechina/Hello-Agents)

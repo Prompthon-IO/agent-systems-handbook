@@ -1,0 +1,205 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "maple",
+  "name": "Prompthon Agentic Lab",
+  "colors": {
+    "primary": "#2563eb",
+    "light": "#60a5fa",
+    "dark": "#1e40af"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Start Here",
+        "icon": "compass",
+        "groups": [
+          {
+            "group": "Choose a path",
+            "pages": [
+              "index",
+              "reading-paths/explorer",
+              "reading-paths/practitioner",
+              "reading-paths/builder",
+              "reading-paths/contributor"
+            ]
+          },
+          {
+            "group": "Setup and examples",
+            "pages": [
+              "reading-paths/environment-setup",
+              "reading-paths/sample-projects",
+              "reading-paths/conceptual-breadth",
+              "reading-paths/implementation-depth",
+              "reading-paths/contributor-and-curation"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Handbook",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Foundations",
+            "pages": [
+              "foundations/what-are-agent-systems",
+              "foundations/agents-vs-workflows",
+              "foundations/history-of-agent-ideas",
+              "foundations/llm-foundations-for-agent-systems"
+            ]
+          },
+          {
+            "group": "Patterns",
+            "pages": [
+              "patterns/agent-memory-and-retrieval",
+              "patterns/reasoning-and-control-patterns",
+              "patterns/planning-and-reflection",
+              "patterns/agent-runtime-building-blocks"
+            ]
+          },
+          {
+            "group": "Systems",
+            "pages": [
+              "systems/context-engineering",
+              "systems/protocols-and-interoperability",
+              "systems/evaluation-and-observability"
+            ]
+          },
+          {
+            "group": "Ecosystem",
+            "pages": [
+              "ecosystem/agent-frameworks",
+              "ecosystem/agent-platforms-and-low-code-builders"
+            ]
+          },
+          {
+            "group": "Case studies",
+            "pages": [
+              "case-studies/deep-research-agents",
+              "case-studies/customer-support-agents"
+            ]
+          },
+          {
+            "group": "Radar",
+            "pages": [
+              "radar/2026-04-local-agent-watch",
+              "radar/2026-04-interoperability-watch",
+              "radar/2026-04-protocol-watch"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Examples",
+        "icon": "code",
+        "groups": [
+          {
+            "group": "Starter projects",
+            "pages": [
+              "patterns/examples/agent-memory-retrieval-starter/index",
+              "systems/examples/weather-mcp-server-starter/index",
+              "ecosystem/examples/langgraph-starter/index",
+              "case-studies/examples/deep-research-agent-starter/index",
+              "case-studies/examples/customer-support-email-agent-starter/index"
+            ]
+          },
+          {
+            "group": "Source notes",
+            "pages": [
+              "patterns/examples/agent-memory-retrieval-starter/SOURCE_NOTES",
+              "systems/examples/weather-mcp-server-starter/SOURCE_NOTES",
+              "ecosystem/examples/langgraph-starter/SOURCE_NOTES",
+              "case-studies/examples/deep-research-agent-starter/SOURCE_NOTES",
+              "case-studies/examples/customer-support-email-agent-starter/SOURCE_NOTES"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Contribute",
+        "icon": "git-pull-request",
+        "groups": [
+          {
+            "group": "Public workflow",
+            "pages": [
+              "contributor-kit/index",
+              "contributor-kit/lab-structure",
+              "contributor-kit/local-debugging",
+              "contributor-kit/github-issue-guide",
+              "contributor-kit/review-checklist"
+            ]
+          },
+          {
+            "group": "Contribution types",
+            "pages": [
+              "contributor-kit/article-guidelines",
+              "contributor-kit/radar-note-guidelines",
+              "contributor-kit/source-project-guidelines",
+              "contributor-kit/reference-note-guidelines"
+            ]
+          },
+          {
+            "group": "Templates and references",
+            "pages": [
+              "contributor-kit/templates/article-template",
+              "contributor-kit/templates/radar-note-template",
+              "contributor-kit/templates/reference-note-template",
+              "contributor-kit/templates/source-project-template/index",
+              "contributor-kit/reference-notes/deep-research-product-signals",
+              "contributor-kit/reference-notes/deep-research-source-map",
+              "contributor-kit/reference-notes/local-agent-tooling-source-map"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Project",
+        "icon": "landmark",
+        "groups": [
+          {
+            "group": "Repository",
+            "pages": [
+              "WEBSITE",
+              "publications/metadata-schema"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Organization",
+        "href": "https://github.com/Prompthon-IO"
+      },
+      {
+        "label": "Discord",
+        "href": "https://discord.gg/sDE2HhGTg4"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Repository",
+      "href": "https://github.com/Prompthon-IO/agentic-lab"
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/Prompthon-IO/agentic-lab",
+      "discord": "https://discord.gg/sDE2HhGTg4"
+    }
+  }
+}

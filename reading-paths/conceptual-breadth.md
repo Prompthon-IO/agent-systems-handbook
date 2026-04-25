@@ -1,9 +1,0 @@
-# Conceptual Breadth
-
-This legacy path has been retired as a primary entry point.
-
-If you want a high-level understanding of the field, use
-[Explorer](./explorer.md) instead.
-
-If you want a linear path into professional implementation, use
-[Builder](./builder.md) instead.

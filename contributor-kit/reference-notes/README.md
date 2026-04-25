@@ -14,10 +14,10 @@ material and they are not replacements for lab pages.
 
 ## Current notes
 
-- [Deep Research Product Signals](./deep-research-product-signals.md): a
+- [Deep Research Product Signals](./deep-research-product-signals.mdx): a
   contributor-facing comparison of current OpenAI and Google deep-research
   product signals.
-- [Deep Research Source Map](./deep-research-source-map.md)
-- [Local Agent Tooling Source Map](./local-agent-tooling-source-map.md): a
+- [Deep Research Source Map](./deep-research-source-map.mdx)
+- [Local Agent Tooling Source Map](./local-agent-tooling-source-map.mdx): a
   contributor briefing for keeping local runtimes, skills, MCP roots,
   resources, connectors, and file-grounded workflows distinct in future drafts.

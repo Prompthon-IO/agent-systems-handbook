@@ -19,12 +19,12 @@ without destabilizing the evergreen structure.
 
 ## Current notes
 
-- [April 2026 Local Agent Watch](./2026-04-local-agent-watch.md): a
+- [April 2026 Local Agent Watch](./2026-04-local-agent-watch.mdx): a
   time-scoped note on local agents as a concrete product shape: nearby working
   environments, reusable skills or integrations, explicit context boundaries,
   and reviewable artifacts.
-- [April 2026 Interoperability Watch](./2026-04-interoperability-watch.md):
+- [April 2026 Interoperability Watch](./2026-04-interoperability-watch.mdx):
   a current field note on how A2A, A2UI, and MCP are separating into different
   interoperability layers.
-- [Protocol Watch](./2026-04-protocol-watch.md): a sample time-scoped note on
+- [Protocol Watch](./2026-04-protocol-watch.mdx): a sample time-scoped note on
   how to track protocol boundaries without collapsing them together.
