@@ -1,0 +1,78 @@
+---
+title: "GitHub Issue Guide"
+---
+
+Use a GitHub issue when you have a concrete repository work item, not just an
+early question.
+
+If the request is still exploratory, use [Support](../SUPPORT) or the
+community Discord first. If the work is already scoped, use the matching issue
+form so the request lands in a reviewable shape.
+
+## Choose the right issue form
+
+- `Content Proposal`: new lab pages, major revisions, radar notes, curated
+  reference notes, or publication follow-ons
+- `Source Project Proposal`: new or substantially revised repo-owned starters
+  or examples under an allowed lane-local `examples/` folder
+- `Repository Feature Or Process Proposal`: feature requests for repository
+  workflows, issue intake, templates, labels, review rules, contributor
+  documentation, or maintainer operations
+- `Bug Or Broken Surface Report`: broken links, factual problems, example
+  defects, template issues, or repository workflow regressions
+
+## Issue writing standard
+
+- Keep one issue focused on one outcome.
+- Name the exact affected path, surface, or workflow.
+- Describe the current problem before jumping to the fix.
+- Propose the smallest clear change that would solve the problem.
+- Add success criteria so reviewers can tell when the work is done.
+- Link the relevant repo docs, templates, or existing pages.
+- For content-oriented work, include source lineage instead of dropping in raw
+  upstream material.
+
+## What a good feature request includes
+
+Use the `Repository Feature Or Process Proposal` form when the request is
+really about how this repository should work.
+
+Good submissions usually include:
+
+- the maintainer or contributor pain point
+- the proposed repository-level change
+- the surfaces affected by the change
+- tradeoffs, migration costs, or reasons to defer
+- a concrete definition of success
+
+## Title examples
+
+- `[Feature/Process]: Add a public guide for choosing GitHub issue forms`
+- `[Content]: Add a systems page on agent evaluation loops`
+- `[Source Project]: Add a minimal deep-research-agent starter`
+- `[Bug]: Fix the broken contributor-kit link in README.md`
+
+## Before you submit
+
+- Review [Contributing](../CONTRIBUTING).
+- Check the [Contributor Kit](./index) for the matching template or guide.
+- Search open issues so you do not file a duplicate.
+- Prefer exact repo paths over general descriptions.
+- If you are unsure whether the request belongs here yet, use
+  [Support](../SUPPORT) first.
+
+## Example feature request
+
+If you want to propose a repository feature around issue intake, structure it
+like this in the `Repository Feature Or Process Proposal` form:
+
+- `Current problem`: Contributors can find the issue forms, but it is not clear
+  which form counts as a feature request versus a content proposal.
+- `Proposed change`: Add a public GitHub issue guide in `contributor-kit/`,
+  link it from `CONTRIBUTING.md`, `SUPPORT.md`, and the issue chooser, and make
+  the process form explicitly mention repository feature requests.
+- `Affected surfaces`: Issue intake, contributor documentation
+- `Tradeoffs and risks`: Slightly more contributor documentation to maintain,
+  but much less ambiguity during issue intake
+- `What success looks like`: A new contributor can choose the correct issue form
+  without asking a maintainer for routing help

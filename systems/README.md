@@ -22,14 +22,14 @@ and operational tradeoffs.
 
 ## Current pages
 
-- [Context Engineering](./context-engineering.md): how systems write, select,
+- [Context Engineering](./context-engineering.mdx): how systems write, select,
   compress, and isolate context for reliable multi-step work.
-- [Protocols And Interoperability](./protocols-and-interoperability.md): how
+- [Protocols And Interoperability](./protocols-and-interoperability.mdx): how
   tool access, agent collaboration, and network discovery fit together.
-- [Evaluation And Observability](./evaluation-and-observability.md): how to
+- [Evaluation And Observability](./evaluation-and-observability.mdx): how to
   measure capability and explain failures in production-minded agent systems.
 
 ## Example starters
 
-- [Weather MCP Server Starter](./examples/weather-mcp-server-starter/README.md):
+- [Weather MCP Server Starter](./examples/weather-mcp-server-starter/index.mdx):
   a thin protocol-facing tool service sketch for future interop examples.

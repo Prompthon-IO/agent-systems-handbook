@@ -1,6 +1,0 @@
-# Contributor And Curation
-
-This legacy path has been retired as a primary entry point.
-
-If you want the canonical contributor path, use
-[Contributor](./contributor.md).

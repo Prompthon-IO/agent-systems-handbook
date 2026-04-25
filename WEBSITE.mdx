@@ -1,0 +1,61 @@
+---
+title: "Website Publishing"
+---
+
+This repository is prepared for a Mintlify documentation site. Published handbook pages are MDX-first, while GitHub-only operating files such as `README.md`, `CONTRIBUTING.md`, `SECURITY.md`, and `SUPPORT.md` remain Markdown.
+
+## Local Preview
+
+Mintlify requires Node.js 20.17.0 or newer for the current CLI.
+
+Run a local preview from the repository root:
+
+```bash
+npx mint dev
+```
+
+Run quality checks before publishing:
+
+```bash
+npx mint validate
+npx mint broken-links
+```
+
+## Deployment
+
+The primary Mintlify deployment should be connected through the Mintlify GitHub app. Mintlify reads `docs.json` and publishes the documentation site when changes are pushed.
+
+If the handbook should appear under a Vercel-owned domain, configure Vercel as a reverse proxy after the Mintlify subdomain exists:
+
+```json
+{
+  "rewrites": [
+    {
+      "source": "/docs",
+      "destination": "https://YOUR-MINTLIFY-SUBDOMAIN.mintlify.dev/docs"
+    },
+    {
+      "source": "/docs/:match*",
+      "destination": "https://YOUR-MINTLIFY-SUBDOMAIN.mintlify.dev/docs/:match*"
+    }
+  ]
+}
+```
+
+Do not add that active `vercel.json` until the real Mintlify subdomain is known.
+
+## Compatibility Policy
+
+Mintlify is the student-facing reading layer. It should publish curated MDX pages, not every raw project artifact.
+
+| Artifact type | Repository policy | Website policy |
+| --- | --- | --- |
+| MDX pages | Commit and maintain as source documentation | Publish curated pages through `docs.json` |
+| GitHub operating Markdown | Keep only for GitHub-native surfaces such as README, contributing, support, security, and templates | Link from the site only when needed |
+| Python source | Commit as starter/source code | Link from guide pages or convert selected files into tutorial pages later |
+| Jupyter notebooks | Keep out of the handbook repo unless deliberately promoted | Convert selected notebooks to MDX before publishing as lessons |
+| HTML/CSS/JS examples | Commit when they are source or demos | Link to GitHub or host curated demos separately |
+| Built HTML/output files | Avoid publishing by default | Host separately only when intentionally promoted as a demo |
+| Raw references | Keep outside the published site and ignored by this repo by default | Keep out of the public docs site with `.mintignore` |
+
+The raw `references/` archive is intentionally ignored by the repository-level `.gitignore`. Promote selected material into MDX pages when it is ready for the student-facing site.

@@ -1,0 +1,86 @@
+---
+title: April 2026 Local Agent Watch
+owner: Prompthon IO
+updated: 2026-04-24
+time_scope: 2026-04
+status: draft
+---
+
+## Summary
+
+The clearest local-agent signal in April 2026 is a product shape, not one
+vendor launch. Official sources are converging on agents that can work near a
+user's files, tools, and business systems while carrying reusable workflow
+knowledge in skills or integrations.
+
+For readers, the useful question is simple: does the agent have a clear working
+environment, a clear permission boundary, and a clear way to turn local context
+into a reviewable artifact?
+
+## Why It Matters
+
+"Local agent" can sound like a location claim: the model runs nearby, so the
+agent is local. That is too shallow for product and system design. The durable
+question is about the work boundary:
+
+- where the agent runs
+- which tools or integrations it can reach
+- which files, documents, or resources are in scope
+- how reusable workflow knowledge is packaged and refreshed
+- what the user can inspect before the work is trusted
+
+That combination matters more than a raw chat loop for practical internal
+agents, support agents, coding agents, and operations workflows.
+
+## Evidence And Sources
+
+- [From model to agent: Equipping the Responses API with a computer environment](https://openai.com/index/equip-responses-api-computer-environment/):
+  OpenAI's March 11, 2026 engineering post makes the execution environment
+  explicit: persistent files, shell access, compaction, and skill bundles are
+  treated as part of the agent runtime, not as side notes.
+- [Closing the knowledge gap with agent skills](https://developers.googleblog.com/en/closing-the-knowledge-gap-with-agent-skills/):
+  Google's March 25, 2026 post frames skills as lightweight instruction
+  packages. The important detail for handbook readers is that skills do not
+  replace source material; they help the agent know when to seek current
+  documentation.
+- [Supercharge your AI agents: The New ADK Integrations Ecosystem](https://developers.googleblog.com/supercharge-your-ai-agents-adk-integrations-ecosystem/):
+  Google's February 27, 2026 post expands ADK around integrations for code,
+  project tools, databases, email, and messaging. That moves the discussion
+  from "agent as chat surface" toward "agent as connected worker surface."
+
+## Signals To Watch
+
+- Whether local-agent products settle on a stable split between reusable skill
+  instructions and executable tool integrations.
+- Whether file-grounded work becomes more explicit, with clearer rules for
+  local document paths, nearby artifacts, and inspectable context boundaries.
+- Whether support and operations workflows become the clearest local-agent
+  product surfaces because they naturally combine inbox events, policy
+  documents, and bounded reply actions.
+- Whether vendors keep local execution narrow and permissioned, or drift back
+  toward broad environment access that is harder to trust and govern.
+- Whether users get better review surfaces for the artifacts, tool calls, and
+  files that local agents produce.
+
+## Editorial Take
+
+The shared direction is more important than any one vendor term. OpenAI is
+making the runtime and skill stack more explicit. Google is separating skill
+knowledge from live integrations. Together they suggest a practical handbook
+pattern for local agents:
+
+- keep execution close to the working environment
+- keep workflow knowledge reusable
+- keep business grounding tied to real documents and systems
+- keep review artifacts visible enough that a user can check the result
+
+That is a better planning lens for handbook contributors than treating local
+agents as a pure model, framework, or deployment-location category.
+
+## Update Log
+
+- 2026-04-24: Refined the note for readability and added a clearer reader
+  takeaway around working environments, permission boundaries, and reviewable
+  artifacts.
+- 2026-04-23: Added a radar note focused on local runtimes, skill packaging,
+  and file-grounded agent workflows.

@@ -1,0 +1,69 @@
+---
+title: Local Debugging
+owner: Prompthon IO
+updated: 2026-04-25
+depth: beginner
+region_tags:
+  - global
+coding_required: optional
+status: draft
+---
+
+Use this workflow to preview and validate the public documentation site before
+opening a pull request.
+
+## Where the site lives
+
+The Mintlify site is configured from the repository root. There is no nested
+frontend app and no required `package.json`.
+
+Key files:
+
+- `docs.json` controls the Mintlify navigation and site settings.
+- `index.mdx` is the Mintlify homepage.
+- `*.mdx` files are the single source for published documentation pages.
+- `.mintignore` keeps local-only and raw source material out of the published
+  documentation site.
+
+## Start the preview
+
+Install Node.js 20.17.0 or newer. The repository includes `.nvmrc` and
+`.node-version` with the minimum supported version.
+
+If you use `nvm`, run:
+
+```bash
+nvm install
+nvm use
+```
+
+Then run from the repository root:
+
+```bash
+npx mint dev --port 3333
+```
+
+Open `http://localhost:3333`.
+
+## Validate before review
+
+Run the same checks from the repository root:
+
+```bash
+npx mint validate
+npx mint broken-links
+```
+
+`mint broken-links` may print parser warnings from ignored raw reference
+material. The check should still finish with no broken links for the published
+site.
+
+## When adding or moving pages
+
+1. Edit or create the `.mdx` page.
+2. Add or update the route in `docs.json`.
+3. Preview the exact route locally.
+4. Run `npx mint validate` before committing.
+
+Use extensionless internal routes in Mintlify navigation and cards, such as
+`/reading-paths/explorer`, not `/reading-paths/explorer.mdx`.

@@ -1,0 +1,43 @@
+# Local operating material
+AGENTS.md
+agent.md
+docs/internal/
+outputs/
+tmp/
+
+# Local build and preview artifacts
+.DS_Store
+.site-src/
+.venv-docs/
+site/
+node_modules/
+__pycache__/
+*.pyc
+
+# Keep source artifacts in Git, but do not publish raw source/build files as docs.
+**/*.py
+**/*.ipynb
+**/*.html
+**/*.htm
+**/*.js
+**/*.jsx
+**/*.ts
+**/*.tsx
+**/*.vue
+**/*.css
+**/*.map
+**/*.json
+**/*.jsonl
+**/*.yaml
+**/*.yml
+**/.env
+**/.env.*
+!docs.json
+
+# Preserve GitHub-style overview pages and repository docs in Mintlify.
+!README.md
+!**/README.md
+!CONTRIBUTING.md
+
+# Keep the raw reference archive out of the public docs site.
+references/**

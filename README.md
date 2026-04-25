@@ -67,13 +67,13 @@ Choose the path that best matches what you want from AI right now. These are par
       <h3>Explorer</h3>
       <p>For students, newcomers, and curious AI-native readers who want a broad view of AI, agents, trends, and foundational ideas without needing to become engineers.</p>
       <p><strong>What you get:</strong> a curated set of high-signal reads that help you learn core concepts, follow important shifts, test ideas with your own thinking, and build a grounded first-hand understanding of the space.</p>
-      <p><a href="./reading-paths/explorer.md"><strong>Open the Explorer guide</strong></a></p>
+      <p><a href="./reading-paths/explorer.mdx"><strong>Open the Explorer guide</strong></a></p>
     </td>
     <td valign="top" width="50%">
       <h3>Practitioner</h3>
       <p>For people who want to use AI tools, agents, and workflows to enhance daily life, study, and real work without needing to become full-time engineers.</p>
       <p><strong>What you get:</strong> a practical path for learning how to apply AI effectively, choose the right tools and workflows, and operate with leverage in real scenarios, including one-person-company style use cases where AI expands what one person can do without requiring full builder depth.</p>
-      <p><a href="./reading-paths/practitioner.md"><strong>Open the Practitioner guide</strong></a></p>
+      <p><a href="./reading-paths/practitioner.mdx"><strong>Open the Practitioner guide</strong></a></p>
     </td>
   </tr>
   <tr>
@@ -81,13 +81,13 @@ Choose the path that best matches what you want from AI right now. These are par
       <h3>Builder</h3>
       <p>For engineering-minded learners, new grads, and developers who want to build with AI more directly, from agent applications and workflows to startup-style products and technically deeper implementations.</p>
       <p><strong>What you get:</strong> a build-oriented path through concepts, patterns, systems, architecture choices, technical details, and concrete examples for people who want to create their own applications and go deeper into implementation.</p>
-      <p><a href="./reading-paths/builder.md"><strong>Open the Builder guide</strong></a></p>
+      <p><a href="./reading-paths/builder.mdx"><strong>Open the Builder guide</strong></a></p>
     </td>
     <td valign="top" width="50%">
       <h3>Contributor</h3>
       <p>For people who want to shape the lab by adding, revising, curating, or maintaining pages, notes, examples, and outward-facing extensions.</p>
       <p><strong>What you get:</strong> a public path into the editorial workflow, templates, review rules, placement standards, and portfolio-relevant open-source contribution.</p>
-      <p><a href="./reading-paths/contributor.md"><strong>Open the Contributor guide</strong></a></p>
+      <p><a href="./reading-paths/contributor.mdx"><strong>Open the Contributor guide</strong></a></p>
     </td>
   </tr>
 </table>
@@ -107,4 +107,4 @@ Public contributions in this repository currently fit into these paths:
 - publication extensions in [`publications/`](./publications/README.md) once a
   lab page is ready for an outward-facing article or distribution surface
 
-Start with [Contributing](./CONTRIBUTING.md) and the [Contributor Kit](./contributor-kit/README.md). Those pages define the public workflow, templates, review standards, and placement rules for lab articles, notes, and code that belong in this repository.
+Start with [Contributing](./CONTRIBUTING.md) and the [Contributor Kit](./contributor-kit/index.mdx). Those pages define the public workflow, templates, review standards, and placement rules for lab articles, notes, and code that belong in this repository.
