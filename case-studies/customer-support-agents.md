@@ -1,7 +1,7 @@
 ---
 title: Customer Support Agents
 owner: Prompthon IO
-updated: 2026-04-23
+updated: 2026-04-24
 depth: intermediate
 region_tags:
   - global
@@ -16,7 +16,7 @@ external_readings:
   - title: Model Context Protocol client roots specification
     url: https://modelcontextprotocol.io/specification/2025-06-18/client/roots
   - title: Model Context Protocol server resources specification
-    url: https://modelcontextprotocol.io/specification/draft/server/resources
+    url: https://modelcontextprotocol.io/specification/2025-06-18/server/resources
 status: draft
 ---
 
@@ -26,9 +26,11 @@ status: draft
 
 Customer support agents help turn inbound customer messages into classified
 cases, grounded answers, draft replies, and human handoffs. The safest version
-is not an autonomous "reply to everything" bot. It is a local, policy-grounded
-workflow that reads a customer input, consults approved support material, and
-drafts a response that a human can review.
+is not an autonomous "reply to everything" bot.
+
+Start with a local, policy-grounded workflow: read one customer input, consult
+approved support material, draft a response, and leave the final send decision
+to a human.
 
 ## Why It Matters
 
@@ -69,6 +71,13 @@ POLICY_PATH=/Users/example/support/refund-and-escalation-policy.md
 That is a clearer system than asking a model to "answer like support" from
 general memory.
 
+For this case study, the boundary is the main lesson:
+
+- the email path is the customer input
+- the policy path is the approved source of truth
+- the draft is an artifact for review
+- the human owns the final decision
+
 ## Architecture Diagram
 
 ```mermaid
@@ -94,7 +103,8 @@ Support agents usually combine a small set of capabilities:
 
 For a starter workflow, a local path is enough. The agent can read one inbound
 message file and one policy document file. Production systems can later replace
-those local paths with Gmail, helpdesk, CRM, or MCP-backed resources.
+those local paths with Gmail, helpdesk, CRM, or MCP-backed resources, but the
+same boundary should stay visible.
 
 MCP-style roots and resources are useful here because they force the system to
 say what the agent may access. A policy folder root is different from full disk
@@ -150,7 +160,7 @@ It demonstrates a small standard-library workflow for:
 - Official source: [OpenAI Responses API tools and file search](https://openai.com/index/new-tools-and-features-in-the-responses-api/)
 - Official source: [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp)
 - Official source: [MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots)
-- Official source: [MCP resources](https://modelcontextprotocol.io/specification/draft/server/resources)
+- Official source: [MCP resources](https://modelcontextprotocol.io/specification/2025-06-18/server/resources)
 
 ## Reading Extensions
 
@@ -160,5 +170,7 @@ It demonstrates a small standard-library workflow for:
 
 ## Update Log
 
+- 2026-04-24: Refined the case study for readability and made the local input,
+  policy source, review artifact, and human decision boundary more explicit.
 - 2026-04-23: Added a local-first customer-support case study with a
   policy-grounded email reply starter.

@@ -6,6 +6,9 @@ This starter turns the customer-support case study into a small local workflow:
 read an inbound customer email, read a local support policy document, classify
 the case, and draft a safe reply for human review.
 
+The point is not helpdesk automation yet. The point is to make the support
+agent's boundary inspectable before adding mailbox or CRM integrations.
+
 ## Status
 
 `starter`
@@ -40,7 +43,12 @@ customer-support-email-agent-starter/
 ## Quick Start
 
 This is a starter, not a finished helpdesk integration. The code sketch uses
-only the Python standard library and focuses on the local-path boundary.
+only the Python standard library and focuses on the local-path boundary:
+
+- customer message text in
+- local policy file path in
+- classified case plus draft reply out
+- human-review flag out
 
 Example:
 
@@ -60,6 +68,14 @@ print(result.needs_human_review)
 For a repo-level smoke check, run `python3 scripts/verify_example_projects.py`
 from the repository root.
 
+## What To Inspect First
+
+- Read `src/reply_guardrails.py` for the draft and review decision.
+- Read `src/policy_loader.py` for how local policy evidence is extracted.
+- Read `src/email_triage.py` for the intentionally small case classification.
+- Read `skill/SKILL.md` for how the same workflow can be packaged as reusable
+  instructions.
+
 ## Included Sample Files
 
 - `skill/SKILL.md`: skill instructions for checking customer email and drafting
@@ -74,6 +90,7 @@ from the repository root.
 - The starter reads local text-like policy files only.
 - Drafts are intended for human review, not automatic sending.
 - Classification is keyword-based and intentionally small.
+- The code does not claim to be a production support policy engine.
 
 ## Next Steps
 

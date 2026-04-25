@@ -11,13 +11,15 @@ local-path workflow for email triage and policy-grounded reply drafting.
 - [OpenAI Responses API tools and file search](https://openai.com/index/new-tools-and-features-in-the-responses-api/)
 - [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp)
 - [MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots)
-- [MCP resources](https://modelcontextprotocol.io/specification/draft/server/resources)
+- [MCP resources](https://modelcontextprotocol.io/specification/2025-06-18/server/resources)
 
 ## Repo-Native Changes
 
 - Reduced the workflow to local email text plus local policy text.
 - Kept the first version draft-only rather than auto-send.
 - Used a skill file to show how a reusable local-agent workflow can be packaged.
+- Clarified the starter's review boundary: local input, local policy, draft
+  artifact, and human send decision.
 
 ## Attribution Boundary
 
