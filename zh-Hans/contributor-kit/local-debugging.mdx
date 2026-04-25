@@ -1,0 +1,63 @@
+---
+title: 本地调试
+owner: Prompthon IO
+updated: 2026-04-25
+depth: beginner
+region_tags:
+  - global
+coding_required: optional
+status: draft
+---
+
+使用此工作流在创建拉取请求之前预览并验证公开文档站点。
+
+## 网站位于何处
+
+Mintlify 站点从仓库根目录进行配置。这里没有嵌套的前端应用，也不需要 `package.json`。
+
+关键文件：
+
+- `docs.json` 控制 Mintlify 的导航和站点设置。
+- `index.mdx` 是 Mintlify 主页。
+- `*.mdx` 文件是已发布文档页面的单一来源。
+- `.mintignore` 可将仅限本地的内容和原始源材料排除在已发布的文档站点之外。
+
+## 启动预览
+
+安装 Node.js 20.17.0 或更高版本。仓库包含 `.nvmrc` 和 `.node-version`，其中指定了支持的最低版本。
+
+如果你使用 `nvm`，请运行：
+
+```bash
+nvm install
+nvm use
+```
+
+然后从仓库根目录运行：
+
+```bash
+npx mint dev --port 3333
+```
+
+打开 `http://localhost:3333`。
+
+## 在审查前验证
+
+从仓库根目录运行相同的检查：
+
+```bash
+npx mint validate
+npx mint broken-links
+```
+
+`mint broken-links` 可能会从被忽略的原始参考材料中打印解析器警告。即便如此，该检查仍应完成，并且已发布站点不应存在损坏的链接。
+
+## 在添加或移动页面时
+
+1. 编辑或创建 `.mdx` 页面。
+2. 在 `docs.json` 中添加或更新路由。
+3. 在本地预览准确的路由。
+4. 提交前运行 `npx mint validate`。
+
+在 Mintlify 导航和卡片中使用不带扩展名的内部路由，例如
+`/reading-paths/explorer`，而不是 `/reading-paths/explorer.mdx`。

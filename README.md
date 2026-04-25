@@ -14,6 +14,12 @@
     ·
     <a href="https://github.com/Prompthon-IO/agentic-lab"><strong>Repository</strong></a>
     ·
+    <a href="https://github.com/Prompthon-IO/agentic-lab"><strong>Star</strong></a>
+    ·
+    <a href="https://github.com/Prompthon-IO/agentic-lab/subscription"><strong>Watch updates</strong></a>
+    ·
+    <a href="./CONTRIBUTING.md"><strong>Contribute source</strong></a>
+    ·
     <a href="https://github.com/Prompthon-IO/agentic-lab/issues"><strong>Issues</strong></a>
     ·
     <a href="https://discord.gg/sDE2HhGTg4"><strong>Discord</strong></a>

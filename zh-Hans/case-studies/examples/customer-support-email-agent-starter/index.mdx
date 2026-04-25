@@ -1,0 +1,85 @@
+---
+title: "客户支持邮件智能体入门项目"
+---
+
+## 摘要
+
+这个入门项目把客户支持案例研究变成了一个小型本地工作流：
+读取一封客户来信，读取本地支持政策文档，对案例进行分类，
+并起草一份安全的回复供人工审核。
+
+## 状态
+
+`starter`
+
+## 存在原因
+
+客户支持是一个很实用的本地智能体形态，因为真正有用的上下文
+通常已经在附近：一份邮件导出文件、一份政策文档、一条退款规则，
+或者一个 FAQ 文件。这个入门项目通过要求显式的本地路径来保持这
+一边界清晰可见，而不是假装智能体能凭记忆知道政策。
+
+## 相关实验室页面
+
+- [Customer Support Agents](../../customer-support-agents.mdx)
+- [Case Studies Overview](../../README.md)
+- [Protocols And Interoperability](../../../systems/protocols-and-interoperability.mdx)
+
+## 文件夹结构
+
+```text
+customer-support-email-agent-starter/
+├── index.mdx
+├── SOURCE_NOTES.mdx
+├── skill/
+│   └── SKILL.md
+└── src/
+    ├── email_triage.py
+    ├── policy_loader.py
+    └── reply_guardrails.py
+```
+
+## 快速开始
+
+这是一个入门项目，不是一个完整的帮助台集成。代码示意只使用
+Python 标准库，并聚焦于本地路径边界。
+
+示例：
+
+```python
+from reply_guardrails import draft_policy_grounded_reply
+
+result = draft_policy_grounded_reply(
+    email_text="Subject: Refund request\nI received the wrong item.",
+    policy_path="/Users/example/support/refund-policy.md",
+)
+
+print(result.reply_subject)
+print(result.reply_body)
+print(result.needs_human_review)
+```
+
+如需在仓库级别做一次冒烟检查，请在仓库根目录运行
+`python3 scripts/verify_example_projects.py`。
+
+## 包含的示例文件
+
+- `skill/SKILL.md`：用于检查客户邮件并从本地文档路径起草
+  基于政策的回复的技能说明
+- `src/email_triage.py`：轻量级分类与摘要辅助工具
+- `src/policy_loader.py`：本地政策加载与证据提取辅助工具
+- `src/reply_guardrails.py`：草稿生成与人工审核防护机制
+
+## 约束
+
+- 未实现邮箱、Gmail、CRM 或帮助台适配器。
+- 该入门项目只读取本地的文本类政策文件。
+- 草稿仅供人工审核，不会自动发送。
+- 分类基于关键词，且刻意保持很小。
+
+## 后续步骤
+
+- 添加一个邮箱适配器，将来信写入显式的本地路径。
+- 添加结构化的政策章节，并增强检索能力。
+- 为退款、账单、投诉和升级处理添加评估固定样本。
+- 添加一个审计工件，用于记录政策证据和审核者决定。

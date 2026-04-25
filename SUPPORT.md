@@ -10,7 +10,7 @@ Start with:
 - `README.md`
 - `CONTRIBUTING.md`
 - `contributor-kit/index.mdx`
-- `contributor-kit/github-issue-guide.md`
+- `contributor-kit/github-issue-guide.mdx`
 
 Those documents define the repository structure, contribution types, templates,
 and review expectations.
