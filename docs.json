@@ -2,6 +2,11 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "maple",
   "name": "Prompthon Agentic Lab",
+  "logo": {
+    "light": "https://github.com/Prompthon-IO.png?size=96",
+    "dark": "https://github.com/Prompthon-IO.png?size=96",
+    "href": "https://github.com/Prompthon-IO"
+  },
   "colors": {
     "primary": "#2563eb",
     "light": "#60a5fa",
@@ -46,6 +51,7 @@
               {
                 "group": "Foundations",
                 "pages": [
+                  "foundations/index",
                   "foundations/what-are-agent-systems",
                   "foundations/agents-vs-workflows",
                   "foundations/history-of-agent-ideas",
@@ -55,6 +61,7 @@
               {
                 "group": "Patterns",
                 "pages": [
+                  "patterns/index",
                   "patterns/agent-memory-and-retrieval",
                   "patterns/reasoning-and-control-patterns",
                   "patterns/planning-and-reflection",
@@ -64,6 +71,7 @@
               {
                 "group": "Systems",
                 "pages": [
+                  "systems/index",
                   "systems/context-engineering",
                   "systems/protocols-and-interoperability",
                   "systems/evaluation-and-observability"
@@ -72,6 +80,7 @@
               {
                 "group": "Ecosystem",
                 "pages": [
+                  "ecosystem/index",
                   "ecosystem/agent-frameworks",
                   "ecosystem/agent-platforms-and-low-code-builders"
                 ]
@@ -79,6 +88,7 @@
               {
                 "group": "Case studies",
                 "pages": [
+                  "case-studies/index",
                   "case-studies/deep-research-agents",
                   "case-studies/customer-support-agents"
                 ]
@@ -86,6 +96,7 @@
               {
                 "group": "Radar",
                 "pages": [
+                  "radar/index",
                   "radar/2026-04-local-agent-watch",
                   "radar/2026-04-interoperability-watch",
                   "radar/2026-04-protocol-watch"
@@ -121,7 +132,7 @@
           },
           {
             "tab": "Contribute",
-            "icon": "git-pull-request",
+            "icon": "code-pull-request",
             "groups": [
               {
                 "group": "Public workflow",
@@ -149,6 +160,7 @@
                   "contributor-kit/templates/radar-note-template",
                   "contributor-kit/templates/reference-note-template",
                   "contributor-kit/templates/source-project-template/index",
+                  "contributor-kit/reference-notes/index",
                   "contributor-kit/reference-notes/deep-research-product-signals",
                   "contributor-kit/reference-notes/deep-research-source-map",
                   "contributor-kit/reference-notes/local-agent-tooling-source-map"
@@ -164,6 +176,7 @@
                 "group": "Repository",
                 "pages": [
                   "WEBSITE",
+                  "publications/index",
                   "publications/metadata-schema"
                 ]
               }
@@ -174,17 +187,26 @@
           "links": [
             {
               "label": "Organization",
-              "href": "https://github.com/Prompthon-IO"
+              "href": "https://github.com/Prompthon-IO",
+              "icon": "users"
             },
             {
               "label": "Discord",
-              "href": "https://discord.gg/sDE2HhGTg4"
+              "href": "https://discord.gg/sDE2HhGTg4",
+              "icon": {
+                "style": "brands",
+                "name": "discord"
+              }
+            },
+            {
+              "label": "GitHub",
+              "href": "https://github.com/Prompthon-IO/agentic-lab",
+              "icon": {
+                "style": "brands",
+                "name": "github"
+              }
             }
-          ],
-          "primary": {
-            "type": "github",
-            "href": "https://github.com/Prompthon-IO/agentic-lab"
-          }
+          ]
         }
       },
       {
@@ -223,6 +245,7 @@
               {
                 "group": "基础",
                 "pages": [
+                  "zh-Hans/foundations/index",
                   "zh-Hans/foundations/what-are-agent-systems",
                   "zh-Hans/foundations/agents-vs-workflows",
                   "zh-Hans/foundations/history-of-agent-ideas",
@@ -232,6 +255,7 @@
               {
                 "group": "模式",
                 "pages": [
+                  "zh-Hans/patterns/index",
                   "zh-Hans/patterns/agent-memory-and-retrieval",
                   "zh-Hans/patterns/reasoning-and-control-patterns",
                   "zh-Hans/patterns/planning-and-reflection",
@@ -241,6 +265,7 @@
               {
                 "group": "系统",
                 "pages": [
+                  "zh-Hans/systems/index",
                   "zh-Hans/systems/context-engineering",
                   "zh-Hans/systems/protocols-and-interoperability",
                   "zh-Hans/systems/evaluation-and-observability"
@@ -249,6 +274,7 @@
               {
                 "group": "生态",
                 "pages": [
+                  "zh-Hans/ecosystem/index",
                   "zh-Hans/ecosystem/agent-frameworks",
                   "zh-Hans/ecosystem/agent-platforms-and-low-code-builders"
                 ]
@@ -256,6 +282,7 @@
               {
                 "group": "案例研究",
                 "pages": [
+                  "zh-Hans/case-studies/index",
                   "zh-Hans/case-studies/deep-research-agents",
                   "zh-Hans/case-studies/customer-support-agents"
                 ]
@@ -263,6 +290,7 @@
               {
                 "group": "雷达",
                 "pages": [
+                  "zh-Hans/radar/index",
                   "zh-Hans/radar/2026-04-local-agent-watch",
                   "zh-Hans/radar/2026-04-interoperability-watch",
                   "zh-Hans/radar/2026-04-protocol-watch"
@@ -298,7 +326,7 @@
           },
           {
             "tab": "贡献",
-            "icon": "git-pull-request",
+            "icon": "code-pull-request",
             "groups": [
               {
                 "group": "公开协作流程",
@@ -326,6 +354,7 @@
                   "zh-Hans/contributor-kit/templates/radar-note-template",
                   "zh-Hans/contributor-kit/templates/reference-note-template",
                   "zh-Hans/contributor-kit/templates/source-project-template/index",
+                  "zh-Hans/contributor-kit/reference-notes/index",
                   "zh-Hans/contributor-kit/reference-notes/deep-research-product-signals",
                   "zh-Hans/contributor-kit/reference-notes/deep-research-source-map",
                   "zh-Hans/contributor-kit/reference-notes/local-agent-tooling-source-map"
@@ -341,6 +370,7 @@
                 "group": "代码仓库",
                 "pages": [
                   "zh-Hans/WEBSITE",
+                  "zh-Hans/publications/index",
                   "zh-Hans/publications/metadata-schema"
                 ]
               }
@@ -351,17 +381,26 @@
           "links": [
             {
               "label": "组织",
-              "href": "https://github.com/Prompthon-IO"
+              "href": "https://github.com/Prompthon-IO",
+              "icon": "users"
             },
             {
               "label": "Discord",
-              "href": "https://discord.gg/sDE2HhGTg4"
+              "href": "https://discord.gg/sDE2HhGTg4",
+              "icon": {
+                "style": "brands",
+                "name": "discord"
+              }
+            },
+            {
+              "label": "GitHub",
+              "href": "https://github.com/Prompthon-IO/agentic-lab",
+              "icon": {
+                "style": "brands",
+                "name": "github"
+              }
             }
-          ],
-          "primary": {
-            "type": "github",
-            "href": "https://github.com/Prompthon-IO/agentic-lab"
-          }
+          ]
         }
       }
     ]
@@ -370,17 +409,26 @@
     "links": [
       {
         "label": "Organization",
-        "href": "https://github.com/Prompthon-IO"
+        "href": "https://github.com/Prompthon-IO",
+        "icon": "users"
       },
       {
         "label": "Discord",
-        "href": "https://discord.gg/sDE2HhGTg4"
+        "href": "https://discord.gg/sDE2HhGTg4",
+        "icon": {
+          "style": "brands",
+          "name": "discord"
+        }
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/Prompthon-IO/agentic-lab",
+        "icon": {
+          "style": "brands",
+          "name": "github"
+        }
       }
-    ],
-    "primary": {
-      "type": "github",
-      "href": "https://github.com/Prompthon-IO/agentic-lab"
-    }
+    ]
   },
   "contextual": {
     "options": [
