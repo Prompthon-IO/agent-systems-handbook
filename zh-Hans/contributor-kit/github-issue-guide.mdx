@@ -1,0 +1,61 @@
+---
+title: "GitHub Issue 指南"
+---
+
+当你有一个具体的仓库工作项时，请使用 GitHub issue；不要只是提出一个早期问题。
+
+如果请求仍处于探索阶段，请先使用 [Support](https://github.com/Prompthon-IO/agentic-lab/blob/main/zh-Hans/SUPPORT.md) 或社区 Discord。如果工作已经明确范围，请使用匹配的 issue 表单，这样请求会以可审阅的形式进入流程。
+
+## 选择正确的 issue 表单
+
+- `Content Proposal`：新的实验室页面、重大修订、雷达笔记、精选参考说明，或发布后的后续内容
+- `Source Project Proposal`：新的或经过大幅修订的、由仓库拥有的 starter，或位于允许的 lane-local `examples/` 文件夹下的示例
+- `Repository Feature Or Process Proposal`：关于仓库工作流、issue 接收、模板、标签、审查规则、贡献者文档或维护者运营的功能请求
+- `Bug Or Broken Surface Report`：损坏的链接、事实问题、示例缺陷、模板问题，或仓库工作流回归
+
+## issue 编写标准
+
+- 一张 issue 只聚焦一个结果。
+- 明确指出受影响的确切路径、界面或工作流。
+- 先描述当前问题，再谈解决方案。
+- 提出能解决问题的、最小且清晰的变更。
+- 添加成功标准，以便审阅者判断工作何时完成。
+- 链接相关的仓库文档、模板或现有页面。
+- 对于内容类工作，请包含来源谱系，而不是直接放入原始上游材料。
+
+## 一个好的功能请求应包含什么
+
+当请求真正涉及这个仓库应该如何工作时，请使用 `Repository Feature Or Process Proposal` 表单。
+
+好的提交通常包括：
+
+- 维护者或贡献者的痛点
+- 建议的仓库级变更
+- 该变更影响的界面
+- 权衡、迁移成本，或为何应延后
+- 成功的明确判定标准
+
+## 标题示例
+
+- `[Feature/Process]: Add a public guide for choosing GitHub issue forms`
+- `[Content]: Add a systems page on agent evaluation loops`
+- `[Source Project]: Add a minimal deep-research-agent starter`
+- `[Bug]: Fix the broken contributor-kit link in README.md`
+
+## 提交前
+
+- 查看 [Contributing](https://github.com/Prompthon-IO/agentic-lab/blob/main/zh-Hans/CONTRIBUTING.md)。
+- 检查 [贡献者工具包](/zh-Hans/contributor-kit) 中是否有匹配的模板或指南。
+- 搜索现有 open issues，避免重复提交。
+- 优先使用精确的仓库路径，而不是泛泛描述。
+- 如果你不确定这个请求是否现在就应该放在这里，请先使用 [Support](https://github.com/Prompthon-IO/agentic-lab/blob/main/zh-Hans/SUPPORT.md)。
+
+## 功能请求示例
+
+如果你想提出一个关于 issue 接收流程的仓库功能，请在 `Repository Feature Or Process Proposal` 表单中按如下方式组织：
+
+- `Current problem`: 贡献者可以找到 issue 表单，但不清楚哪种表单算是功能请求，哪种算内容提案。
+- `Proposed change`: 在 `contributor-kit/` 中添加一份公开的 GitHub issue 指南，从 `CONTRIBUTING.md`、`SUPPORT.md` 和 issue 选择器中链接到它，并在流程表单中明确提及仓库功能请求。
+- `Affected surfaces`: issue 接收、贡献者文档
+- `Tradeoffs and risks`: 需要维护的贡献者文档稍多一些，但在 issue 接收过程中歧义会少得多
+- `What success looks like`: 新贡献者无需向维护者询问分流帮助，就能选择正确的 issue 表单

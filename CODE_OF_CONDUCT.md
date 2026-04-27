@@ -1,6 +1,6 @@
 # Code Of Conduct
 
-Prompthon Agentic Lab is a public working lab. We want contributions,
+Prompthon Agentic Labs is a public working lab. We want contributions,
 critique, and review to stay specific, respectful, and useful for the next
 person.
 

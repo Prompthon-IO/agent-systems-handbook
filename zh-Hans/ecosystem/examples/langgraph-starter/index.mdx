@@ -1,0 +1,56 @@
+---
+title: "LangGraph 入门项目"
+---
+
+## 摘要
+
+这个 starter 展示了仓库中最小但实用的图状智能体示例：
+plan、route、synthesize。
+
+## 状态
+
+`starter`
+
+源代码：[ecosystem/examples/langgraph-starter](https://github.com/Prompthon-IO/agentic-lab/tree/main/ecosystem/examples/langgraph-starter)
+
+## 它存在的原因
+
+当贡献者可以指向仓库内的小型示例，而不只是外部演示时，框架对比页面更容易扩展。这个 starter 保持了可识别的结构，同时又不会把仓库变成一套框架教程集。
+
+## 相关 Lab 页面
+
+- [Agent Frameworks](/zh-Hans/ecosystem/agent-frameworks)
+- [Ecosystem Overview](/zh-Hans/ecosystem)
+
+## 文件夹结构
+
+```text
+langgraph-starter/
+├── index.mdx
+├── SOURCE_NOTES.mdx
+└── src/
+    ├── branching.py
+    ├── graph.py
+    └── run_summary.py
+```
+
+## 快速开始
+
+这个项目是一个 starter。先阅读 `src/graph.py`，了解最小的图状态和节点边界，然后在需要时将其扩展为一个更完整、可运行的示例。若要进行仓库级的快速检查，请在仓库根目录运行 `python3 scripts/verify_example_projects.py`。
+
+## 包含的示例文件
+
+- `src/graph.py`：一个最小的 plan、route、synthesize 状态转换草图
+- `src/branching.py`：一个简明示例，展示如何显式定义 route 选择和重试策略
+- `src/run_summary.py`：一个很小的报告层，用于将图状态转换为可读的执行摘要
+
+## 约束
+
+- 未接入任何框架依赖。
+- 该图仅用于说明，不可直接执行。
+- 工具适配器和模型调用均为占位符。
+
+## 下一步
+
+- 添加一个真实的运行时依赖。
+- 添加一个工具节点和一个重试路径。

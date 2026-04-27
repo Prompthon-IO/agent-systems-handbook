@@ -2,3 +2,8 @@ references
 /AGENTS.md
 /agent.md
 /docs/internal/
+
+# Python local artifacts
+__pycache__/
+*.py[cod]
+*$py.class

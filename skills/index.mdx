@@ -1,0 +1,37 @@
+---
+title: "Practitioner Skills"
+---
+
+This directory collects Codex-compatible skills that are useful for everyday
+workflows and personal operations. Each skill should be usable as an
+installable package with a `SKILL.md` file and only the supporting resources it
+needs.
+
+## Current Skills
+
+| Skill | Package path | What it demonstrates |
+| --- | --- | --- |
+| Garbage Collector | [`skills/garbage-collector/SKILL.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/garbage-collector/SKILL.md) | Preview-first local cleanup, readable CSV rules, reversible duplicate cleanup, and explicit approval before destructive actions |
+
+## Skill Package Shape
+
+Each shared skill should keep the package itself small:
+
+```text
+skills/<skill-name>/
+  SKILL.md
+  agents/openai.yaml
+  scripts/
+  references/
+```
+
+Use `scripts/` for deterministic helpers, `references/` for rule files or
+supporting guidance, and `agents/openai.yaml` for UI metadata. Avoid extra
+README-style files inside the skill package unless the repository needs a
+separate public guide.
+
+## Practitioner Boundary
+
+Practitioner skills should show where Codex execution is stronger than a plain
+chat answer: local files, persistent rules, repeatable workflows, browser or
+system interaction, and explicit safety checks.

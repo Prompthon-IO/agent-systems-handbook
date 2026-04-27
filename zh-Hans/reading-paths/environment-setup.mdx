@@ -1,0 +1,63 @@
+---
+title: "环境设置"
+---
+
+这个共享设置指南适用于面向公众的入门项目，这些项目在实践者、构建者和贡献者路径中被引用。
+
+## 这个设置的用途
+
+- 在本地阅读 Prompthon Agentic Labs
+- 运行当前仓库维护的入门代码
+- 在贡献工作之前或之后验证示例项目
+
+当前的示例项目刻意保持为轻量级的 Python 入门项目。它们足够小，可以快速检查，并且无需特定框架的工具链即可验证。
+
+## 先决条件
+
+- Git
+- Python 3.9 或更新版本
+- macOS、Linux 或 WSL 上的终端
+
+## 克隆仓库
+
+```bash
+git clone https://github.com/Prompthon-IO/agentic-lab.git
+cd agentic-lab
+```
+
+## 可选的虚拟环境
+
+当前的入门检查只使用 Python 标准库，但隔离环境仍然是一个很好的默认选择：
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 --version
+```
+
+## 验证当前入门代码
+
+运行仓库级别的烟雾测试检查：
+
+```bash
+python3 scripts/verify_example_projects.py
+```
+
+这会验证以下位置下的当前入门代码：
+
+- `patterns/examples/`
+- `systems/examples/`
+- `ecosystem/examples/`
+- `case-studies/examples/`
+
+## 预期结果
+
+- 该检查会验证当前的代码草图和示例流程。
+- 当前项目仍被文档化为 `starter` 示例，而不是完整的生产应用程序。
+- 一些入门项目会演示状态形状或控制流，但尚未包含周边的传输、持久化或框架运行时。
+
+## 如果你正在贡献
+
+- 将示例项目保留在对应路径本地的 `examples/` 文件夹中。
+- 将项目状态声明为 `starter`、`partial` 或 `runnable`。
+- 如果你更改了可执行的入门代码，请在同一次更改中更新 `scripts/verify_example_projects.py`。

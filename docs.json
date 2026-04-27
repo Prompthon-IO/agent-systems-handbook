@@ -1,176 +1,410 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "maple",
-  "name": "Prompthon Agentic Lab",
+  "name": "Prompthon Agentic Labs",
+  "logo": {
+    "light": "https://github.com/Prompthon-IO.png?size=96",
+    "dark": "https://github.com/Prompthon-IO.png?size=96",
+    "href": "https://github.com/Prompthon-IO"
+  },
   "colors": {
     "primary": "#2563eb",
     "light": "#60a5fa",
     "dark": "#1e40af"
   },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "Start Here",
-        "icon": "compass",
-        "groups": [
+        "language": "en",
+        "default": true,
+        "tabs": [
           {
-            "group": "Choose a path",
-            "pages": [
-              "index",
-              "reading-paths/explorer",
-              "reading-paths/practitioner",
-              "reading-paths/builder",
-              "reading-paths/contributor"
-            ]
-          },
-          {
-            "group": "Setup and examples",
-            "pages": [
-              "reading-paths/environment-setup",
-              "reading-paths/sample-projects",
-              "reading-paths/conceptual-breadth",
-              "reading-paths/implementation-depth",
-              "reading-paths/contributor-and-curation"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Handbook",
-        "icon": "book-open",
-        "groups": [
-          {
-            "group": "Foundations",
-            "pages": [
+            "tab": "Start Here",
+            "icon": "compass",
+            "groups": [
               {
-                "group": "The Agent Systems",
+                "group": "Choose a path",
                 "pages": [
-                  "foundations/agent-systems/Why-Agent-Systems-Matter",
-                  "foundations/agent-systems/What-Is-Agent",
-                  "foundations/agent-systems/What-Is-Agent-System"
+                  "index",
+                  "reading-paths/explorer",
+                  "reading-paths/practitioner",
+                  "reading-paths/builder",
+                  "reading-paths/contributor"
                 ]
               },
-              "foundations/agents-vs-workflows",
-              "foundations/history-of-agent-ideas",
-              "foundations/llm-foundations-for-agent-systems"
+              {
+                "group": "Setup and examples",
+                "pages": [
+                  "reading-paths/environment-setup",
+                  "reading-paths/sample-projects",
+                  "skills/index",
+                  "reading-paths/conceptual-breadth",
+                  "reading-paths/implementation-depth",
+                  "reading-paths/contributor-and-curation"
+                ]
+              }
             ]
           },
           {
-            "group": "Patterns",
-            "pages": [
-              "patterns/agent-memory-and-retrieval",
-              "patterns/reasoning-and-control-patterns",
-              "patterns/planning-and-reflection",
-              "patterns/agent-runtime-building-blocks"
+            "tab": "Handbook",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Foundations",
+                "pages": [
+                  "foundations/index",
+                  "foundations/the-agent-system",
+                  "foundations/agents-vs-workflows",
+                  "foundations/history-of-agent-ideas",
+                  "foundations/llm-foundations-for-agent-systems"
+                ]
+              },
+              {
+                "group": "Patterns",
+                "pages": [
+                  "patterns/index",
+                  "patterns/agent-memory-and-retrieval",
+                  "patterns/reasoning-and-control-patterns",
+                  "patterns/planning-and-reflection",
+                  "patterns/agent-runtime-building-blocks"
+                ]
+              },
+              {
+                "group": "Systems",
+                "pages": [
+                  "systems/index",
+                  "systems/context-engineering",
+                  "systems/protocols-and-interoperability",
+                  "systems/evaluation-and-observability"
+                ]
+              },
+              {
+                "group": "Ecosystem",
+                "pages": [
+                  "ecosystem/index",
+                  "ecosystem/agent-frameworks",
+                  "ecosystem/agent-platforms-and-low-code-builders"
+                ]
+              },
+              {
+                "group": "Case studies",
+                "pages": [
+                  "case-studies/index",
+                  "case-studies/deep-research-agents",
+                  "case-studies/customer-support-agents"
+                ]
+              },
+              {
+                "group": "Radar",
+                "pages": [
+                  "radar/index",
+                  "radar/2026-04-local-agent-watch",
+                  "radar/2026-04-interoperability-watch",
+                  "radar/2026-04-protocol-watch"
+                ]
+              }
             ]
           },
           {
-            "group": "Systems",
-            "pages": [
-              "systems/context-engineering",
-              "systems/protocols-and-interoperability",
-              "systems/evaluation-and-observability"
+            "tab": "Examples",
+            "icon": "code",
+            "groups": [
+              {
+                "group": "Starter projects",
+                "pages": [
+                  "patterns/examples/agent-memory-retrieval-starter/index",
+                  "systems/examples/weather-mcp-server-starter/index",
+                  "ecosystem/examples/langgraph-starter/index",
+                  "case-studies/examples/deep-research-agent-starter/index",
+                  "case-studies/examples/customer-support-email-agent-starter/index"
+                ]
+              },
+              {
+                "group": "Source notes",
+                "pages": [
+                  "patterns/examples/agent-memory-retrieval-starter/SOURCE_NOTES",
+                  "systems/examples/weather-mcp-server-starter/SOURCE_NOTES",
+                  "ecosystem/examples/langgraph-starter/SOURCE_NOTES",
+                  "case-studies/examples/deep-research-agent-starter/SOURCE_NOTES",
+                  "case-studies/examples/customer-support-email-agent-starter/SOURCE_NOTES"
+                ]
+              }
             ]
           },
           {
-            "group": "Ecosystem",
-            "pages": [
-              "ecosystem/agent-frameworks",
-              "ecosystem/agent-platforms-and-low-code-builders"
+            "tab": "Contribute",
+            "icon": "code-pull-request",
+            "groups": [
+              {
+                "group": "Public workflow",
+                "pages": [
+                  "contributor-kit/index",
+                  "contributor-kit/lab-structure",
+                  "contributor-kit/local-debugging",
+                  "contributor-kit/github-issue-guide",
+                  "contributor-kit/review-checklist"
+                ]
+              },
+              {
+                "group": "Contribution types",
+                "pages": [
+                  "contributor-kit/article-guidelines",
+                  "contributor-kit/radar-note-guidelines",
+                  "contributor-kit/source-project-guidelines",
+                  "contributor-kit/reference-note-guidelines"
+                ]
+              },
+              {
+                "group": "Templates and references",
+                "pages": [
+                  "contributor-kit/templates/article-template",
+                  "contributor-kit/templates/radar-note-template",
+                  "contributor-kit/templates/reference-note-template",
+                  "contributor-kit/templates/source-project-template/index",
+                  "contributor-kit/reference-notes/index",
+                  "contributor-kit/reference-notes/deep-research-product-signals",
+                  "contributor-kit/reference-notes/deep-research-source-map",
+                  "contributor-kit/reference-notes/local-agent-tooling-source-map"
+                ]
+              }
             ]
           },
           {
-            "group": "Case studies",
-            "pages": [
-              "case-studies/deep-research-agents",
-              "case-studies/customer-support-agents"
-            ]
-          },
-          {
-            "group": "Radar",
-            "pages": [
-              "radar/2026-04-local-agent-watch",
-              "radar/2026-04-interoperability-watch",
-              "radar/2026-04-protocol-watch"
+            "tab": "Project",
+            "icon": "landmark",
+            "groups": [
+              {
+                "group": "Repository",
+                "pages": [
+                  "WEBSITE",
+                  "publications/index",
+                  "publications/metadata-schema"
+                ]
+              }
             ]
           }
-        ]
+        ],
+        "navbar": {
+          "links": [
+            {
+              "label": "Organization",
+              "href": "https://github.com/Prompthon-IO",
+              "icon": "users"
+            },
+            {
+              "label": "Discord",
+              "href": "https://discord.gg/sDE2HhGTg4",
+              "icon": {
+                "style": "brands",
+                "name": "discord"
+              }
+            },
+            {
+              "label": "GitHub",
+              "href": "https://github.com/Prompthon-IO/agentic-lab",
+              "icon": {
+                "style": "brands",
+                "name": "github"
+              }
+            }
+          ]
+        }
       },
       {
-        "tab": "Examples",
-        "icon": "code",
-        "groups": [
+        "language": "zh-Hans",
+        "tabs": [
           {
-            "group": "Starter projects",
-            "pages": [
-              "patterns/examples/agent-memory-retrieval-starter/index",
-              "systems/examples/weather-mcp-server-starter/index",
-              "ecosystem/examples/langgraph-starter/index",
-              "case-studies/examples/deep-research-agent-starter/index",
-              "case-studies/examples/customer-support-email-agent-starter/index"
+
+            "tab": "开始",
+            "icon": "compass",
+            "groups": [
+              {
+                "group": "选择路径",
+                "pages": [
+                  "zh-Hans/index",
+                  "zh-Hans/reading-paths/explorer",
+                  "zh-Hans/reading-paths/practitioner",
+                  "zh-Hans/reading-paths/builder",
+                  "zh-Hans/reading-paths/contributor"
+                ]
+              },
+              {
+                "group": "环境与示例",
+                "pages": [
+                  "zh-Hans/reading-paths/environment-setup",
+                  "zh-Hans/reading-paths/sample-projects",
+                  "zh-Hans/reading-paths/conceptual-breadth",
+                  "zh-Hans/reading-paths/implementation-depth",
+                  "zh-Hans/reading-paths/contributor-and-curation"
+                ]
+              }
+
             ]
           },
           {
-            "group": "Source notes",
-            "pages": [
-              "patterns/examples/agent-memory-retrieval-starter/SOURCE_NOTES",
-              "systems/examples/weather-mcp-server-starter/SOURCE_NOTES",
-              "ecosystem/examples/langgraph-starter/SOURCE_NOTES",
-              "case-studies/examples/deep-research-agent-starter/SOURCE_NOTES",
-              "case-studies/examples/customer-support-email-agent-starter/SOURCE_NOTES"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Contribute",
-        "icon": "git-pull-request",
-        "groups": [
-          {
-            "group": "Public workflow",
-            "pages": [
-              "contributor-kit/index",
-              "contributor-kit/lab-structure",
-              "contributor-kit/local-debugging",
-              "contributor-kit/github-issue-guide",
-              "contributor-kit/review-checklist"
+            "tab": "手册",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "基础",
+                "pages": [
+                  "zh-Hans/foundations/index",
+                  "zh-Hans/foundations/the-agent-system",
+                  "zh-Hans/foundations/agents-vs-workflows",
+                  "zh-Hans/foundations/history-of-agent-ideas",
+                  "zh-Hans/foundations/llm-foundations-for-agent-systems"
+                ]
+              },
+              {
+                "group": "模式",
+                "pages": [
+                  "zh-Hans/patterns/index",
+                  "zh-Hans/patterns/agent-memory-and-retrieval",
+                  "zh-Hans/patterns/reasoning-and-control-patterns",
+                  "zh-Hans/patterns/planning-and-reflection",
+                  "zh-Hans/patterns/agent-runtime-building-blocks"
+                ]
+              },
+              {
+                "group": "系统",
+                "pages": [
+                  "zh-Hans/systems/index",
+                  "zh-Hans/systems/context-engineering",
+                  "zh-Hans/systems/protocols-and-interoperability",
+                  "zh-Hans/systems/evaluation-and-observability"
+                ]
+              },
+              {
+                "group": "生态",
+                "pages": [
+                  "zh-Hans/ecosystem/index",
+                  "zh-Hans/ecosystem/agent-frameworks",
+                  "zh-Hans/ecosystem/agent-platforms-and-low-code-builders"
+                ]
+              },
+              {
+                "group": "案例研究",
+                "pages": [
+                  "zh-Hans/case-studies/index",
+                  "zh-Hans/case-studies/deep-research-agents",
+                  "zh-Hans/case-studies/customer-support-agents"
+                ]
+              },
+              {
+                "group": "雷达",
+                "pages": [
+                  "zh-Hans/radar/index",
+                  "zh-Hans/radar/2026-04-local-agent-watch",
+                  "zh-Hans/radar/2026-04-interoperability-watch",
+                  "zh-Hans/radar/2026-04-protocol-watch"
+                ]
+              }
             ]
           },
           {
-            "group": "Contribution types",
-            "pages": [
-              "contributor-kit/article-guidelines",
-              "contributor-kit/radar-note-guidelines",
-              "contributor-kit/source-project-guidelines",
-              "contributor-kit/reference-note-guidelines"
+            "tab": "示例",
+            "icon": "code",
+            "groups": [
+              {
+                "group": "入门项目",
+                "pages": [
+                  "zh-Hans/patterns/examples/agent-memory-retrieval-starter/index",
+                  "zh-Hans/systems/examples/weather-mcp-server-starter/index",
+                  "zh-Hans/ecosystem/examples/langgraph-starter/index",
+                  "zh-Hans/case-studies/examples/deep-research-agent-starter/index",
+                  "zh-Hans/case-studies/examples/customer-support-email-agent-starter/index"
+                ]
+              },
+              {
+                "group": "来源说明",
+                "pages": [
+                  "zh-Hans/patterns/examples/agent-memory-retrieval-starter/SOURCE_NOTES",
+                  "zh-Hans/systems/examples/weather-mcp-server-starter/SOURCE_NOTES",
+                  "zh-Hans/ecosystem/examples/langgraph-starter/SOURCE_NOTES",
+                  "zh-Hans/case-studies/examples/deep-research-agent-starter/SOURCE_NOTES",
+                  "zh-Hans/case-studies/examples/customer-support-email-agent-starter/SOURCE_NOTES"
+                ]
+              }
             ]
           },
           {
-            "group": "Templates and references",
-            "pages": [
-              "contributor-kit/templates/article-template",
-              "contributor-kit/templates/radar-note-template",
-              "contributor-kit/templates/reference-note-template",
-              "contributor-kit/templates/source-project-template/index",
-              "contributor-kit/reference-notes/deep-research-product-signals",
-              "contributor-kit/reference-notes/deep-research-source-map",
-              "contributor-kit/reference-notes/local-agent-tooling-source-map"
+            "tab": "贡献",
+            "icon": "code-pull-request",
+            "groups": [
+              {
+                "group": "公开协作流程",
+                "pages": [
+                  "zh-Hans/contributor-kit/index",
+                  "zh-Hans/contributor-kit/lab-structure",
+                  "zh-Hans/contributor-kit/local-debugging",
+                  "zh-Hans/contributor-kit/github-issue-guide",
+                  "zh-Hans/contributor-kit/review-checklist"
+                ]
+              },
+              {
+                "group": "贡献类型",
+                "pages": [
+                  "zh-Hans/contributor-kit/article-guidelines",
+                  "zh-Hans/contributor-kit/radar-note-guidelines",
+                  "zh-Hans/contributor-kit/source-project-guidelines",
+                  "zh-Hans/contributor-kit/reference-note-guidelines"
+                ]
+              },
+              {
+                "group": "模板与参考",
+                "pages": [
+                  "zh-Hans/contributor-kit/templates/article-template",
+                  "zh-Hans/contributor-kit/templates/radar-note-template",
+                  "zh-Hans/contributor-kit/templates/reference-note-template",
+                  "zh-Hans/contributor-kit/templates/source-project-template/index",
+                  "zh-Hans/contributor-kit/reference-notes/index",
+                  "zh-Hans/contributor-kit/reference-notes/deep-research-product-signals",
+                  "zh-Hans/contributor-kit/reference-notes/deep-research-source-map",
+                  "zh-Hans/contributor-kit/reference-notes/local-agent-tooling-source-map"
+                ]
+              }
             ]
-          }
-        ]
-      },
-      {
-        "tab": "Project",
-        "icon": "landmark",
-        "groups": [
+          },
           {
-            "group": "Repository",
-            "pages": [
-              "WEBSITE",
-              "publications/metadata-schema"
+            "tab": "项目",
+            "icon": "landmark",
+            "groups": [
+              {
+                "group": "代码仓库",
+                "pages": [
+                  "zh-Hans/WEBSITE",
+                  "zh-Hans/publications/index",
+                  "zh-Hans/publications/metadata-schema"
+                ]
+              }
             ]
           }
-        ]
+        ],
+        "navbar": {
+          "links": [
+            {
+              "label": "组织",
+              "href": "https://github.com/Prompthon-IO",
+              "icon": "users"
+            },
+            {
+              "label": "Discord",
+              "href": "https://discord.gg/sDE2HhGTg4",
+              "icon": {
+                "style": "brands",
+                "name": "discord"
+              }
+            },
+            {
+              "label": "GitHub",
+              "href": "https://github.com/Prompthon-IO/agentic-lab",
+              "icon": {
+                "style": "brands",
+                "name": "github"
+              }
+            }
+          ]
+        }
       }
     ]
   },
@@ -178,18 +412,26 @@
     "links": [
       {
         "label": "Organization",
-        "href": "https://github.com/Prompthon-IO"
+        "href": "https://github.com/Prompthon-IO",
+        "icon": "users"
       },
       {
         "label": "Discord",
-        "href": "https://discord.gg/sDE2HhGTg4"
+        "href": "https://discord.gg/sDE2HhGTg4",
+        "icon": {
+          "style": "brands",
+          "name": "discord"
+        }
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/Prompthon-IO/agentic-lab",
+        "icon": {
+          "style": "brands",
+          "name": "github"
+        }
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Repository",
-      "href": "https://github.com/Prompthon-IO/agentic-lab"
-    }
+    ]
   },
   "contextual": {
     "options": [

@@ -1,0 +1,36 @@
+---
+title: "客户支持邮件智能体入门项目来源说明"
+---
+
+## 目的
+
+这个入门项目将客户支持案例研究的指导内容转换为一个小型的
+本地路径工作流，用于邮件分流和基于政策的回复草拟。
+
+## 官方输入
+
+- [OpenAI computer environment for agents](https://openai.com/index/equip-responses-api-computer-environment/)
+- [OpenAI Responses API tools and file search](https://openai.com/index/new-tools-and-features-in-the-responses-api/)
+- [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp)
+- [MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots)
+- [MCP resources](https://modelcontextprotocol.io/specification/2025-06-18/server/resources)
+
+## 仓库原生更改
+
+- 将工作流缩减为本地邮件文本加本地政策文本。
+- 第一版保持为仅草稿，而不是自动发送。
+- 使用技能文件来展示如何打包可复用的本地智能体工作流。
+- 明确了该入门项目的审阅边界：本地输入、本地政策、草稿
+  产物，以及人工发送决策。
+
+## 归属边界
+
+此文件夹不复制上游代码或文档。它使用官方
+来源作为本地工具边界、文件上下文和
+工作流打包的概念基础。
+
+## 未决问题
+
+- v2 是否应包含真实的 Gmail 或帮助台适配器？
+- 政策是否应改为结构化的 YAML/JSON 部分，而不是纯文本？
+- 应该先将哪些升级案例作为评估样例来表示？

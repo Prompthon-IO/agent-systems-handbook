@@ -1,7 +1,6 @@
 # Support
 
-Use the support path that matches the kind of help you need in Prompthon
-Agentic Lab.
+Use the support path that matches the kind of help you need in Prompthon Agentic Labs.
 
 ## Before opening anything
 
@@ -10,7 +9,7 @@ Start with:
 - `README.md`
 - `CONTRIBUTING.md`
 - `contributor-kit/index.mdx`
-- `contributor-kit/github-issue-guide.md`
+- `contributor-kit/github-issue-guide.mdx`
 
 Those documents define the repository structure, contribution types, templates,
 and review expectations.

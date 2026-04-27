@@ -1,0 +1,73 @@
+---
+title: "来源项目指南"
+---
+
+将本指南用于仓库自有的示例项目和 starter。
+
+## 来源项目应放在哪里
+
+来源项目仅放在 lane 本地的示例文件夹中：
+
+- `patterns/examples/`
+- `systems/examples/`
+- `ecosystem/examples/`
+- `case-studies/examples/`
+
+在 v1 中，不要在 `foundations/` 下创建 `examples/`。
+
+## 项目命名
+
+- 项目 slug 使用全小写的 kebab-case。
+- 按主题和行为命名，而不是按贡献者姓名命名。
+
+示例：
+
+- `agent-memory-retrieval-starter`
+- `weather-mcp-server-starter`
+- `langgraph-starter`
+- `deep-research-agent-starter`
+
+## 必需的文件夹结构
+
+从 [Source Project Template](/zh-Hans/contributor-kit/templates/source-project-template) 开始。
+
+每个项目都必须包含：
+
+- `index.mdx`
+- `SOURCE_NOTES.mdx`
+
+在相关时可选添加：
+
+- `src/`
+- `assets/`
+- 依赖清单
+- notebooks 或配置文件
+
+## 必需的项目状态
+
+每个项目 README 都必须声明一种状态：
+
+- `starter`
+- `partial`
+- `runnable`
+
+除非项目已经实质完成并有文档说明，否则使用 `starter`。
+
+## 工作规则
+
+- 将项目与 lab 保持关联。每个 starter 都应指向一个相关页面或 lane README。
+- 在 `SOURCE_NOTES.mdx` 中保留外部来源影响的可见性。
+- 不要复制上游 README 文本或大段代码块。
+- 只添加与该示例直接相关的运行时文件。
+- 如果项目尚不可运行，请明确说明。
+- 如果项目包含可执行的 starter 代码，请在 `scripts/verify_example_projects.py` 中添加或更新覆盖。
+
+## 完成标准
+
+当一个来源项目满足以下条件时，即可进入评审：
+
+- 位于正确的 lane 本地文件夹中
+- 使用了必需文件
+- 清晰声明了状态
+- 说明了它演示什么
+- 记录了来源谱系和仓库原生改编情况

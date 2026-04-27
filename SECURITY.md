@@ -1,6 +1,6 @@
 # Security Policy
 
-This repository is the home of Prompthon Agentic Lab plus its tracked example
+This repository is the home of Prompthon Agentic Labs plus its tracked example
 projects. The main security-relevant surfaces are the tracked example code,
 workflow automation, and any repository configuration that affects how
 contributions are reviewed and merged.

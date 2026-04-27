@@ -20,7 +20,7 @@ they go deeper into implementation details.
 
 ## Current pages
 
-- [The Agent Systems](./the-agent-systems.mdx): a practical definition
+- [The Agent Systems](./the-agent-system.mdx): a practical definition
   of agent systems as software loops, not just chat surfaces.
 - [Agents Vs Workflows](./agents-vs-workflows.mdx): when to use deterministic
   orchestration, bounded autonomy, or a hybrid design.
