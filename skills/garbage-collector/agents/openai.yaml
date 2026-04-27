@@ -1,0 +1,4 @@
+interface:
+  display_name: "Garbage Collector"
+  short_description: "Preview safe local cleanup suggestions"
+  default_prompt: "Use $garbage-collector to scan my Downloads folder and propose cleanup actions before changing anything."
