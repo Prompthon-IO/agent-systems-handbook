@@ -13,8 +13,7 @@
 
 ## 当前说明
 
-- [企业级智能体控制平面](./enterprise-agent-control-planes.mdx)：
-  一份面向贡献者的 note，说明在智能体系统里应把 observability、governance 和 security 视为独立的企业级 control-plane layer。
+- [企业级智能体控制平面](./enterprise-agent-control-planes.mdx): 一份面向贡献者的 note，说明在智能体系统里应把 observability、governance 和 security 视为独立的企业级 control-plane layer。
 - [Deep Research Product Signals](./deep-research-product-signals.mdx): 面向贡献者的当前 OpenAI 和 Google deep-research 产品信号对比。
 - [Deep Research Source Map](./deep-research-source-map.mdx)
 - [Local Agent Tooling Source Map](./local-agent-tooling-source-map.mdx): 一份面向贡献者的简报，用于在未来草稿中保持本地运行时、技能、MCP roots、resources、connectors 和基于文件的工作流彼此区分。
