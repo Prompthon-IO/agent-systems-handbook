@@ -12,6 +12,9 @@ you adding?"
 - `radar note`: a short, time-scoped field update in `radar/`
 - `source project`: a repo-owned example or starter under a lane-local
   `examples/` subpath
+- `practitioner skill package`: a Codex-compatible package under `skills/`
+  that can include `SKILL.md`, agent metadata, helper scripts, reference files,
+  and the minimum documentation needed to run or review the package
 - `curated reference note`: a structured source map, roundup, or reading note
   under `contributor-kit/reference-notes/`
 
@@ -24,6 +27,7 @@ Use the matching guide before you draft anything:
 
 - [Contributor Kit](./contributor-kit/index.mdx)
 - [GitHub Issue Guide](./contributor-kit/github-issue-guide.mdx)
+- [Practitioner Skills](./skills/index.mdx)
 - [Article Guidelines](./contributor-kit/article-guidelines.mdx)
 - [Radar Note Guidelines](./contributor-kit/radar-note-guidelines.mdx)
 - [Source Project Guidelines](./contributor-kit/source-project-guidelines.mdx)
@@ -51,6 +55,9 @@ Use the matching guide before you draft anything:
   - `systems/examples/`
   - `ecosystem/examples/`
   - `case-studies/examples/`
+- Practitioner skill packages live in `skills/<skill-slug>/`. They may include
+  instructions, configuration, deterministic helper code, and rule/reference
+  files as one reviewable package.
 - Curated reference notes live in `contributor-kit/reference-notes/`.
 
 Do not create `examples/` under `foundations/` in v1.
@@ -60,8 +67,8 @@ Do not add contributor-created material inside `references/`.
 
 Use [GitHub Issue Guide](./contributor-kit/github-issue-guide.mdx) before filing
 an issue. It explains which repository issue form to use for content proposals,
-source-project proposals, repository feature requests, process changes, and
-bugs.
+source-project proposals, practitioner skill packages, repository feature
+requests, process changes, and bugs.
 
 ## Shared PR flow
 

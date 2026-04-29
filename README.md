@@ -120,6 +120,7 @@ Public contributions in this repository currently fit into these paths:
   `case-studies/`
 - radar notes in [`radar/`](./radar/)
 - source projects in lane-local `examples/` folders
+- practitioner skill packages in [`skills/`](./skills/index.mdx)
 - curated reference notes in
   [`contributor-kit/reference-notes/`](./contributor-kit/reference-notes/README.md)
 - publication extensions in [`publications/`](./publications/README.md) once a

@@ -1,0 +1,93 @@
+name: Practitioner Skill Package
+description: Propose a Codex-compatible skill package under the top-level `skills/` directory.
+title: "[Practitioner Skill]: "
+labels: ["enhancement", "good first issue", "skill package"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for code-plus-docs practitioner skill packages. These issues are not documentation-only unless the requested change only edits explanatory pages.
+
+        Before filing, review:
+        - [Contributing](https://github.com/Prompthon-IO/agentic-lab/blob/main/CONTRIBUTING.md)
+        - [Practitioner Skills](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/index.mdx)
+        - [GitHub Issue Guide](https://github.com/Prompthon-IO/agentic-lab/blob/main/contributor-kit/github-issue-guide.mdx)
+  - type: dropdown
+    id: package_change
+    attributes:
+      label: Package change type
+      description: Pick the main kind of skill-package work.
+      options:
+        - New skill package
+        - Substantial revision to an existing skill package
+        - Helper script or reference-rule update
+        - Metadata or packaging update
+    validations:
+      required: true
+  - type: input
+    id: skill_slug
+    attributes:
+      label: Proposed or existing skill slug
+      description: Use the `skills/<skill-slug>/` folder name.
+      placeholder: daily-news-watcher
+    validations:
+      required: true
+  - type: textarea
+    id: user_workflows
+    attributes:
+      label: User-facing workflows
+      description: Describe the concrete user requests this skill should support.
+      placeholder: |
+        - Add sources to a daily news watcher.
+        - Fetch the last 24 hours of AI news and write a Markdown report.
+    validations:
+      required: true
+  - type: textarea
+    id: local_integrations
+    attributes:
+      label: Local state, tools, or integrations
+      description: Name any filesystem, browser, SQLite, API, CLI, or generated-artifact behavior the package needs.
+      placeholder: SQLite state, Playwright fallback, Markdown report writer, local output directory...
+    validations:
+      required: true
+  - type: textarea
+    id: package_shape
+    attributes:
+      label: Expected package shape
+      description: List the files or folders the first version should include.
+      placeholder: |
+        skills/<skill-slug>/
+          SKILL.md
+          agents/openai.yaml
+          scripts/
+          references/
+    validations:
+      required: true
+  - type: textarea
+    id: safety_boundaries
+    attributes:
+      label: Safety and privacy boundaries
+      description: State what the skill must not do and what runtime artifacts should stay out of git.
+      placeholder: Do not store credentials, bypass access controls, or commit generated runtime databases.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      description: Define how reviewers can tell the package is complete.
+      placeholder: |
+        - `SKILL.md` defines when to use the skill and the main workflows.
+        - Helper scripts are deterministic and runnable from the skill directory.
+        - Runtime outputs are kept outside tracked public paths.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Readiness checks
+      options:
+        - label: I understand this is a code-plus-docs contribution type, not a documentation-only issue.
+          required: true
+        - label: I will use an issue comment to request a claim and will not treat the task as assigned until a maintainer acknowledges it.
+          required: true

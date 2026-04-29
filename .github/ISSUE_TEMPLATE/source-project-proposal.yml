@@ -8,9 +8,9 @@ body:
         Use this form for new or substantially revised example projects.
 
         Relevant guidance:
-        - [Contributing](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/CONTRIBUTING.md)
-        - [Source Project Guidelines](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/source-project-guidelines.md)
-        - [GitHub Issue Guide](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/github-issue-guide.md)
+        - [Contributing](https://github.com/Prompthon-IO/agentic-lab/blob/main/CONTRIBUTING.md)
+        - [Source Project Guidelines](https://github.com/Prompthon-IO/agentic-lab/blob/main/contributor-kit/source-project-guidelines.mdx)
+        - [GitHub Issue Guide](https://github.com/Prompthon-IO/agentic-lab/blob/main/contributor-kit/github-issue-guide.mdx)
   - type: dropdown
     id: lane
     attributes:

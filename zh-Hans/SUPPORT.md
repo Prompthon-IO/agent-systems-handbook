@@ -9,7 +9,7 @@
 - `README.md`
 - `CONTRIBUTING.md`
 - `contributor-kit/index.mdx`
-- `contributor-kit/github-issue-guide.md`
+- `contributor-kit/github-issue-guide.mdx`
 
 这些文档定义了仓库结构、贡献类型、模板以及审查预期。
 
@@ -20,6 +20,7 @@
 - 具体的 bug 或损坏的路径
 - 实验室内容提案
 - 源项目提案
+- practitioner skill package 提案
 - 仓库功能或流程提案
 
 请使用仓库的 issue 表单，这样请求会以适合审查的正确格式进入流程。

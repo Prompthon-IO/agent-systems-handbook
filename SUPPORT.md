@@ -21,6 +21,7 @@ Open a GitHub issue if you have:
 - a concrete bug or broken path
 - a lab content proposal
 - a source-project proposal
+- a practitioner skill package proposal
 - a repository feature or process proposal
 
 Use the repository's issue forms so the request lands in the right shape for

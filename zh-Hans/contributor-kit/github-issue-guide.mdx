@@ -10,6 +10,7 @@ title: "GitHub Issue 指南"
 
 - `Content Proposal`：新的实验室页面、重大修订、雷达笔记、精选参考说明，或发布后的后续内容
 - `Source Project Proposal`：新的或经过大幅修订的、由仓库拥有的 starter，或位于允许的 lane-local `examples/` 文件夹下的示例
+- `Practitioner Skill Package`：位于 `skills/` 下的新建或大幅修订的 Codex 兼容技能包。这类 issue 是代码加文档的贡献，不是纯文档 issue。
 - `Repository Feature Or Process Proposal`：关于仓库工作流、issue 接收、模板、标签、审查规则、贡献者文档或维护者运营的功能请求
 - `Bug Or Broken Surface Report`：损坏的链接、事实问题、示例缺陷、模板问题，或仓库工作流回归
 
@@ -22,6 +23,35 @@ title: "GitHub Issue 指南"
 - 添加成功标准，以便审阅者判断工作何时完成。
 - 链接相关的仓库文档、模板或现有页面。
 - 对于内容类工作，请包含来源谱系，而不是直接放入原始上游材料。
+
+## 认领 issue
+
+认领状态应该在 issue 本身可见。只有当维护者希望把任务标记为某位内部贡献者正在负责时，才使用 GitHub assignee 字段。
+
+对于尚未成为内部贡献者的公开贡献者，请用 issue 评论作为公开的认领请求：
+
+```md
+Claim request:
+- GitHub username:
+- Planned scope:
+- Expected first update:
+```
+
+维护者可以在评论中确认认领，并添加 `claimed` 标签。除非该贡献者已经是本仓库的内部贡献者，否则保持 GitHub assignee 字段为空。如果工作停滞，维护者可以移除标签或 assignee，并留下简短状态评论，重新开放该任务。
+
+GitHub 原生 assignment 功能受权限约束：拥有写权限的人可以分配 issue；可被分配的人包括自己、评论者、拥有写权限的用户，以及拥有读权限的组织成员。在本仓库中，assignee 表示内部贡献者信号。
+
+## 一个好的 skill package issue 应包含什么
+
+当工作是在 `skills/` 下创建或修订可安装技能包时，请使用 `Practitioner Skill Package` 表单。
+
+好的提交通常包括：
+
+- 技能应该支持的面向用户的工作流
+- 需要的本地状态、API、浏览器工具或文件系统访问
+- 预期的 `skills/<skill-slug>/` 包结构
+- 安全、隐私和生成物边界
+- 针对说明和辅助代码的具体验收标准
 
 ## 一个好的功能请求应包含什么
 
@@ -40,6 +70,7 @@ title: "GitHub Issue 指南"
 - `[Feature/Process]: Add a public guide for choosing GitHub issue forms`
 - `[Content]: Add a systems page on agent evaluation loops`
 - `[Source Project]: Add a minimal deep-research-agent starter`
+- `[Practitioner Skill]: Add a Daily News Watcher skill package`
 - `[Bug]: Fix the broken contributor-kit link in README.md`
 
 ## 提交前

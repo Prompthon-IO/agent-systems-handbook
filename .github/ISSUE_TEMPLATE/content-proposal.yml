@@ -8,9 +8,9 @@ body:
         Use this form for public lab content work.
 
         Before filing, review:
-        - [Contributing](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/CONTRIBUTING.md)
-        - [Contributor Kit](https://github.com/Prompthon-IO/agent-systems-handbook/tree/main/contributor-kit)
-        - [GitHub Issue Guide](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/github-issue-guide.md)
+        - [Contributing](https://github.com/Prompthon-IO/agentic-lab/blob/main/CONTRIBUTING.md)
+        - [Contributor Kit](https://github.com/Prompthon-IO/agentic-lab/tree/main/contributor-kit)
+        - [GitHub Issue Guide](https://github.com/Prompthon-IO/agentic-lab/blob/main/contributor-kit/github-issue-guide.mdx)
   - type: dropdown
     id: contribution_type
     attributes:

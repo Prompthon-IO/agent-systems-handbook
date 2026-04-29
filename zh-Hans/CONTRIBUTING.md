@@ -10,6 +10,8 @@
   `systems/`、`ecosystem/` 或 `case-studies/` 中的常青页面
 - `radar note`：位于 `radar/` 中的简短、按时间范围限定的现场更新
 - `source project`：位于某条 lane 本地 `examples/` 子路径下、由仓库维护的示例或 starter
+- `practitioner skill package`：位于 `skills/` 下的 Codex 兼容技能包，可包含
+  `SKILL.md`、agent 元数据、辅助脚本、参考文件，以及运行或审查该包所需的最少文档
 - `curated reference note`：位于 `contributor-kit/reference-notes/` 下的结构化来源地图、汇总或阅读笔记
 
 `publications/` 不是第一波社区贡献的入口。请将其视为成熟实验室页面的编辑扩展区域。
@@ -20,6 +22,7 @@
 
 - [贡献者工具包](./contributor-kit/index.mdx)
 - [GitHub Issue Guide](./contributor-kit/github-issue-guide.mdx)
+- [Practitioner Skills](./skills/index.mdx)
 - [Article Guidelines](./contributor-kit/article-guidelines.mdx)
 - [Radar Note Guidelines](./contributor-kit/radar-note-guidelines.mdx)
 - [Source Project Guidelines](./contributor-kit/source-project-guidelines.mdx)
@@ -44,6 +47,8 @@
   - `systems/examples/`
   - `ecosystem/examples/`
   - `case-studies/examples/`
+- Practitioner skill packages 放在 `skills/<skill-slug>/` 中。它们可以把说明、
+  配置、确定性的辅助代码和规则/参考文件作为一个可审查的软件包提交。
 - Curated reference notes 放在 `contributor-kit/reference-notes/` 中。
 
 不要在 v1 中于 `foundations/` 下创建 `examples/`。
@@ -51,7 +56,7 @@
 
 ## Issue 提交
 
-在提交 issue 之前，请先使用 [GitHub Issue Guide](./contributor-kit/github-issue-guide.mdx)。其中说明了内容提案、source-project 提案、仓库功能请求、流程变更和 bug 应该使用哪种仓库 issue 表单。
+在提交 issue 之前，请先使用 [GitHub Issue Guide](./contributor-kit/github-issue-guide.mdx)。其中说明了内容提案、source-project 提案、practitioner skill package、仓库功能请求、流程变更和 bug 应该使用哪种仓库 issue 表单。
 
 ## 共享 PR 流程
 

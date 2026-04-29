@@ -15,6 +15,9 @@ form so the request lands in a reviewable shape.
   reference notes, or publication follow-ons
 - `Source Project Proposal`: new or substantially revised repo-owned starters
   or examples under an allowed lane-local `examples/` folder
+- `Practitioner Skill Package`: new or substantially revised Codex-compatible
+  packages under `skills/`. These are code-plus-docs contributions, not
+  documentation-only issues.
 - `Repository Feature Or Process Proposal`: feature requests for repository
   workflows, issue intake, templates, labels, review rules, contributor
   documentation, or maintainer operations
@@ -31,6 +34,46 @@ form so the request lands in a reviewable shape.
 - Link the relevant repo docs, templates, or existing pages.
 - For content-oriented work, include source lineage instead of dropping in raw
   upstream material.
+
+## Claiming an issue
+
+A claim should be visible on the issue itself. Use the assignee field only when
+the maintainer wants to mark an internal contributor as actively responsible
+for the task.
+
+For public contributors who are not internal contributors yet, use an issue
+comment as the public claim request:
+
+```md
+Claim request:
+- GitHub username:
+- Planned scope:
+- Expected first update:
+```
+
+Maintainers can acknowledge the claim in a reply and add the `claimed` label.
+Leave the GitHub assignee field empty unless the contributor is already an
+internal contributor for this repository. If the work goes quiet, a maintainer
+can remove the label or assignee and leave a short status comment reopening the
+task.
+
+GitHub's native assignment feature is permission-bound: people with write access
+can assign issues, and assignable users include yourself, commenters, users
+with write access, and organization members with read access. In this
+repository, an assignee is treated as an internal-contributor signal.
+
+## What a good skill package issue includes
+
+Use the `Practitioner Skill Package` form when the work creates or revises an
+installable skill under `skills/`.
+
+Good submissions usually include:
+
+- the user-facing workflows the skill should support
+- the local state, APIs, browser tools, or filesystem access it needs
+- the expected `skills/<skill-slug>/` package shape
+- safety, privacy, and generated-artifact boundaries
+- concrete acceptance criteria for both instructions and helper code
 
 ## What a good feature request includes
 
@@ -50,6 +93,7 @@ Good submissions usually include:
 - `[Feature/Process]: Add a public guide for choosing GitHub issue forms`
 - `[Content]: Add a systems page on agent evaluation loops`
 - `[Source Project]: Add a minimal deep-research-agent starter`
+- `[Practitioner Skill]: Add a Daily News Watcher skill package`
 - `[Bug]: Fix the broken contributor-kit link in README.md`
 
 ## Before you submit
