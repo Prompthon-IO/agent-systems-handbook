@@ -42,6 +42,23 @@ Use the matching guide before you draft anything:
   it is discoverable.
 - Document source lineage whenever external material shaped the contribution.
 
+## Recommended local checks
+
+Install the shared Git hooks before pushing from a case-insensitive filesystem:
+
+```bash
+git config core.hooksPath githooks
+```
+
+The current `pre-push` hook runs:
+
+```bash
+python3 scripts/check_filename_casing.py
+```
+
+This blocks pushes when tracked paths differ only by case or when the Git index
+path casing no longer matches the working tree casing.
+
 ## Where each contribution belongs
 
 - Lab articles live directly in the relevant lane folder.

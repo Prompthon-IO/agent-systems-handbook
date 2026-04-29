@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -eu
+
+if command -v python3 >/dev/null 2>&1; then
+  python3 scripts/check_filename_casing.py
+elif command -v python >/dev/null 2>&1; then
+  python scripts/check_filename_casing.py
+else
+  echo "Python is required to run the filename casing pre-push check." >&2
+  exit 1
+fi

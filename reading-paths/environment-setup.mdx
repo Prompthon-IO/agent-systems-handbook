@@ -54,6 +54,24 @@ This verifies the current starter code under:
 - `ecosystem/examples/`
 - `case-studies/examples/`
 
+## Optional Git hook for filename casing
+
+If you contribute from Windows, macOS, or any case-insensitive filesystem,
+install the shared Git hooks before pushing:
+
+```bash
+git config core.hooksPath githooks
+```
+
+The current `pre-push` hook runs:
+
+```bash
+python3 scripts/check_filename_casing.py
+```
+
+This catches case-only path conflicts and tracked-path casing drift before the
+push reaches CI or a Linux-based review environment.
+
 ## What to expect
 
 - The check validates the current code sketches and example flows.
