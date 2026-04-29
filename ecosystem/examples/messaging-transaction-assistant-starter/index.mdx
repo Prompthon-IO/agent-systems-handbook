@@ -1,0 +1,68 @@
+---
+title: "Messaging Transaction Assistant Starter"
+---
+
+## Summary
+
+This starter shows a messaging-native transaction assistant in the smallest
+useful shape: intent capture, plan selection, user confirmation, and payment
+handoff.
+
+## Status
+
+`starter`
+
+Source code: [ecosystem/examples/messaging-transaction-assistant-starter](https://github.com/Prompthon-IO/agentic-lab/tree/main/ecosystem/examples/messaging-transaction-assistant-starter)
+
+## Why It Exists
+
+Messaging surfaces are becoming places where users complete real tasks without
+switching apps. The assistant pattern is not "let the model pay for something."
+It is a bounded flow where the assistant collects intent, presents a reviewable
+choice, and hands off to a trusted payment surface after explicit confirmation.
+
+## Related Lab Pages
+
+- [Ecosystem Overview](/ecosystem)
+- [Source Project Guidelines](/contributor-kit/source-project-guidelines)
+
+## Folder Structure
+
+```text
+messaging-transaction-assistant-starter/
+├── README.md
+├── SOURCE_NOTES.md
+├── index.mdx
+└── src/
+    ├── run_demo.py
+    └── transaction_flow.py
+```
+
+## Included Sample Files
+
+- `src/transaction_flow.py`: typed helpers for intent capture, plan selection,
+  confirmation, and payment handoff
+- `src/run_demo.py`: tiny command-line demo of the flow
+- `SOURCE_NOTES.md`: source lineage and attribution boundary
+
+## Flow Boundaries
+
+The assistant may:
+
+- infer a recharge-like intent from a message
+- ask for missing plan or recipient details
+- show a confirmation summary
+- prepare a handoff payload for a payment surface
+
+The assistant must not:
+
+- execute payment
+- store card or bank credentials
+- bypass user confirmation
+- imply vendor-specific integration that does not exist
+
+## Next Steps
+
+- Add a richer state machine for missing details.
+- Add localization fixtures for different messaging markets.
+- Add a fake payment adapter that only records handoff state for tests.

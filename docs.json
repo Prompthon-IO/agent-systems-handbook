@@ -115,6 +115,7 @@
                   "patterns/examples/agent-memory-retrieval-starter/index",
                   "systems/examples/weather-mcp-server-starter/index",
                   "ecosystem/examples/langgraph-starter/index",
+                  "ecosystem/examples/messaging-transaction-assistant-starter/index",
                   "case-studies/examples/deep-research-agent-starter/index",
                   "case-studies/examples/customer-support-email-agent-starter/index"
                 ]
@@ -300,6 +301,7 @@
                   "zh-Hans/patterns/examples/agent-memory-retrieval-starter/index",
                   "zh-Hans/systems/examples/weather-mcp-server-starter/index",
                   "zh-Hans/ecosystem/examples/langgraph-starter/index",
+                  "zh-Hans/ecosystem/examples/messaging-transaction-assistant-starter/index",
                   "zh-Hans/case-studies/examples/deep-research-agent-starter/index",
                   "zh-Hans/case-studies/examples/customer-support-email-agent-starter/index"
                 ]

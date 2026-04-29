@@ -1,0 +1,23 @@
+---
+title: "消息交易助手入门项目"
+---
+
+## 摘要
+
+这个入门项目展示了消息界面中的交易助手最小形态：意图捕获、套餐选择、用户确认和支付交接。
+
+## 状态
+
+`starter`
+
+Source code: [ecosystem/examples/messaging-transaction-assistant-starter](https://github.com/Prompthon-IO/agentic-lab/tree/main/ecosystem/examples/messaging-transaction-assistant-starter)
+
+## 为什么存在
+
+消息界面正在成为用户完成实际任务的地方。这个模式不是让模型直接付款，而是让助手收集意图、展示可审阅的选择，并在用户明确确认后交接给可信的支付界面。
+
+## 边界
+
+助手可以推断充值类意图、补齐缺失信息、展示确认摘要，并准备支付交接载荷。
+
+助手不能执行支付、保存银行卡或银行凭据、绕过用户确认，或暗示并不存在的供应商集成。
