@@ -202,6 +202,30 @@ def check_langgraph_starter() -> None:
     assert "Route: tool" in summary
 
 
+def check_messaging_transaction_starter() -> None:
+    module = load_module(
+        "messaging_transaction_flow",
+        "ecosystem/examples/messaging-transaction-assistant-starter/src/transaction_flow.py",
+    )
+    handoff = module.run_flow(
+        "Recharge my family phone with a standard data plan",
+        max_price_inr=300,
+    )
+
+    assert handoff.status == "awaiting-user-confirmation"
+    assert handoff.confirmation.recipient == "family"
+    assert handoff.confirmation.requires_user_confirmation is True
+    assert handoff.confirmation.amount_inr <= 300
+    assert "upi-like" in handoff.payment_methods
+
+    try:
+        module.select_plan(module.capture_intent("recharge me"), max_price_inr=100)
+    except ValueError as exc:
+        assert "no starter plan" in str(exc)
+    else:
+        raise AssertionError("too-small budget should reject all starter plans")
+
+
 def check_research_starter() -> None:
     module = load_module(
         "research_loop",
@@ -285,6 +309,10 @@ def main() -> int:
         ("patterns/examples/agent-memory-retrieval-starter", check_memory_starter),
         ("systems/examples/weather-mcp-server-starter", check_weather_starter),
         ("ecosystem/examples/langgraph-starter", check_langgraph_starter),
+        (
+            "ecosystem/examples/messaging-transaction-assistant-starter",
+            check_messaging_transaction_starter,
+        ),
         ("case-studies/examples/deep-research-agent-starter", check_research_starter),
         (
             "case-studies/examples/customer-support-email-agent-starter",
