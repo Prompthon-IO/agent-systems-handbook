@@ -226,12 +226,16 @@ def default_output_path(source_path: Path) -> Path:
     return base / f"{safe_name}-{stamp}.md"
 
 
+def expanded_path(value: str) -> Path:
+    return Path(value).expanduser().resolve()
+
+
 def command_review(args: argparse.Namespace) -> int:
-    source_path = args.input.expanduser().resolve()
+    source_path = args.input
     if not source_path.exists():
         raise FileNotFoundError(f"input file does not exist: {source_path}")
     review = build_review(source_path)
-    output_path = args.output.expanduser().resolve() if args.output else default_output_path(source_path)
+    output_path = args.output if args.output else default_output_path(source_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(render_memo(review), encoding="utf-8")
     print(f"memo: {output_path}")
@@ -245,8 +249,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Prepare a local safety escalation memo.")
     subparsers = parser.add_subparsers(dest="command", required=True)
     review = subparsers.add_parser("review", help="review a local evidence file")
-    review.add_argument("--input", required=True, type=Path, help="local transcript, note, or JSON evidence file")
-    review.add_argument("--output", type=Path, help="Markdown memo path; defaults under ~/.codex/state")
+    review.add_argument("--input", required=True, type=expanded_path, help="local transcript, note, or JSON evidence file")
+    review.add_argument("--output", type=expanded_path, help="Markdown memo path; defaults under ~/.codex/state")
     review.set_defaults(func=command_review)
     return parser
 
