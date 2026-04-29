@@ -37,10 +37,7 @@
                 "pages": [
                   "reading-paths/environment-setup",
                   "reading-paths/sample-projects",
-                  "skills/index",
-                  "reading-paths/conceptual-breadth",
-                  "reading-paths/implementation-depth",
-                  "reading-paths/contributor-and-curation"
+                  "skills/index"
                 ]
               }
             ]
@@ -112,21 +109,12 @@
               {
                 "group": "Starter projects",
                 "pages": [
+                  "reading-paths/sample-projects",
                   "patterns/examples/agent-memory-retrieval-starter/index",
                   "systems/examples/weather-mcp-server-starter/index",
                   "ecosystem/examples/langgraph-starter/index",
                   "case-studies/examples/deep-research-agent-starter/index",
                   "case-studies/examples/customer-support-email-agent-starter/index"
-                ]
-              },
-              {
-                "group": "Source notes",
-                "pages": [
-                  "patterns/examples/agent-memory-retrieval-starter/SOURCE_NOTES",
-                  "systems/examples/weather-mcp-server-starter/SOURCE_NOTES",
-                  "ecosystem/examples/langgraph-starter/SOURCE_NOTES",
-                  "case-studies/examples/deep-research-agent-starter/SOURCE_NOTES",
-                  "case-studies/examples/customer-support-email-agent-starter/SOURCE_NOTES"
                 ]
               }
             ]
@@ -233,10 +221,7 @@
                 "pages": [
                   "zh-Hans/reading-paths/environment-setup",
                   "zh-Hans/reading-paths/sample-projects",
-                  "zh-Hans/skills/index",
-                  "zh-Hans/reading-paths/conceptual-breadth",
-                  "zh-Hans/reading-paths/implementation-depth",
-                  "zh-Hans/reading-paths/contributor-and-curation"
+                  "zh-Hans/skills/index"
                 ]
               }
 
@@ -309,21 +294,12 @@
               {
                 "group": "入门项目",
                 "pages": [
+                  "zh-Hans/reading-paths/sample-projects",
                   "zh-Hans/patterns/examples/agent-memory-retrieval-starter/index",
                   "zh-Hans/systems/examples/weather-mcp-server-starter/index",
                   "zh-Hans/ecosystem/examples/langgraph-starter/index",
                   "zh-Hans/case-studies/examples/deep-research-agent-starter/index",
                   "zh-Hans/case-studies/examples/customer-support-email-agent-starter/index"
-                ]
-              },
-              {
-                "group": "来源说明",
-                "pages": [
-                  "zh-Hans/patterns/examples/agent-memory-retrieval-starter/SOURCE_NOTES",
-                  "zh-Hans/systems/examples/weather-mcp-server-starter/SOURCE_NOTES",
-                  "zh-Hans/ecosystem/examples/langgraph-starter/SOURCE_NOTES",
-                  "zh-Hans/case-studies/examples/deep-research-agent-starter/SOURCE_NOTES",
-                  "zh-Hans/case-studies/examples/customer-support-email-agent-starter/SOURCE_NOTES"
                 ]
               }
             ]
