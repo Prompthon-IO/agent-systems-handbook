@@ -96,6 +96,7 @@
                 "pages": [
                   "radar/index",
                   "radar/2026-04-assistant-safety-escalation-watch",
+                  "radar/2026-04-defense-agent-training-loop-watch",
                   "radar/2026-04-portable-assistant-memory-watch",
                   "radar/2026-04-local-agent-watch",
                   "radar/2026-04-interoperability-watch",
