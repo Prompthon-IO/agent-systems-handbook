@@ -5,6 +5,10 @@ description: Compare two structured agent-run artifacts to estimate cache effici
 
 # Agent Runtime Cache Benchmark
 
+For a student-facing explanation of why this package exists and how the
+end-to-end workflow fits into the handbook, read `README.md` first. This file
+is the invocation contract for Codex.
+
 ## Overview
 
 Use this skill to compare a colder first run with a warmer rerun of the same
