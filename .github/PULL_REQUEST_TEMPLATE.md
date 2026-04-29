@@ -31,6 +31,7 @@ List the outside sources, imported references, or existing repo pages that shape
 - [ ] The change stays repo-native and does not copy upstream material into public tracked paths.
 - [ ] Citations, source notes, or attribution boundaries are clear where needed.
 - [ ] Relevant README, reading-path, or contributor links were added or updated for discoverability.
+- [ ] If I added or revised a practitioner skill package, it includes a human-facing `README.md` and an agent-facing `SKILL.md`.
 - [ ] Status and maintenance expectations are clear.
 - [ ] If I changed example code, I ran `python3 scripts/verify_example_projects.py`.
 - [ ] If I renamed files or changed paths, I ran `python3 scripts/check_filename_casing.py`.

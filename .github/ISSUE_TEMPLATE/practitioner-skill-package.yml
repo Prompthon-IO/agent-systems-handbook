@@ -8,6 +8,10 @@ body:
       value: |
         Use this form for code-plus-docs practitioner skill packages. These issues are not documentation-only unless the requested change only edits explanatory pages.
 
+        Every skill package should include both:
+        - a human-facing `README.md`
+        - an agent-facing `SKILL.md`
+
         Before filing, review:
         - [Contributing](https://github.com/Prompthon-IO/agentic-lab/blob/main/CONTRIBUTING.md)
         - [Practitioner Skills](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/index.mdx)
@@ -57,6 +61,7 @@ body:
       description: List the files or folders the first version should include.
       placeholder: |
         skills/<skill-slug>/
+          README.md
           SKILL.md
           agents/openai.yaml
           scripts/
@@ -77,6 +82,7 @@ body:
       label: Acceptance criteria
       description: Define how reviewers can tell the package is complete.
       placeholder: |
+        - `README.md` explains why the skill exists, who it is for, and the end-to-end workflow in human terms.
         - `SKILL.md` defines when to use the skill and the main workflows.
         - Helper scripts are deterministic and runnable from the skill directory.
         - Runtime outputs are kept outside tracked public paths.

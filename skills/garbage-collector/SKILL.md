@@ -5,6 +5,10 @@ description: Scan local cleanup targets, apply readable cleanup rules, produce a
 
 # Garbage Collector
 
+For a student-facing explanation of why this package exists and how the
+end-to-end workflow fits into the handbook, read `README.md` first. This file
+is the invocation contract for Codex.
+
 ## Overview
 
 Use this skill to propose and execute safe local cleanup tasks. The skill is

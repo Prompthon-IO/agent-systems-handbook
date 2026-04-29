@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Compare cold and warm agent-run artifacts for prompt-cache stability."""
 from __future__ import annotations
 
 import argparse
@@ -49,7 +50,7 @@ def load_run(path: Path) -> RunArtifact:
         history_hash=_optional_str(payload.get("history_hash")),
         prefix_hash=_optional_str(payload.get("prefix_hash")),
         prompt_cache_key=_optional_str(payload.get("prompt_cache_key")),
-        notes=[str(note) for note in payload.get("notes", [])],
+        notes=_optional_str_list(payload.get("notes")),
     )
 
 
@@ -71,6 +72,14 @@ def _optional_float(value: Any) -> float | None:
     return float(value)
 
 
+def _optional_str_list(value: Any) -> list[str]:
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        raise TypeError("notes must be a list or null")
+    return [str(note) for note in value]
+
+
 def cache_share(run: RunArtifact) -> float | None:
     if not run.prompt_tokens or run.cached_tokens is None:
         return None
@@ -81,6 +90,7 @@ def cache_share(run: RunArtifact) -> float | None:
 
 def compare_runs(cold: RunArtifact, warm: RunArtifact) -> BenchmarkReport:
     likely_breaks: list[str] = []
+    notes: list[str] = []
     for field_name, label in (
         ("system_prompt_hash", "system prompt changed"),
         ("tool_manifest_hash", "tool manifest changed"),
@@ -88,10 +98,19 @@ def compare_runs(cold: RunArtifact, warm: RunArtifact) -> BenchmarkReport:
         ("history_hash", "conversation history changed"),
         ("prompt_cache_key", "prompt cache key changed"),
     ):
-        if getattr(cold, field_name) != getattr(warm, field_name):
+        cold_value = getattr(cold, field_name)
+        warm_value = getattr(warm, field_name)
+        if cold_value is None and warm_value is None:
+            continue
+        if cold_value is None:
+            notes.append(f"{field_name} missing in cold artifact.")
+            continue
+        if warm_value is None:
+            notes.append(f"{field_name} missing in warm artifact.")
+            continue
+        if cold_value != warm_value:
             likely_breaks.append(label)
 
-    notes: list[str] = []
     cold_share = cache_share(cold)
     warm_share = cache_share(warm)
 

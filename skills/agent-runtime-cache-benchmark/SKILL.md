@@ -64,7 +64,9 @@ Useful optional fields:
 
 ## Local State And Outputs
 
-Keep runtime artifacts outside git:
+Keep runtime artifacts outside git. The helper does not create this directory
+layout automatically unless you point `--output` there; treat it as a
+recommended convention:
 
 ```text
 ~/.codex/state/agent-runtime-cache-benchmark/

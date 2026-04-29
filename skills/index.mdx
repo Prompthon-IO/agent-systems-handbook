@@ -4,15 +4,15 @@ title: "Practitioner Skills"
 
 This directory collects Codex-compatible skills that are useful for everyday
 workflows and personal operations. Each skill should be usable as an
-installable package with a `SKILL.md` file and only the supporting resources it
-needs.
+installable package with a human-facing `README.md`, an agent-facing
+`SKILL.md`, and only the supporting resources it needs.
 
 ## Current Skills
 
 | Skill | Package path | What it demonstrates |
 | --- | --- | --- |
-| Agent Runtime Cache Benchmark | [`skills/agent-runtime-cache-benchmark/SKILL.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/agent-runtime-cache-benchmark/SKILL.md) | Local-first comparison of cold and warm agent runs, cache-break detection from structured run artifacts, and report-driven prompt-cache tuning |
-| Garbage Collector | [`skills/garbage-collector/SKILL.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/garbage-collector/SKILL.md) | Preview-first local cleanup, readable CSV rules, reversible duplicate cleanup, and explicit approval before destructive actions |
+| Agent Runtime Cache Benchmark | [`skills/agent-runtime-cache-benchmark/README.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/agent-runtime-cache-benchmark/README.md) | Local-first comparison of cold and warm agent runs, cache-break detection from structured run artifacts, and report-driven prompt-cache tuning |
+| Garbage Collector | [`skills/garbage-collector/README.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/garbage-collector/README.md) | Preview-first local cleanup, readable CSV rules, reversible duplicate cleanup, and explicit approval before destructive actions |
 
 ## Skill Package Shape
 
@@ -20,24 +20,27 @@ Each shared skill should keep the package itself small:
 
 ```text
 skills/<skill-name>/
+  README.md
   SKILL.md
   agents/openai.yaml
   scripts/
   references/
 ```
 
-Use `scripts/` for deterministic helpers, `references/` for rule files or
-supporting guidance, and `agents/openai.yaml` for UI metadata. Avoid extra
-README-style files inside the skill package unless the repository needs a
-separate public guide.
+Use `README.md` for the human-facing story: why the package exists, who it is
+for, and the end-to-end workflow a student or operator should understand before
+using it. Use `SKILL.md` for the Codex invocation contract. Use `scripts/` for
+deterministic helpers, `references/` for rule files or supporting guidance, and
+`agents/openai.yaml` for UI metadata.
 
 ## Contribution Type
 
-Practitioner skill packages are code-plus-docs contributions. A package can
-include Markdown instructions, agent metadata, deterministic scripts, reference
-rules, and the minimum supporting documentation needed to make the skill
-reviewable and runnable. Do not treat these issues as documentation-only unless
-the requested change only edits explanatory pages.
+Practitioner skill packages are code-plus-docs contributions. A package should
+include a human-facing `README.md`, an agent-facing `SKILL.md`, agent metadata,
+deterministic scripts, reference rules, and the minimum supporting
+documentation needed to make the skill reviewable and runnable. Do not treat
+these issues as documentation-only unless the requested change only edits
+explanatory pages.
 
 ## Practitioner Boundary
 

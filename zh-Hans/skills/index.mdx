@@ -2,14 +2,14 @@
 title: "实践者技能"
 ---
 
-本目录收集适合日常工作流和个人操作的 Codex 兼容技能。每个技能都应作为可安装的软件包使用，包含 `SKILL.md` 文件，以及它真正需要的支持资源。
+本目录收集适合日常工作流和个人操作的 Codex 兼容技能。每个技能都应作为可安装的软件包使用，包含面向人的 `README.md`、面向 agent 的 `SKILL.md`，以及它真正需要的支持资源。
 
 ## 当前技能
 
 | 技能 | 包路径 | 展示内容 |
 | --- | --- | --- |
-| Agent Runtime Cache Benchmark | [`skills/agent-runtime-cache-benchmark/SKILL.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/agent-runtime-cache-benchmark/SKILL.md) | 面向本地运行的冷启动与热启动对比、基于结构化运行产物的缓存断点识别，以及报告驱动的 prompt cache 调优 |
-| Garbage Collector | [`skills/garbage-collector/SKILL.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/garbage-collector/SKILL.md) | 预览优先的本地清理、可读 CSV 规则、可撤销的重复文件清理，以及破坏性操作前的明确批准 |
+| Agent Runtime Cache Benchmark | [`skills/agent-runtime-cache-benchmark/README.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/agent-runtime-cache-benchmark/README.md) | 面向本地运行的冷启动与热启动对比、基于结构化运行产物的缓存断点识别，以及报告驱动的 prompt cache 调优 |
+| Garbage Collector | [`skills/garbage-collector/README.md`](https://github.com/Prompthon-IO/agentic-lab/blob/main/skills/garbage-collector/README.md) | 预览优先的本地清理、可读 CSV 规则、可撤销的重复文件清理，以及破坏性操作前的明确批准 |
 
 ## 技能包结构
 
@@ -17,17 +17,18 @@ title: "实践者技能"
 
 ```text
 skills/<skill-name>/
+  README.md
   SKILL.md
   agents/openai.yaml
   scripts/
   references/
 ```
 
-使用 `scripts/` 放置确定性的辅助工具，使用 `references/` 放置规则文件或支持性指南，使用 `agents/openai.yaml` 放置 UI 元数据。除非仓库确实需要单独的公开指南，否则避免在技能包内添加额外的 README 风格文件。
+使用 `README.md` 讲清面向人的故事：这个包为什么存在、适合谁、学生或操作者应先理解怎样的端到端工作流。使用 `SKILL.md` 放置 Codex 的调用契约。使用 `scripts/` 放置确定性的辅助工具，使用 `references/` 放置规则文件或支持性指南，使用 `agents/openai.yaml` 放置 UI 元数据。
 
 ## 贡献类型
 
-Practitioner skill package 是代码加文档的贡献。一个包可以包含 Markdown 指令、agent 元数据、确定性脚本、参考规则，以及让技能可审查、可运行所需的最少支持文档。除非请求只修改解释性页面，否则不要把这类 issue 当成纯文档 issue。
+Practitioner skill package 是代码加文档的贡献。一个包应包含面向人的 `README.md`、面向 agent 的 `SKILL.md`、agent 元数据、确定性脚本、参考规则，以及让技能可审查、可运行所需的最少支持文档。除非请求只修改解释性页面，否则不要把这类 issue 当成纯文档 issue。
 
 ## 实践者边界
 
