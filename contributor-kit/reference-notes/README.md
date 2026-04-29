@@ -14,6 +14,9 @@ material and they are not replacements for lab pages.
 
 ## Current notes
 
+- [Enterprise Agent Control Planes](./enterprise-agent-control-planes.mdx): a
+  contributor-facing note on treating observability, governance, and security
+  as a separate enterprise control-plane layer for agent systems.
 - [Deep Research Product Signals](./deep-research-product-signals.mdx): a
   contributor-facing comparison of current OpenAI and Google deep-research
   product signals.

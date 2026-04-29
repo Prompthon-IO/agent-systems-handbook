@@ -1,0 +1,91 @@
+---
+title: Enterprise Agent Control Planes
+owner: Prompthon IO
+updated: 2026-04-29
+scope: current control-plane framing for enterprise agents through April 2026
+status: draft
+---
+
+## Summary
+
+This note gives contributors a compact source map for a newer enterprise-agent
+comparison axis: the control plane around agents, not only the model or runtime
+inside them.
+
+The immediate trigger is Microsoft's April 28, 2026 framing around
+`Intelligence + Trust`, where Microsoft IQ carries business context and Agent
+365 carries observability, governance, and security across both Microsoft's own
+agent surfaces and third-party environments.
+
+## Why It Matters
+
+Agent-platform comparisons often collapse into model access, orchestration UX,
+or framework ergonomics. That misses a different buying question: how does an
+organization observe, govern, and secure a growing set of agents that span
+multiple runtimes and vendors?
+
+This note helps contributors keep two layers separate:
+
+- the runtime layer that plans, retrieves, calls tools, and produces outputs
+- the control-plane layer that enforces trust, visibility, and policy across
+  many agents and environments
+
+That split is becoming more useful than a simple "which model?" comparison.
+
+## Scope Notes
+
+Included:
+
+- Microsoft's current commercial framing for `Intelligence + Trust`
+- Microsoft IQ as the context and intelligence layer
+- Agent 365 as the observability, governance, and security layer
+- implications for later ecosystem and systems refreshes in this repo
+
+Excluded:
+
+- detailed product implementation walkthroughs
+- a broad vendor scorecard across every agent platform
+- protocol-level interoperability analysis, which belongs elsewhere in
+  `radar/`
+
+## Source Map
+
+- [Unlocking human ambition to drive business growth with AI](https://blogs.microsoft.com/blog/2026/04/28/unlocking-human-ambition-to-drive-business-growth-with-ai/):
+  Microsoft's April 28, 2026 post says the two most important elements in an
+  AI solution are `Intelligence + Trust`, positions Microsoft IQ as the context
+  layer around data and agent development, and positions Agent 365 as the
+  observability, governance, and security layer across Microsoft and
+  third-party agent environments.
+
+## Synthesis
+
+Three contributor-facing takeaways matter most:
+
+- Enterprise agent discussion is shifting beyond model choice. Microsoft's
+  framing makes the control plane a product surface in its own right.
+- Trust is being positioned as cross-environment infrastructure, not only as a
+  property of one assistant or one runtime. That suggests contributors should
+  separate local runtime capability from fleet-level governance.
+- A useful lab comparison axis is emerging: context and execution on one side,
+  observability and policy control on the other. That split can sharpen both
+  systems pages and ecosystem pages without hard-coding one vendor's naming.
+
+For the handbook, the durable lesson is not the vendor label. It is the
+category boundary that contributors should preserve when comparing agent
+platforms and enterprise deployment stories.
+
+## Gaps And Follow-up
+
+- Revisit [Systems: Evaluation and Observability](/systems/evaluation-and-observability)
+  with a short section that distinguishes runtime instrumentation from
+  organization-level control planes.
+- Revisit [Agent Platforms And Low-Code Builders](/ecosystem/agent-platforms-and-low-code-builders)
+  if more official sources begin using this split as a stable comparison frame.
+- Add future sources when other first-party platforms describe comparable
+  fleet-level governance surfaces explicitly enough to compare without guesswork.
+
+## Update Log
+
+- 2026-04-29: Added a contributor-facing note on enterprise agent control
+  planes using Microsoft's `Intelligence + Trust` framing as the current source
+  spine.

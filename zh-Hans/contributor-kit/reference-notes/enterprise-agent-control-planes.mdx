@@ -1,0 +1,64 @@
+---
+title: 企业级智能体控制平面
+owner: Prompthon IO
+updated: 2026-04-29
+scope: 截至 2026 年 4 月的企业级智能体控制平面 framing
+status: draft
+---
+
+## 摘要
+
+这份 note 为贡献者提供一个更紧凑的 source map，用来理解企业级智能体里一个更新的比较轴：围绕智能体的控制平面，而不只是智能体内部使用的模型或运行时。
+
+直接触发点是 Microsoft 在 2026 年 4 月 28 日提出的 `Intelligence + Trust` framing：Microsoft IQ 承载业务上下文，Agent 365 承载 observability、governance 和 security，并且覆盖 Microsoft 自家智能体表面以及第三方环境。
+
+## 为什么这很重要
+
+智能体平台比较很容易被压缩成模型访问、编排体验或框架人体工学。但这会漏掉一个不同的采购问题：当组织中的智能体横跨多个运行时和供应商时，谁来负责观察、治理和保护这整个 agent fleet？
+
+这份 note 帮助贡献者把两个层次分开：
+
+- 负责规划、检索、调用工具和产生产出的 runtime layer
+- 负责跨多个智能体和环境执行 trust、visibility 与 policy 的 control-plane layer
+
+这个拆分正在变得比简单的“用哪个模型”更有用。
+
+## 范围说明
+
+包含：
+
+- Microsoft 当前关于 `Intelligence + Trust` 的商业 framing
+- Microsoft IQ 作为 context 和 intelligence layer
+- Agent 365 作为 observability、governance 和 security layer
+- 对本仓库后续 ecosystem 与 systems 刷新的启发
+
+不包含：
+
+- 详细的产品实现 walkthrough
+- 覆盖所有 agent platform 的宽泛厂商评分卡
+- 协议层互操作分析；那部分更适合放在 `radar/`
+
+## 来源地图
+
+- [Unlocking human ambition to drive business growth with AI](https://blogs.microsoft.com/blog/2026/04/28/unlocking-human-ambition-to-drive-business-growth-with-ai/)：
+  Microsoft 在 2026 年 4 月 28 日的文章中表示，AI 解决方案最重要的两个元素是 `Intelligence + Trust`；其中 Microsoft IQ 被定位为围绕数据和 agent development 的 context layer，而 Agent 365 被定位为覆盖 Microsoft 与第三方 agent environment 的 observability、governance 和 security layer。
+
+## 综合判断
+
+对贡献者来说，有三个最值得保留的结论：
+
+- 企业级智能体讨论正在超出模型选择本身。Microsoft 的 framing 把 control plane 变成了独立产品表面。
+- Trust 正被定位成跨环境基础设施，而不只是某一个 assistant 或某一个 runtime 的属性。这意味着贡献者在写作时应把本地运行时能力与全局治理能力分开。
+- 一个更有用的实验室比较轴正在出现：一边是 context 与 execution，另一边是 observability 与 policy control。这个拆分可以同时强化 systems 页面与 ecosystem 页面，而不必硬编码某个厂商自己的命名。
+
+对于 handbook，真正持久的收获不是某个厂商标签，而是这个类别边界本身。未来比较 agent platform 或企业部署路径时，贡献者应保留这个边界。
+
+## 缺口与后续
+
+- 未来可以刷新 [Systems: Evaluation and Observability](/zh-Hans/systems/evaluation-and-observability)，加入一小段区分 runtime instrumentation 与 organization-level control plane。
+- 如果更多官方来源开始稳定地使用这条分界线，可以再刷新 [Agent Platforms And Low-Code Builders](/zh-Hans/ecosystem/agent-platforms-and-low-code-builders)。
+- 当其他第一方平台足够明确地描述相近的 fleet-level governance surface 时，再补入后续来源，避免靠猜测做比较。
+
+## 更新日志
+
+- 2026-04-29：新增一份面向贡献者的企业级智能体控制平面 note，以 Microsoft 的 `Intelligence + Trust` framing 作为当前 source spine。
