@@ -1,0 +1,72 @@
+---
+title: April 2026 Portable Assistant Memory Watch
+owner: Prompthon IO
+updated: 2026-04-29
+time_scope: 2026-04
+status: draft
+---
+
+## Summary
+
+Google's April 29, 2026 Gemini update pushes assistant memory into a more
+portable shape: remembered preferences, imported memory summaries from another
+assistant, and full chat-history transfer now sit behind the same
+personal context story.
+
+For handbook readers, the useful shift is not "better personalization" in the
+abstract. It is that imported personal context is becoming a first-class input
+surface that sits next to retrieval, working memory, and durable artifacts.
+
+## Why It Matters
+
+The lab already explains memory and retrieval as a systems boundary, but this
+product signal sharpens a newer question: what exactly counts as memory when a
+user can import a summary or a ZIP archive from another provider?
+
+That matters because these inputs behave differently:
+
+- retrieval pulls from external sources when needed
+- working memory helps the current task stay coherent
+- durable artifacts preserve explicit outputs such as notes or decisions
+- imported personal context brings prior preferences, relationships, and
+  conversational history into a new assistant
+
+Treating all four as one vague "memory" bucket makes review, consent, and
+deletion much harder to reason about.
+
+## Evidence And Sources
+
+- [Gemini launches new personalisation features in the UK](https://blog.google/company-news/inside-google/around-the-globe/google-europe/united-kingdom/gemini-launches-new-personalisation-features-in-the-uk/):
+  Google says Gemini memories can learn from past conversations, that the
+  memory setting is on by default, and that users can import both memory
+  summaries and full chat-history exports from other AI apps.
+
+## Signals To Watch
+
+- Whether assistant products keep imported personal context separate from
+  retrieval inputs and durable artifacts in their internal models and user
+  controls.
+- Whether default-on memory features lead to clearer review, deletion, and
+  scope-management surfaces.
+- Whether cross-provider migration becomes a standard product expectation
+  rather than a one-off import tool.
+- Whether enterprise products adopt the same portability pattern or keep it
+  limited to consumer assistants.
+
+## Editorial Take
+
+This signal belongs in `radar/`, not in evergreen memory prose yet. The durable
+takeaway is the boundary it exposes:
+
+- imported preferences are not the same as retrieval
+- imported chat history is not the same as a durable work artifact
+- personalization settings are now part of the trust surface, not only a UX
+  convenience
+
+Future refreshes to memory-related handbook pages should keep those categories
+separate instead of collapsing them into a generic memory stack.
+
+## Update Log
+
+- 2026-04-29: Added a radar note on imported personal context, memory
+  portability, and chat-history transfer as a new assistant-design boundary.

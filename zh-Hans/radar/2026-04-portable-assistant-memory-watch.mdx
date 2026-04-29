@@ -1,0 +1,52 @@
+---
+title: 2026年4月可移植助手记忆观察
+owner: Prompthon IO
+updated: 2026-04-29
+time_scope: 2026-04
+status: draft
+---
+
+## 摘要
+
+Google 在 2026 年 4 月 29 日发布的 Gemini 更新，把助手记忆推进到了更可移植的形态：记住的偏好、从其他助手导入的记忆摘要，以及完整聊天记录迁移，现在都被放进同一个 personal context 叙事里。
+
+对手册读者来说，关键变化不是抽象的“个性化更强”，而是 imported personal context 正在变成一个一级输入面，与 retrieval、working memory 和 durable artifacts 并列存在。
+
+## 为什么这很重要
+
+实验室已经把记忆和检索解释成一个系统边界，但这个产品信号把一个更新的问题摆到了前面：当用户可以从其他提供商导入摘要或 ZIP 聊天记录时，什么才算“记忆”？
+
+这很重要，因为这些输入的行为并不相同：
+
+- retrieval 会在需要时从外部来源取回内容
+- working memory 帮助当前任务保持连贯
+- durable artifacts 保存笔记、决策等显式输出
+- imported personal context 把以往的偏好、关系和聊天历史带入新的助手
+
+如果把这四类都粗糙地塞进“memory”这个大桶里，review、consent 和 deletion 都会更难设计。
+
+## 证据与来源
+
+- [Gemini launches new personalisation features in the UK](https://blog.google/company-news/inside-google/around-the-globe/google-europe/united-kingdom/gemini-launches-new-personalisation-features-in-the-uk/)：
+  Google 说明 Gemini 可以从过去对话中学习，memory 设置默认开启，并且用户可以从其他 AI 应用导入记忆摘要以及完整聊天记录导出。
+
+## 后续信号
+
+- 助手产品是否会在内部模型和用户控制里，把 imported personal context 与 retrieval 输入、durable artifacts 清楚区分开来。
+- 默认开启的记忆功能，是否会推动更清晰的 review、deletion 与 scope 管理界面。
+- 跨提供商迁移是否会从一次性导入工具，变成标准产品预期。
+- 企业产品是否也会采用同样的可移植模式，还是继续只限于消费者助手。
+
+## 编辑判断
+
+这个信号应该先留在 `radar/`，而不是现在就写进常青 memory 页面。更持久的收获是它暴露出的边界：
+
+- 导入的偏好不等于 retrieval
+- 导入的聊天历史不等于可持久保留的工作工件
+- personalization 设置已经是信任边界的一部分，而不只是一个体验优化
+
+未来如果要刷新手册的 memory 相关页面，应继续把这些类别分开，而不是把它们压扁成一个笼统的 memory stack。
+
+## 更新日志
+
+- 2026-04-29：新增关于 imported personal context、记忆可移植性和聊天记录迁移的 radar note。

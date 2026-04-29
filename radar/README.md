@@ -19,6 +19,10 @@ without destabilizing the evergreen structure.
 
 ## Current notes
 
+- [April 2026 Portable Assistant Memory Watch](./2026-04-portable-assistant-memory-watch.mdx):
+  a time-scoped note on imported personal context, default-on assistant memory,
+  and chat-history transfer as a separate trust boundary from retrieval and
+  durable artifacts.
 - [April 2026 Local Agent Watch](./2026-04-local-agent-watch.mdx): a
   time-scoped note on local agents as a concrete product shape: nearby working
   environments, reusable skills or integrations, explicit context boundaries,
