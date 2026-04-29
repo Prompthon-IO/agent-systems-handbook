@@ -1,0 +1,4 @@
+interface:
+  display_name: "Safety Escalation Review"
+  short_description: "Prepare a local harm-risk escalation memo"
+  default_prompt: "Use $safety-escalation-review to review this local evidence bundle and prepare a human handoff memo without contacting external parties."
