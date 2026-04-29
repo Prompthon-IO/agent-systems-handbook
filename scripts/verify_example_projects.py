@@ -38,6 +38,10 @@ def check_memory_starter() -> None:
         "artifact_policy",
         "patterns/examples/agent-memory-retrieval-starter/src/artifact_policy.py",
     )
+    personal_context_module = load_module(
+        "personal_context",
+        "patterns/examples/agent-memory-retrieval-starter/src/personal_context.py",
+    )
     state = module.AgentState()
     module.add_observation(state, "capture the latest user request")
     module.queue_retrieval(state, "previous agent memory decisions")
@@ -47,6 +51,22 @@ def check_memory_starter() -> None:
         "fact",
         "retrieval should remain explicit",
         "lab smoke test",
+    )
+    module.remember_personal_context(
+        state,
+        "preference",
+        "user prefers concise summaries",
+        "imported assistant memory",
+    )
+    imported_context = personal_context_module.normalize_imported_context(
+        [
+            ("favorite_genre", "science fiction"),
+            ("timezone", "America/Toronto"),
+        ]
+    )
+    merged_context = personal_context_module.merge_personal_context(
+        [],
+        imported_context,
     )
 
     trace = trace_module.build_trace(
@@ -74,6 +94,7 @@ def check_memory_starter() -> None:
     assert state.retrieval_queries == ["previous agent memory decisions"]
     assert state.artifacts["decision"] == "publish only durable artifacts"
     assert len(state.working_memory) == 1
+    assert len(state.personal_context) == 1
     assert trace.selected_sources == ["policy-note", "chat-log"]
     assert trace.deferred_sources == ["scratchpad"]
     assert policy_module.should_promote("Final decision to publish the summary")
@@ -81,6 +102,8 @@ def check_memory_starter() -> None:
         policy_module.artifact_key("Decision: Publish Notes")
         == "decision-publish-notes"
     )
+    assert len(merged_context) == 2
+    assert merged_context[0].source == "imported-summary"
 
 
 def check_weather_starter() -> None:

@@ -12,6 +12,7 @@ class MemoryItem:
 class AgentState:
     active_notes: list[str] = field(default_factory=list)
     working_memory: list[MemoryItem] = field(default_factory=list)
+    personal_context: list[MemoryItem] = field(default_factory=list)
     retrieval_queries: list[str] = field(default_factory=list)
     artifacts: dict[str, str] = field(default_factory=dict)
 
@@ -30,5 +31,16 @@ def promote_fact(state: AgentState, artifact_key: str, summary: str) -> None:
 
 def remember(state: AgentState, kind: str, summary: str, source: str) -> None:
     state.working_memory.append(
+        MemoryItem(kind=kind, summary=summary, source=source)
+    )
+
+
+def remember_personal_context(
+    state: AgentState,
+    kind: str,
+    summary: str,
+    source: str,
+) -> None:
+    state.personal_context.append(
         MemoryItem(kind=kind, summary=summary, source=source)
     )

@@ -5,7 +5,8 @@ title: "Agent Memory Retrieval Starter"
 ## Summary
 
 This starter shows one clean way to separate active notes, working memory,
-retrieval inputs, and durable artifacts in a small agent loop.
+imported personal context, retrieval inputs, and durable artifacts in a small
+agent loop.
 
 ## Status
 
@@ -17,8 +18,8 @@ Source code: [patterns/examples/agent-memory-retrieval-starter](https://github.c
 
 Memory examples often collapse everything into one vague history object. This
 starter is intentionally narrower: it highlights the boundary between what the
-agent is currently holding, what it can retrieve, and what it should preserve
-as an artifact.
+agent is currently holding, what a user imported from another assistant, what
+it can retrieve, and what it should preserve as an artifact.
 
 ## Related Lab Pages
 
@@ -34,6 +35,7 @@ agent-memory-retrieval-starter/
 └── src/
     ├── artifact_policy.py
     ├── memory_flow.py
+    ├── personal_context.py
     └── retrieval_trace.py
 ```
 
@@ -47,7 +49,10 @@ the repository root.
 ## Included Sample Files
 
 - `src/memory_flow.py`: the smallest useful state container for active notes,
-  retrieval inputs, and durable artifacts
+  task-scoped working memory, imported personal context, retrieval inputs, and
+  durable artifacts
+- `src/personal_context.py`: a tiny normalization surface that keeps imported
+  preference facts separate from retrieval results and artifacts
 - `src/retrieval_trace.py`: a tiny ranking and trace surface for making
   retrieval decisions inspectable
 - `src/artifact_policy.py`: one place to show how a starter can separate
@@ -57,9 +62,10 @@ the repository root.
 
 - No storage backend is wired yet.
 - No embedding or vector-store integration is included.
+- Imported personal context stays deliberately small and reviewable.
 - The example favors clear boundaries over completeness.
 
 ## Next Steps
 
-- Add a simple persistence layer.
-- Add an artifact promotion rule and a retrieval trace.
+- Add a simple persistence layer for imported context and durable artifacts.
+- Add a clearer review workflow for memory imports before they become active.

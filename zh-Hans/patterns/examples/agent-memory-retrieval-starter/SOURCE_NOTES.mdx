@@ -10,10 +10,12 @@ title: "智能体记忆检索入门项目来源说明"
 
 - [Hello-Agents 第 8 章](https://github.com/datawhalechina/Hello-Agents/blob/main/docs/chapter8/Chapter8-Memory-and-Retrieval.md)
 - [智能体记忆与检索](/zh-Hans/patterns/agent-memory-and-retrieval)
+- [Gemini launches new personalisation features in the UK](https://blog.google/company-news/inside-google/around-the-globe/google-europe/united-kingdom/gemini-launches-new-personalisation-features-in-the-uk/)
 
 ## 仓库原生更改
 
 - 将示例缩减为可工作的记忆、检索查询和 artifact 提升。
+- 增加了一个小型 personal-context import surface，让示例能够区分导入的偏好事实、检索输入与持久化工件。
 - 移除了提供方配置、向量存储讲解以及特定包代码。
 
 ## 署名边界
@@ -23,4 +25,4 @@ title: "智能体记忆检索入门项目来源说明"
 ## 未决问题
 
 - 可运行的 v2 应该使用哪个持久化后端？
-- artifact 应该先保持基于文件，还是先改为数据库支持？
+- 在更完整的示例里，导入的 personal context 应该过期、版本化，还是在激活前必须经过 review？
