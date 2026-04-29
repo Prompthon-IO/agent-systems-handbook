@@ -5,7 +5,7 @@ guidance without copying provider documentation into the repo.
 
 ## OpenAI
 
-- Official guide: <https://platform.openai.com/docs/guides/prompt-caching>
+- Official guide: [OpenAI prompt caching](https://platform.openai.com/docs/guides/prompt-caching)
 - The main structural rule is exact prefix reuse: keep stable instructions and
   tool definitions at the beginning, move dynamic user-specific content later,
   and watch `cached_tokens` in usage metadata.
@@ -14,7 +14,7 @@ guidance without copying provider documentation into the repo.
 
 ## Anthropic
 
-- Official guide: <https://platform.claude.com/docs/en/build-with-claude/prompt-caching>
+- Official guide: [Anthropic prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
 - Anthropic frames prompt caching as reusing specific prompt prefixes to reduce
   processing time and cost for repeated workloads.
 - The public lesson for this skill is the same: benchmark stable prefixes,

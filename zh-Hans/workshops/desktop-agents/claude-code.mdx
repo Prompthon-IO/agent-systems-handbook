@@ -1,0 +1,60 @@
+---
+title: "Claude Code 桌面智能体设置"
+description: "安装 Claude Code，并将它作为 repo-grounded 的本地终端智能体使用。"
+---
+
+Claude Code 是 Anthropic 提供的终端式编码智能体。在这条工作坊路线中，可以把它作为另一个本地智能体表面，用于阅读仓库、编辑文件和运行检查。
+
+## 安装
+
+使用 native installer 安装 Claude Code：
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+claude --version
+```
+
+在 macOS 上，也可以使用 Homebrew：
+
+```bash
+brew install --cask claude-code
+```
+
+在 Windows 上，请使用官方 Claude Code 文档中对应 PowerShell、CMD 或 WinGet 的安装命令。
+
+## 从仓库启动
+
+在你希望它检查的项目中运行 Claude Code：
+
+```bash
+cd path/to/your/repo
+claude
+```
+
+按照 CLI 显示的流程完成认证。
+
+## 基本工作循环
+
+开始任务前先检查：
+
+```bash
+git status --short
+```
+
+可以要求 Claude Code：
+
+- 在提出改动前先检查现有仓库结构
+- 让编辑保持在当前 issue 或工作坊步骤范围内
+- 修改文件后运行仓库的验证命令
+- 报告改动文件和失败的命令
+
+## 推荐默认做法
+
+- 让 terminal 始终位于你要修改的 repo 根目录。
+- 不要将 secrets、bot token 或 API key 粘贴进聊天。
+- 工作坊中优先做小而可 review 的改动。
+- 使用与 Codex 工作相同的验证 checklist。
+
+## 参考
+
+- [Claude Code documentation](https://code.claude.com/docs/en/overview)

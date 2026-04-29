@@ -1,0 +1,57 @@
+---
+title: "OpenClaw Mac Setup"
+description: "Prepare Node 22, npm, Codex, and the model default before OpenClaw onboarding."
+---
+
+This setup path is for macOS users who will run OpenClaw from the local
+terminal.
+
+## Install Node And NVM
+
+Download Node from [nodejs.org](https://nodejs.org/en) or install it through
+`nvm`.
+
+To use `nvm`, run:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+source ~/.zshrc
+nvm install 22
+nvm use 22
+nvm alias default 22
+```
+
+Verify Node and npm:
+
+```bash
+node -v
+npm -v
+```
+
+## Install Codex
+
+Install Codex globally:
+
+```bash
+npm i -g @openai/codex
+```
+
+Log in and verify that the CLI is ready:
+
+```bash
+codex login
+codex --version
+```
+
+## Set The OpenClaw Model Default
+
+If OpenClaw is already installed on your machine, set the model used by the
+workshop profile:
+
+```bash
+openclaw models set openai-codex/gpt-5.5
+```
+
+If OpenClaw is not installed yet, continue to
+[Accounts And Onboarding](/workshops/openclaw/accounts-and-onboarding), install
+OpenClaw there, and then return to this model setting if needed.

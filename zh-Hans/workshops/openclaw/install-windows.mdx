@@ -1,0 +1,83 @@
+---
+title: "OpenClaw Windows 设置"
+description: "在继续 OpenClaw onboarding 之前，准备 WSL2、Node 22、npm 和 Codex。"
+---
+
+这条设置路线面向 Windows 用户。除非后续步骤特别说明，OpenClaw 工作坊命令应在 WSL2 的 Ubuntu 中运行。
+
+## 安装或检查 WSL2
+
+打开 PowerShell 并检查当前 WSL 状态：
+
+```powershell
+wsl --status
+wsl -l -v
+```
+
+你应该看到 Ubuntu 正在 WSL version 2 上运行：
+
+```text
+  NAME      STATE           VERSION
+* Ubuntu    Running         2
+```
+
+如果 Ubuntu 已安装但仍是 WSL1，转换到 WSL2：
+
+```powershell
+wsl --set-version Ubuntu 2
+```
+
+如果还没有 WSL，请以 Administrator 身份运行 PowerShell 并安装：
+
+```powershell
+wsl --install
+```
+
+## 进入 Ubuntu
+
+从 Windows terminal 打开 Ubuntu。
+
+![从 Windows terminal 打开 Ubuntu](/assets/openclaw-workshop/windows/open-ubuntu-terminal.png)
+
+准备本地 binary 文件夹和 npm 全局 prefix：
+
+```bash
+mkdir -p ~/.local ~/.local/bin ~/.npm-global/bin
+npm config set prefix "$HOME/.npm-global"
+```
+
+## 使用 NVM 安装 Node.js
+
+在 Ubuntu terminal 中安装并加载 `nvm`：
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+```
+
+安装并使用 Node 22：
+
+```bash
+nvm install 22
+nvm use 22
+```
+
+检查 Node 和 npm：
+
+```bash
+node -v
+npm -v
+```
+
+## 安装 Codex CLI
+
+在 WSL 中全局安装 Codex：
+
+```bash
+npm i -g @openai/codex
+codex --version
+```
+
+然后继续阅读 [账号与 Onboarding](/zh-Hans/workshops/openclaw/accounts-and-onboarding)。

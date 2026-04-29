@@ -1,0 +1,102 @@
+---
+title: "OpenClaw 命令参考"
+description: "Gateway、dashboard、health、config、update 和排错命令速查。"
+---
+
+<Note>
+  将 `<GATEWAY_HOST>`、`<DASHBOARD_URL>` 这类 placeholder 替换成你的实际值。
+</Note>
+
+## 启动和停止 Gateway
+
+```bash
+# 启动。推荐在 tmux session 中运行。
+openclaw gateway start
+
+# 使用 config 文件启动。
+openclaw gateway start --config ./config/gateway.yaml
+
+# 停止。
+openclaw gateway stop
+
+# 重启。
+openclaw gateway restart
+
+# 检查状态。
+openclaw gateway status
+
+# 跟随日志，如果支持。
+openclaw gateway logs --follow
+```
+
+## Dashboard
+
+```bash
+# 启动 dashboard。
+openclaw dashboard
+
+# 停止 dashboard。
+openclaw dashboard stop
+
+# 在浏览器中打开 dashboard，如果支持。
+openclaw dashboard open
+
+# 输出 dashboard URL 或状态。
+openclaw dashboard status
+```
+
+## Health Checks
+
+```bash
+# Ping gateway。
+openclaw gateway ping
+
+# 检查系统健康状态。
+openclaw health
+```
+
+## Configuration
+
+```bash
+# 显示当前 config。
+openclaw config show
+
+# 验证 config 文件。
+openclaw config validate --config ./config/gateway.yaml
+```
+
+## Updates And Version
+
+```bash
+# 检查版本。
+openclaw --version
+
+# 自更新，如果支持。
+openclaw update
+```
+
+## Troubleshooting
+
+```bash
+# 显示环境诊断。
+openclaw doctor
+
+# 提高日志级别。
+openclaw gateway start --log-level debug
+
+# 显示运行中的进程，如果支持。
+openclaw ps
+
+# 跟随日志。
+openclaw logs --follow
+```
+
+## Model Configuration
+
+```bash
+# 切换到 Codex-backed model profile。
+openclaw models set openai-codex/gpt-5.3-codex
+
+# 在 config 中设置 primary default model。
+openclaw config set agents.defaults.model.primary openai/gpt-5.5
+```

@@ -1,0 +1,52 @@
+---
+title: "OpenClaw Mac 设置"
+description: "在 OpenClaw onboarding 之前准备 Node 22、npm、Codex 和模型默认值。"
+---
+
+这条设置路线面向从本地 terminal 运行 OpenClaw 的 macOS 用户。
+
+## 安装 Node 和 NVM
+
+可以从 [nodejs.org](https://nodejs.org/en) 下载 Node，也可以通过 `nvm` 安装。
+
+使用 `nvm` 时运行：
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+source ~/.zshrc
+nvm install 22
+nvm use 22
+nvm alias default 22
+```
+
+检查 Node 和 npm：
+
+```bash
+node -v
+npm -v
+```
+
+## 安装 Codex
+
+全局安装 Codex：
+
+```bash
+npm i -g @openai/codex
+```
+
+登录并检查 CLI 是否可用：
+
+```bash
+codex login
+codex --version
+```
+
+## 设置 OpenClaw 默认模型
+
+如果你的机器已经安装 OpenClaw，可以设置工作坊 profile 使用的模型：
+
+```bash
+openclaw models set openai-codex/gpt-5.5
+```
+
+如果还没有安装 OpenClaw，请先继续到 [账号与 Onboarding](/zh-Hans/workshops/openclaw/accounts-and-onboarding)，在那里安装 OpenClaw，然后按需回到这里设置模型。

@@ -1,0 +1,34 @@
+---
+title: "OpenClaw 工作坊"
+description: "安装 OpenClaw，准备账号，完成 onboarding，并保留常用命令参考。"
+---
+
+OpenClaw 是 Prompthon Agentic Labs 的第一个工作坊章节。它是一条动手设置路线，覆盖 CLI 安装、账号准备，以及通过 Discord channel 启动智能体。
+
+<Note>
+  原始工作坊内容来自 Notion。本仓库版本将截图保存到 `/assets/openclaw-workshop/`，避免文档依赖会过期的 Notion 图片链接。
+</Note>
+
+## 工作坊步骤
+
+<CardGroup cols={2}>
+  <Card title="Windows 设置" icon="monitor" href="/zh-Hans/workshops/openclaw/install-windows">
+    准备 WSL2，安装 Node 22，并在 Ubuntu 中安装 Codex CLI。
+  </Card>
+  <Card title="Mac 设置" icon="laptop" href="/zh-Hans/workshops/openclaw/install-mac">
+    安装 Node 22、安装 Codex，并设置 OpenClaw 默认模型。
+  </Card>
+  <Card title="账号与 Onboarding" icon="user-plus" href="/zh-Hans/workshops/openclaw/accounts-and-onboarding">
+    创建 Discord bot，可选配置 Tavily search，安装 OpenClaw，并完成 onboarding。
+  </Card>
+  <Card title="命令参考" icon="terminal" href="/zh-Hans/workshops/openclaw/commands">
+    汇总 gateway、dashboard、health check、config、update 和排错命令。
+  </Card>
+</CardGroup>
+
+## 开始之前
+
+- 使用你熟悉的终端。
+- 不要把凭据放进截图或 git commit。
+- 将 bot token 和 API key 保存在本地密码管理器或 secret store 中，不要写入本仓库。
+- 如果某个命令在你的机器上不同，优先查看当前工具的帮助输出：`openclaw --help`、`codex --help`，或相关 provider 文档。

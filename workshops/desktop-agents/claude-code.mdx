@@ -1,0 +1,63 @@
+---
+title: "Claude Code Desktop Agent Setup"
+description: "Install Claude Code and use it as a terminal agent for repo-grounded development work."
+---
+
+Claude Code is a terminal-based coding agent from Anthropic. In this workshop
+track, use it as another local agent surface for reading a repo, editing files,
+and running checks.
+
+## Install
+
+Install Claude Code with the native installer:
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+claude --version
+```
+
+On macOS, Homebrew is also supported:
+
+```bash
+brew install --cask claude-code
+```
+
+On Windows, use the installer command from the official Claude Code docs for
+PowerShell, CMD, or WinGet.
+
+## Start In A Repository
+
+Run Claude Code from the project you want it to inspect:
+
+```bash
+cd path/to/your/repo
+claude
+```
+
+Follow the authentication flow shown by the CLI.
+
+## Basic Working Loop
+
+Before starting a task:
+
+```bash
+git status --short
+```
+
+Ask Claude Code to:
+
+- inspect the existing repo structure before proposing changes
+- keep edits aligned with the current issue or workshop step
+- run the repo's validation command after changing files
+- report changed files and any commands that failed
+
+## Good Defaults
+
+- Keep the terminal rooted at the repo you want to change.
+- Do not paste secrets, bot tokens, or API keys into chat.
+- Prefer small, reviewable changes during a workshop.
+- Use the same validation checklist you would use for Codex work.
+
+## Reference
+
+- [Claude Code documentation](https://code.claude.com/docs/en/overview)

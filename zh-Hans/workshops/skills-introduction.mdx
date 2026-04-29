@@ -1,0 +1,47 @@
+---
+title: "Skills 入门"
+description: "理解 Codex skills 是什么，以及它们如何接在桌面智能体设置之后。"
+---
+
+Skills 是 Codex 的可复用 instruction package。它们把重复工作变成一个有名字的工作流，并配套清晰触发条件、本地脚本、支持参考资料和工具特定指导。
+
+在这条路线中，skills 放在 Codex 和 Claude Code 设置之后，因为 skill 不是本地智能体表面的替代品。它是在智能体已经可用之后，让智能体执行得更稳定的一种方式。
+
+## Skill 包含什么
+
+一个典型的 Codex-compatible skill 可以包含：
+
+```text
+skills/<skill-name>/
+  SKILL.md
+  agents/openai.yaml
+  scripts/
+  references/
+```
+
+- `SKILL.md` 说明什么时候使用这个 skill，以及工作流应该怎样运行。
+- `agents/openai.yaml` 保存可选的 agent surface 元数据。
+- `scripts/` 放置可重复运行的确定性 helper。
+- `references/` 放置支持规则、示例、模板或 source notes。
+
+## 什么时候使用 Skill
+
+当工作具有可重复形状时，适合使用 skill：
+
+- 生成 morning brief
+- 按 preview-first 规则清理本地文件
+- 抓取固定 source set
+- 按相同结构发布报告
+- 跟随工作坊或贡献 routine
+
+不要为了一次性回答、单个小编辑，或不需要可复用工作流规则的内容创建 skill。
+
+## Skills 如何融入本站
+
+- [实践者技能](/zh-Hans/skills) 页面列出 repo-owned skill packages。
+- [工作坊](/zh-Hans/workshops) 路线讲解设置和引导式执行。
+- [贡献者工具包](/zh-Hans/contributor-kit) 说明公开贡献如何提出、review 和维护。
+
+## 安全边界
+
+Skills 可以调用工具、运行脚本并使用本地状态。不要把 secrets 写入 tracked files；不要把生成的 runtime artifacts 提交到 git；并且要说明 skill 依赖的外部服务。

@@ -1,0 +1,55 @@
+---
+title: "Skills Introduction"
+description: "Understand what Codex skills are and where they fit after desktop-agent setup."
+---
+
+Skills are reusable instruction packages for Codex. They turn repeated work into
+a named workflow with clear triggers, local scripts, supporting references, and
+tool-specific guidance.
+
+In this track, skills come after Codex and Claude Code setup because a skill is
+not a replacement for the local agent surface. It is a way to make that agent
+more consistent once the surface is already running.
+
+## What A Skill Contains
+
+A typical Codex-compatible skill can include:
+
+```text
+skills/<skill-name>/
+  SKILL.md
+  agents/openai.yaml
+  scripts/
+  references/
+```
+
+- `SKILL.md` explains when to use the skill and how the workflow should run.
+- `agents/openai.yaml` stores optional metadata for agent surfaces.
+- `scripts/` contains deterministic helpers for repeatable work.
+- `references/` contains supporting rules, examples, templates, or source notes.
+
+## When To Use A Skill
+
+Use a skill when the work has a repeatable shape:
+
+- generating a morning brief
+- cleaning local files with preview-first rules
+- scraping a fixed source set
+- publishing a report with the same structure each time
+- following a workshop or contribution routine
+
+Do not create a skill for a one-off answer, a single small edit, or content that
+does not need reusable workflow rules.
+
+## How Skills Fit This Site
+
+- The [Practitioner Skills](/skills) page lists repo-owned skill packages.
+- The [Workshops](/workshops) track teaches setup and guided execution.
+- The [Contributor Kit](/contributor-kit) explains how public contributions are
+  proposed, reviewed, and maintained.
+
+## Safety Boundary
+
+Skills can call tools, run scripts, and use local state. Keep secrets out of
+tracked files, keep generated runtime artifacts out of git, and document any
+external service that the skill depends on.

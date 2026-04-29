@@ -1,0 +1,67 @@
+---
+title: "Codex Desktop Agent Setup"
+description: "Install Codex, authenticate, and use it as a local repo-first coding agent."
+---
+
+Codex is a local coding-agent surface for reading a repository, editing files,
+running checks, and carrying work through implementation. In this workshop track,
+Codex comes before skills because skills are most useful once the local agent
+surface is already installed and authenticated.
+
+## Install
+
+Install the Codex CLI with npm:
+
+```bash
+npm i -g @openai/codex
+codex --version
+```
+
+If you manage Node versions with `nvm`, use Node 22 for this workshop track:
+
+```bash
+nvm install 22
+nvm use 22
+```
+
+## Sign In
+
+Start Codex from a repository and follow the sign-in flow:
+
+```bash
+cd path/to/your/repo
+codex
+```
+
+If your installed build exposes an explicit login command, run:
+
+```bash
+codex login
+```
+
+## Basic Working Loop
+
+Use Codex on a real repository, not a detached folder:
+
+```bash
+git status --short
+codex
+```
+
+Inside a workshop, ask Codex to:
+
+- inspect the repo before editing
+- keep changes scoped to the issue
+- run the relevant checks before claiming completion
+- summarize changed files, verification results, and any blockers
+
+## Good Defaults
+
+- Keep secrets in local env files or system keychains, not in prompts.
+- Avoid pasting private tokens into transcripts.
+- Check `git status --short` before and after each task.
+- Prefer repo-native scripts and docs over generic instructions.
+
+## Reference
+
+- [OpenAI Codex CLI documentation](https://developers.openai.com/codex/cli)

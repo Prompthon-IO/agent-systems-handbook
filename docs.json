@@ -43,6 +43,36 @@
             ]
           },
           {
+            "tab": "Workshops",
+            "icon": "graduation-cap",
+            "groups": [
+              {
+                "group": "Workshop tracks",
+                "pages": [
+                  "workshops/index",
+                  "workshops/openclaw/index"
+                ]
+              },
+              {
+                "group": "OpenClaw",
+                "pages": [
+                  "workshops/openclaw/install-windows",
+                  "workshops/openclaw/install-mac",
+                  "workshops/openclaw/accounts-and-onboarding",
+                  "workshops/openclaw/commands"
+                ]
+              },
+              {
+                "group": "Desktop agents and skills",
+                "pages": [
+                  "workshops/desktop-agents/codex",
+                  "workshops/desktop-agents/claude-code",
+                  "workshops/skills-introduction"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Handbook",
             "icon": "book-open",
             "groups": [
@@ -225,6 +255,36 @@
                 ]
               }
 
+            ]
+          },
+          {
+            "tab": "工作坊",
+            "icon": "graduation-cap",
+            "groups": [
+              {
+                "group": "工作坊路线",
+                "pages": [
+                  "zh-Hans/workshops/index",
+                  "zh-Hans/workshops/openclaw/index"
+                ]
+              },
+              {
+                "group": "OpenClaw",
+                "pages": [
+                  "zh-Hans/workshops/openclaw/install-windows",
+                  "zh-Hans/workshops/openclaw/install-mac",
+                  "zh-Hans/workshops/openclaw/accounts-and-onboarding",
+                  "zh-Hans/workshops/openclaw/commands"
+                ]
+              },
+              {
+                "group": "桌面智能体与 Skills",
+                "pages": [
+                  "zh-Hans/workshops/desktop-agents/codex",
+                  "zh-Hans/workshops/desktop-agents/claude-code",
+                  "zh-Hans/workshops/skills-introduction"
+                ]
+              }
             ]
           },
           {

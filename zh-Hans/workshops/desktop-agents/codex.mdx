@@ -1,0 +1,64 @@
+---
+title: "Codex 桌面智能体设置"
+description: "安装 Codex，完成认证，并将它作为本地仓库优先的编码智能体使用。"
+---
+
+Codex 是一个本地编码智能体表面，可以阅读仓库、编辑文件、运行检查，并把任务推进到实现和验证。在这条工作坊路线中，Codex 放在 skills 之前，因为 skills 在本地智能体表面已经安装和认证之后才最有用。
+
+## 安装
+
+使用 npm 安装 Codex CLI：
+
+```bash
+npm i -g @openai/codex
+codex --version
+```
+
+如果你用 `nvm` 管理 Node 版本，这条工作坊路线使用 Node 22：
+
+```bash
+nvm install 22
+nvm use 22
+```
+
+## 登录
+
+从一个仓库中启动 Codex，并按提示完成 sign-in：
+
+```bash
+cd path/to/your/repo
+codex
+```
+
+如果你安装的版本提供显式 login 命令，可以运行：
+
+```bash
+codex login
+```
+
+## 基本工作循环
+
+在真实仓库里使用 Codex，而不是脱离项目的普通文件夹：
+
+```bash
+git status --short
+codex
+```
+
+在工作坊中，可以要求 Codex：
+
+- 编辑前先检查仓库结构
+- 将改动限制在当前 issue 范围内
+- 完成前运行相关检查
+- 总结改动文件、验证结果和剩余 blocker
+
+## 推荐默认做法
+
+- 将 secrets 放在本地 env 文件或系统 keychain 中，不要写进 prompt。
+- 不要把私人 token 粘贴进 transcript。
+- 每个任务前后检查 `git status --short`。
+- 优先使用仓库已有脚本和文档，而不是泛泛的外部说明。
+
+## 参考
+
+- [OpenAI Codex CLI documentation](https://developers.openai.com/codex/cli)

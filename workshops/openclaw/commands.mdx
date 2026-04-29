@@ -1,0 +1,103 @@
+---
+title: "OpenClaw Commands"
+description: "A quick reference for gateway, dashboard, health, config, update, and troubleshooting commands."
+---
+
+<Note>
+  Replace placeholders like `<GATEWAY_HOST>` and `<DASHBOARD_URL>` with your
+  actual values.
+</Note>
+
+## Start And Stop Gateway
+
+```bash
+# Start. Recommended: run this in a tmux session.
+openclaw gateway start
+
+# Start with a config file.
+openclaw gateway start --config ./config/gateway.yaml
+
+# Stop.
+openclaw gateway stop
+
+# Restart.
+openclaw gateway restart
+
+# Check status.
+openclaw gateway status
+
+# Follow logs, if supported.
+openclaw gateway logs --follow
+```
+
+## Dashboard
+
+```bash
+# Start dashboard.
+openclaw dashboard
+
+# Stop dashboard.
+openclaw dashboard stop
+
+# Open dashboard in browser, if supported.
+openclaw dashboard open
+
+# Print dashboard URL or status.
+openclaw dashboard status
+```
+
+## Health Checks
+
+```bash
+# Ping gateway.
+openclaw gateway ping
+
+# Check system health.
+openclaw health
+```
+
+## Configuration
+
+```bash
+# Show current config.
+openclaw config show
+
+# Validate a config file.
+openclaw config validate --config ./config/gateway.yaml
+```
+
+## Updates And Version
+
+```bash
+# Check version.
+openclaw --version
+
+# Self update, if supported.
+openclaw update
+```
+
+## Troubleshooting
+
+```bash
+# Show environment diagnostics.
+openclaw doctor
+
+# Increase logging.
+openclaw gateway start --log-level debug
+
+# Show running processes, if supported.
+openclaw ps
+
+# Follow logs.
+openclaw logs --follow
+```
+
+## Model Configuration
+
+```bash
+# Change to a Codex-backed model profile.
+openclaw models set openai-codex/gpt-5.3-codex
+
+# Set the primary default model in config.
+openclaw config set agents.defaults.model.primary openai/gpt-5.5
+```

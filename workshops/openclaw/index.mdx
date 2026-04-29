@@ -1,0 +1,42 @@
+---
+title: "OpenClaw Workshop"
+description: "Install OpenClaw, prepare accounts, onboard an agent, and keep common commands nearby."
+---
+
+OpenClaw is the first workshop chapter in Prompthon Agentic Labs. It is a
+hands-on setup path for installing the CLI, preparing the required accounts, and
+starting an agent that can run through a Discord channel.
+
+<Note>
+  The original workshop source was maintained in Notion. This repo version uses
+  local screenshots under `/assets/openclaw-workshop/` so the docs do not depend
+  on expiring Notion image links.
+</Note>
+
+## Workshop Steps
+
+<CardGroup cols={2}>
+  <Card title="Windows Setup" icon="monitor" href="/workshops/openclaw/install-windows">
+    Prepare WSL2, install Node 22, and install the Codex CLI inside Ubuntu.
+  </Card>
+  <Card title="Mac Setup" icon="laptop" href="/workshops/openclaw/install-mac">
+    Install Node 22, install Codex, and set the OpenClaw model default.
+  </Card>
+  <Card title="Accounts And Onboarding" icon="user-plus" href="/workshops/openclaw/accounts-and-onboarding">
+    Create the Discord bot, optionally prepare Tavily search, install OpenClaw,
+    and run onboarding.
+  </Card>
+  <Card title="Command Reference" icon="terminal" href="/workshops/openclaw/commands">
+    Keep the gateway, dashboard, health check, config, update, and
+    troubleshooting commands in one place.
+  </Card>
+</CardGroup>
+
+## Before You Start
+
+- Use a terminal you are comfortable with.
+- Keep credentials out of screenshots and git commits.
+- Save bot tokens and API keys in your local password manager or secret store,
+  not in this repository.
+- If a command differs on your machine, prefer the tool's current help output:
+  `openclaw --help`, `codex --help`, or the relevant provider documentation.

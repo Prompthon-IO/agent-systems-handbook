@@ -1,0 +1,84 @@
+---
+title: "OpenClaw 账号与 Onboarding"
+description: "创建 Discord bot，可选配置 Tavily，安装 OpenClaw，并完成 onboarding。"
+---
+
+完成 Windows 或 Mac 设置页面后，使用本页准备 OpenClaw 在 Discord 工作坊中需要的账号和凭据。
+
+<Warning>
+  Bot token 和 API key 都是 secrets。不要把它们放进截图、pull request、聊天消息或公开文档。
+</Warning>
+
+## 创建 Discord Bot
+
+1. 从 [discord.com](https://discord.com/) 安装 Discord，并创建或登录账号。
+
+![创建或登录 Discord 账号](/assets/openclaw-workshop/accounts-and-onboarding/discord-create-account.png)
+
+2. 打开 [Discord Developer Portal](https://discord.com/developers/home)，创建一个 application。
+
+![创建 Discord application](/assets/openclaw-workshop/accounts-and-onboarding/discord-create-application.png)
+
+3. 给 application 添加 bot。
+
+![创建 Discord bot](/assets/openclaw-workshop/accounts-and-onboarding/discord-create-bot.png)
+
+4. 启用工作坊流程需要的 bot intents。OpenClaw 工作坊需要启用 Message Content Intent。
+
+![启用 Discord bot 的 message content intent](/assets/openclaw-workshop/accounts-and-onboarding/discord-save-bot-token.png)
+
+5. 生成或复制 bot token，并保存在本地用于 onboarding。不要粘贴到源码文件中。
+
+6. 将 bot 授权到工作坊使用的 Discord server。
+
+![授权 Discord bot](/assets/openclaw-workshop/accounts-and-onboarding/discord-authorize-bot.png)
+
+如果 Discord 给出 OAuth URL，请打开新标签页并粘贴该 URL。
+
+![在浏览器标签页中粘贴 Discord OAuth URL](/assets/openclaw-workshop/accounts-and-onboarding/discord-paste-oauth-url.png)
+
+## 可选：准备 Tavily Search
+
+只有当你希望智能体在工作坊中执行 web search 时，才需要配置 Tavily。
+
+1. 前往 [tavily.com](https://www.tavily.com/) 并创建账号。
+2. 创建 API key，并保存在本地用于 onboarding。
+
+![创建 Tavily API key](/assets/openclaw-workshop/accounts-and-onboarding/tavily-api-key.png)
+
+如果跳过 Tavily，智能体仍然可以运行本地工作流，但 web-search 功能不可用。
+
+## 安装 OpenClaw
+
+安装 CLI：
+
+```bash
+npm install -g openclaw@latest
+```
+
+检查安装版本并运行诊断：
+
+```bash
+openclaw --version
+openclaw doctor
+```
+
+## 运行 Onboarding
+
+启动 onboarding：
+
+```bash
+openclaw onboard --install-daemon
+```
+
+在 onboarding 过程中：
+
+- Channel 选择 `Discord`。
+- 按提示粘贴 Discord bot token。
+- 除非工作坊有更窄的 channel policy，否则允许所有 channels。
+- Search provider 选择 `Tavily`，如果已创建 API key，就粘贴进去。
+- Skills 勾选 `summarize`。
+- Hooks 勾选 `command-logger` 和 `session-memory`。
+- Bot launch 选择 `hatch in terminal`。
+
+完成 onboarding 后，打开 [OpenClaw 命令参考](/zh-Hans/workshops/openclaw/commands) 作为快速查询页。
