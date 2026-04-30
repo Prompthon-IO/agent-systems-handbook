@@ -3,9 +3,8 @@
 This repository enqueues Discord announcement jobs for Agentic Labs GitHub
 events: issue `good-first-issue` labels, PR coordination, PR merges, and direct
 pushes to `main`.
-The local worker in `/Users/liqingpan/Projects/agent_skills/agent_skills`
-drains those jobs from Postgres and posts them to the Agentic Labs Discord
-channels.
+A separate local announcer worker drains those jobs from Postgres and posts
+them to the Agentic Labs Discord channels.
 
 ## Required GitHub Secret
 
@@ -15,12 +14,8 @@ Create this repository secret in GitHub Actions:
 PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL
 ```
 
-Use the same remote Postgres URL stored locally as
-`PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL` in:
-
-```txt
-~/.codex/state/pathway-discord-announcer/.env
-```
+Use the same remote Postgres URL configured for the local announcer worker's
+`PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL` value.
 
 Do not commit the value.
 

@@ -20,6 +20,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: discord-lab-updates-${{ github.ref }}
@@ -39,7 +40,7 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install Postgres client
+      - name: Install pg Node package
         run: |
           mkdir -p "$RUNNER_TEMP/discord-announcer-node"
           npm install --prefix "$RUNNER_TEMP/discord-announcer-node" --no-save pg@8

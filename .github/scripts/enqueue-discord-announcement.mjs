@@ -90,7 +90,11 @@ function truncate(value, maxLength) {
   if (text.length <= maxLength) {
     return text;
   }
-  return `${text.slice(0, Math.max(0, maxLength - 1)).trim()}...`;
+  const ellipsis = "...";
+  if (maxLength <= ellipsis.length) {
+    return ellipsis.slice(0, Math.max(0, maxLength));
+  }
+  return `${text.slice(0, maxLength - ellipsis.length).trim()}${ellipsis}`;
 }
 
 function channelIdFor(key) {
@@ -109,13 +113,22 @@ function channelIdFor(key) {
   return null;
 }
 
+function normalizeGitHubRepoFullName(value) {
+  return String(value || "")
+    .trim()
+    .replace(/\.git$/, "")
+    .replace(/^https?:\/\/github\.com\//, "")
+    .replace(/^git@github\.com:/, "")
+    .replace(/^ssh:\/\/git@github\.com\//, "")
+    .replace(/\/$/, "");
+}
+
 function baseRepoInfo(event) {
-  const repoFullName =
+  const repoFullName = normalizeGitHubRepoFullName(
     process.env.GITHUB_REPOSITORY ||
     event.repository?.full_name ||
-    runGit(["config", "--get", "remote.origin.url"], "Prompthon-IO/agentic-lab")
-      .replace(/^https:\/\/github.com\//, "")
-      .replace(/\.git$/, "");
+    runGit(["config", "--get", "remote.origin.url"], "Prompthon-IO/agentic-lab"),
+  );
   return {
     repoFullName,
     repoUrl: event.repository?.html_url || `https://github.com/${repoFullName}`,
@@ -442,6 +455,11 @@ function wantsSsl(databaseUrl) {
 async function enqueueJob(job) {
   const databaseUrl = process.env.PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL;
   if (!databaseUrl) {
+    const message = "Missing required PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL secret; cannot enqueue Discord announcement job.";
+    if (process.env.GITHUB_ACTIONS === "true") {
+      console.error(`::error::${message}`);
+      throw new Error(message);
+    }
     return { skipped: true, reason: "missing_database_secret" };
   }
   if (!job.discordChannelId && job.eventType !== "github_issue_closed_archive_thread") {
@@ -449,9 +467,10 @@ async function enqueueJob(job) {
   }
 
   const { Client } = require("pg");
+  const allowInsecureSsl = process.env.PATHWAY_DISCORD_ANNOUNCER_ALLOW_INSECURE_SSL === "true";
   const client = new Client({
     connectionString: databaseUrl,
-    ssl: wantsSsl(databaseUrl) ? { rejectUnauthorized: false } : undefined,
+    ssl: wantsSsl(databaseUrl) ? { rejectUnauthorized: !allowInsecureSsl } : undefined,
   });
 
   await client.connect();
