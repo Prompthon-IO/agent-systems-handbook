@@ -1,9 +1,11 @@
 # Discord Lab Updates Automation
 
-This repository enqueues Discord announcement jobs after pushes to `main`.
+This repository enqueues Discord announcement jobs for Agentic Labs GitHub
+events: issue `good-first-issue` labels, PR coordination, PR merges, and direct
+pushes to `main`.
 The local worker in `/Users/liqingpan/Projects/agent_skills/agent_skills`
-drains those jobs from Postgres and posts them to the lab-updates Discord
-channel.
+drains those jobs from Postgres and posts them to the Agentic Labs Discord
+channels.
 
 ## Required GitHub Secret
 
@@ -22,13 +24,17 @@ Use the same remote Postgres URL stored locally as
 
 Do not commit the value.
 
-## Optional GitHub Variable
+## Required GitHub Variables
 
-The workflow defaults to channel `1347671631295811595`. To change it without a
-code change, add a repository variable:
+After CaraP creates the Agentic Labs channels, sync routes from the
+`agent_skills` repo and copy the printed values into GitHub repository
+variables:
 
 ```txt
-DISCORD_LAB_UPDATES_CHANNEL_ID
+DISCORD_REPO_UPDATES_CHANNEL_ID
+DISCORD_GOOD_FIRST_ISSUES_CHANNEL_ID
+DISCORD_CONTRIBUTE_FORUM_CHANNEL_ID
+DISCORD_CODE_REVIEW_CHANNEL_ID
 ```
 
 ## Local Workflow Test
@@ -39,18 +45,16 @@ From this repository root:
 node .github/scripts/enqueue-discord-announcement.mjs --dry-run
 ```
 
-The dry run prints only job metadata and changed paths. It does not connect to
+The dry run prints only job metadata and channel targets. It does not connect to
 Postgres and does not post to Discord.
 
 ## Runtime Flow
 
-1. A push lands on `main`.
+1. A matching issue, PR, or direct `main` push event lands in GitHub.
 2. `.github/workflows/discord-lab-updates.yml` checks out the repo and runs the
    enqueue script.
-3. The script filters for lab content paths such as `skills/`, `foundations/`,
-   `patterns/`, `systems/`, `ecosystem/`, `case-studies/`, `radar/`, and
-   `zh-Hans/`.
-4. If relevant paths changed, it inserts one deduped row into
+3. The script inserts one or more deduped rows into
    `discord_announcement_jobs`.
-5. The local announcer worker claims the pending row, formats the update, posts
-   it to Discord, and marks the row `sent`.
+4. Nova P posts regular feed/forum/PR messages and archives the forum threads
+   it created after mapped GitHub issues close.
+5. CaraP handles channel setup and settings changes.

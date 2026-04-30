@@ -1,6 +1,19 @@
 name: Discord Lab Updates
 
 on:
+  issues:
+    types:
+      - opened
+      - edited
+      - labeled
+      - reopened
+      - closed
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - ready_for_review
+      - closed
   push:
     branches:
       - main
@@ -34,7 +47,11 @@ jobs:
       - name: Enqueue lab update announcement
         env:
           ANNOUNCER_MAX_ATTEMPTS: "5"
+          DISCORD_CODE_REVIEW_CHANNEL_ID: ${{ vars.DISCORD_CODE_REVIEW_CHANNEL_ID }}
+          DISCORD_CONTRIBUTE_FORUM_CHANNEL_ID: ${{ vars.DISCORD_CONTRIBUTE_FORUM_CHANNEL_ID }}
+          DISCORD_GOOD_FIRST_ISSUES_CHANNEL_ID: ${{ vars.DISCORD_GOOD_FIRST_ISSUES_CHANNEL_ID }}
           DISCORD_LAB_UPDATES_CHANNEL_ID: ${{ vars.DISCORD_LAB_UPDATES_CHANNEL_ID || '1347671631295811595' }}
+          DISCORD_REPO_UPDATES_CHANNEL_ID: ${{ vars.DISCORD_REPO_UPDATES_CHANNEL_ID }}
           GITHUB_TOKEN: ${{ github.token }}
           NODE_PATH: ${{ runner.temp }}/discord-announcer-node/node_modules
           PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL: ${{ secrets.PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL }}

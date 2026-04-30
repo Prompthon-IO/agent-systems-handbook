@@ -4,8 +4,8 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import { createRequire } from "node:module";
 
-const DEFAULT_CHANNEL_ID = "1347671631295811595";
 const require = createRequire(import.meta.url);
+const GOOD_FIRST_LABEL = "good-first-issue";
 const ELIGIBLE_PREFIXES = [
   "case-studies/",
   "contributor-kit/",
@@ -49,8 +49,11 @@ function readEventPayload() {
   if (!eventPath || !fs.existsSync(eventPath)) {
     return {};
   }
-
   return JSON.parse(fs.readFileSync(eventPath, "utf8"));
+}
+
+function unique(values) {
+  return [...new Set(values.filter(Boolean))];
 }
 
 function isZeroSha(value) {
@@ -66,10 +69,6 @@ function changedPathsFromGit({ before, sha }) {
   return output ? output.split(/\r?\n/).filter(Boolean) : [];
 }
 
-function unique(values) {
-  return [...new Set(values.filter(Boolean))];
-}
-
 function isEligiblePath(filePath) {
   return ELIGIBLE_FILES.has(filePath) ||
     ELIGIBLE_PREFIXES.some((prefix) => filePath.startsWith(prefix));
@@ -80,11 +79,10 @@ function firstLine(value) {
 }
 
 function firstParagraph(value) {
-  const normalized = String(value || "")
+  return String(value || "")
     .split(/\r?\n\r?\n/)
     .map((part) => part.replace(/\s+/g, " ").trim())
-    .find(Boolean);
-  return normalized || "";
+    .find(Boolean) || "";
 }
 
 function truncate(value, maxLength) {
@@ -93,6 +91,35 @@ function truncate(value, maxLength) {
     return text;
   }
   return `${text.slice(0, Math.max(0, maxLength - 1)).trim()}...`;
+}
+
+function channelIdFor(key) {
+  if (key === "repo-updates") {
+    return process.env.DISCORD_REPO_UPDATES_CHANNEL_ID || process.env.DISCORD_LAB_UPDATES_CHANNEL_ID || null;
+  }
+  if (key === "good-first-issues-feed") {
+    return process.env.DISCORD_GOOD_FIRST_ISSUES_CHANNEL_ID || null;
+  }
+  if (key === "contribute") {
+    return process.env.DISCORD_CONTRIBUTE_FORUM_CHANNEL_ID || null;
+  }
+  if (key === "code-review") {
+    return process.env.DISCORD_CODE_REVIEW_CHANNEL_ID || process.env.DISCORD_PULL_REQUESTS_CHANNEL_ID || null;
+  }
+  return null;
+}
+
+function baseRepoInfo(event) {
+  const repoFullName =
+    process.env.GITHUB_REPOSITORY ||
+    event.repository?.full_name ||
+    runGit(["config", "--get", "remote.origin.url"], "Prompthon-IO/agentic-lab")
+      .replace(/^https:\/\/github.com\//, "")
+      .replace(/\.git$/, "");
+  return {
+    repoFullName,
+    repoUrl: event.repository?.html_url || `https://github.com/${repoFullName}`,
+  };
 }
 
 function summarizeAreas(paths) {
@@ -112,6 +139,16 @@ function summarizeAreas(paths) {
     return areas[0];
   }
   return `${areas.slice(0, -1).join(", ")} and ${areas.at(-1)}`;
+}
+
+function labels(issue) {
+  return (issue?.labels ?? [])
+    .map((label) => typeof label === "string" ? label : label?.name)
+    .filter(Boolean);
+}
+
+function hasGoodFirstLabel(issue) {
+  return labels(issue).some((label) => label.toLowerCase() === GOOD_FIRST_LABEL);
 }
 
 async function fetchAssociatedPullRequest({ repoFullName, sha, token }) {
@@ -134,98 +171,265 @@ async function fetchAssociatedPullRequest({ repoFullName, sha, token }) {
   if (!response.ok) {
     return null;
   }
-
   const pulls = await response.json();
   return Array.isArray(pulls) && pulls.length ? pulls[0] : null;
 }
 
-function buildAnnouncementJob({ event, pullRequest }) {
-  const repoFullName =
-    process.env.GITHUB_REPOSITORY ||
-    event.repository?.full_name ||
-    runGit(["config", "--get", "remote.origin.url"], "Prompthon-IO/agentic-lab")
-      .replace(/^https:\/\/github.com\//, "")
-      .replace(/\.git$/, "");
-  const sha = process.env.GITHUB_SHA || event.after || runGit(["rev-parse", "HEAD"]);
-  const branch =
-    process.env.GITHUB_REF_NAME ||
-    event.ref?.replace("refs/heads/", "") ||
-    runGit(["branch", "--show-current"], "main");
-  const before = event.before || runGit(["rev-parse", `${sha}^`], "");
-  const changedPaths = changedPathsFromGit({ before, sha });
-  const eligiblePaths = unique(changedPaths.filter(isEligiblePath));
-  const headCommit = event.head_commit || {};
-  const commitMessage = headCommit.message || runGit(["log", "-1", "--pretty=%B"]);
-  const commitTitle = firstLine(commitMessage) || "Repository update";
-  const prTitle = pullRequest?.title || "";
-  const summarySource = firstParagraph(pullRequest?.body) || firstParagraph(commitMessage);
-  const areaSummary = summarizeAreas(eligiblePaths);
-  const changeSummary = truncate(
-    [
-      `Updated ${areaSummary}.`,
-      summarySource || `Latest merged change: ${commitTitle}`,
-    ].join(" "),
-    700,
-  );
-  const repoUrl =
-    event.repository?.html_url ||
-    `https://github.com/${repoFullName}`;
-  const prNumber = pullRequest?.number ?? null;
-  const commitUrl = headCommit.url || `${repoUrl}/commit/${sha}`;
-  const sourceUrl = pullRequest?.html_url || commitUrl;
-
+function makeJob({
+  authorLogin = null,
+  branch = process.env.GITHUB_REF_NAME || "main",
+  changeSummary = null,
+  changedPaths = [],
+  channelKey,
+  commitSha = process.env.GITHUB_SHA || null,
+  dedupeKey,
+  eventType,
+  mergedByLogin = null,
+  payloadJson = {},
+  prNumber = null,
+  prTitle = null,
+  prUrl = null,
+  repoFullName,
+  repoUrl,
+}) {
   return {
-    authorLogin:
-      headCommit.author?.username ||
-      pullRequest?.user?.login ||
-      process.env.GITHUB_ACTOR ||
-      null,
+    authorLogin,
     branch,
     changeSummary,
-    changedPaths: eligiblePaths,
-    channelKey: "lab-updates",
-    commitSha: sha,
-    dedupeKey: `${repoFullName}:${branch}:${sha}:lab-updates`,
-    discordChannelId:
-      process.env.DISCORD_LAB_UPDATES_CHANNEL_ID || DEFAULT_CHANNEL_ID,
-    eligiblePathCount: eligiblePaths.length,
-    eventType: "github_push_main",
+    changedPaths,
+    channelKey,
+    commitSha,
+    dedupeKey,
+    discordChannelId: channelIdFor(channelKey),
+    eligiblePathCount: changedPaths.length,
+    eventType,
     maxAttempts: Number.parseInt(process.env.ANNOUNCER_MAX_ATTEMPTS || "5", 10),
-    mergedByLogin:
-      pullRequest?.merged_by?.login ||
-      headCommit.committer?.username ||
-      process.env.GITHUB_ACTOR ||
-      null,
+    mergedByLogin,
     payloadJson: {
-      allChangedPaths: changedPaths,
-      eventName: process.env.GITHUB_EVENT_NAME || "push",
+      eventName: process.env.GITHUB_EVENT_NAME || null,
       githubRunId: process.env.GITHUB_RUN_ID || null,
-      headCommitUrl: commitUrl,
-      sourceUrl,
       workflow: process.env.GITHUB_WORKFLOW || null,
+      ...payloadJson,
     },
     prNumber,
-    prTitle: prTitle || commitTitle,
-    prUrl: pullRequest?.html_url || null,
+    prTitle,
+    prUrl,
     repoFullName,
     repoUrl,
   };
 }
 
+async function buildPushJobs(event) {
+  const { repoFullName, repoUrl } = baseRepoInfo(event);
+  const sha = process.env.GITHUB_SHA || event.after || runGit(["rev-parse", "HEAD"]);
+  const branch =
+    process.env.GITHUB_REF_NAME ||
+    event.ref?.replace("refs/heads/", "") ||
+    runGit(["branch", "--show-current"], "main");
+  const pullRequest = await fetchAssociatedPullRequest({
+    repoFullName,
+    sha,
+    token: process.env.GITHUB_TOKEN,
+  });
+
+  if (pullRequest) {
+    return [];
+  }
+
+  const before = event.before || runGit(["rev-parse", `${sha}^`], "");
+  const changedPaths = changedPathsFromGit({ before, sha });
+  const eligiblePaths = unique(changedPaths.filter(isEligiblePath));
+  if (!eligiblePaths.length) {
+    return [];
+  }
+
+  const headCommit = event.head_commit || {};
+  const commitMessage = headCommit.message || runGit(["log", "-1", "--pretty=%B"]);
+  const commitTitle = firstLine(commitMessage) || "Repository update";
+  const changeSummary = truncate(
+    [
+      `Updated ${summarizeAreas(eligiblePaths)}.`,
+      firstParagraph(commitMessage) || `Latest direct main update: ${commitTitle}`,
+    ].join(" "),
+    700,
+  );
+  const commitUrl = headCommit.url || `${repoUrl}/commit/${sha}`;
+
+  return [
+    makeJob({
+      authorLogin: headCommit.author?.username || process.env.GITHUB_ACTOR || null,
+      branch,
+      changeSummary,
+      changedPaths: eligiblePaths,
+      channelKey: "repo-updates",
+      commitSha: sha,
+      dedupeKey: `${repoFullName}:${branch}:${sha}:repo-updates`,
+      eventType: "github_push_main",
+      mergedByLogin: headCommit.committer?.username || process.env.GITHUB_ACTOR || null,
+      payloadJson: {
+        allChangedPaths: changedPaths,
+        headCommitUrl: commitUrl,
+        sourceUrl: commitUrl,
+      },
+      prTitle: commitTitle,
+      repoFullName,
+      repoUrl,
+    }),
+  ];
+}
+
+function buildIssueJobs(event) {
+  const action = event.action;
+  const issue = event.issue;
+  if (!issue || !hasGoodFirstLabel(issue)) {
+    return [];
+  }
+
+  const { repoFullName, repoUrl } = baseRepoInfo(event);
+  const issueNumber = issue.number;
+  const issueSummary = truncate(firstParagraph(issue.body), 700);
+  const commonPayload = {
+    forumTagNames: ["good-first-issue"],
+    issue,
+    issueSummary,
+    issueUrl: issue.html_url,
+  };
+
+  if (["opened", "labeled", "edited", "reopened"].includes(action)) {
+    return [
+      makeJob({
+        authorLogin: event.sender?.login || issue.user?.login || null,
+        changeSummary: issueSummary || "A new contributor-friendly issue is ready.",
+        channelKey: "good-first-issues-feed",
+        dedupeKey: `${repoFullName}:issue:${issueNumber}:good-first-feed`,
+        eventType: "github_issue_good_first_feed",
+        payloadJson: commonPayload,
+        prNumber: issueNumber,
+        prTitle: issue.title,
+        prUrl: issue.html_url,
+        repoFullName,
+        repoUrl,
+      }),
+      makeJob({
+        authorLogin: event.sender?.login || issue.user?.login || null,
+        changeSummary: issueSummary || "A new contributor-friendly issue is ready.",
+        channelKey: "contribute",
+        dedupeKey: `${repoFullName}:issue:${issueNumber}:contribute-thread`,
+        eventType: "github_issue_contribute_thread",
+        payloadJson: commonPayload,
+        prNumber: issueNumber,
+        prTitle: issue.title,
+        prUrl: issue.html_url,
+        repoFullName,
+        repoUrl,
+      }),
+    ];
+  }
+
+  if (action === "closed") {
+    return [
+      makeJob({
+        authorLogin: event.sender?.login || null,
+        changeSummary: `Issue closed: ${issue.title}`,
+        channelKey: "contribute",
+        dedupeKey: `${repoFullName}:issue:${issueNumber}:archive:${issue.closed_at || process.env.GITHUB_RUN_ID || "closed"}`,
+        eventType: "github_issue_closed_archive_thread",
+        payloadJson: {
+          ...commonPayload,
+          sourceDedupeKey: `${repoFullName}:issue:${issueNumber}:contribute-thread`,
+        },
+        prNumber: issueNumber,
+        prTitle: issue.title,
+        prUrl: issue.html_url,
+        repoFullName,
+        repoUrl,
+      }),
+    ];
+  }
+
+  return [];
+}
+
+function buildPullRequestJobs(event) {
+  const action = event.action;
+  const pullRequest = event.pull_request;
+  if (!pullRequest) {
+    return [];
+  }
+
+  const { repoFullName, repoUrl } = baseRepoInfo(event);
+  if (["opened", "reopened", "ready_for_review"].includes(action)) {
+    return [
+      makeJob({
+        authorLogin: event.sender?.login || pullRequest.user?.login || null,
+        changeSummary: truncate(firstParagraph(pullRequest.body), 700),
+        channelKey: "code-review",
+        commitSha: pullRequest.head?.sha || process.env.GITHUB_SHA || null,
+        dedupeKey: `${repoFullName}:pr:${pullRequest.number}:${action}:code-review`,
+        eventType: `github_pull_request_${action}`,
+        payloadJson: {
+          pull_request: pullRequest,
+          sourceUrl: pullRequest.html_url,
+        },
+        prNumber: pullRequest.number,
+        prTitle: pullRequest.title,
+        prUrl: pullRequest.html_url,
+        repoFullName,
+        repoUrl,
+      }),
+    ];
+  }
+
+  if (action === "closed" && pullRequest.merged) {
+    const changedPaths = [];
+    return [
+      makeJob({
+        authorLogin: pullRequest.user?.login || null,
+        changeSummary: truncate(firstParagraph(pullRequest.body), 700) || `Merged PR #${pullRequest.number}.`,
+        changedPaths,
+        channelKey: "repo-updates",
+        commitSha: pullRequest.merge_commit_sha || process.env.GITHUB_SHA || null,
+        dedupeKey: `${repoFullName}:pr:${pullRequest.number}:merged:repo-updates`,
+        eventType: "github_pr_merged",
+        mergedByLogin: pullRequest.merged_by?.login || event.sender?.login || null,
+        payloadJson: {
+          pull_request: pullRequest,
+          sourceUrl: pullRequest.html_url,
+        },
+        prNumber: pullRequest.number,
+        prTitle: pullRequest.title,
+        prUrl: pullRequest.html_url,
+        repoFullName,
+        repoUrl,
+      }),
+    ];
+  }
+
+  return [];
+}
+
+async function buildJobs(event) {
+  const eventName = process.env.GITHUB_EVENT_NAME || event.event_name || "";
+  if (eventName === "issues") {
+    return buildIssueJobs(event);
+  }
+  if (eventName === "pull_request") {
+    return buildPullRequestJobs(event);
+  }
+  return buildPushJobs(event);
+}
+
 function publicJobSummary(job) {
   return {
-    branch: job.branch,
-    changedPaths: job.changedPaths,
     channelKey: job.channelKey,
     commitSha: job.commitSha,
     dedupeKey: job.dedupeKey,
     discordChannelId: job.discordChannelId,
-    eligiblePathCount: job.eligiblePathCount,
     eventType: job.eventType,
     prNumber: job.prNumber,
     prTitle: job.prTitle,
     repoFullName: job.repoFullName,
-    sourceUrl: job.payloadJson?.sourceUrl ?? null,
+    sourceUrl: job.payloadJson?.sourceUrl || job.payloadJson?.issueUrl || null,
   };
 }
 
@@ -238,10 +442,10 @@ function wantsSsl(databaseUrl) {
 async function enqueueJob(job) {
   const databaseUrl = process.env.PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL;
   if (!databaseUrl) {
-    console.log(
-      "Skipping Discord announcement enqueue: missing PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL secret.",
-    );
     return { skipped: true, reason: "missing_database_secret" };
+  }
+  if (!job.discordChannelId && job.eventType !== "github_issue_closed_archive_thread") {
+    return { skipped: true, reason: "missing_discord_channel_id" };
   }
 
   const { Client } = require("pg");
@@ -329,27 +533,10 @@ async function enqueueJob(job) {
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   const event = readEventPayload();
-  const repoFullName = process.env.GITHUB_REPOSITORY || event.repository?.full_name;
-  const sha = process.env.GITHUB_SHA || event.after || runGit(["rev-parse", "HEAD"]);
-  const pullRequest = await fetchAssociatedPullRequest({
-    repoFullName,
-    sha,
-    token: process.env.GITHUB_TOKEN,
-  });
-  const job = buildAnnouncementJob({ event, pullRequest });
+  const jobs = await buildJobs(event);
 
-  if (!job.eligiblePathCount) {
-    console.log(
-      JSON.stringify(
-        {
-          skipped: true,
-          reason: "no_eligible_paths",
-          summary: publicJobSummary(job),
-        },
-        null,
-        2,
-      ),
-    );
+  if (!jobs.length) {
+    console.log(JSON.stringify({ skipped: true, reason: "no_matching_event" }, null, 2));
     return;
   }
 
@@ -358,7 +545,7 @@ async function main() {
       JSON.stringify(
         {
           dryRun: true,
-          summary: publicJobSummary(job),
+          jobs: jobs.map(publicJobSummary),
         },
         null,
         2,
@@ -367,17 +554,15 @@ async function main() {
     return;
   }
 
-  const result = await enqueueJob(job);
-  console.log(
-    JSON.stringify(
-      {
-        ...result,
-        summary: publicJobSummary(job),
-      },
-      null,
-      2,
-    ),
-  );
+  const results = [];
+  for (const job of jobs) {
+    const result = await enqueueJob(job);
+    results.push({
+      ...result,
+      summary: publicJobSummary(job),
+    });
+  }
+  console.log(JSON.stringify({ results }, null, 2));
 }
 
 main().catch((error) => {
