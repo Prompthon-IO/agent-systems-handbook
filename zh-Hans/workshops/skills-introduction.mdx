@@ -3,6 +3,8 @@ title: "Skills 入门"
 description: "理解 Codex skills 是什么，以及它们如何接在桌面智能体设置之后。"
 ---
 
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
 Skills 是 Codex 的可复用 instruction package。它们把重复工作变成一个有名字的工作流，并配套清晰触发条件、本地脚本、支持参考资料和工具特定指导。
 
 在这条路线中，skills 放在 Codex 和 Claude Code 设置之后，因为 skill 不是本地智能体表面的替代品。它是在智能体已经可用之后，让智能体执行得更稳定的一种方式。
@@ -45,3 +47,5 @@ skills/<skill-name>/
 ## 安全边界
 
 Skills 可以调用工具、运行脚本并使用本地状态。不要把 secrets 写入 tracked files；不要把生成的 runtime artifacts 提交到 git；并且要说明 skill 依赖的外部服务。
+
+<SupportCTA />
