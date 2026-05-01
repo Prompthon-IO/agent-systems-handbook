@@ -22,6 +22,9 @@ without destabilizing the evergreen structure.
 - [April 2026 Assistant Safety Escalation Watch](./2026-04-assistant-safety-escalation-watch.mdx):
   a current signal on credible violence flags, duty-to-report boundaries,
   repeat policy violators, and audit-ready safety handoffs.
+- [April 2026 Defense Agent Training Loop Watch](./2026-04-defense-agent-training-loop-watch.mdx):
+  a current signal on domain-specific field training, simulation-to-deployment
+  loops, and high-risk autonomy boundaries.
 - [April 2026 Portable Assistant Memory Watch](./2026-04-portable-assistant-memory-watch.mdx):
   a time-scoped note on imported personal context, default-on assistant memory,
   and chat-history transfer as a separate trust boundary from retrieval and
