@@ -1,0 +1,4 @@
+interface:
+  display_name: "Daily News Watcher"
+  short_description: "Persistent daily news monitoring with local SQLite and Markdown reports"
+  default_prompt: "Use $daily-news-watcher to fetch the last 24 hours of AI news from my saved sources and write a Markdown summary."
