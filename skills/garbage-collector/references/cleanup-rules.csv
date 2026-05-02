@@ -1,0 +1,3 @@
+rule_id,name,enabled,scope,default_path,default_action,min_age_days,match_hint,rule_text,safety_note
+trash-can,Garbage can,true,trash,~/.Trash,permanent_delete,7,Items already in the OS Trash,Suggest permanent deletion for files already in the operating-system Trash and older than the age threshold.,Requires explicit user approval plus the allow-permanent-delete flag.
+duplicate-downloads,Duplicated downloads,true,downloads,~/Downloads,move_to_trash_quarantine,0,Same file size and SHA-256 hash,Find duplicate files inside Downloads; keep one copy and move extra copies to a quarantine folder in Trash after approval.,Reversible through the generated action log.

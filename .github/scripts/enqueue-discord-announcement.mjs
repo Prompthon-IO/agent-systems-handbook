@@ -104,9 +104,6 @@ function channelIdFor(key) {
   if (key === "good-first-issues-feed") {
     return process.env.DISCORD_GOOD_FIRST_ISSUES_CHANNEL_ID || null;
   }
-  if (key === "contribute") {
-    return process.env.DISCORD_CONTRIBUTE_FORUM_CHANNEL_ID || null;
-  }
   if (key === "code-review") {
     return process.env.DISCORD_CODE_REVIEW_CHANNEL_ID || process.env.DISCORD_PULL_REQUESTS_CHANNEL_ID || null;
   }
@@ -302,7 +299,6 @@ function buildIssueJobs(event) {
   const issueNumber = issue.number;
   const issueSummary = truncate(firstParagraph(issue.body), 700);
   const commonPayload = {
-    forumTagNames: ["good-first-issue"],
     issue,
     issueSummary,
     issueUrl: issue.html_url,
@@ -323,41 +319,11 @@ function buildIssueJobs(event) {
         repoFullName,
         repoUrl,
       }),
-      makeJob({
-        authorLogin: event.sender?.login || issue.user?.login || null,
-        changeSummary: issueSummary || "A new contributor-friendly issue is ready.",
-        channelKey: "contribute",
-        dedupeKey: `${repoFullName}:issue:${issueNumber}:contribute-thread`,
-        eventType: "github_issue_contribute_thread",
-        payloadJson: commonPayload,
-        prNumber: issueNumber,
-        prTitle: issue.title,
-        prUrl: issue.html_url,
-        repoFullName,
-        repoUrl,
-      }),
     ];
   }
 
   if (action === "closed") {
-    return [
-      makeJob({
-        authorLogin: event.sender?.login || null,
-        changeSummary: `Issue closed: ${issue.title}`,
-        channelKey: "contribute",
-        dedupeKey: `${repoFullName}:issue:${issueNumber}:archive:${issue.closed_at || process.env.GITHUB_RUN_ID || "closed"}`,
-        eventType: "github_issue_closed_archive_thread",
-        payloadJson: {
-          ...commonPayload,
-          sourceDedupeKey: `${repoFullName}:issue:${issueNumber}:contribute-thread`,
-        },
-        prNumber: issueNumber,
-        prTitle: issue.title,
-        prUrl: issue.html_url,
-        repoFullName,
-        repoUrl,
-      }),
-    ];
+    return [];
   }
 
   return [];

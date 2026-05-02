@@ -28,7 +28,6 @@ variables:
 ```txt
 DISCORD_REPO_UPDATES_CHANNEL_ID
 DISCORD_GOOD_FIRST_ISSUES_CHANNEL_ID
-DISCORD_CONTRIBUTE_FORUM_CHANNEL_ID
 DISCORD_CODE_REVIEW_CHANNEL_ID
 ```
 
@@ -50,6 +49,5 @@ Postgres and does not post to Discord.
    enqueue script.
 3. The script inserts one or more deduped rows into
    `discord_announcement_jobs`.
-4. Nova P posts regular feed/forum/PR messages and archives the forum threads
-   it created after mapped GitHub issues close.
+4. Nova P posts regular feed and PR coordination messages.
 5. CaraP handles channel setup and settings changes.
