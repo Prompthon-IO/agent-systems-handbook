@@ -8,8 +8,8 @@ body:
         Use this form for repository feature requests and process or governance work.
 
         Before filing, review:
-        - [Contributing](https://github.com/Prompthon-IO/agentic-lab/blob/main/CONTRIBUTING.md)
-        - [GitHub Issue Guide](https://github.com/Prompthon-IO/agentic-lab/blob/main/contributor-kit/github-issue-guide.mdx)
+        - [Contributing](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/CONTRIBUTING.md)
+        - [GitHub Issue Guide](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/github-issue-guide.mdx)
   - type: textarea
     id: problem
     attributes:

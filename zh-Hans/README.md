@@ -12,24 +12,24 @@
   <p>
     <a href="https://github.com/Prompthon-IO"><strong>组织</strong></a>
     ·
-    <a href="https://github.com/Prompthon-IO/agentic-lab"><strong>仓库</strong></a>
+    <a href="https://github.com/Prompthon-IO/agent-systems-handbook"><strong>仓库</strong></a>
     ·
-    <a href="https://github.com/Prompthon-IO/agentic-lab"><strong>Star</strong></a>
+    <a href="https://github.com/Prompthon-IO/agent-systems-handbook"><strong>Star</strong></a>
     ·
-    <a href="https://github.com/Prompthon-IO/agentic-lab/subscription"><strong>关注更新</strong></a>
+    <a href="https://github.com/Prompthon-IO/agent-systems-handbook/subscription"><strong>关注更新</strong></a>
     ·
     <a href="./CONTRIBUTING.md"><strong>贡献源码</strong></a>
     ·
-    <a href="https://github.com/Prompthon-IO/agentic-lab/issues"><strong>Issues</strong></a>
+    <a href="https://github.com/Prompthon-IO/agent-systems-handbook/issues"><strong>Issues</strong></a>
     ·
     <a href="https://discord.gg/sDE2HhGTg4"><strong>Discord</strong></a>
   </p>
 
   <p>
-    <img src="https://img.shields.io/github/last-commit/Prompthon-IO/agentic-lab?style=flat-square" alt="最后提交" />
-    <img src="https://img.shields.io/github/stars/Prompthon-IO/agentic-lab?style=flat-square" alt="GitHub stars" />
-    <img src="https://img.shields.io/github/forks/Prompthon-IO/agentic-lab?style=flat-square" alt="GitHub forks" />
-    <img src="https://img.shields.io/github/issues/Prompthon-IO/agentic-lab?style=flat-square" alt="GitHub issues" />
+    <img src="https://img.shields.io/github/last-commit/Prompthon-IO/agent-systems-handbook?style=flat-square" alt="最后提交" />
+    <img src="https://img.shields.io/github/stars/Prompthon-IO/agent-systems-handbook?style=flat-square" alt="GitHub stars" />
+    <img src="https://img.shields.io/github/forks/Prompthon-IO/agent-systems-handbook?style=flat-square" alt="GitHub forks" />
+    <img src="https://img.shields.io/github/issues/Prompthon-IO/agent-systems-handbook?style=flat-square" alt="GitHub issues" />
   </p>
 </div>
 

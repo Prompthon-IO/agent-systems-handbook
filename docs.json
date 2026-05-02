@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "maple",
-  "name": "Prompthon Agentic Labs",
+  "name": "Agent Systems Handbook by Prompthon",
   "logo": {
     "light": "https://github.com/Prompthon-IO.png?size=96",
     "dark": "https://github.com/Prompthon-IO.png?size=96",
@@ -126,6 +126,7 @@
                 "pages": [
                   "radar/index",
                   "radar/2026-04-assistant-safety-escalation-watch",
+                  "radar/2026-04-defense-agent-training-loop-watch",
                   "radar/2026-04-portable-assistant-memory-watch",
                   "radar/2026-04-local-agent-watch",
                   "radar/2026-04-interoperability-watch",
@@ -222,7 +223,7 @@
             },
             {
               "label": "GitHub",
-              "href": "https://github.com/Prompthon-IO/agentic-lab",
+              "href": "https://github.com/Prompthon-IO/agent-systems-handbook",
               "icon": {
                 "style": "brands",
                 "name": "github"
@@ -438,7 +439,7 @@
             },
             {
               "label": "GitHub",
-              "href": "https://github.com/Prompthon-IO/agentic-lab",
+              "href": "https://github.com/Prompthon-IO/agent-systems-handbook",
               "icon": {
                 "style": "brands",
                 "name": "github"
@@ -466,7 +467,7 @@
       },
       {
         "label": "GitHub",
-        "href": "https://github.com/Prompthon-IO/agentic-lab",
+        "href": "https://github.com/Prompthon-IO/agent-systems-handbook",
         "icon": {
           "style": "brands",
           "name": "github"
@@ -488,7 +489,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/Prompthon-IO/agentic-lab",
+      "github": "https://github.com/Prompthon-IO/agent-systems-handbook",
       "discord": "https://discord.gg/sDE2HhGTg4"
     }
   }

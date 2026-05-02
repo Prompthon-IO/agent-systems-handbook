@@ -1,0 +1,16 @@
+name,url,type,tags
+BBC AI,https://feeds.bbci.co.uk/news/technology/rss.xml,rss,AI;tech
+The Verge AI,https://www.theverge.com/rss/ai-artificial-intelligence/index.xml,rss,AI;tech
+OpenAI Blog,https://openai.com/blog/rss.xml,rss,AI
+DeepMind,https://deepmind.google/blog/rss.xml,rss,AI;research
+Google AI Blog,https://blog.google/technology/ai/rss/,rss,AI
+Hugging Face Blog,https://huggingface.co/blog/feed.xml,rss,AI;open-source
+Wired AI,https://www.wired.com/feed/tag/ai/latest/rss,rss,AI;tech
+VentureBeat AI,https://venturebeat.com/category/ai/feed/,rss,AI;business
+Simon Willison,https://simonwillison.net/atom/everything/,atom,AI;builder
+Import AI,https://importai.substack.com/feed,rss,AI;newsletter
+Latent Space,https://www.latent.space/feed,rss,AI;builder;newsletter
+Hacker News Front Page,https://hnrss.org/frontpage,rss,tech;startup
+MIT Technology Review,https://www.technologyreview.com/feed/,rss,AI;tech;research
+Ars Technica,https://feeds.arstechnica.com/arstechnica/index,rss,tech
+TechCrunch,https://techcrunch.com/feed/,rss,tech;startup

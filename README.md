@@ -3,7 +3,7 @@
     <img src="https://github.com/Prompthon-IO.png?size=160" alt="Prompthon IO" width="96" height="96" />
   </a>
 
-  <h1>Prompthon Agentic Labs</h1>
+  <h1>Agent Systems Handbook by Prompthon</h1>
 
   <p>
     <a href="https://labs.prompthon.io/">
@@ -11,10 +11,12 @@
     </a>
   </p>
   
-  <p>A public field guide for AI-native learners, early builders, and practitioners exploring how modern agent systems are understood, used, built, evaluated, and operated in practice.</p>
+  <p><strong>AI-agent demos are easy to find. Production-ready agent systems are harder to understand.</strong> This handbook maps the workflows, tools, memory systems, context engineering, MCP/A2A interoperability, evaluation, observability, and multi-agent architecture behind real-world AI agents.</p>
+
+  <p>Use it to understand, design, build, and operate production-minded AI agents — from first principles to framework choices and implementation patterns.</p>
 
   <p>
-    <img src="./assets/agentic-ai-blueprint.png" alt="Blueprint-style agentic AI system map with the Prompthon Agentic Labs logo and core agent loop concepts" width="100%" />
+    <img src="./assets/agentic-ai-blueprint.png" alt="Blueprint-style agentic AI system map showing core agent loop concepts" width="100%" />
   </p>
   
   <p>
@@ -24,24 +26,24 @@
   <p>
     <a href="https://github.com/Prompthon-IO"><strong>Organization</strong></a>
     ·
-    <a href="https://github.com/Prompthon-IO/agentic-lab"><strong>Repository</strong></a>
+    <a href="https://github.com/Prompthon-IO/agent-systems-handbook"><strong>Repository</strong></a>
     ·
-    <a href="https://github.com/Prompthon-IO/agentic-lab"><strong>Star</strong></a>
+    <a href="https://github.com/Prompthon-IO/agent-systems-handbook"><strong>Star</strong></a>
     ·
-    <a href="https://github.com/Prompthon-IO/agentic-lab/subscription"><strong>Watch updates</strong></a>
+    <a href="https://github.com/Prompthon-IO/agent-systems-handbook/subscription"><strong>Watch updates</strong></a>
     ·
     <a href="./CONTRIBUTING.md"><strong>Contribute source</strong></a>
     ·
-    <a href="https://github.com/Prompthon-IO/agentic-lab/issues"><strong>Issues</strong></a>
+    <a href="https://github.com/Prompthon-IO/agent-systems-handbook/issues"><strong>Issues</strong></a>
     ·
     <a href="https://discord.gg/sDE2HhGTg4"><strong>Discord</strong></a>
   </p>
 
   <p>
-    <img src="https://img.shields.io/github/last-commit/Prompthon-IO/agentic-lab?style=flat-square" alt="Last commit" />
-    <img src="https://img.shields.io/github/stars/Prompthon-IO/agentic-lab?style=flat-square" alt="GitHub stars" />
-    <img src="https://img.shields.io/github/forks/Prompthon-IO/agentic-lab?style=flat-square" alt="GitHub forks" />
-    <img src="https://img.shields.io/github/issues/Prompthon-IO/agentic-lab?style=flat-square" alt="GitHub issues" />
+    <img src="https://img.shields.io/github/last-commit/Prompthon-IO/agent-systems-handbook?style=flat-square" alt="Last commit" />
+    <img src="https://img.shields.io/github/stars/Prompthon-IO/agent-systems-handbook?style=flat-square" alt="GitHub stars" />
+    <img src="https://img.shields.io/github/forks/Prompthon-IO/agent-systems-handbook?style=flat-square" alt="GitHub forks" />
+    <img src="https://img.shields.io/github/issues/Prompthon-IO/agent-systems-handbook?style=flat-square" alt="GitHub issues" />
   </p>
 </div>
 
@@ -49,7 +51,7 @@
 
 ## Overview
 
-Prompthon Agentic Labs is an AI-native field guide for students, practitioners, and builders exploring modern agent systems from different angles.
+Prompthon Agentic Labs publishes the Agent Systems Handbook by Prompthon: an AI-native field guide for students, practitioners, and builders exploring modern agent systems from different angles.
 
 Built on **learn, question, and innovate**, the lab is shaped by learners and grounded in real industry practice. It helps readers understand the space, apply AI effectively, or build real systems through parallel paths rather than a single track.
 
@@ -74,6 +76,16 @@ The content is created through an AI-native workflow that combines AI-assisted d
 ### Designed for different paths, not a single track
 
 The lab is organized for different kinds of learners and different intentions. Some people want broad understanding and trend awareness. Some want to apply AI tools to daily work and study. Some want to build real systems and applications. This repository supports all three without forcing one sequence.
+
+## What This Handbook Covers
+
+- AI agent foundations and agent-system mental models
+- Agentic workflows, planning, reflection, tool use, and function calling
+- Agent memory, retrieval, context engineering, and agentic RAG
+- MCP, A2A, protocol interoperability, and agent communication boundaries
+- LangGraph, agent frameworks, hosted builders, and low-code platforms
+- Multi-agent orchestration, evaluation, observability, reliability, and safety
+- Deep research agents, customer-support agents, source projects, and starter examples
 
 ## Start Here
 
