@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal Knowledge Capture"
+  short_description: "Capture local research files into cited Markdown notes"
+  default_prompt: "Use $personal-knowledge-capture to watch my research folder and summarize new or modified files into Markdown notes."
