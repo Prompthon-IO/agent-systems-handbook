@@ -9,10 +9,6 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: release-main-main
-  cancel-in-progress: false
-
 jobs:
   release-main:
     runs-on: ubuntu-latest
@@ -21,15 +17,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Require main ref
-        run: |
-          set -euo pipefail
-
-          if [ "${GITHUB_REF_NAME}" != "main" ]; then
-            echo "::error::release-main must run from main, not ${GITHUB_REF_NAME}."
-            exit 1
-          fi
 
       - name: Create date-based release
         env:

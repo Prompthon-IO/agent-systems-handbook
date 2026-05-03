@@ -358,8 +358,7 @@ function buildPullRequestJobs(event) {
   if (!pullRequest) {
     return [];
   }
-  const baseRef = pullRequest.base?.ref;
-  if (!["develop", "main"].includes(baseRef)) {
+  if (pullRequest.base?.ref !== "main") {
     return [];
   }
 
