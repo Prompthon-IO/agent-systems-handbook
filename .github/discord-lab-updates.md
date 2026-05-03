@@ -51,3 +51,8 @@ Postgres and does not post to Discord.
    `discord_announcement_jobs`.
 4. Nova P posts regular feed and PR coordination messages.
 5. CaraP handles channel setup and settings changes.
+
+For forked PRs, GitHub does not expose repository secrets to the
+`pull_request` run. Those untrusted PR runs skip the database write, and the
+trusted `main` push that follows a merge enqueues the same PR-merge announcement
+using the PR dedupe key.

@@ -47,6 +47,9 @@ jobs:
           mkdir -p "$RUNNER_TEMP/discord-announcer-node"
           npm install --prefix "$RUNNER_TEMP/discord-announcer-node" --no-save pg@8
 
+      - name: Test enqueue script
+        run: node --test .github/scripts/enqueue-discord-announcement.test.mjs
+
       - name: Enqueue lab update announcement
         env:
           ANNOUNCER_MAX_ATTEMPTS: "5"
