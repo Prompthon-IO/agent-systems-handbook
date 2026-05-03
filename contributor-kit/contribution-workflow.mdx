@@ -1,0 +1,147 @@
+---
+title: "Basic GitHub Flow For Contributors"
+description: "Choose the right support path, claim an issue, fork or branch, and open a focused pull request."
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+Use this flow when you want to report a problem, suggest an improvement, or
+make a contribution to the Agent Systems Handbook.
+
+This is the handbook's practical GitHub flow, not the release-branch model
+sometimes called GitFlow. The sequence is: ask or open an issue, claim the work,
+make a small branch, open a pull request, and respond to review.
+
+## Choose The Right Entry Point
+
+| Situation | First step | GitHub step |
+| --- | --- | --- |
+| You are reading and something is confusing | Ask in Discord `#general-chats` | Open an issue only after the problem is concrete |
+| You found a broken link, factual problem, or workflow bug | Check the [Support guide](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/SUPPORT.md) | Use `Bug Or Broken Surface Report` |
+| You have a content suggestion | Ask in `#handbook-contributors` if the shape is unclear | Use `Content Proposal` |
+| You want a repository process or feature change | Ask in `#handbook-contributors` if you need routing help | Use `Repository Feature Or Process Proposal` |
+| You want to pick up an existing task | Check Discord `#good-first-issues-feed` or GitHub issues | Comment a claim request on the issue |
+| You opened a PR and need review coordination | Use the PR thread first | Use `#code-review` only for lightweight coordination |
+| You want to discuss current AI news or ecosystem signals | Start in `#ai-trends` | Open an issue only when the discussion turns into a scoped handbook change |
+
+<Tip>
+  If you are not sure whether your idea is ready for GitHub, start in Discord.
+  If the work is concrete enough for someone to review, write it as a GitHub
+  issue.
+</Tip>
+
+## Open Or Find An Issue
+
+Use [GitHub Issue Guide](/contributor-kit/github-issue-guide) before creating a
+new issue.
+
+![GitHub issue chooser with repository issue forms](/assets/contributor-workflow/github-issue-chooser.png)
+
+Choose the form that matches the work:
+
+- `Content Proposal`: new pages, major page revisions, radar notes, or curated
+  reference notes.
+- `Source Project Proposal`: repo-owned examples or starter projects under an
+  allowed `examples/` folder.
+- `Practitioner Skill Package`: code-plus-docs skill packages under `skills/`.
+- `Repository Feature Or Process Proposal`: workflow, template, label, review,
+  or contributor-process changes.
+- `Bug Or Broken Surface Report`: broken links, factual problems, example
+  defects, template issues, or workflow regressions.
+
+Before submitting, search open issues so you do not create a duplicate. If an
+existing issue already covers the work, use that issue instead of opening a new
+one.
+
+## Claim The Work
+
+Do not start a large contribution silently. Make the claim visible on the issue.
+
+For public contributors who are not internal contributors yet, leave this
+comment:
+
+```md
+Claim request:
+- GitHub username:
+- Planned scope:
+- Expected first update:
+```
+
+![Claim request comment template in GitHub](/assets/contributor-workflow/github-claim-comment.png)
+
+Wait for a maintainer reply or the `claimed` label before treating the work as
+yours. Maintainers should leave the GitHub assignee field empty unless the
+contributor is already an internal contributor for this repository.
+
+If your plan changes, add a short update comment before changing scope.
+
+## Work From A Fork Or Branch
+
+If you do not have write access to the repository, fork it first.
+
+![GitHub fork button on the repository page](/assets/contributor-workflow/github-fork-button.png)
+
+Then work from your fork:
+
+1. Create a branch from the latest `main`.
+2. Keep the branch focused on the claimed issue.
+3. Put the file in the correct contributor lane or template path.
+4. Add or update links so the work is discoverable.
+5. Run the checks listed in the matching guide.
+
+If you have write access, you can create a branch in the main repository, but
+the same rule applies: one branch should map to one clear issue or outcome.
+
+## Open The Pull Request
+
+Open the pull request against `Prompthon-IO/agent-systems-handbook:main`.
+
+![GitHub open pull request screen](/assets/contributor-workflow/github-open-pr.png)
+
+In the pull request body:
+
+- Link the issue you claimed.
+- Choose the contribution type from the template.
+- Name the target path and any indexes or navigation links updated.
+- Explain source lineage if outside material shaped the work.
+- List the checks you ran.
+- Keep the scope small enough for a reviewer to understand in one pass.
+
+Use a draft PR if the work is not ready but you want early review on direction.
+Mark it ready only when the page, links, screenshots, and checks are complete.
+
+## Review And Merge
+
+Use the PR thread as the main review surface. If a reviewer asks for changes,
+respond in the thread and push follow-up commits to the same branch.
+
+Before requesting merge:
+
+- Re-read [Review Checklist](/contributor-kit/review-checklist).
+- Confirm the contribution type and placement are correct.
+- Confirm new or revised pages are linked from the relevant contributor or
+  reading-path surface.
+- Confirm screenshots do not expose private account data, tokens, drafts, or
+  notifications.
+- If the PR changes example code, run `python3 scripts/verify_example_projects.py`.
+- If the PR moves or renames files, run `python3 scripts/check_filename_casing.py`.
+
+For docs-only changes, also run:
+
+```bash
+npx mint validate
+npx mint broken-links
+```
+
+## Maintainer Expectations
+
+Maintainers should keep the public state easy to read:
+
+- Use `claimed` when a public contributor is actively working on an issue.
+- Remove `claimed` or leave a status comment if work goes quiet.
+- Keep feedback in the issue or PR when possible so future contributors can
+  understand the decision.
+- Route early, high-level questions back to Discord instead of forcing every
+  conversation into an issue.

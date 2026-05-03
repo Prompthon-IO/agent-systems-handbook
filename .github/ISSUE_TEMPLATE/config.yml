@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Basic GitHub Flow For Contributors
+    url: https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/contribution-workflow.mdx
+    about: Use this guide to move from support question to issue claim, fork or branch, pull request, and review.
   - name: GitHub Issue Guide
     url: https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/github-issue-guide.mdx
     about: Use this guide to choose the right issue form and shape a good feature request, proposal, or bug report.

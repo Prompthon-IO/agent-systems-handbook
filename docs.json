@@ -163,6 +163,7 @@
                   "contributor-kit/index",
                   "contributor-kit/lab-structure",
                   "contributor-kit/local-debugging",
+                  "contributor-kit/contribution-workflow",
                   "contributor-kit/github-issue-guide",
                   "contributor-kit/review-checklist"
                 ]
@@ -379,6 +380,7 @@
                   "zh-Hans/contributor-kit/index",
                   "zh-Hans/contributor-kit/lab-structure",
                   "zh-Hans/contributor-kit/local-debugging",
+                  "zh-Hans/contributor-kit/contribution-workflow",
                   "zh-Hans/contributor-kit/github-issue-guide",
                   "zh-Hans/contributor-kit/review-checklist"
                 ]
