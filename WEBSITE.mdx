@@ -29,6 +29,8 @@ npx mint broken-links
 
 The primary Mintlify deployment should be connected through the Mintlify GitHub app. Mintlify reads `docs.json` and publishes the documentation site when changes are pushed.
 
+The production documentation site is published at `https://labs.prompthon.io`.
+
 If the handbook should appear under a Vercel-owned domain, configure Vercel as a reverse proxy after the Mintlify subdomain exists:
 
 ```json
@@ -47,6 +49,14 @@ If the handbook should appear under a Vercel-owned domain, configure Vercel as a
 ```
 
 Do not add that active `vercel.json` until the real Mintlify subdomain is known.
+
+## Analytics and Search Console
+
+Mintlify analytics should be used for documentation-native usage signals such as most-read pages, internal searches, search result clicks, feedback, and assistant activity. Access those reports in the Mintlify dashboard or from an authenticated CLI session with `mint analytics`.
+
+GA4 is configured through the Mintlify `docs.json` integration with measurement ID `G-K26DVPPVLY`. Use GA4 for external reporting, referral/source analysis, and click-path exploration.
+
+Google Search Console should use a URL-prefix property for `https://labs.prompthon.io/`. The verification token is committed in `docs.json` as the `google-site-verification` meta tag. After deployment, verify the property and submit `https://labs.prompthon.io/sitemap.xml`.
 
 ## Compatibility Policy
 

@@ -2,6 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "maple",
   "name": "Agent Systems Handbook by Prompthon",
+  "description": "A practical AI agents handbook for students, practitioners, and builders exploring agent systems, agentic workflows, context engineering, MCP, A2A, evaluation, observability, and multi-agent architecture.",
   "logo": {
     "light": "https://github.com/Prompthon-IO.png?size=96",
     "dark": "https://github.com/Prompthon-IO.png?size=96",
@@ -476,6 +477,16 @@
         }
       }
     ]
+  },
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-K26DVPPVLY"
+    }
+  },
+  "seo": {
+    "metatags": {
+      "google-site-verification": "LlDE8i_8_vKcs6sx68AgnM9ZOjjMQEJXrq7nDZMOdjg"
+    }
   },
   "contextual": {
     "options": [
