@@ -23,6 +23,8 @@ modes.
 
 - [Deep Research Agents](./deep-research-agents.mdx): a bounded look at
   planning, evidence collection, synthesis, and citation discipline.
+- [Coding Agents](./coding-agents.mdx): a repository-first case study for
+  scoped edits, verification, approvals, and human review.
 - [Customer Support Agents](./customer-support-agents.mdx): a local-first case
   study for email triage and policy-grounded reply drafting.
 
