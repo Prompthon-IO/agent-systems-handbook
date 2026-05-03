@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: release-main-main
+  cancel-in-progress: false
+
 jobs:
   release-main:
     runs-on: ubuntu-latest
