@@ -1,0 +1,17 @@
+changelog:
+  categories:
+    - title: Documentation
+      labels:
+        - documentation
+    - title: Skill Packages
+      labels:
+        - skill package
+    - title: Enhancements
+      labels:
+        - enhancement
+    - title: Bug Fixes
+      labels:
+        - bug
+    - title: Other Changes
+      labels:
+        - "*"

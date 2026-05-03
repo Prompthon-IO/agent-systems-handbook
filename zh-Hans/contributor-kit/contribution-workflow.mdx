@@ -9,9 +9,9 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 当你想报告问题、提出改进建议，或为 Agent Systems Handbook 做贡献时，请使用这条流程。
 
-这里说的是本手册实际采用的 GitHub 协作流程，不是有 release branch 的正式
-GitFlow 模型。顺序是：提问或创建 issue、认领工作、创建小分支、打开 pull
-request，并回应 review。
+这里说的是本手册普通贡献工作实际采用的 GitHub 协作流程，不是生产发布流程。
+顺序是：提问或创建 issue、认领工作、基于 `develop` 创建小分支、把 pull request
+打回 `develop`，并回应 review。
 
 ## 选择正确入口
 
@@ -72,7 +72,7 @@ Claim request:
 
 然后从你的 fork 工作：
 
-1. 基于最新 `main` 创建分支。
+1. 基于最新 `develop` 创建分支。
 2. 让分支聚焦在已认领的 issue 上。
 3. 把文件放到正确的贡献 lane 或模板路径。
 4. 添加或更新链接，让工作可被发现。
@@ -82,7 +82,9 @@ Claim request:
 
 ## 打开 Pull Request
 
-将 pull request 打到 `Prompthon-IO/agent-systems-handbook:main`。
+将 pull request 打到 `Prompthon-IO/agent-systems-handbook:develop`。
+
+`main` 只保留给维护者执行的发布 PR 和 Mintlify 生产环境部署。
 
 ![GitHub 打开 pull request 的页面](/assets/contributor-workflow/github-open-pr.png)
 

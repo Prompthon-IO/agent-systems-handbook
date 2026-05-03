@@ -99,11 +99,26 @@ for the routing sequence.
 3. Claim the issue with a visible comment and wait for maintainer
    acknowledgement or the `claimed` label.
 4. Fork the repository if you do not have write access, or create a focused
-   branch from the latest `main` if you do.
+   branch from the latest `develop` if you do.
 5. Place the work in the correct folder using the matching template.
 6. Add or update links from the relevant README or contributor surface.
-7. Open a PR with a short scope summary and the linked issue.
+7. Open a PR into `develop` with a short scope summary and the linked issue.
 8. Review the change against the shared checklist before requesting merge.
+
+## Branch and release flow
+
+`develop` is the shared integration branch for normal contributor work. Use it
+for lab articles, radar notes, source projects, practitioner skill packages,
+reference notes, and repository process changes.
+
+`main` is the production Mintlify branch. Merges into `main` are release events,
+and they trigger production publishing plus a GitHub release/tag. Do not open
+feature or content PRs directly into `main`.
+
+Release PRs into `main` are opened only by `dprat0821` from the same-repository
+`develop` branch. This keeps deployment authorization and release tagging under
+one maintainer account while still allowing contributors to collaborate through
+`develop`.
 
 ## Review standard
 

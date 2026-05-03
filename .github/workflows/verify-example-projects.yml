@@ -3,10 +3,13 @@ name: Verify Example Projects
 on:
   pull_request:
     branches:
+      - develop
       - main
   push:
     branches:
+      - develop
       - main
+  workflow_dispatch:
 
 permissions:
   contents: read

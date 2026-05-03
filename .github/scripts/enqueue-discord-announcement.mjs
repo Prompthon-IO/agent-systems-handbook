@@ -335,6 +335,9 @@ function buildPullRequestJobs(event) {
   if (!pullRequest) {
     return [];
   }
+  if (pullRequest.base?.ref !== "main") {
+    return [];
+  }
 
   const { repoFullName, repoUrl } = baseRepoInfo(event);
   if (["opened", "reopened", "ready_for_review"].includes(action)) {

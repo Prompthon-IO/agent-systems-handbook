@@ -67,11 +67,24 @@
 1. 选择贡献类型。
 2. 找到或打开定义该工作的 issue。
 3. 用可见评论认领 issue，并等待维护者确认或添加 `claimed` 标签。
-4. 如果没有写权限，请 fork 仓库；如果有写权限，请基于最新 `main` 创建聚焦分支。
+4. 如果没有写权限，请 fork 仓库；如果有写权限，请基于最新 `develop` 创建聚焦分支。
 5. 使用对应模板将工作放到正确的文件夹中。
 6. 从相关 README 或贡献入口添加或更新链接。
-7. 打开一个带有简短范围摘要并链接 issue 的 PR。
+7. 打开一个目标为 `develop`、带有简短范围摘要并链接 issue 的 PR。
 8. 在请求合并之前，根据共享检查清单审查变更。
+
+## 分支与发布流程
+
+`develop` 是普通贡献工作的共享集成分支。Lab 文章、radar 笔记、source
+projects、practitioner skill packages、reference notes，以及仓库流程变更都应先进入
+`develop`。
+
+`main` 是生产环境 Mintlify 分支。合并到 `main` 就是发布事件，会触发生产发布以及
+GitHub release/tag。不要把功能或内容 PR 直接开到 `main`。
+
+进入 `main` 的发布 PR 只能由 `dprat0821` 从同一仓库的 `develop` 分支打开。这样可以把
+部署授权和 release tagging 保持在一个维护者账号下，同时仍然允许贡献者通过
+`develop` 协作。
 
 ## 审核标准
 

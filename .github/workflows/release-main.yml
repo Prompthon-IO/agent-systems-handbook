@@ -1,0 +1,64 @@
+name: Release Main
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-main-main
+  cancel-in-progress: false
+
+jobs:
+  release-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create date-based release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TZ: America/Toronto
+        run: |
+          set -euo pipefail
+
+          git fetch --tags --force origin
+
+          release_date="$(date +'%Y.%m.%d')"
+          prefix="release-${release_date}."
+          last_number="$(
+            git tag -l "${prefix}*" |
+              while read -r tag; do
+                suffix="${tag#"$prefix"}"
+                case "$suffix" in
+                  ""|*[!0-9]*)
+                    ;;
+                  *)
+                    echo "$suffix"
+                    ;;
+                esac
+              done |
+              sort -n |
+              tail -1
+          )"
+
+          if [ -z "$last_number" ]; then
+            next_number=1
+          else
+            next_number=$((last_number + 1))
+          fi
+
+          tag="${prefix}${next_number}"
+          echo "Creating ${tag} for ${GITHUB_SHA}"
+
+          gh release create "$tag" \
+            --target "$GITHUB_SHA" \
+            --generate-notes \
+            --fail-on-no-commits

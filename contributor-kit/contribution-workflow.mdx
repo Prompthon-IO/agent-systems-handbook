@@ -10,9 +10,10 @@ import SupportCTA from "/snippets/support-cta.mdx";
 Use this flow when you want to report a problem, suggest an improvement, or
 make a contribution to the Agent Systems Handbook.
 
-This is the handbook's practical GitHub flow, not the release-branch model
-sometimes called GitFlow. The sequence is: ask or open an issue, claim the work,
-make a small branch, open a pull request, and respond to review.
+This is the handbook's practical GitHub flow for normal contributor work, not
+the production release flow. The sequence is: ask or open an issue, claim the
+work, make a small branch from `develop`, open a pull request back to
+`develop`, and respond to review.
 
 ## Choose The Right Entry Point
 
@@ -85,7 +86,7 @@ If you do not have write access to the repository, fork it first.
 
 Then work from your fork:
 
-1. Create a branch from the latest `main`.
+1. Create a branch from the latest `develop`.
 2. Keep the branch focused on the claimed issue.
 3. Put the file in the correct contributor lane or template path.
 4. Add or update links so the work is discoverable.
@@ -96,7 +97,10 @@ the same rule applies: one branch should map to one clear issue or outcome.
 
 ## Open The Pull Request
 
-Open the pull request against `Prompthon-IO/agent-systems-handbook:main`.
+Open the pull request against `Prompthon-IO/agent-systems-handbook:develop`.
+
+`main` is reserved for maintainer-run release PRs and Mintlify production
+deployment.
 
 ![GitHub open pull request screen](/assets/contributor-workflow/github-open-pr.png)
 

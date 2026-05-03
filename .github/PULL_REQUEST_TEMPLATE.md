@@ -2,6 +2,12 @@
 
 Describe the change in 2-5 sentences. Keep the scope concrete.
 
+## Target Branch
+
+- Normal contributor work targets `develop`.
+- Release PRs target `main` only when opened by `dprat0821` from same-repository `develop`.
+- `main` is the production Mintlify branch and should not receive direct feature PRs.
+
 ## Contribution Type
 
 Select the best match and remove the rest.
