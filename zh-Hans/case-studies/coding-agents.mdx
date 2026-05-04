@@ -1,0 +1,169 @@
+---
+title: 编码智能体
+owner: Prompthon IO
+updated: 2026-05-03
+depth: intermediate
+region_tags:
+  - global
+coding_required: optional
+external_readings:
+  - title: Introducing Codex
+    url: https://openai.com/index/introducing-codex/
+  - title: Codex CLI documentation
+    url: https://developers.openai.com/codex/cli
+  - title: openai/codex repository
+    url: https://github.com/openai/codex
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 概述
+
+编码智能体把一个软件任务变成有边界的实现循环：检查仓库、提出改动、
+编辑正确文件、运行检查，并交付带验证说明的 diff。
+
+当前的产品信号已经足够强，不应再把它视为“带聊天框的补全”。OpenAI 对
+Codex 的当前定位同时覆盖云端软件工程智能体和本地终端编码智能体，这让
+团队和个人构建者都能更清楚地理解这类工作流。
+
+## 为什么这很重要
+
+编码工作同时具备结构性和不确定性，因此很适合智能体，也很容易出错。
+
+之所以有用，是因为它天然围绕产物展开：
+
+- issue 文本或 bug 描述
+- 仓库文件
+- 测试与 linter
+- patch diff
+- review 评论
+
+之所以有风险，是因为智能体可能在语气很自信的情况下仍然改错文件、漏掉
+失败测试，或者越界修改不相关内容。
+
+因此，比起“模型会不会写代码”，更关键的是边界是否明确。一个有用的编码
+智能体应当是仓库范围内的 worker，并且带有显式验证，而不是一个泛化的
+“帮我写点代码”的助手。
+
+## 心智模型
+
+一个耐用的编码智能体工作流通常有五步：
+
+- `inspect`：先读 issue、仓库结构和附近代码，再决定是否改动
+- `plan`：确定最小文件集合和验证路径
+- `change`：在保留无关本地改动的前提下编辑目标文件
+- `verify`：运行测试、linter 或聚焦命令来验证声称的修复
+- `handoff`：总结 diff、剩余风险以及 reviewer 接下来该关注什么
+
+关键的系统边界不是“模型是否会写代码”，而是运行时是否能让智能体停留在
+目标仓库、工具和审批范围内，同时保留可读的审计轨迹。
+
+## 架构图
+
+```mermaid
+flowchart LR
+  Task["Issue 或任务提示"] --> Inspect["仓库检查"]
+  Inspect --> Plan["范围化计划"]
+  Plan --> Edit["文件编辑"]
+  Edit --> Verify["测试与检查"]
+  Verify --> Diff["补丁、日志、总结"]
+  Diff --> Review["人工评审或合并队列"]
+```
+
+## 工具版图
+
+编码智能体通常需要组合这些能力：
+
+- 用于读取代码、文档和配置的仓库访问
+- 能产出可审查补丁的文件编辑工具
+- 用于测试、格式化、构建和 git 检查的 shell 能力
+- 当任务依赖当前文档或运行中的 UI 时的浏览器或网页访问
+- 面向审批、网络访问和破坏性命令的 guardrails
+
+OpenAI 当前的 Codex 表面比很多早期编码助手更清楚地暴露了这条分工线：
+
+- 云端 Codex 将软件任务描述为各自独立的运行，每次运行都在 sandbox 环境
+  中并预装仓库
+- 开源的 Codex CLI 则把本地路径描述为一个终端编码智能体，具备 approval
+  modes、MCP 访问、web search 和 cloud-task handoff
+
+因此，编码智能体更适合被教授为一条端到端系统循环，而不只是模型输出质
+量问题。
+
+## Guardrails
+
+对编码智能体来说，有用的默认做法包括：
+
+- 从仓库检查开始，而不是立刻编辑
+- 尽量缩小写入范围
+- 保留无关的 working-tree 改动
+- 在宣称完成前要求显式验证
+- 让命令输出、diff 和测试结果对 reviewer 可见
+- 将 secrets、生产凭据和破坏性 git 命令视为单独审批边界
+
+如果环境同时支持本地执行和云端执行，就要把信任边界讲清楚。本地执行能看
+到开发者真实机器状态，但也会继承更多 secrets 与工作站风险。云端 sandbox
+更容易隔离，但仍然需要明确的仓库、密钥和网络策略。
+
+## 权衡
+
+- 更高自治度能减少复制粘贴工作，但也会增加广泛误改的风险。
+- 本地执行能看到真实仓库和环境，但会继承更多 secrets 与工作站风险。
+- 云端 sandbox 更容易隔离，但如果依赖和 secrets 不一致，也可能偏离真实
+  本地设置。
+- 快速生成 patch 看起来很高效，但更慢一点的 inspect 加 verify 循环通常会
+  产生更好的改动。
+
+实用默认做法：
+
+- 用本地或云端编码智能体来检查、修改并验证
+- 让人类保留 merge 决策权
+- 优先追求可追踪的 diff 和可复现的检查，而不是一次性代码生成
+
+## 当前产品信号
+
+本次手册运行的当前七日信号是 `OpenAI Codex`。这个词先来自已存储的文章覆
+盖，然后再用当前的一手文档和公开 GitHub 仓库完成核实。
+
+可复用的经验比某一家供应商更广：
+
+- 编码智能体正在变成一个独立产品类别
+- 最有效的形态是 repository-first、verification-heavy、approval-aware
+- 团队应把它们作为带有 memory、tools、policies 和 review artifacts 的
+  智能体系统来评估，而不是把它们当作纯 prompt UX
+
+## 入门方向
+
+如果你要一个最快的实践入口，可以先看现有的
+[Codex 桌面智能体设置](/zh-Hans/workshops/desktop-agents/codex) 工作坊。它
+是这个仓库里从安装走到真实仓库工作的最短路径。
+
+然后再把本页连接到：
+
+- [评估与可观测性](/zh-Hans/systems/evaluation-and-observability)，理解验
+  证和轨迹循环
+- [上下文工程](/zh-Hans/systems/context-engineering)，理解 instruction、
+  state 和 retrieval 边界
+- [案例研究总览](/zh-Hans/case-studies)，对照 deep research 与客户支持
+  等其他产品形态
+
+## 引用
+
+- 官方来源：[Introducing Codex](https://openai.com/index/introducing-codex/)
+- 官方来源：[Codex CLI documentation](https://developers.openai.com/codex/cli)
+- 高信号仓库：[openai/codex](https://github.com/openai/codex)
+
+## 延伸阅读
+
+- [Codex 桌面智能体设置](/zh-Hans/workshops/desktop-agents/codex)
+- [评估与可观测性](/zh-Hans/systems/evaluation-and-observability)
+- [上下文工程](/zh-Hans/systems/context-engineering)
+- [案例研究总览](/zh-Hans/case-studies)
+
+## 更新日志
+
+- 2026-05-03：新增一个 repo 原生的编码智能体案例研究，用当前 OpenAI
+  Codex 信号锚定，并与仓库现有的 Codex 工作坊互相链接。

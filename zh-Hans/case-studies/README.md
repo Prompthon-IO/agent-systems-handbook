@@ -19,6 +19,7 @@
 ## 当前页面
 
 - [Deep Research Agents](./deep-research-agents.mdx)：对规划、证据收集、综合整理和引用规范的有边界审视。
+- [Coding Agents](./coding-agents.mdx)：一个以仓库为先的案例研究，聚焦范围化改动、验证、审批和人工评审。
 - [Customer Support Agents](./customer-support-agents.mdx)：一个面向本地优先的案例研究，用于电子邮件分流和基于政策的回复草拟。
 
 ## 示例入门项目
