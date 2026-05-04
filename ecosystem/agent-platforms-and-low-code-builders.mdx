@@ -1,7 +1,7 @@
 ---
 title: Agent Platforms And Low-Code Builders
 owner: Prompthon IO
-updated: 2026-04-23
+updated: 2026-05-01
 depth: intermediate
 region_tags:
   - global
@@ -14,6 +14,12 @@ external_readings:
     url: https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/agent-builder
   - title: Choose between Microsoft 365 Copilot and Copilot Studio to build your agent
     url: https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/copilot-studio-experience
+  - title: Amazon Bedrock Managed Agents, powered by OpenAI
+    url: https://aws.amazon.com/bedrock/managed-agents-openai/
+  - title: Automate tasks in your application using AI agents - Amazon Bedrock
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html
+  - title: Amazon CEO Andy Jassy on why customers are choosing AWS for AI
+    url: https://www.aboutamazon.com/news/company-news/amazon-ceo-andy-jassy-aws-ai-q1-2026-earnings
 status: draft
 ---
 
@@ -24,9 +30,10 @@ import SupportCTA from "/snippets/support-cta.mdx";
 ## Summary
 
 Low-code agent platforms turn recurring application patterns into visual,
-configuration-first, or workspace-native building blocks. In 2026, the
-comparison surface includes not only standalone builder products but also agent
-builders that live inside existing productivity suites.
+configuration-first, workspace-native, or cloud-managed building blocks. In
+2026, the comparison surface includes not only standalone builder products but
+also agent builders that live inside existing productivity suites and managed
+cloud runtimes.
 
 ## Why It Matters
 
@@ -34,12 +41,12 @@ Not every useful agent needs to begin with a custom framework. Many teams first
 need to validate a product surface, connect common services, or let
 non-engineer stakeholders participate in building the workflow.
 
-That is where builder-first, platform-first, automation-first, and
-workspace-native surfaces become attractive.
+That is where builder-first, platform-first, automation-first,
+workspace-native, and cloud-managed surfaces become attractive.
 
 ## Mental Model
 
-The current platform market points to six useful anchors:
+The current platform market points to seven useful anchors:
 
 - `Coze`: builder-first experience for quick assembly, plugins, and publishing
 - `Dify`: application platform for orchestration, plugins, knowledge, and
@@ -52,11 +59,14 @@ The current platform market points to six useful anchors:
   declarative scenarios
 - `Copilot Studio`: broader Microsoft platform for larger audiences, custom
   integrations, and more advanced control
+- `Bedrock Managed Agents`: AWS-managed agent runtime for OpenAI-powered agents
+  that need cloud governance, service proximity, and managed operations
 
 These are different choices, not direct substitutes.
 
 - builder-first products optimize fast creation and operator friendliness
 - workspace-native builders optimize shared agents inside an existing suite
+- cloud-managed builders optimize enterprise runtime ownership and governance
 - application platforms optimize broader product and deployment control
 - automation platforms optimize integration into existing business processes
 
@@ -66,10 +76,12 @@ These are different choices, not direct substitutes.
 flowchart LR
   Need["Team need"] --> Choice{"Platform style"}
   Choice --> Workspace["Workspace-native"]
+  Choice --> Managed["Cloud-managed"]
   Choice --> Builder["Builder-first"]
   Choice --> App["Application platform"]
   Choice --> Automation["Automation-first"]
   Workspace --> OpenAI["Workspace agents / Agent Builder"]
+  Managed --> Bedrock["Bedrock Managed Agents"]
   Builder --> Coze["Coze-style"]
   App --> Dify["Dify / Copilot Studio style"]
   Automation --> N8N["n8n-style"]
@@ -88,6 +100,10 @@ flowchart LR
 - Copilot Studio matters when the audience is larger, the workflow is more
   complex, or the agent needs custom integrations and stronger deployment
   management than Agent Builder is designed to provide.
+- Bedrock Managed Agents points to a cloud-managed enterprise surface: teams can
+  run OpenAI-powered agents on AWS infrastructure while relying on the provider
+  for runtime concerns such as inference, memory, skills, identity, audit logs,
+  service connectivity, and operations inside the cloud boundary.
 - Dify still represents the broader open-source application-platform pattern
   where orchestration, deployment control, and extensibility matter together.
 - n8n still represents the automation-first pattern where the agent is one step
@@ -103,6 +119,8 @@ flowchart LR
 - Choose workspace-native builders when the team already lives inside the host
   suite and wants shared agents with built-in governance and familiar
   permissions.
+- Choose cloud-managed agents when the team already standardizes on a cloud
+  provider's data boundaries, governance model, and adjacent services.
 - Choose builder-first platforms when quick iteration and cross-functional
   participation matter most.
 - Choose application platforms when you need a stronger bridge between
@@ -119,6 +137,9 @@ flowchart LR
 - Workspace-native builders are attractive because they reduce setup and align
   with existing permissions, but they are bounded by the host suite's extension
   model, rollout pace, and pricing.
+- Cloud-managed agents reduce runtime ownership, but they increase dependence on
+  provider-specific capabilities, pricing, regional availability, and release
+  timing.
 - Visual platforms improve accessibility, but complex flows can still become
   hard to debug.
 - Rich plugin ecosystems accelerate capability growth, but they also create
@@ -129,6 +150,8 @@ flowchart LR
 Useful defaults:
 
 - use suite-native builders to validate shared internal workflows quickly
+- use cloud-managed agents when service proximity, auditability, and managed
+  runtime operations matter more than framework portability
 - move to a broader platform or custom code when the host surface becomes the
   blocker
 - separate prototype convenience from production requirements early
@@ -150,6 +173,8 @@ Useful defaults:
 
 ## Update Log
 
+- 2026-05-01: Added Bedrock Managed Agents as a cloud-managed enterprise agent
+  platform signal from the seven-day trend run.
 - 2026-04-23: Refreshed the page with current workspace-agent and Microsoft
   builder-platform signals.
 - 2026-04-21: Initial repo-native draft based on imported reference material
