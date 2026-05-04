@@ -6,18 +6,41 @@ import SupportCTA from "/snippets/support-cta.mdx";
 
 <SupportCTA />
 
-Use this guide for repo-owned example projects and starters.
+Source projects are repo-owned examples, starters, or case-study projects that
+let readers practice a handbook idea with concrete structure. They are not code
+dumps. A good source project shows how an agent-system concept can become a
+small, inspectable implementation surface.
+
+Use this contribution type when the work needs files, folders, runnable snippets,
+configuration, or a project walkthrough rather than only prose.
 
 ## Where source projects belong
 
-Source projects live only in lane-local example folders:
+Source projects live only in lane-local example folders using
+`<lane>/examples/`.
 
-- `patterns/examples/`
-- `systems/examples/`
-- `ecosystem/examples/`
-- `case-studies/examples/`
+| Lane | What it covers | Example projects |
+| --- | --- | --- |
+| `patterns` | Small implementations of reusable agent-system patterns. | memory retrieval starter, planning loop starter |
+| `systems` | Infrastructure, protocol, evaluation, or runtime examples. | weather MCP server starter, observability trace starter |
+| `ecosystem` | Examples tied to frameworks, platforms, tools, or integration surfaces. | LangGraph starter, messaging assistant starter |
+| `case-studies` | Applied projects that support a concrete case-study page. | deep research agent starter, customer support email agent starter |
 
 Do not create `examples/` under `foundations/` in v1.
+
+## Issue and review flow
+
+Create a GitHub issue before building the project. Use the `Source Project
+Proposal` form so the lane, folder name, scope, source lineage, and review
+criteria are visible before work begins.
+
+The core team reviews the issue first. They may approve the scope, ask for
+changes, or decline the proposal. After the issue is approved or acknowledged,
+the contributor can fork the repository and make the change.
+
+The core team then reviews the pull request separately. They may approve it,
+request revisions, or decline the PR. If the issue or PR is declined, the
+contributor can still keep their fork and reuse the work outside this repository.
 
 ## Project naming
 

@@ -1,0 +1,86 @@
+---
+title: "Skill Package Guidelines"
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+Skill packages are local-agent workflow contributions. They package a repeatable
+way of working so a learner or operator can run it with an AI assistant, inspect
+the steps, and adapt the workflow for their own environment.
+
+This contribution type is not limited to one assistant product. A good package
+defines the workflow, the human-facing explanation, the agent-facing
+instructions, and any helper files needed to make the workflow reviewable and
+repeatable.
+
+## What belongs here
+
+- Local-agent workflows that need more structure than a single prompt
+- Repeatable research, review, capture, cleanup, or monitoring routines
+- Helper scripts, references, or rules that make the workflow safer to run
+- Clear instructions for when a human should review, approve, or take over
+
+## Where skill packages belong
+
+Skill packages live under `skills/<skill-slug>/`.
+
+| Surface | What it covers | Example packages |
+| --- | --- | --- |
+| `skills/<skill-slug>/README.md` | Human-facing explanation of the workflow and audience. | Daily News Watcher overview, Garbage Collector workflow |
+| `skills/<skill-slug>/SKILL.md` | Agent-facing invocation rules and operating contract. | when to run the skill, what steps to follow |
+| `skills/<skill-slug>/scripts/` | Deterministic helpers that make the workflow repeatable. | fetchers, analyzers, report writers |
+| `skills/<skill-slug>/references/` | Rules, source notes, checklists, or supporting context. | cleanup rules, source lists, escalation checklists |
+
+## Issue and review flow
+
+Create a GitHub issue before building the package. Use the `Practitioner Skill
+Package` form so the workflow, package shape, local integrations, and safety
+boundaries are visible before work begins.
+
+The core team reviews the issue first. They may approve the scope, ask for
+changes, or decline the proposal. After the issue is approved or acknowledged,
+the contributor can fork the repository and make the change.
+
+The core team then reviews the pull request separately. They may approve it,
+request revisions, or decline the PR. If the issue or PR is declined, the
+contributor can still keep their fork and reuse the work outside this repository.
+
+## Package shape
+
+Each package should stay small and legible:
+
+```text
+skills/<skill-name>/
+  README.md
+  SKILL.md
+  agents/openai.yaml
+  scripts/
+  references/
+```
+
+Use `README.md` for the human-facing story: why the package exists, who it is
+for, and what workflow it teaches. Use `SKILL.md` for the agent-facing
+invocation contract. Use `scripts/` only for deterministic helpers, and use
+`references/` for rules, source notes, or supporting guidance.
+
+## Working rules
+
+- Keep the package focused on one repeatable workflow.
+- Make the human role clear before any automated step.
+- Prefer small helper scripts over long manual command blocks.
+- Include enough documentation for review, but do not turn the package into a
+  general article.
+- Link from the package back to the relevant handbook page, project, or
+  contributor discussion when useful.
+
+## Completion standard
+
+A skill package is ready for review when it:
+
+- explains the workflow and audience
+- includes both human-facing and agent-facing instructions
+- keeps helper files minimal and deterministic
+- documents safety boundaries or approval points
+- can be reviewed as one coherent package

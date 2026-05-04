@@ -1,5 +1,5 @@
 name: Practitioner Skill Package
-description: Propose a Codex-compatible skill package under the top-level `skills/` directory.
+description: Propose a local-agent workflow package under the top-level `skills/` directory.
 title: "[Practitioner Skill]: "
 labels: ["enhancement", "good first issue", "skill package"]
 body:
@@ -8,13 +8,17 @@ body:
       value: |
         Use this form for code-plus-docs practitioner skill packages. These issues are not documentation-only unless the requested change only edits explanatory pages.
 
+        File this issue before building the package. The core team may approve
+        the scope, request changes, or decline the proposal before
+        implementation begins.
+
         Every skill package should include both:
         - a human-facing `README.md`
         - an agent-facing `SKILL.md`
 
         Before filing, review:
         - [Contributing](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/CONTRIBUTING.md)
-        - [Practitioner Skills](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/skills/index.mdx)
+        - [Skill Package Guidelines](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/skill-package-guidelines.mdx)
         - [GitHub Issue Guide](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/github-issue-guide.mdx)
   - type: dropdown
     id: package_change
@@ -96,4 +100,6 @@ body:
         - label: I understand this is a code-plus-docs contribution type, not a documentation-only issue.
           required: true
         - label: I will use an issue comment to request a claim and will not treat the task as assigned until a maintainer acknowledges it.
+          required: true
+        - label: I understand the core team should approve or acknowledge the issue scope before I open a pull request.
           required: true

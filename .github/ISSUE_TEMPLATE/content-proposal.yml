@@ -7,6 +7,10 @@ body:
       value: |
         Use this form for public lab content work.
 
+        File this issue before drafting the contribution. The core team may
+        approve the scope, request changes, or decline the proposal before
+        implementation begins.
+
         Before filing, review:
         - [Contributing](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/CONTRIBUTING.md)
         - [Contributor Kit](https://github.com/Prompthon-IO/agent-systems-handbook/tree/main/contributor-kit)
@@ -87,4 +91,6 @@ body:
         - label: I reviewed the relevant contributor guidance before filing this issue.
           required: true
         - label: I understand that imported material under `references/` is source input, not publishable copy.
+          required: true
+        - label: I understand the core team should approve or acknowledge the issue scope before I open a pull request.
           required: true

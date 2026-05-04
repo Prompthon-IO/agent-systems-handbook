@@ -7,6 +7,10 @@ body:
       value: |
         Use this form for new or substantially revised example projects.
 
+        File this issue before building the project. The core team may approve
+        the scope, request changes, or decline the proposal before
+        implementation begins.
+
         Relevant guidance:
         - [Contributing](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/CONTRIBUTING.md)
         - [Source Project Guidelines](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/source-project-guidelines.mdx)
@@ -71,4 +75,6 @@ body:
         - label: I checked that the target lane is allowed to contain `examples/`.
           required: true
         - label: I understand the example should stay minimal, repo-native, and safe on attribution boundaries.
+          required: true
+        - label: I understand the core team should approve or acknowledge the issue scope before I open a pull request.
           required: true

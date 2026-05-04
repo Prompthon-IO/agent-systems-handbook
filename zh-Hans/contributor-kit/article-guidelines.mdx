@@ -6,17 +6,29 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 <SupportCTA />
 
-使用本指南编写长期有效的实验室页面。
+Lab article 是长期有效的手册页面。它把一个有价值的 signal、问题或研究线索，转化成未来学习者可以直接使用的结构化解释，而不需要他们回到最初的聊天或讨论现场。
+
+当输出应该成为关于概念、模式、系统、生态方向或案例研究的长期页面时，使用这个贡献类型。Lab article 不是聊天记录、快速笔记，也不是松散的 source roundup。它应该帮助读者理解主题、为什么重要、如何思考，以及下一步读什么。
 
 ## 文章应放置在哪里
 
-- `foundations/`
-- `patterns/`
-- `systems/`
-- `ecosystem/`
-- `case-studies/`
+| Lane | 内容范围 | 示例主题 |
+| --- | --- | --- |
+| `foundations/` | 核心概念和第一性原理解释。 | 什么是 agent、agent systems、agents vs. workflows |
+| `patterns/` | 会在多种 agent systems 中反复出现的设计模式。 | memory and retrieval、planning and reflection、runtime building blocks |
+| `systems/` | 系统级架构、基础设施、协议和 evaluation。 | context engineering、interoperability、observability |
+| `ecosystem/` | 工具、框架、平台，以及 agent builder 周边生态。 | agent frameworks、low-code builders、platform comparisons |
+| `case-studies/` | 解释 agent systems 如何在真实场景中工作的应用案例。 | deep research agents、customer support agents |
 
 根据主题选择分类，而不是根据启发草稿的源章节来选。
+
+## Issue 和 review 流程
+
+在起草文章之前，先创建 GitHub issue。使用 `Content Proposal` 表单，并选择 `Lab article` 或 `Major revision to an existing lab page`。
+
+核心团队会先 review issue。他们可能批准 scope、请求修改，或拒绝 proposal。issue 被批准或确认之后，贡献者可以 fork 仓库并开始修改。
+
+核心团队会再单独 review pull request。他们可能批准、请求修改，或拒绝 PR。如果 issue 或 PR 被拒绝，贡献者仍然可以保留自己的 fork，并在仓库外继续使用这些改动。
 
 ## 必需结构
 

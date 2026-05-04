@@ -1,0 +1,70 @@
+---
+title: "Skill Package Guidelines"
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+Skill package 是面向 local agent workflow 的贡献。它把一种可重复的工作方式打包起来，让学习者或操作者可以用 AI assistant 运行、检查步骤，并根据自己的环境改造这个 workflow。
+
+这个贡献类型不绑定某一个 assistant 产品。好的 package 会定义 workflow、面向人的说明、面向 agent 的指令，以及让 workflow 可 review、可重复运行所需的辅助文件。
+
+## 这里适合什么
+
+- 比单个 prompt 更需要结构的 local-agent workflow
+- 可重复的 research、review、capture、cleanup 或 monitoring routine
+- 让 workflow 更安全运行的 helper scripts、references 或 rules
+- 清楚说明什么时候需要人来 review、approve 或接手
+
+## Skill package 应放在哪里
+
+Skill package 放在 `skills/<skill-slug>/` 下。
+
+| Surface | 内容范围 | 示例 |
+| --- | --- | --- |
+| `skills/<skill-slug>/README.md` | 面向人的 workflow 和目标读者说明。 | Daily News Watcher overview、Garbage Collector workflow |
+| `skills/<skill-slug>/SKILL.md` | 面向 agent 的调用规则和运行契约。 | 什么时候运行 skill、应该遵循哪些步骤 |
+| `skills/<skill-slug>/scripts/` | 让 workflow 可重复运行的确定性辅助工具。 | fetchers、analyzers、report writers |
+| `skills/<skill-slug>/references/` | 规则、source notes、checklists 或支持性上下文。 | cleanup rules、source lists、escalation checklists |
+
+## Issue 和 review 流程
+
+在构建 package 之前，先创建 GitHub issue。使用 `Practitioner Skill Package` 表单，让 workflow、package shape、local integrations 和 safety boundaries 在开工前可见。
+
+核心团队会先 review issue。他们可能批准 scope、请求修改，或拒绝 proposal。issue 被批准或确认之后，贡献者可以 fork 仓库并开始修改。
+
+核心团队会再单独 review pull request。他们可能批准、请求修改，或拒绝 PR。如果 issue 或 PR 被拒绝，贡献者仍然可以保留自己的 fork，并在仓库外继续使用这些改动。
+
+## Package 结构
+
+每个 package 都应保持小而清晰：
+
+```text
+skills/<skill-name>/
+  README.md
+  SKILL.md
+  agents/openai.yaml
+  scripts/
+  references/
+```
+
+使用 `README.md` 讲清面向人的故事：这个 package 为什么存在、适合谁、它教会什么 workflow。使用 `SKILL.md` 放置 agent-facing invocation contract。`scripts/` 只放确定性的辅助工具，`references/` 放规则、source notes 或支持性指南。
+
+## 工作规则
+
+- 让 package 聚焦在一个可重复 workflow 上。
+- 在任何自动化步骤之前说清人的角色。
+- 优先使用小型 helper scripts，而不是很长的手动命令块。
+- 提供足够 review 的文档，但不要把 package 写成一篇泛化文章。
+- 有用时，从 package 链回相关手册页面、项目或 contributor discussion。
+
+## 完成标准
+
+当一个 skill package 满足以下条件时，即可进入 review：
+
+- 说明了 workflow 和目标读者
+- 同时包含面向人和面向 agent 的说明
+- helper files 保持最小且确定性
+- 记录了安全边界或 approval points
+- 可以作为一个完整 package 被 review

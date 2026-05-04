@@ -6,17 +6,40 @@ import SupportCTA from "/snippets/support-cta.mdx";
 
 <SupportCTA />
 
-Use this guide for evergreen lab pages.
+Lab articles are durable handbook pages. They turn a useful signal, question, or
+research thread into a structured explanation that future learners can use
+without following the original conversation.
+
+Use this contribution type when the output should become a long-lived page about
+a concept, pattern, system, ecosystem area, or case study. A lab article is not a
+chat transcript, quick note, or loose source roundup. It should help a reader
+understand the topic, why it matters, how to reason about it, and where to go
+next.
 
 ## Where articles belong
 
-- `foundations/`
-- `patterns/`
-- `systems/`
-- `ecosystem/`
-- `case-studies/`
+| Lane | What it covers | Example topics |
+| --- | --- | --- |
+| `foundations/` | Core concepts and first-principles explanations. | what an agent is, agent systems, agents vs. workflows |
+| `patterns/` | Reusable design patterns that show up across many agent systems. | memory and retrieval, planning and reflection, runtime building blocks |
+| `systems/` | System-level architecture, infrastructure, protocols, and evaluation. | context engineering, interoperability, observability |
+| `ecosystem/` | Tools, frameworks, platforms, and the surrounding agent builder landscape. | agent frameworks, low-code builders, platform comparisons |
+| `case-studies/` | Applied examples that explain how agent systems work in real scenarios. | deep research agents, customer support agents |
 
 Choose the lane by topic, not by the source chapter that inspired the draft.
+
+## Issue and review flow
+
+Create a GitHub issue before drafting the article. Use the `Content Proposal`
+form and choose `Lab article` or `Major revision to an existing lab page`.
+
+The core team reviews the issue first. They may approve the scope, ask for
+changes, or decline the proposal. After the issue is approved or acknowledged,
+the contributor can fork the repository and make the change.
+
+The core team then reviews the pull request separately. They may approve it,
+request revisions, or decline the PR. If the issue or PR is declined, the
+contributor can still keep their fork and reuse the work outside this repository.
 
 ## Required shape
 

@@ -161,6 +161,7 @@
               {
                 "group": "Public workflow",
                 "pages": [
+                  "contributor-kit/start-here",
                   "contributor-kit/index",
                   "contributor-kit/lab-structure",
                   "contributor-kit/local-debugging",
@@ -173,9 +174,9 @@
                 "group": "Contribution types",
                 "pages": [
                   "contributor-kit/article-guidelines",
-                  "contributor-kit/radar-note-guidelines",
                   "contributor-kit/source-project-guidelines",
-                  "contributor-kit/reference-note-guidelines"
+                  "contributor-kit/skill-package-guidelines",
+                  "contributor-kit/discord-activity-record"
                 ]
               },
               {
@@ -378,6 +379,7 @@
               {
                 "group": "公开协作流程",
                 "pages": [
+                  "zh-Hans/contributor-kit/start-here",
                   "zh-Hans/contributor-kit/index",
                   "zh-Hans/contributor-kit/lab-structure",
                   "zh-Hans/contributor-kit/local-debugging",
@@ -390,9 +392,9 @@
                 "group": "贡献类型",
                 "pages": [
                   "zh-Hans/contributor-kit/article-guidelines",
-                  "zh-Hans/contributor-kit/radar-note-guidelines",
                   "zh-Hans/contributor-kit/source-project-guidelines",
-                  "zh-Hans/contributor-kit/reference-note-guidelines"
+                  "zh-Hans/contributor-kit/skill-package-guidelines",
+                  "zh-Hans/contributor-kit/discord-activity-record"
                 ]
               },
               {
