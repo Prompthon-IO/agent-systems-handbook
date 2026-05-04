@@ -159,3 +159,68 @@ test("fork pull request events skip cleanly when Actions secrets are unavailable
     },
   ]);
 });
+
+test("develop pull request events enqueue code review coordination", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "discord-announcer-"));
+  const eventPath = path.join(tempDir, "event.json");
+
+  writeJson(eventPath, {
+    action: "opened",
+    repository: {
+      full_name: "Prompthon-IO/agent-systems-handbook",
+      html_url: "https://github.com/Prompthon-IO/agent-systems-handbook",
+    },
+    pull_request: {
+      base: {
+        ref: "develop",
+      },
+      body: "Adds a focused contributor guide.",
+      head: {
+        repo: {
+          full_name: "Prompthon-IO/agent-systems-handbook",
+        },
+        sha: "abc123",
+      },
+      html_url: "https://github.com/Prompthon-IO/agent-systems-handbook/pull/99",
+      number: 99,
+      title: "docs: add contributor guide",
+      user: {
+        login: "contributor",
+      },
+    },
+    sender: {
+      login: "contributor",
+    },
+  });
+
+  const result = spawnSync(process.execPath, [scriptPath, "--dry-run"], {
+    cwd: repoRoot,
+    encoding: "utf8",
+    env: {
+      ...process.env,
+      DISCORD_CODE_REVIEW_CHANNEL_ID: "1499430188105334997",
+      GITHUB_EVENT_NAME: "pull_request",
+      GITHUB_EVENT_PATH: eventPath,
+      GITHUB_REF_NAME: "feature/contributor-guide",
+      GITHUB_REPOSITORY: "Prompthon-IO/agent-systems-handbook",
+      GITHUB_SHA: "abc123",
+    },
+  });
+
+  assert.equal(result.status, 0, result.stderr);
+  const output = JSON.parse(result.stdout);
+  assert.equal(output.dryRun, true);
+  assert.deepEqual(output.jobs, [
+    {
+      channelKey: "code-review",
+      commitSha: "abc123",
+      dedupeKey: "Prompthon-IO/agent-systems-handbook:pr:99:opened:code-review",
+      discordChannelId: "1499430188105334997",
+      eventType: "github_pull_request_opened",
+      prNumber: 99,
+      prTitle: "docs: add contributor guide",
+      repoFullName: "Prompthon-IO/agent-systems-handbook",
+      sourceUrl: "https://github.com/Prompthon-IO/agent-systems-handbook/pull/99",
+    },
+  ]);
+});
