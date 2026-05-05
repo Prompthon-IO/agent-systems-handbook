@@ -1,0 +1,6 @@
+interface:
+  display_name: "Price Watcher"
+  short_description: "Track product prices with reports"
+  default_prompt: "Use $price-watcher to watch a product by natural-language description, discover sources, save price history, and write a Markdown report."
+policy:
+  allow_implicit_invocation: true
