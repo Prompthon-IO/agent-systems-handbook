@@ -1,0 +1,87 @@
+---
+title: "Prompt Cache Agent Starter"
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 摘要
+
+这个 starter 展示一个很小的、感知提示词缓存边界的智能体循环：
+先放稳定提示词层，再放动态记忆，并用一个小型 benchmark 表面比较
+冷启动和热启动运行元数据。
+
+## 状态
+
+`starter`
+
+源代码：[patterns/examples/prompt-cache-agent-starter](https://github.com/Prompthon-IO/agent-systems-handbook/tree/main/patterns/examples/prompt-cache-agent-starter)
+
+## 为什么存在
+
+提示词缓存很容易描述，也很容易误用。构建者常常把检索记忆、
+用户特定事实或当前回合输入放进同一个长前缀里，同时又期待提供方
+缓存这个前缀。这样会让缓存行为更难推理。
+
+这个 starter 把边界显式展示出来。它把工具清单、系统指令和稳定
+参考上下文视为可缓存层，而把持久化记忆摘要和当前任务放在缓存
+前缀之外，除非构建者有意提升它们。
+
+## 相关实验室页面
+
+- [Agent Memory And Retrieval](/zh-Hans/patterns/agent-memory-and-retrieval)
+- [Agent Runtime Building Blocks](/zh-Hans/patterns/agent-runtime-building-blocks)
+- [Patterns Overview](/zh-Hans/patterns)
+
+## 文件结构
+
+```text
+prompt-cache-agent-starter/
+├── README.md
+├── SOURCE_NOTES.md
+├── index.mdx
+├── src/
+│   └── prompt_cache_agent_starter.py
+└── tests/
+    └── test_prompt_cache_agent_starter.py
+```
+
+## 包含的示例文件
+
+- `src/prompt_cache_agent_starter.py`：提示词层、缓存边界检测、
+  使用量摘要，以及冷启动和热启动对比的 typed helper
+- `tests/test_prompt_cache_agent_starter.py`：这个 starter 行为的可执行
+  冒烟测试
+- `SOURCE_NOTES.md`：来源脉络和归属边界
+
+## 流程边界
+
+这个 starter 可以：
+
+- 将提示词层建模为可缓存或动态
+- 计算稳定前缀在哪里结束
+- 比较缓存读取和缓存写入占比
+- 在提供当前价格值时估算输入成本
+
+这个 starter 不应：
+
+- 调用真实 API
+- 存储原始对话 transcript
+- 硬编码提供方价格
+- 默认把持久化记忆折叠进缓存前缀
+
+## 快速开始
+
+从仓库根目录运行：
+
+```bash
+python3 patterns/examples/prompt-cache-agent-starter/tests/test_prompt_cache_agent_starter.py
+python3 scripts/verify_example_projects.py
+```
+
+## 下一步
+
+- 增加一个读取脱敏 Claude 使用量元数据的提供方适配器。
+- 增加一个仅用于文档报告示例的小型 JSONL fixture。
+- 如果 benchmark 流程变得更适合探索式使用，再增加配套 notebook。
