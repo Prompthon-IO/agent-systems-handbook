@@ -114,8 +114,16 @@ def summarize_usage(
     usage: TokenUsage,
     pricing: Pricing | None = None,
 ) -> UsageSummary:
-    cache_read_share = usage.cache_read_tokens / usage.input_tokens
-    cache_write_share = usage.cache_write_tokens / usage.input_tokens
+    if usage.input_tokens == 0:
+        cache_read_share = 0.0
+        cache_write_share = 0.0
+    else:
+        cache_read_share = (
+            usage.cache_read_tokens / usage.input_tokens
+        )
+        cache_write_share = (
+            usage.cache_write_tokens / usage.input_tokens
+        )
     cost = None
     if pricing is not None:
         base_tokens = (
