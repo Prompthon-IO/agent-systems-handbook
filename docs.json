@@ -72,6 +72,7 @@
                 "pages": [
                   "systems/index",
                   "systems/context-engineering",
+                  "systems/agent-ui-protocols-and-generative-ui",
                   "systems/protocols-and-interoperability",
                   "systems/evaluation-and-observability"
                 ]
@@ -291,6 +292,7 @@
                 "pages": [
                   "zh-Hans/systems/index",
                   "zh-Hans/systems/context-engineering",
+                  "zh-Hans/systems/agent-ui-protocols-and-generative-ui",
                   "zh-Hans/systems/protocols-and-interoperability",
                   "zh-Hans/systems/evaluation-and-observability"
                 ]
