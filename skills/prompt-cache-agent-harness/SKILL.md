@@ -61,7 +61,7 @@ The helper reads one or more JSON or JSONL artifacts with fields like:
 {
   "label": "warm-run",
   "latency_ms": 2800,
-  "input_tokens": 18000,
+  "input_tokens": 2500,
   "cache_creation_input_tokens": 1200,
   "cache_read_input_tokens": 14500,
   "output_tokens": 900,
@@ -70,6 +70,12 @@ The helper reads one or more JSON or JSONL artifacts with fields like:
   "notes": ["user-specific recall was appended after the cache boundary"]
 }
 ```
+
+`input_tokens`, `cache_creation_input_tokens`, and
+`cache_read_input_tokens` follow Anthropic usage metadata as separate token
+buckets. The helper uses their sum as the denominator for cache-read and
+cache-write shares. A standalone JSON object, a JSON array, a `{"runs": [...]}`
+object, or JSONL input are all accepted.
 
 Useful aliases are accepted for common captured metadata:
 
@@ -126,6 +132,8 @@ python3 scripts/prompt_cache_report.py \
 - High cache writes with low cache reads usually means the workflow is paying
   setup cost without warm reuse.
 - Strong cache reads on the warm run indicate the stable prefix is being reused.
+- If a hash is present for some runs but missing for others, treat that field
+  as not comparable rather than stable.
 - Keep durable memory separate from prompt caching; durable memory decides what
   to recall, while prompt caching rewards exact reusable prompt prefixes.
 
