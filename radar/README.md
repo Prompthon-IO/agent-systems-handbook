@@ -19,6 +19,9 @@ without destabilizing the evergreen structure.
 
 ## Current notes
 
+- [April 2026 Cyber Defense Access Policy Watch](./2026-04-cyber-defense-access-policy-watch.mdx):
+  a current signal on broad trusted cyber-defense access, gated frontier
+  defensive releases, and access-aware agent runtime boundaries.
 - [April 2026 Assistant Safety Escalation Watch](./2026-04-assistant-safety-escalation-watch.mdx):
   a current signal on credible violence flags, duty-to-report boundaries,
   repeat policy violators, and audit-ready safety handoffs.
