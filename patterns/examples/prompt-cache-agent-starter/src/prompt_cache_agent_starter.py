@@ -20,8 +20,9 @@ class TokenUsage:
     output_tokens: int = 0
 
     def __post_init__(self) -> None:
+        if self.input_tokens <= 0:
+            raise ValueError("input_tokens must be positive")
         for field_name in (
-            "input_tokens",
             "cache_write_tokens",
             "cache_read_tokens",
             "output_tokens",
@@ -114,16 +115,8 @@ def summarize_usage(
     usage: TokenUsage,
     pricing: Pricing | None = None,
 ) -> UsageSummary:
-    if usage.input_tokens == 0:
-        cache_read_share = 0.0
-        cache_write_share = 0.0
-    else:
-        cache_read_share = (
-            usage.cache_read_tokens / usage.input_tokens
-        )
-        cache_write_share = (
-            usage.cache_write_tokens / usage.input_tokens
-        )
+    cache_read_share = usage.cache_read_tokens / usage.input_tokens
+    cache_write_share = usage.cache_write_tokens / usage.input_tokens
     cost = None
     if pricing is not None:
         base_tokens = (

@@ -66,7 +66,31 @@ def test_usage_summary_and_comparison() -> None:
     assert comparison.stable_prefix_changed is False
 
 
+def test_token_usage_validation() -> None:
+    try:
+        TokenUsage(input_tokens=-1)
+    except ValueError as exc:
+        assert "input_tokens must be positive" in str(exc)
+    else:
+        raise AssertionError("negative input tokens should be rejected")
+
+    try:
+        TokenUsage(input_tokens=0)
+    except ValueError as exc:
+        assert "input_tokens must be positive" in str(exc)
+    else:
+        raise AssertionError("zero input tokens should be rejected")
+
+    try:
+        TokenUsage(input_tokens=10, cache_write_tokens=8, cache_read_tokens=3)
+    except ValueError as exc:
+        assert "cannot exceed input tokens" in str(exc)
+    else:
+        raise AssertionError("cache token buckets should not exceed input tokens")
+
+
 if __name__ == "__main__":
     test_prompt_cache_boundary()
     test_usage_summary_and_comparison()
+    test_token_usage_validation()
     print("prompt-cache-agent-starter smoke test passed")
