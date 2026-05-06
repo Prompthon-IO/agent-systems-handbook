@@ -115,6 +115,51 @@ def check_memory_starter() -> None:
     assert all(item.source == "imported-summary" for item in merged_context)
 
 
+def check_prompt_cache_starter() -> None:
+    module = load_module(
+        "prompt_cache_agent_starter",
+        "patterns/examples/prompt-cache-agent-starter/src/prompt_cache_agent_starter.py",
+    )
+    layers = module.build_prompt_layers(
+        tool_manifest="tool:get_weather",
+        system_instructions="You are a bounded agent.",
+        reference_context="Project policy v1",
+        durable_memory_summary="User prefers concise answers.",
+        current_task="Plan today's work.",
+    )
+    cold = module.RunObservation(
+        label="cold",
+        latency_ms=5200,
+        usage=module.TokenUsage(input_tokens=10000, cache_write_tokens=7000),
+        stable_prefix_hash=module.stable_prefix_hash(layers),
+    )
+    warm = module.RunObservation(
+        label="warm",
+        latency_ms=2600,
+        usage=module.TokenUsage(input_tokens=10000, cache_read_tokens=7000),
+        stable_prefix_hash=module.stable_prefix_hash(layers),
+    )
+    summary = module.summarize_usage(
+        warm.usage,
+        module.Pricing(
+            base_input_usd_per_mtok=3.0,
+            cache_write_usd_per_mtok=3.75,
+            cache_hit_usd_per_mtok=0.30,
+        ),
+    )
+    comparison = module.compare_runs(cold, warm)
+
+    assert module.cache_boundary_index(layers) == 3
+    assert [layer.name for layer in layers[3:]] == [
+        "dynamic-memory",
+        "turn-input",
+    ]
+    assert summary.cache_read_share == 0.7
+    assert round(summary.estimated_input_cost_usd, 6) == 0.0111
+    assert comparison.latency_delta_ms == -2600
+    assert comparison.stable_prefix_changed is False
+
+
 def check_weather_starter() -> None:
     module = load_module(
         "weather_server",
@@ -314,6 +359,7 @@ def check_customer_support_starter() -> None:
 def main() -> int:
     checks = [
         ("patterns/examples/agent-memory-retrieval-starter", check_memory_starter),
+        ("patterns/examples/prompt-cache-agent-starter", check_prompt_cache_starter),
         ("systems/examples/weather-mcp-server-starter", check_weather_starter),
         ("ecosystem/examples/langgraph-starter", check_langgraph_starter),
         (

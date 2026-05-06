@@ -141,6 +141,7 @@
                 "pages": [
                   "reading-paths/sample-projects",
                   "patterns/examples/agent-memory-retrieval-starter/index",
+                  "patterns/examples/prompt-cache-agent-starter/index",
                   "systems/examples/weather-mcp-server-starter/index",
                   "ecosystem/examples/langgraph-starter/index",
                   "ecosystem/examples/messaging-transaction-assistant-starter/index",
