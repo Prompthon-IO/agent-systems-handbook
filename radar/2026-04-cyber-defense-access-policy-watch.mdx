@@ -1,0 +1,103 @@
+---
+title: April 2026 Cyber Defense Access Policy Watch
+owner: Prompthon IO
+updated: 2026-05-05
+time_scope: 2026-04
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+## Summary
+
+April 2026 produced a useful policy contrast for agent-system builders working
+near high-risk cyber tooling. OpenAI framed cyber defense as a broad trusted
+access problem: frontier model capability should reach many legitimate
+defenders, with validation and safeguards rising as capability rises.
+Anthropic's Project Glasswing framed a narrower defensive release model around
+Claude Mythos Preview, a constrained consortium, critical software maintainers,
+and a still-unreleased frontier model.
+
+The shared premise is that advanced models are becoming more capable at finding
+and reasoning about vulnerabilities. The split is in access design: broad
+defender enablement with trust tiers versus gated deployment of a frontier
+cyber model through selected partners.
+
+## Why It Matters
+
+Cyber-defense agents sit close to a sensitive boundary. The same workflow that
+helps a defender triage vulnerabilities can become risky if the system receives
+unbounded exploit, scanning, or remediation authority. The access model is
+therefore part of the agent architecture, not just a policy wrapper around it.
+
+For handbook readers, this signal is a reminder to design cyber-adjacent agent
+systems with explicit access tiers:
+
+- who is allowed to use stronger capability
+- which tasks stay defensive and auditable
+- what evidence must be logged before a tool call
+- when human approval is required
+- how model capability changes the required safeguards
+
+## Evidence And Sources
+
+- [Cybersecurity in the Intelligence Age](https://openai.com/index/cybersecurity-in-the-intelligence-age/):
+  OpenAI published an action plan around democratizing cyber defense,
+  coordinating government and industry, strengthening controls around frontier
+  cyber capabilities, preserving deployment visibility, and helping users
+  protect themselves.
+- [Accelerating the cyber defense ecosystem that protects us all](https://openai.com/index/accelerating-cyber-defense-ecosystem/):
+  OpenAI described Trusted Access for Cyber as a defender-oriented program
+  where access expands with trust, validation, and safeguards, including grants
+  and access for security researchers, enterprises, and public evaluation
+  bodies.
+- [Project Glasswing](https://www.anthropic.com/glasswing): Anthropic announced
+  a consortium-style effort where launch partners and additional critical
+  software organizations can use Claude Mythos Preview for defensive security,
+  while the model remains unreleased more broadly.
+
+## Signals To Watch
+
+- Whether "trusted access" programs publish clearer tiering rules for
+  eligibility, task scope, monitoring, and revocation.
+- Whether cyber model evaluations become part of public deployment governance
+  instead of staying as one-time launch claims.
+- Whether builders separate defensive scanning, exploit generation,
+  patch-authoring, and remediation into different approval levels.
+- Whether vendors describe model access as broad ecosystem enablement, gated
+  critical-infrastructure protection, or a hybrid of both.
+- Whether cyber-agent logs become review artifacts for auditors, security
+  teams, and model providers.
+
+## Design Implications
+
+The durable pattern is access-aware capability routing. A cyber-defense agent
+should not treat every user, model, and tool path as equivalent.
+
+One useful design shape is:
+
+1. define allowed defensive tasks before choosing tools
+2. separate observation, diagnosis, exploit reasoning, and remediation actions
+3. route stronger model capability only after trust checks pass
+4. require human approval before actions that could affect live systems
+5. preserve logs that show user intent, model reasoning summary, tool calls,
+   and approval state
+6. review access tiers whenever the underlying model capability changes
+
+For non-cyber builders, the lesson still transfers: as agents gain capability,
+permissioning, observability, and review boundaries need to move into the
+runtime design rather than remaining as after-the-fact policy text.
+
+## Editorial Take
+
+This belongs in `radar/` because the provider programs and model names are
+moving quickly. The evergreen lesson is not a specific April 2026 program. It
+is that high-risk agent systems need access policy, evaluation evidence, and
+human approval surfaces built into the workflow from the start.
+
+## Update Log
+
+- 2026-05-05: Added a radar note on broad trusted cyber-defense access versus
+  gated frontier-model defensive release.
