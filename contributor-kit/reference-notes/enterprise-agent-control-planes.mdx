@@ -1,8 +1,8 @@
 ---
 title: Enterprise Agent Control Planes
 owner: Prompthon IO
-updated: 2026-04-29
-scope: current control-plane framing for enterprise agents through April 2026
+updated: 2026-05-03
+scope: current managed-runtime and control-plane framing for enterprise agents through May 2026
 status: draft
 ---
 
@@ -12,29 +12,39 @@ import SupportCTA from "/snippets/support-cta.mdx";
 
 ## Summary
 
-This note gives contributors a compact source map for a newer enterprise-agent
-comparison axis: the control plane around agents, not only the model or runtime
-inside them.
+This note gives contributors a compact source map for two related
+enterprise-agent comparison axes: the managed runtime around agents and the
+control plane across them.
 
-The immediate trigger is Microsoft's April 28, 2026 framing around
+The immediate triggers are Microsoft's April 28, 2026 framing around
 `Intelligence + Trust`, where Microsoft IQ carries business context and Agent
 365 carries observability, governance, and security across both Microsoft's own
-agent surfaces and third-party environments.
+agent surfaces and third-party environments, and AWS's April 28, 2026 launch
+framing for Bedrock Managed Agents and AgentCore.
 
 ## Why It Matters
 
 Agent-platform comparisons often collapse into model access, orchestration UX,
-or framework ergonomics. That misses a different buying question: how does an
-organization observe, govern, and secure a growing set of agents that span
-multiple runtimes and vendors?
+or framework ergonomics. That misses two different buying questions:
+
+- how much of the runtime should stay managed for the team
+- how does an organization observe, govern, and secure a growing set of agents
+  that span multiple runtimes and vendors?
 
 This note helps contributors keep two layers separate:
 
-- the runtime layer that plans, retrieves, calls tools, and produces outputs
+- the managed-runtime layer that handles inference, memory, execution, and
+  runtime security for one agent workload
 - the control-plane layer that enforces trust, visibility, and policy across
   many agents and environments
 
-That split is becoming more useful than a simple "which model?" comparison.
+It also helps preserve a third boundary:
+
+- the open framework layer where teams still choose their orchestration model
+  and application architecture directly
+
+That three-way split is becoming more useful than a simple "which model?"
+comparison.
 
 ## Scope Notes
 
@@ -43,6 +53,8 @@ Included:
 - Microsoft's current commercial framing for `Intelligence + Trust`
 - Microsoft IQ as the context and intelligence layer
 - Agent 365 as the observability, governance, and security layer
+- AWS's launch framing for Bedrock Managed Agents
+- AgentCore as the underlying open platform beneath the managed runtime
 - implications for later ecosystem and systems refreshes in this repo
 
 Excluded:
@@ -60,36 +72,74 @@ Excluded:
   layer around data and agent development, and positions Agent 365 as the
   observability, governance, and security layer across Microsoft and
   third-party agent environments.
+- [Amazon Bedrock now offers OpenAI models, Codex, and Managed Agents (Limited Preview)](https://aws.amazon.com/about-aws/whats-new/2026/04/bedrock-openai-models-codex-managed-agents/):
+  AWS positions Bedrock Managed Agents as a fast path to deploy
+  production-ready OpenAI-powered agents on AWS, with each agent getting its
+  own identity, action logging, and an AgentCore-backed default compute
+  environment.
+- [Amazon Bedrock Managed Agents](https://aws.amazon.com/bedrock/managed-agents-openai/):
+  the product page says the managed runtime handles inference, memory, and
+  skills inside the customer's environment and connects the managed surface to
+  future AgentCore capabilities such as authorization policy enforcement,
+  discovery, observability, and evaluation.
+- [Amazon Bedrock AgentCore overview](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html):
+  AWS describes AgentCore as an agentic platform for building, deploying, and
+  operating agents securely at scale using any framework and foundation model,
+  with runtime, memory, identity, observability, and gateway services.
+- [awslabs/agentcore-samples](https://github.com/awslabs/agentcore-samples):
+  the official AWS sample repo shows that AgentCore is not only a marketing
+  label; it already has a substantial code surface for hosted runtimes,
+  gateways, memory, observability, browser tooling, and evaluation.
+- [microsoft/agent-framework](https://github.com/microsoft/agent-framework):
+  the official Microsoft framework repo gives contributors a useful contrast
+  point between an open framework surface and Microsoft's separate Agent 365
+  control-plane positioning.
 
 ## Synthesis
 
-Three contributor-facing takeaways matter most:
+Four contributor-facing takeaways matter most:
 
-- Enterprise agent discussion is shifting beyond model choice. Microsoft's
-  framing makes the control plane a product surface in its own right.
+- Enterprise agent discussion is shifting beyond model choice. AWS is pushing a
+  managed-runtime story, while Microsoft is pushing a control-plane story.
 - Trust is being positioned as cross-environment infrastructure, not only as a
   property of one assistant or one runtime. That suggests contributors should
   separate local runtime capability from fleet-level governance.
-- A useful lab comparison axis is emerging: context and execution on one side,
-  observability and policy control on the other. That split can sharpen both
-  systems pages and ecosystem pages without hard-coding one vendor's naming.
+- Managed runtime is becoming a distinct comparison layer. Bedrock Managed
+  Agents packages inference, memory, execution, and auditability inside a
+  hosted environment before the question becomes "which framework should we
+  write?"
+- A useful lab comparison axis is emerging: open framework, managed runtime,
+  and control plane. That split can sharpen both systems pages and ecosystem
+  pages without hard-coding one vendor's naming.
 
 For the handbook, the durable lesson is not the vendor label. It is the
 category boundary that contributors should preserve when comparing agent
 platforms and enterprise deployment stories.
 
+## Related Handbook Paths
+
+- [Reference Notes](/contributor-kit/reference-notes)
+- [Agent Platforms And Low-Code Builders](/ecosystem/agent-platforms-and-low-code-builders)
+- [Evaluation And Observability](/systems/evaluation-and-observability)
+- [Protocols And Interoperability](/systems/protocols-and-interoperability)
+
 ## Gaps And Follow-up
 
 - Revisit [Systems: Evaluation and Observability](/systems/evaluation-and-observability)
   with a short section that distinguishes runtime instrumentation from
-  organization-level control planes.
+  organization-level control planes and from managed-runtime defaults.
 - Revisit [Agent Platforms And Low-Code Builders](/ecosystem/agent-platforms-and-low-code-builders)
-  if more official sources begin using this split as a stable comparison frame.
+  if more official sources begin using managed runtime versus control plane as a
+  stable comparison frame.
 - Add future sources when other first-party platforms describe comparable
-  fleet-level governance surfaces explicitly enough to compare without guesswork.
+  managed-runtime or fleet-governance surfaces explicitly enough to compare
+  without guesswork.
 
 ## Update Log
 
+- 2026-05-03: Expanded the note with AWS Bedrock Managed Agents and AgentCore
+  so contributors can separate open frameworks, managed runtimes, and control
+  planes.
 - 2026-04-29: Added a contributor-facing note on enterprise agent control
   planes using Microsoft's `Intelligence + Trust` framing as the current source
   spine.
