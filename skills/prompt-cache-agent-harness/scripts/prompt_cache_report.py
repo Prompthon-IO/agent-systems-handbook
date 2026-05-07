@@ -47,7 +47,14 @@ def read_artifacts(path: Path) -> list[RunArtifact]:
         except json.JSONDecodeError:
             rows = parse_jsonl(text)
         else:
-            rows = payload if isinstance(payload, list) else payload.get("runs", [])
+            if isinstance(payload, list):
+                rows = payload
+            elif isinstance(payload, dict) and isinstance(payload.get("runs"), list):
+                rows = payload["runs"]
+            elif isinstance(payload, dict):
+                rows = [payload]
+            else:
+                rows = []
     if not isinstance(rows, list) or not rows:
         raise ValueError("input must contain at least one run artifact")
     return [normalize_run(row, index) for index, row in enumerate(rows, start=1)]
@@ -114,23 +121,34 @@ def ratio(numerator: int, denominator: int | None) -> float | None:
     return numerator / denominator
 
 
+def total_input_tokens(run: RunArtifact) -> int | None:
+    if run.input_tokens is None:
+        if run.cache_write_tokens or run.cache_read_tokens:
+            return run.cache_write_tokens + run.cache_read_tokens
+        return None
+    return run.input_tokens + run.cache_write_tokens + run.cache_read_tokens
+
+
 def estimate_input_cost(run: RunArtifact, pricing: Pricing) -> float | None:
     if not pricing.complete or run.input_tokens is None:
         return None
-    base_tokens = max(
-        run.input_tokens - run.cache_write_tokens - run.cache_read_tokens,
-        0,
-    )
     return (
-        (base_tokens / 1_000_000) * pricing.base_input_usd_per_mtok
+        (run.input_tokens / 1_000_000) * pricing.base_input_usd_per_mtok
         + (run.cache_write_tokens / 1_000_000) * pricing.cache_write_usd_per_mtok
         + (run.cache_read_tokens / 1_000_000) * pricing.cache_hit_usd_per_mtok
     )
 
 
-def changed(values: Iterable[str | None]) -> bool:
-    present = [value for value in values if value is not None]
-    return len(set(present)) > 1
+def optional_field_status(values: Iterable[str | None]) -> str:
+    collected = list(values)
+    present = [value for value in collected if value is not None]
+    if not present:
+        return "missing"
+    if len(present) != len(collected):
+        return "partial"
+    if len(set(present)) == 1:
+        return "same"
+    return "changed"
 
 
 def render_report(runs: list[RunArtifact], pricing: Pricing) -> str:
@@ -139,13 +157,13 @@ def render_report(runs: list[RunArtifact], pricing: Pricing) -> str:
         "",
         "## Runs",
         "",
-        "| Run | Latency | Input tokens | Cache writes | Cache reads | Read share | Write share | Input cost |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Run | Latency | Regular input | Cache writes | Cache reads | Total input | Read share | Write share | Input cost |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for run in runs:
-        input_tokens = run.input_tokens
-        read_share = ratio(run.cache_read_tokens, input_tokens)
-        write_share = ratio(run.cache_write_tokens, input_tokens)
+        total_tokens = total_input_tokens(run)
+        read_share = ratio(run.cache_read_tokens, total_tokens)
+        write_share = ratio(run.cache_write_tokens, total_tokens)
         cost = estimate_input_cost(run, pricing)
         lines.append(
             "| "
@@ -153,9 +171,10 @@ def render_report(runs: list[RunArtifact], pricing: Pricing) -> str:
                 [
                     f"`{run.label}`",
                     format_latency(run.latency_ms),
-                    format_int(input_tokens),
+                    format_int(run.input_tokens),
                     format_int(run.cache_write_tokens),
                     format_int(run.cache_read_tokens),
+                    format_int(total_tokens),
                     format_percent(read_share),
                     format_percent(write_share),
                     format_cost(cost),
@@ -165,20 +184,30 @@ def render_report(runs: list[RunArtifact], pricing: Pricing) -> str:
         )
 
     lines.extend(["", "## Cache Boundary Signals", ""])
-    if changed(run.stable_layer_hash for run in runs):
+    stable_status = optional_field_status(run.stable_layer_hash for run in runs)
+    if stable_status == "changed":
         lines.append("- Stable layer hash changed across runs; cache reuse may be invalidated.")
+    elif stable_status == "partial":
+        lines.append("- Stable layer hash is missing in at least one run; stability is not comparable.")
+    elif stable_status == "missing":
+        lines.append("- Stable layer hash was not supplied.")
     else:
-        lines.append("- Stable layer hash stayed constant or was not supplied.")
+        lines.append("- Stable layer hash stayed constant across supplied runs.")
 
-    if changed(run.dynamic_memory_hash for run in runs):
+    memory_status = optional_field_status(run.dynamic_memory_hash for run in runs)
+    if memory_status == "changed":
         lines.append("- Dynamic memory hash changed; this is acceptable only if memory sits after the cache boundary.")
+    elif memory_status == "partial":
+        lines.append("- Dynamic memory hash is missing in at least one run; memory movement is not comparable.")
+    elif memory_status == "missing":
+        lines.append("- Dynamic memory hash was not supplied.")
     else:
-        lines.append("- Dynamic memory hash stayed constant or was not supplied.")
+        lines.append("- Dynamic memory hash stayed constant across supplied runs.")
 
     warm_runs = runs[1:] if len(runs) > 1 else runs
     warm_read_shares = [
         share
-        for share in (ratio(run.cache_read_tokens, run.input_tokens) for run in warm_runs)
+        for share in (ratio(run.cache_read_tokens, total_input_tokens(run)) for run in warm_runs)
         if share is not None
     ]
     if warm_read_shares and max(warm_read_shares) >= 0.5:
