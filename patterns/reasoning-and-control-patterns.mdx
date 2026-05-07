@@ -1,12 +1,18 @@
 ---
 title: Reasoning And Control Patterns
 owner: Prompthon IO
-updated: 2026-04-21
+updated: 2026-05-07
 depth: intermediate
 region_tags:
   - global
 coding_required: optional
-external_readings: []
+external_readings:
+  - title: "Anthropic: Building Effective AI Agents"
+    url: https://resources.anthropic.com/hubfs/Building%20Effective%20AI%20Agents-%20Architecture%20Patterns%20and%20Implementation%20Frameworks.pdf
+  - title: "Claude Code Docs: Create custom subagents"
+    url: https://code.claude.com/docs/en/sub-agents
+  - title: "Claude Code Docs: Orchestrate teams of Claude Code sessions"
+    url: https://code.claude.com/docs/en/agent-teams
 status: draft
 ---
 
@@ -18,7 +24,10 @@ import SupportCTA from "/snippets/support-cta.mdx";
 
 Reasoning and control patterns define how an agent alternates between thinking,
 acting, and stopping. They are less about model intelligence than about how the
-system structures decisions over time.
+system structures decisions over time. That structure now spans more than one
+loop shape: a single-session tool loop, a lead session that delegates side
+tasks to subagents, and multi-agent orchestration where multiple specialists
+coordinate in parallel.
 
 ## Why It Matters
 
@@ -32,6 +41,7 @@ Pattern choice therefore shapes:
 - explainability
 - cost and latency
 - recovery behavior
+- how much coordination overhead the system can justify
 
 ## Mental Model
 
@@ -54,6 +64,13 @@ The broader lesson is that control patterns define where reasoning happens:
 - after failure
 - or at explicit stopping points
 
+That same lesson extends to orchestration. The system also has to decide where
+coordination happens:
+
+- inside one agent loop
+- through delegated side workers that report back to a lead
+- or across multiple independent agents that coordinate directly
+
 ## Architecture Diagram
 
 ```mermaid
@@ -65,6 +82,21 @@ flowchart LR
   Thought --> Final["Final answer or stop"]
 ```
 
+## Choosing A Control Surface
+
+Recent Anthropic guidance makes the control-surface choice more explicit:
+
+| If the work looks like... | Prefer... | Because... |
+| --- | --- | --- |
+| One sequence of tool calls where each result changes the next step | single-session loop | the control logic stays cheapest and easiest to debug |
+| A focused side task that would flood the main context with logs, search results, or file reads | subagent delegation | the lead keeps control while the worker returns only the summary |
+| Parallel investigation across independent specialties | multi-agent orchestration | specialized workers can pursue different directions at the same time |
+| Work that depends on direct worker-to-worker discussion and shared ownership | agent teams or collaborative multi-agent patterns | the workers need more than one-way reporting to a lead |
+
+The control question is not only "how smart is the model?" It is also "how
+expensive is coordination compared with the value of parallelism or
+specialization?"
+
 ## Tool Landscape
 
 Common reasoning and control patterns include:
@@ -74,10 +106,25 @@ Common reasoning and control patterns include:
 - explicit stop or handoff rules that prevent endless loops
 - traceable reasoning surfaces that expose enough intermediate state to debug
   decisions without forcing every token into the final answer
+- hierarchical orchestration where a supervisor, router, or orchestrator
+  delegates tasks to role-specific specialists
+- collaborative multi-agent patterns where workers communicate directly or
+  coordinate through shared state instead of routing everything through one lead
 
 The important design choice is not whether to show chain-of-thought. It is
 whether the system has enough internal control structure to keep actions
 purposeful and recover when evidence changes.
+
+Anthropic's current control-surface split is especially useful in practice:
+
+- `subagents` fit focused side work inside one session. They keep their own
+  context window, but they report back only to the main agent.
+- `agent teams` fit more expensive collaborative work where independent
+  sessions need direct communication, a shared task list, and explicit
+  coordination.
+- `multi-agent orchestration` is the broader architecture category around those
+  ideas: centralized supervisor patterns, decentralized peer coordination, and
+  structured workflows that mix both.
 
 ## Tradeoffs
 
@@ -88,6 +135,11 @@ purposeful and recover when evidence changes.
 - Narrow tool surfaces reduce mistakes, but they can also limit flexibility.
 - Rich intermediate reasoning can improve decisions, but only if the system can
   keep that reasoning aligned with the actual task.
+- Multi-agent orchestration can improve coverage and specialization, but token,
+  latency, and observability costs rise quickly.
+- Collaborative worker teams are useful only when the task is genuinely
+  parallel. For sequential work or same-file edits, coordination overhead can
+  dominate the benefit.
 
 Useful defaults:
 
@@ -95,11 +147,18 @@ Useful defaults:
 - add explicit stop conditions before adding more tool breadth
 - keep the control loop inspectable enough to debug, even if the final product
   hides most of that internal machinery
+- use subagents before agent teams when one lead can still own the task and
+  only needs focused side results
+- use multi-agent orchestration only when specialization or parallel pursuit
+  clearly beats a simpler single-loop design
 
 ## Citations
 
 - Source input: [Chapter 4 Building Classic Agent Paradigms](https://github.com/datawhalechina/Hello-Agents/blob/main/docs/chapter4/Chapter4-Building-Classic-Agent-Paradigms.md)
 - Source input: [Hello-Agents upstream repository](https://github.com/datawhalechina/Hello-Agents)
+- Official source: [Anthropic: Building Effective AI Agents](https://resources.anthropic.com/hubfs/Building%20Effective%20AI%20Agents-%20Architecture%20Patterns%20and%20Implementation%20Frameworks.pdf)
+- Official source: [Claude Code subagents](https://code.claude.com/docs/en/sub-agents)
+- Official source: [Claude Code agent teams](https://code.claude.com/docs/en/agent-teams)
 
 ## Reading Extensions
 
@@ -109,4 +168,6 @@ Useful defaults:
 
 ## Update Log
 
+- 2026-05-07: Added current Anthropic guidance for subagents, agent teams, and
+  multi-agent orchestration as concrete control-surface choices.
 - 2026-04-21: Initial repo-native draft based on imported reference material and lab rewrite rules.
