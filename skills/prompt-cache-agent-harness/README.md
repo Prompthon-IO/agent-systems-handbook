@@ -40,10 +40,9 @@ transcripts, and provider responses out of the public handbook.
 
 The helper reads JSON or JSONL run artifacts and reports:
 
-- regular input tokens
+- input tokens
 - cache-write tokens
 - cache-read tokens
-- total input tokens across those usage buckets
 - output tokens
 - latency
 - cache-read share
@@ -58,7 +57,7 @@ The helper reads JSON or JSONL run artifacts and reports:
 {
   "label": "warm-run",
   "latency_ms": 2800,
-  "input_tokens": 2500,
+  "input_tokens": 18000,
   "cache_creation_input_tokens": 1200,
   "cache_read_input_tokens": 14500,
   "output_tokens": 900,
@@ -66,11 +65,6 @@ The helper reads JSON or JSONL run artifacts and reports:
   "dynamic_memory_hash": "retrieval-42"
 }
 ```
-
-The token buckets match Anthropic usage metadata: regular input tokens,
-cache-creation input tokens, and cache-read input tokens are separate billable
-counts. The report calculates cache shares against the sum of those input-side
-buckets.
 
 ## Example Command
 
