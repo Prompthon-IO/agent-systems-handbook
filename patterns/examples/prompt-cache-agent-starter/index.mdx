@@ -1,0 +1,89 @@
+---
+title: "Prompt Cache Agent Starter"
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+## Summary
+
+This starter shows a small prompt-cache-aware agent loop: stable prompt layers
+first, dynamic memory later, and a tiny benchmark surface for comparing cold
+and warm run metadata.
+
+## Status
+
+`starter`
+
+Source code: [patterns/examples/prompt-cache-agent-starter](https://github.com/Prompthon-IO/agent-systems-handbook/tree/main/patterns/examples/prompt-cache-agent-starter)
+
+## Why It Exists
+
+Prompt caching is easy to describe and easy to misuse. Builders often place
+retrieved memory, user-specific facts, or current-turn inputs inside the same
+long prefix they expect the provider to cache. That makes cache behavior harder
+to reason about.
+
+This starter keeps the boundary visible. It treats tool manifests, system
+instructions, and stable reference context as cacheable layers, while durable
+memory summaries and current tasks stay outside the cached prefix unless the
+builder intentionally promotes them.
+
+## Related Lab Pages
+
+- [Agent Memory And Retrieval](/patterns/agent-memory-and-retrieval)
+- [Agent Runtime Building Blocks](/patterns/agent-runtime-building-blocks)
+- [Patterns Overview](/patterns)
+
+## Folder Structure
+
+```text
+prompt-cache-agent-starter/
+├── README.md
+├── SOURCE_NOTES.md
+├── index.mdx
+├── src/
+│   └── prompt_cache_agent_starter.py
+└── tests/
+    └── test_prompt_cache_agent_starter.py
+```
+
+## Included Sample Files
+
+- `src/prompt_cache_agent_starter.py`: typed helpers for prompt layers, cache
+  boundary detection, usage summaries, and cold/warm comparisons
+- `tests/test_prompt_cache_agent_starter.py`: executable smoke test for the
+  starter behavior
+- `SOURCE_NOTES.md`: source lineage and attribution boundary
+
+## Flow Boundaries
+
+The starter may:
+
+- model prompt layers as cacheable or dynamic
+- calculate where the stable prefix ends
+- compare cache-read and cache-write shares
+- estimate input cost when current pricing values are supplied
+
+The starter must not:
+
+- call a real API
+- store raw transcripts
+- hardcode provider prices
+- collapse durable memory into the cached prefix by default
+
+## Quick Start
+
+From the repository root:
+
+```bash
+python3 patterns/examples/prompt-cache-agent-starter/tests/test_prompt_cache_agent_starter.py
+python3 scripts/verify_example_projects.py
+```
+
+## Next Steps
+
+- Add a provider adapter that consumes redacted Claude usage metadata.
+- Add a small JSONL fixture for documentation-only report examples.
+- Add a companion notebook if the benchmark flow becomes more exploratory.
