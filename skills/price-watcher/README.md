@@ -1,4 +1,4 @@
-﻿# Price Watcher
+# Price Watcher
 
 ## Why This Skill Exists
 

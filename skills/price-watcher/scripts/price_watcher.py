@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import os
 import re
 import sqlite3
 from pathlib import Path
@@ -47,9 +48,23 @@ CREATE TABLE IF NOT EXISTS price_checks (
 
 PRICE_RE = re.compile(
     r"(?:below|under|less than|drops? below|at or below|<=|<)\s*"
-    r"(?P<symbol>US\$|CA\$|[$£€])?\s*(?P<amount>\d[\d,]*(?:\.\d{1,2})?)",
+    r"(?P<symbol>US\$|CA\$|[$\u00a3\u20ac])?\s*(?P<amount>\d[\d,]*(?:\.\d{1,2})?)",
     re.IGNORECASE,
 )
+NOTIFICATION_CLAUSE_RE = re.compile(
+    r"\s+and\s+(?:notify|tell|alert)\s+me\s+if\s+it\s+"
+    r"(?:drops?\s+)?(?:below|under|less than|at or below|<=|<)\s*"
+    r"(?:US\$|CA\$|[$\u00a3\u20ac])?\s*\d[\d,]*(?:\.\d{1,2})?\s*\.?\s*$",
+    re.IGNORECASE,
+)
+DEFAULT_STATE = Path(
+    os.environ.get(
+        "PRICE_WATCHER_STATE",
+        str(Path.home() / ".codex" / "state" / "price-watcher"),
+    )
+)
+DEFAULT_DB = DEFAULT_STATE / "price-watcher.sqlite3"
+DEFAULT_REPORT_DIR = DEFAULT_STATE / "price-reports"
 
 
 def utc_now() -> str:
@@ -57,6 +72,7 @@ def utc_now() -> str:
 
 
 def connect(db_path: Path) -> sqlite3.Connection:
+    db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
@@ -73,8 +89,8 @@ def infer_currency(symbol: str | None) -> str:
         "US$": "USD",
         "CA$": "CAD",
         "$": "USD",
-        "£": "GBP",
-        "€": "EUR",
+        "\u00a3": "GBP",
+        "\u20ac": "EUR",
     }.get(symbol or "$", "USD")
 
 
@@ -88,7 +104,13 @@ def parse_watch_request(text: str) -> tuple[str, float | None, str]:
         currency = infer_currency(match.group("symbol"))
         query = text[: match.start()].strip()
     query = re.sub(r"^(watch|track|monitor)\s+", "", query, flags=re.IGNORECASE).strip()
-    query = re.sub(r"\s+and\s+(notify|tell|alert)\s+me\s+if\s+it\s*$", "", query, flags=re.IGNORECASE).strip()
+    query = NOTIFICATION_CLAUSE_RE.sub("", query).strip()
+    query = re.sub(
+        r"\s+and\s+(notify|tell|alert)\s+me\s+if\s+it\s*$",
+        "",
+        query,
+        flags=re.IGNORECASE,
+    ).strip()
     return query or text.strip(), target, currency
 
 
@@ -134,6 +156,12 @@ def record_price(
     checked_at: str | None = None,
 ) -> sqlite3.Row:
     checked_at = checked_at or utc_now()
+    source = conn.execute("SELECT item_id FROM sources WHERE id = ?", (source_id,)).fetchone()
+    if source is None:
+        raise ValueError(f"source_id {source_id} does not exist")
+    if int(source["item_id"]) != item_id:
+        raise ValueError(f"source_id {source_id} does not belong to item_id {item_id}")
+
     cur = conn.execute(
         """
         INSERT INTO price_checks(item_id, source_id, price, currency, checked_at)
@@ -146,7 +174,21 @@ def record_price(
     return conn.execute("SELECT * FROM price_checks WHERE id = ?", (cur.lastrowid,)).fetchone()
 
 
-def latest_prices(conn: sqlite3.Connection) -> Iterable[sqlite3.Row]:
+def mark_source_checked(
+    conn: sqlite3.Connection,
+    source_id: int,
+    checked_at: str | None = None,
+) -> sqlite3.Row:
+    checked_at = checked_at or utc_now()
+    conn.execute("UPDATE sources SET last_checked_at = ? WHERE id = ?", (checked_at, source_id))
+    conn.commit()
+    row = conn.execute("SELECT * FROM sources WHERE id = ?", (source_id,)).fetchone()
+    if row is None:
+        raise ValueError(f"source_id {source_id} does not exist")
+    return row
+
+
+def latest_source_prices(conn: sqlite3.Connection) -> Iterable[sqlite3.Row]:
     return conn.execute(
         """
         WITH ranked AS (
@@ -168,7 +210,7 @@ def latest_prices(conn: sqlite3.Connection) -> Iterable[sqlite3.Row]:
         )
         SELECT * FROM ranked
         WHERE rn = 1
-        ORDER BY price ASC, checked_at DESC
+        ORDER BY item_id ASC, price ASC, checked_at DESC
         """
     ).fetchall()
 
@@ -189,10 +231,18 @@ def money(price: float, currency: str) -> str:
     return f"{currency} {price:,.2f}"
 
 
+def target_status(price: float, currency: str, target_price: float | None) -> str:
+    if target_price is None:
+        return "No target"
+    if currency.upper() != "USD":
+        return "Currency mismatch"
+    return "Met" if price <= target_price else "Above target"
+
+
 def write_report(conn: sqlite3.Connection, report_dir: Path) -> Path:
     report_dir.mkdir(parents=True, exist_ok=True)
     path = report_dir / f"{dt.date.today().isoformat()}.md"
-    rows = list(latest_prices(conn))
+    rows = list(latest_source_prices(conn))
 
     lines = [
         f"# Price Watch Report - {dt.date.today().isoformat()}",
@@ -203,46 +253,60 @@ def write_report(conn: sqlite3.Connection, report_dir: Path) -> Path:
 
     if not rows:
         lines.extend(["No price observations recorded yet.", ""])
-    current_item = None
+
+    grouped: dict[int, list[sqlite3.Row]] = {}
     for row in rows:
-        if row["item_id"] != current_item:
-            current_item = row["item_id"]
-            target = row["target_price"]
-            target_text = f"target {target:,.2f}" if target is not None else "no target price"
-            lines.extend(
-                [
-                    f"## {row['normalized_name'] or row['query']}",
-                    "",
-                    f"- Query: {row['query']}",
-                    f"- Threshold: {target_text}",
-                    "",
-                    "| Source | Observed price | Target status | Change | Checked |",
-                    "| --- | ---: | --- | ---: | --- |",
-                ]
-            )
-        prev = previous_price(conn, int(row["source_id"]), int(row["id"]))
-        change = ""
-        if prev:
-            delta = float(row["price"]) - float(prev["price"])
-            change = f"{delta:+,.2f}"
-        target_status = "No target"
-        if row["target_price"] is not None:
-            target_status = "Met" if float(row["price"]) <= float(row["target_price"]) else "Above target"
-        source = f"[{row['site']}]({row['url']})"
-        lines.append(
-            f"| {source} | {money(float(row['price']), row['currency'])} | "
-            f"{target_status} | {change or 'n/a'} | {row['checked_at']} |"
+        grouped.setdefault(int(row["item_id"]), []).append(row)
+
+    def best_item_key(item_rows: list[sqlite3.Row]) -> tuple[float, int]:
+        best_usd = [
+            float(row["price"])
+            for row in item_rows
+            if str(row["currency"]).upper() == "USD"
+        ]
+        best_any = [float(row["price"]) for row in item_rows]
+        return (min(best_usd or best_any), int(item_rows[0]["item_id"]))
+
+    for item_rows in sorted(grouped.values(), key=best_item_key):
+        first = item_rows[0]
+        target = first["target_price"]
+        target_text = f"target USD {target:,.2f}" if target is not None else "no target price"
+        lines.extend(
+            [
+                f"## {first['normalized_name'] or first['query']}",
+                "",
+                f"- Query: {first['query']}",
+                f"- Threshold: {target_text}",
+                "",
+                "| Source | Observed price | Target status | Change | Checked |",
+                "| --- | ---: | --- | ---: | --- |",
+            ]
         )
-    lines.append("")
-    lines.append("Failed or skipped source notes: add source-specific notes here when a check could not store a price.")
-    lines.append("")
+        item_rows_sorted = sorted(
+            item_rows,
+            key=lambda row: (str(row["currency"]).upper() != "USD", float(row["price"])),
+        )
+        for row in item_rows_sorted:
+            prev = previous_price(conn, int(row["source_id"]), int(row["id"]))
+            change = ""
+            if prev:
+                delta = float(row["price"]) - float(prev["price"])
+                change = f"{delta:+,.2f}"
+            source = f"[{row['site']}]({row['url']})"
+            lines.append(
+                f"| {source} | {money(float(row['price']), row['currency'])} | "
+                f"{target_status(float(row['price']), row['currency'], row['target_price'])} | "
+                f"{change or 'n/a'} | {row['checked_at']} |"
+            )
+        lines.append("")
+
     path.write_text("\n".join(lines), encoding="utf-8")
     return path
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Manage price-watcher SQLite state and reports.")
-    parser.add_argument("--db", default="price-watcher.sqlite3", help="SQLite database path.")
+    parser.add_argument("--db", type=Path, default=DEFAULT_DB, help="SQLite database path.")
     sub = parser.add_subparsers(dest="command", required=True)
 
     sub.add_parser("init", help="Create SQLite tables.")
@@ -256,6 +320,11 @@ def build_parser() -> argparse.ArgumentParser:
     sources_add.add_argument("--item-id", type=int, required=True)
     sources_add.add_argument("--site", required=True)
     sources_add.add_argument("--url", required=True)
+    sources_checked = sources_sub.add_parser(
+        "mark-checked",
+        help="Mark a source checked without recording a price.",
+    )
+    sources_checked.add_argument("--source-id", type=int, required=True)
 
     record = sub.add_parser("record", help="Record an observed price.")
     record.add_argument("--item-id", type=int, required=True)
@@ -264,14 +333,14 @@ def build_parser() -> argparse.ArgumentParser:
     record.add_argument("--currency", default="USD")
 
     report = sub.add_parser("report", help="Write a Markdown report.")
-    report.add_argument("--report-dir", default="price-reports")
+    report.add_argument("--report-dir", type=Path, default=DEFAULT_REPORT_DIR)
 
     return parser
 
 
 def main() -> None:
     args = build_parser().parse_args()
-    db_path = Path(args.db)
+    db_path = args.db
     with connect(db_path) as conn:
         init_db(conn)
         if args.command == "init":
@@ -282,11 +351,20 @@ def main() -> None:
         elif args.command == "sources" and args.sources_command == "add":
             row = add_source(conn, args.item_id, args.site, args.url)
             print(f"Source {row['id']}: {row['site']} {row['url']}")
+        elif args.command == "sources" and args.sources_command == "mark-checked":
+            try:
+                row = mark_source_checked(conn, args.source_id)
+            except ValueError as exc:
+                raise SystemExit(str(exc)) from exc
+            print(f"Marked source {row['id']} checked at {row['last_checked_at']}")
         elif args.command == "record":
-            row = record_price(conn, args.item_id, args.source_id, args.price, args.currency)
+            try:
+                row = record_price(conn, args.item_id, args.source_id, args.price, args.currency)
+            except ValueError as exc:
+                raise SystemExit(str(exc)) from exc
             print(f"Recorded check {row['id']}: {money(float(row['price']), row['currency'])}")
         elif args.command == "report":
-            path = write_report(conn, Path(args.report_dir))
+            path = write_report(conn, args.report_dir)
             print(path)
 
 

@@ -5,24 +5,26 @@ description: Persistent product price tracking for natural-language product requ
 
 # Price Watcher
 
-Track product prices from natural-language product descriptions. Do not require the user to provide product URLs. Store the watch query, discover and refresh multiple source URLs, save price history in SQLite, and write reports to `price-reports/YYYY-MM-DD.md`.
+Track product prices from natural-language product descriptions. Do not require the user to provide product URLs. Store the watch query, discover and refresh multiple source URLs, save price history in SQLite, and write reports to the configured report directory.
 
 ## Quick Start
 
-Use `scripts/price_watcher.py` for deterministic local state operations:
+Resolve paths relative to this skill directory. Use `scripts/price_watcher.py` for deterministic local state operations:
 
 ```bash
-python skills/price-watcher/scripts/price_watcher.py init
-python skills/price-watcher/scripts/price_watcher.py add "Watch MacBook Pro M3 14-inch and notify me if it drops below $1200"
-python skills/price-watcher/scripts/price_watcher.py sources add --item-id 1 --site "Best Buy" --url "https://..."
-python skills/price-watcher/scripts/price_watcher.py record --item-id 1 --source-id 1 --price 1199.99 --currency USD
-python skills/price-watcher/scripts/price_watcher.py report
+cd skills/price-watcher
+python3 scripts/price_watcher.py init
+python3 scripts/price_watcher.py add "Watch MacBook Pro M3 14-inch and notify me if it drops below $1200"
+python3 scripts/price_watcher.py sources add --item-id 1 --site "Best Buy" --url "https://..."
+python3 scripts/price_watcher.py record --item-id 1 --source-id 1 --price 1199.99 --currency USD
+python3 scripts/price_watcher.py report
 ```
 
 Default runtime paths:
 
-- Database: `price-watcher.sqlite3`
-- Reports: `price-reports/YYYY-MM-DD.md`
+- State root: `~/.codex/state/price-watcher/`, override with `PRICE_WATCHER_STATE`
+- Database: `~/.codex/state/price-watcher/price-watcher.sqlite3`
+- Reports: `~/.codex/state/price-watcher/price-reports/YYYY-MM-DD.md`
 
 Keep runtime databases and generated reports out of git unless the user explicitly asks to commit examples.
 
@@ -42,7 +44,7 @@ Keep runtime databases and generated reports out of git unless the user explicit
 5. Deduplicate likely same-product matches by comparing normalized names and attributes. Prefer exact model/generation matches over merely similar products.
 6. Add multiple source URLs for the item. Do not ask the user to manually provide URLs unless source discovery fails and the user wants to help.
 
-Use `python skills/price-watcher/scripts/price_watcher.py add "<request>"` after parsing to create the SQLite item, then add discovered source URLs with `sources add`.
+Use `python3 scripts/price_watcher.py add "<request>"` after parsing to create the SQLite item, then add discovered source URLs with `sources add`.
 
 ## Workflow B: Check Prices
 
@@ -62,12 +64,12 @@ For each active item:
 5. Extract price, currency, availability when visible, and failure/skipped notes.
 6. Normalize price and currency before storage. If conversion rates are needed and unavailable, keep the observed currency and do not compare across currencies as exact values.
 7. Save each successful observation to `price_checks`.
-8. Compare against the previous check for the same item/source and the item target price.
+8. Compare against the previous check for the same item/source and the item target price only when currencies are comparable.
 9. Generate a Markdown report with `report`.
 
 ## Report Requirements
 
-Write reports to `price-reports/YYYY-MM-DD.md`. Sort items lowest-price-first by the best current observed price. Include:
+Write reports to the configured `price-reports/YYYY-MM-DD.md` directory. Sort items lowest-price-first by the best current observed price. Include:
 
 - item query and normalized name
 - target price and whether the best price meets it

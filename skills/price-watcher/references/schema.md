@@ -1,6 +1,6 @@
 # SQLite Schema
 
-Use a local SQLite database for persistent state. The default path is `price-watcher.sqlite3` in the current workspace unless the user supplies another path.
+Use a local SQLite database for persistent state. The helper defaults to `~/.codex/state/price-watcher/price-watcher.sqlite3` unless the user supplies `--db` or sets `PRICE_WATCHER_STATE`.
 
 ## Tables
 
@@ -39,5 +39,5 @@ CREATE TABLE IF NOT EXISTS price_checks (
 - Store a concise canonical product name in `items.normalized_name` once a confident match exists.
 - Keep `items.target_price` numeric and currency-neutral in the v1 schema. Report the inferred currency in prose when it matters.
 - Allow multiple source rows per item.
-- Update `sources.last_checked_at` every time a source is attempted, even if extraction fails and the failure only appears in the Markdown report.
+- Update `sources.last_checked_at` every time a source is attempted, even if extraction fails and the failure only appears in the Markdown report. Use `sources mark-checked --source-id <id>` when a source was attempted but no price row should be inserted.
 - Append to `price_checks`; do not overwrite history.
