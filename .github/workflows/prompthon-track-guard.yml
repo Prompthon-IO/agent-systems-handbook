@@ -1,0 +1,32 @@
+name: prompthon-track-guard
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+      - edited
+      - labeled
+      - unlabeled
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  prompthon-track-guard:
+    name: prompthon-track-guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Validate changed paths
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/prompthon-track-guard.mjs
