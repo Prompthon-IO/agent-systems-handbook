@@ -67,6 +67,12 @@ That layer split gives readers a quick test:
 | How does one agent hand work to another agent-like service? | A2A | The boundary is delegation and collaboration. |
 | How are agents discovered across a larger network? | ANP | The boundary is routing and discovery. |
 
+One more boundary is now worth naming explicitly: user-facing agent interfaces.
+When the question is how an agent streams state into an application, asks for
+approval, or proposes portable widgets, `AG-UI` and `A2UI` are usually a
+better fit than forcing UI concerns into `MCP` or `A2A`. See
+[Agent UI Protocols And Generative UI](/systems/agent-ui-protocols-and-generative-ui).
+
 For local-agent systems, MCP also adds two important context-boundary concepts:
 
 - `roots`: filesystem boundaries that tell a server which local directories or
@@ -183,12 +189,15 @@ Two practical defaults help:
 
 ## Reading Extensions
 
+- [Agent UI Protocols And Generative UI](/systems/agent-ui-protocols-and-generative-ui)
 - [Context Engineering](/systems/context-engineering)
 - [Evaluation And Observability](/systems/evaluation-and-observability)
 - [Systems Overview](/systems)
 
 ## Update Log
 
+- 2026-05-06: Added a user-facing protocol boundary note linking AG-UI and
+  A2UI to the broader interoperability map.
 - 2026-04-24: Clarified protocol-layer boundaries and added a quick decision
   table for MCP, A2A, ANP, roots, resources, and remote MCP.
 - 2026-04-23: Refreshed the protocol guidance with local roots, resources, and
