@@ -224,3 +224,73 @@ test("develop pull request events enqueue code review coordination", () => {
     },
   ]);
 });
+
+test("release announcements target project announcements with release and handbook links", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "discord-announcer-"));
+  const eventPath = path.join(tempDir, "event.json");
+  const releaseBodyPath = path.join(tempDir, "release-body.md");
+  const releaseSha = "b18e895cf7a82d01c045cc8d4f5c28cceaa844f1";
+  const releaseUrl = "https://github.com/Prompthon-IO/agent-systems-handbook/releases/tag/release-2026.05.04.1";
+
+  writeJson(eventPath, {
+    after: releaseSha,
+    ref: "refs/heads/main",
+    repository: {
+      full_name: "Prompthon-IO/agent-systems-handbook",
+      html_url: "https://github.com/Prompthon-IO/agent-systems-handbook",
+    },
+  });
+  fs.writeFileSync(
+    releaseBodyPath,
+    [
+      "## What's Changed",
+      "* Add Coding Agents case study by @dprat0821 in #89",
+      "* Refresh contributor onboarding by @outside-dev in #90",
+      "* Polish navigation by @dprat0821 in #91",
+      "",
+      "## Full Changelog",
+      "https://github.com/Prompthon-IO/agent-systems-handbook/compare/old...new",
+    ].join("\n"),
+  );
+
+  const result = spawnSync(
+    process.execPath,
+    [scriptPath, "--release-announcement", "--dry-run"],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        ANNOUNCER_RELEASE_BODY_FILE: releaseBodyPath,
+        ANNOUNCER_RELEASE_NAME: "release-2026.05.04.1",
+        ANNOUNCER_RELEASE_TAG: "release-2026.05.04.1",
+        ANNOUNCER_RELEASE_URL: releaseUrl,
+        DISCORD_PROJECT_ANNOUNCEMENTS_CHANNEL_ID: "1499266299128184832",
+        GITHUB_EVENT_NAME: "push",
+        GITHUB_EVENT_PATH: eventPath,
+        GITHUB_REF_NAME: "main",
+        GITHUB_REPOSITORY: "Prompthon-IO/agent-systems-handbook",
+        GITHUB_SHA: releaseSha,
+        HANDBOOK_DEPLOYED_URL: "https://labs.prompthon.io",
+      },
+    },
+  );
+
+  assert.equal(result.status, 0, result.stderr);
+  const output = JSON.parse(result.stdout);
+  assert.equal(output.dryRun, true);
+  assert.deepEqual(output.jobs, [
+    {
+      channelKey: "project-announcements",
+      commitSha: releaseSha,
+      dedupeKey: "Prompthon-IO/agent-systems-handbook:release:release-2026.05.04.1:project-announcements",
+      discordChannelId: "1499266299128184832",
+      eventType: "handbook_release_published",
+      prNumber: null,
+      prTitle: "release-2026.05.04.1",
+      releaseContributors: ["dprat0821", "outside-dev"],
+      repoFullName: "Prompthon-IO/agent-systems-handbook",
+      sourceUrl: releaseUrl,
+    },
+  ]);
+});
