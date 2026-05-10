@@ -141,6 +141,7 @@
                 "pages": [
                   "reading-paths/sample-projects",
                   "patterns/examples/agent-memory-retrieval-starter/index",
+                  "patterns/examples/prompt-cache-agent-starter/index",
                   "systems/examples/weather-mcp-server-starter/index",
                   "ecosystem/examples/langgraph-starter/index",
                   "ecosystem/examples/messaging-transaction-assistant-starter/index",
@@ -357,6 +358,7 @@
                 "pages": [
                   "zh-Hans/reading-paths/sample-projects",
                   "zh-Hans/patterns/examples/agent-memory-retrieval-starter/index",
+                  "zh-Hans/patterns/examples/prompt-cache-agent-starter/index",
                   "zh-Hans/systems/examples/weather-mcp-server-starter/index",
                   "zh-Hans/ecosystem/examples/langgraph-starter/index",
                   "zh-Hans/ecosystem/examples/messaging-transaction-assistant-starter/index",
