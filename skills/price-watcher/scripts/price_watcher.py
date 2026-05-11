@@ -57,6 +57,10 @@ NOTIFICATION_CLAUSE_RE = re.compile(
     r"(?:US\$|CA\$|[$\u00a3\u20ac])?\s*\d[\d,]*(?:\.\d{1,2})?\s*\.?\s*$",
     re.IGNORECASE,
 )
+NOTIFICATION_PREAMBLE_RE = re.compile(
+    r"\s+and\s+(?:notify|tell|alert)\s+me\s+if\s+it(?:\s+drops?)?\s*$",
+    re.IGNORECASE,
+)
 DEFAULT_STATE = Path(
     os.environ.get(
         "PRICE_WATCHER_STATE",
@@ -105,12 +109,7 @@ def parse_watch_request(text: str) -> tuple[str, float | None, str]:
         query = text[: match.start()].strip()
     query = re.sub(r"^(watch|track|monitor)\s+", "", query, flags=re.IGNORECASE).strip()
     query = NOTIFICATION_CLAUSE_RE.sub("", query).strip()
-    query = re.sub(
-        r"\s+and\s+(notify|tell|alert)\s+me\s+if\s+it\s*$",
-        "",
-        query,
-        flags=re.IGNORECASE,
-    ).strip()
+    query = NOTIFICATION_PREAMBLE_RE.sub("", query).strip()
     return query or text.strip(), target, currency
 
 
