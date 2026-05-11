@@ -1,6 +1,7 @@
 name: Repository Feature Or Process Proposal
 description: Propose repository features or changes to governance, issue intake, review flow, templates, labels, or contributor process.
 title: "[Feature/Process]: "
+labels: ["status: pending-review", "track: builder", "kind: enhancement"]
 body:
   - type: markdown
     attributes:
@@ -10,6 +11,24 @@ body:
         Before filing, review:
         - [Contributing](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/CONTRIBUTING.md)
         - [GitHub Issue Guide](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/github-issue-guide.mdx)
+  - type: dropdown
+    id: contribution_track
+    attributes:
+      label: Contribution track
+      description: Repository process work is builder-track work in v0.
+      options:
+        - builder
+    validations:
+      required: true
+  - type: dropdown
+    id: work_kind
+    attributes:
+      label: Work kind
+      description: "Repository process work uses the `kind: enhancement` label."
+      options:
+        - enhancement
+    validations:
+      required: true
   - type: textarea
     id: problem
     attributes:

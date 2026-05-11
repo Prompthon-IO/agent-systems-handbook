@@ -1,7 +1,26 @@
 name: Bug Or Broken Surface Report
 description: Report a broken link, factual problem, example bug, template problem, or repository workflow issue.
 title: "[Bug]: "
+labels: ["status: pending-review", "track: builder", "kind: bug"]
 body:
+  - type: dropdown
+    id: contribution_track
+    attributes:
+      label: Contribution track
+      description: Bug reports are builder-track work in v0.
+      options:
+        - builder
+    validations:
+      required: true
+  - type: dropdown
+    id: work_kind
+    attributes:
+      label: Work kind
+      description: "Bug reports use the `kind: bug` label."
+      options:
+        - bug
+    validations:
+      required: true
   - type: dropdown
     id: bug_type
     attributes:
