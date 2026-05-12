@@ -1,6 +1,7 @@
 name: Source Project Proposal
 description: "Propose a repo-owned starter, example, or source project under a lane-local `examples/` folder."
 title: "[Source Project]: "
+labels: ["status: pending-review"]
 body:
   - type: markdown
     attributes:
@@ -15,6 +16,30 @@ body:
         - [Contributing](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/CONTRIBUTING.md)
         - [Source Project Guidelines](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/source-project-guidelines.mdx)
         - [GitHub Issue Guide](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/github-issue-guide.mdx)
+  - type: dropdown
+    id: contribution_track
+    attributes:
+      label: Contribution track
+      description: Most source projects are builder work; choose practitioner for template/workflow-focused assets.
+      options:
+        - builder
+        - practitioner
+    validations:
+      required: true
+  - type: dropdown
+    id: work_kind
+    attributes:
+      label: Work kind
+      description: Used by Prompthon to apply the safe `kind:*` label.
+      options:
+        - demo
+        - script
+        - feature
+        - workflow
+        - template
+        - tool-showcase
+    validations:
+      required: true
   - type: dropdown
     id: lane
     attributes:
