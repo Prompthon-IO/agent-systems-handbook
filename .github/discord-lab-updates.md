@@ -56,11 +56,13 @@ Postgres and does not post to Discord.
    enqueue script.
 3. The script inserts one or more deduped rows into
    `discord_announcement_jobs`.
-4. `.github/workflows/release-main.yml` creates the GitHub release for a
+4. Nova P posts regular feed and PR coordination messages.
+5. `.github/workflows/release-main.yml` creates the GitHub release for a
    successful `develop` to `main` release, then enqueues a
    `handbook_release_published` job for `#project-announcements`.
-5. Keira posts release announcements with the release link, deployed handbook
+6. Keira posts release announcements with the release link, deployed handbook
    URL, major changes, and the explicit `@everyone` mention.
+7. CaraP handles channel setup and settings changes.
 
 For forked PRs, GitHub does not expose repository secrets to the
 `pull_request` run. Those untrusted PR runs skip the database write, and the
