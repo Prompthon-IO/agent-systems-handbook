@@ -10,4 +10,3 @@ __pycache__/
 
 # Local runtime state
 .local-state/
-price-watcher-live-run/
