@@ -8,7 +8,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 ## 摘要
 
-这个入门项目展示了一种清晰的方式，如何在一个小型智能体循环中分离活动笔记、工作记忆、导入的 personal context、检索输入和持久化工件。
+这个入门项目展示了一种清晰的方式，如何在一个小型智能体循环中分离活动笔记、工作记忆、导入的 personal context、检索输入、带 citations 的可验证 RAG，以及持久化工件。
 
 ## 状态
 
@@ -18,7 +18,9 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 ## 其存在的原因
 
-记忆示例通常会把所有内容都压缩到一个含糊的历史对象中。这个入门项目刻意缩小了范围：它强调了智能体当前持有的内容、从其他助手导入的上下文、可以检索的内容，以及应该作为工件保留的内容之间的边界。
+记忆示例通常会把所有内容都压缩到一个含糊的历史对象中。这个入门项目刻意缩小了范围：它强调了智能体当前持有的内容、从其他助手导入的上下文、可以检索的内容、必须继续留在外部 file-search corpus 中的内容，以及应该作为工件保留的内容之间的边界。
+
+2026 年 5 月 Google 对 multimodal file search 的更新，让“检索边界”更容易讲清楚。一个有用的入门项目，应该把 metadata filters、页级 citations 和 multimodal chunks 展示出来，而不是把 retrieval store 假装成智能体记忆。
 
 ## 相关实验室页面
 
@@ -34,28 +36,54 @@ agent-memory-retrieval-starter/
     ├── artifact_policy.py
     ├── memory_flow.py
     ├── personal_context.py
-    └── retrieval_trace.py
+    ├── retrieval_trace.py
+    └── verifiable_rag.py
 ```
 
 ## 快速开始
 
-这是一个入门项目，不是可运行的应用程序。阅读 `src/memory_flow.py`，了解最小状态形状，并将其作为后续更完整示例的基础。对于仓库级别的冒烟检查，请在仓库根目录运行 `python3 scripts/verify_example_projects.py`。
+在仓库根目录运行：
+
+```bash
+python3 scripts/verify_example_projects.py
+```
+
+这个目录仍然是 starter，而不是完整应用。阅读 `src/memory_flow.py` 了解状态边界，再阅读 `src/verifiable_rag.py` 了解检索侧的 citation surface。
 
 ## 包含的示例文件
 
 - `src/memory_flow.py`：用于活动笔记、任务范围内工作记忆、导入的 personal context、检索输入和持久化工件的最小有用状态容器
 - `src/personal_context.py`：一个轻量的规范化界面，用于把导入的偏好事实与检索结果、持久化工件区分开来
 - `src/retrieval_trace.py`：一个用于让检索决策可检查的轻量排名与追踪界面
+- `src/verifiable_rag.py`：一个轻量的 filter-and-citation 界面，用于展示 metadata filters、页码和 multimodal grounding 输出
 - `src/artifact_policy.py`：展示入门项目如何将工件提升规则与原始笔记捕获分离的单一位置
 
 ## 约束
 
 - 目前尚未接入存储后端。
 - 不包含嵌入或向量数据库集成。
+- 不直接调用任何 provider SDK。
 - 导入的 personal context 仍然被刻意保持为小而可审查的形态。
 - 该示例更强调清晰的边界，而非完整性。
+- citations 被建模为输出工件的一部分，而不是“检索永远正确”的证明。
+
+## 流程边界
+
+这个 starter 可以：
+
+- 把工作记忆、personal context 与检索输入分开
+- 在选 chunk 之前先应用 metadata filters
+- 将页级和媒体 citations 作为返回工件的一部分暴露出来
+- 让 retrieval trace 足够可检查，便于人工 review
+
+这个 starter 不应该：
+
+- 把 file-search store 当成持久化智能体记忆
+- 悄悄把检索片段提升进长期记忆
+- 向 reviewer 隐藏 filter 决策或 citation 位置
 
 ## 下一步
 
 - 为导入上下文与持久化工件添加一个简单的持久化层。
 - 增加一个更清晰的 memory import review workflow，再决定是否激活。
+- 为一个真实 file-search API 增加 provider adapter，但不要把 retrieval store 折叠成 memory layer。

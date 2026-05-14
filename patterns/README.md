@@ -34,5 +34,5 @@ They should stay useful even as individual frameworks rise or fall.
 ## Example starters
 
 - [Agent Memory Retrieval Starter](./examples/agent-memory-retrieval-starter/index.mdx):
-  a small code sketch for separating active notes, retrieval inputs, and
-  durable artifacts.
+  a small code sketch for separating active notes, verifiable RAG retrieval
+  inputs, citations, and durable artifacts.

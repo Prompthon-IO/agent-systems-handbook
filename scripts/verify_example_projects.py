@@ -42,6 +42,10 @@ def check_memory_starter() -> None:
         "personal_context",
         "patterns/examples/agent-memory-retrieval-starter/src/personal_context.py",
     )
+    rag_module = load_module(
+        "verifiable_rag",
+        "patterns/examples/agent-memory-retrieval-starter/src/verifiable_rag.py",
+    )
     state = module.AgentState()
     module.add_observation(state, "capture the latest user request")
     module.queue_retrieval(state, "previous agent memory decisions")
@@ -113,6 +117,68 @@ def check_memory_starter() -> None:
         "America/Toronto",
     }
     assert all(item.source == "imported-summary" for item in merged_context)
+
+    files = [
+        rag_module.StoredFile(
+            file_id="refund-policy",
+            title="Refund Policy",
+            modality="document",
+            metadata={"account": "acme", "corpus": "support"},
+        ),
+        rag_module.StoredFile(
+            file_id="product-shot",
+            title="Product Shot",
+            modality="image",
+            metadata={"account": "acme", "corpus": "catalog"},
+        ),
+        rag_module.StoredFile(
+            file_id="other-tenant",
+            title="Other Tenant Policy",
+            modality="document",
+            metadata={"account": "otherco", "corpus": "support"},
+        ),
+    ]
+    filtered_files = rag_module.filter_files(files, {"account": "acme"})
+    plan = rag_module.build_grounded_plan(
+        "What can I cite for the refund answer?",
+        files,
+        [
+            rag_module.RetrievedChunk(
+                file_id="refund-policy",
+                snippet="Refunds are available within 30 days of purchase.",
+                score=0.96,
+                page_number=12,
+                metadata={"section": "refunds"},
+            ),
+            rag_module.RetrievedChunk(
+                file_id="product-shot",
+                snippet="Blue backpack with front zipper pocket.",
+                score=0.83,
+                media_id="media-7",
+            ),
+            rag_module.RetrievedChunk(
+                file_id="other-tenant",
+                snippet="Should never be selected due to tenant filter.",
+                score=0.99,
+                page_number=1,
+            ),
+        ],
+        {"account": "acme"},
+    )
+    citation_lines = rag_module.render_citation_lines(plan)
+
+    assert [item.file_id for item in filtered_files] == [
+        "refund-policy",
+        "product-shot",
+    ]
+    assert plan.selected_file_ids == ["refund-policy", "product-shot"]
+    assert plan.citations[0].page_number == 12
+    assert plan.citations[0].metadata["section"] == "refunds"
+    assert plan.citations[1].media_id == "media-7"
+    assert citation_lines == [
+        "Refund Policy (p12)",
+        "Product Shot (media:media-7)",
+    ]
 
 
 def check_prompt_cache_starter() -> None:
