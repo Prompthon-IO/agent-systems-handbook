@@ -1,5 +1,9 @@
 # Price Watcher
 
+## Demo Video
+
+Watch a short walkthrough of this skill: [Price Watcher demo](https://youtu.be/i9qOsDBVg70).
+
 ## Why This Skill Exists
 
 This package is a Practitioner-facing workflow example for persistent product
