@@ -1,6 +1,6 @@
 ---
 title: "Claude Code 桌面智能体设置"
-description: "安装 Claude Code，连接 project-scoped MCP 工具，并将它作为 repo-first 的本地编码智能体使用。"
+description: "安装 Claude Code，连接到 project-scoped MCP 工具，并将它作为 repo-first 的本地编码智能体使用。"
 ---
 
 import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
@@ -28,7 +28,7 @@ claude --version
 brew install --cask claude-code
 ```
 
-在 Windows 上，请使用官方 Claude Code 文档中对应 PowerShell、CMD 或 WinGet 的安装命令。不要继续沿用较早的 npm 安装说明：当前 Anthropic 文档和公开的 `anthropics/claude-code` 仓库都已经把 npm 安装视为 deprecated。
+在 Windows 上，请使用官方 Claude Code 文档中对应 PowerShell、CMD 或 WinGet 的安装命令。新的 workshop 设置优先使用 native installer 或 package-manager 路径。当前 Anthropic 文档仍然把 npm 作为支持的 global package 记录下来，但 native install 才是推荐起点。
 
 ## 从仓库启动
 
@@ -61,7 +61,7 @@ Claude Code 会把共享 server 写进 `.mcp.json`，并且在真正使用来自
 
 ## 把项目说明保持为显式工件
 
-Claude Code 当前文档建议把 repo-specific instruction 放在纳入版本控制的 `CLAUDE.md` 中。可以把编码规范、架构决定、review checklist，以及“这个仓库如何协作”的规则放在这里，而不是埋在某次临时 prompt 里。
+Claude Code 当前文档建议把仓库级 instructions 放在纳入版本控制的 `CLAUDE.md` 中。可以把编码规范、架构决定、review checklist，以及“这个仓库如何协作”的规则放在这里，而不是埋在某次临时 prompt 里。
 
 这也和本手册的公开写法一致：把工作坊步骤、source map 和 contributor guidance 做成可 review、可更新的公开工件。
 

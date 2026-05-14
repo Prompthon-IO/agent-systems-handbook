@@ -1,6 +1,6 @@
 ---
 title: "Claude Code Desktop Agent Setup"
-description: "Install Claude Code, connect project-scoped MCP tools, and use it as a repo-first local coding agent."
+description: "Install Claude Code, connect to project-scoped MCP tools, and use it as a repo-first local coding agent."
 ---
 
 import SupportCTA from "/snippets/support-cta.mdx";
@@ -32,9 +32,9 @@ brew install --cask claude-code
 ```
 
 On Windows, use the installer command from the official Claude Code docs for
-PowerShell, CMD, or WinGet. Do not start from older npm-based instructions: the
-current Anthropic docs and the public `anthropics/claude-code` repo both treat
-npm installation as deprecated.
+PowerShell, CMD, or WinGet. For new workshop setups, prefer the native installer
+or package-manager paths first. The current Anthropic docs still document npm as
+a supported global package, but native install is the recommended starting point.
 
 ## Start In A Repository
 
