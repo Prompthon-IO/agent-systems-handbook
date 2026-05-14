@@ -1,6 +1,7 @@
 name: Prompthon Agentic Lab Content Proposal
 description: Propose a new Prompthon Agentic Lab page, a major revision, a radar note, or a curated reference contribution.
 title: "[Content]: "
+labels: ["status: pending-review"]
 body:
   - type: markdown
     attributes:
@@ -15,6 +16,33 @@ body:
         - [Contributing](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/CONTRIBUTING.md)
         - [Contributor Kit](https://github.com/Prompthon-IO/agent-systems-handbook/tree/main/contributor-kit)
         - [GitHub Issue Guide](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/contributor-kit/github-issue-guide.mdx)
+  - type: dropdown
+    id: contribution_track
+    attributes:
+      label: Contribution track
+      description: Used by Prompthon to apply the safe `track:*` label.
+      options:
+        - explorer
+        - practitioner
+        - builder
+    validations:
+      required: true
+  - type: dropdown
+    id: work_kind
+    attributes:
+      label: Work kind
+      description: Used by Prompthon to apply the safe `kind:*` label.
+      options:
+        - article
+        - radar-note
+        - case-study
+        - reference-note
+        - reading-path
+        - translation
+        - docs
+        - enhancement
+    validations:
+      required: true
   - type: dropdown
     id: contribution_type
     attributes:

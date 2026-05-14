@@ -32,6 +32,7 @@ jobs:
           fi
 
       - name: Create date-based release
+        id: create_release
         env:
           GH_TOKEN: ${{ github.token }}
           TZ: America/Toronto
@@ -71,3 +72,38 @@ jobs:
             --target "$GITHUB_SHA" \
             --generate-notes \
             --fail-on-no-commits
+
+          release_body_file="$RUNNER_TEMP/release-body.md"
+          release_url="$(gh release view "$tag" --json url --jq .url)"
+          gh release view "$tag" --json body --jq .body > "$release_body_file"
+
+          {
+            echo "body_file=$release_body_file"
+            echo "tag=$tag"
+            echo "url=$release_url"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install pg Node package
+        run: |
+          mkdir -p "$RUNNER_TEMP/discord-announcer-node"
+          npm install --prefix "$RUNNER_TEMP/discord-announcer-node" --no-save pg@8
+
+      - name: Enqueue project announcement
+        env:
+          ANNOUNCER_MAX_ATTEMPTS: "5"
+          ANNOUNCER_RELEASE_BODY_FILE: ${{ steps.create_release.outputs.body_file }}
+          ANNOUNCER_RELEASE_NAME: ${{ steps.create_release.outputs.tag }}
+          ANNOUNCER_RELEASE_TAG: ${{ steps.create_release.outputs.tag }}
+          ANNOUNCER_RELEASE_URL: ${{ steps.create_release.outputs.url }}
+          DISCORD_ANNOUNCEMENTS_CHANNEL_ID: ${{ vars.DISCORD_ANNOUNCEMENTS_CHANNEL_ID }}
+          DISCORD_PROJECT_ANNOUNCEMENTS_CHANNEL_ID: ${{ vars.DISCORD_PROJECT_ANNOUNCEMENTS_CHANNEL_ID || vars.DISCORD_ANNOUNCEMENTS_CHANNEL_ID || '1499266299128184832' }}
+          GITHUB_TOKEN: ${{ github.token }}
+          HANDBOOK_DEPLOYED_URL: ${{ vars.HANDBOOK_DEPLOYED_URL || 'https://labs.prompthon.io' }}
+          NODE_PATH: ${{ runner.temp }}/discord-announcer-node/node_modules
+          PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL: ${{ secrets.PATHWAY_DISCORD_ANNOUNCER_DATABASE_URL }}
+        run: node .github/scripts/enqueue-discord-announcement.mjs --release-announcement

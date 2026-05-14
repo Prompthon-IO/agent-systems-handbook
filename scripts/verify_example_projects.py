@@ -42,6 +42,10 @@ def check_memory_starter() -> None:
         "personal_context",
         "patterns/examples/agent-memory-retrieval-starter/src/personal_context.py",
     )
+    rag_module = load_module(
+        "verifiable_rag",
+        "patterns/examples/agent-memory-retrieval-starter/src/verifiable_rag.py",
+    )
     state = module.AgentState()
     module.add_observation(state, "capture the latest user request")
     module.queue_retrieval(state, "previous agent memory decisions")
@@ -113,6 +117,138 @@ def check_memory_starter() -> None:
         "America/Toronto",
     }
     assert all(item.source == "imported-summary" for item in merged_context)
+
+    files = [
+        rag_module.StoredFile(
+            file_id="refund-policy",
+            title="Refund Policy",
+            modality="document",
+            metadata={"account": "acme", "corpus": "support"},
+        ),
+        rag_module.StoredFile(
+            file_id="product-shot",
+            title="Product Shot",
+            modality="image",
+            metadata={"account": "acme", "corpus": "catalog"},
+        ),
+        rag_module.StoredFile(
+            file_id="other-tenant",
+            title="Other Tenant Policy",
+            modality="document",
+            metadata={"account": "otherco", "corpus": "support"},
+        ),
+    ]
+    filtered_files = rag_module.filter_files(files, {"account": "acme"})
+    plan = rag_module.build_grounded_plan(
+        "What can I cite for the refund answer?",
+        files,
+        [
+            rag_module.RetrievedChunk(
+                file_id="refund-policy",
+                snippet="Refunds are available within 30 days of purchase.",
+                score=0.96,
+                page_number=12,
+                metadata={"section": "refunds"},
+            ),
+            rag_module.RetrievedChunk(
+                file_id="product-shot",
+                snippet="Blue backpack with front zipper pocket.",
+                score=0.83,
+                media_id="media-7",
+            ),
+            rag_module.RetrievedChunk(
+                file_id="other-tenant",
+                snippet="Should never be selected due to tenant filter.",
+                score=0.99,
+                page_number=1,
+            ),
+        ],
+        {"account": "acme"},
+    )
+    citation_lines = rag_module.render_citation_lines(plan)
+
+    assert [item.file_id for item in filtered_files] == [
+        "refund-policy",
+        "product-shot",
+    ]
+    assert plan.selected_file_ids == ["refund-policy", "product-shot"]
+    assert plan.citations[0].page_number == 12
+    assert plan.citations[0].metadata["section"] == "refunds"
+    assert plan.citations[1].media_id == "media-7"
+    assert citation_lines == [
+        "Refund Policy (p12)",
+        "Product Shot (media:media-7)",
+    ]
+
+
+def check_prompt_cache_starter() -> None:
+    module = load_module(
+        "prompt_cache_agent_starter",
+        "patterns/examples/prompt-cache-agent-starter/src/prompt_cache_agent_starter.py",
+    )
+    layers = module.build_prompt_layers(
+        tool_manifest="tool:get_weather",
+        system_instructions="You are a bounded agent.",
+        reference_context="Project policy v1",
+        durable_memory_summary="User prefers concise answers.",
+        current_task="Plan today's work.",
+    )
+    cold = module.RunObservation(
+        label="cold",
+        latency_ms=5200,
+        usage=module.TokenUsage(input_tokens=10000, cache_write_tokens=7000),
+        stable_prefix_hash=module.stable_prefix_hash(layers),
+    )
+    warm = module.RunObservation(
+        label="warm",
+        latency_ms=2600,
+        usage=module.TokenUsage(input_tokens=10000, cache_read_tokens=7000),
+        stable_prefix_hash=module.stable_prefix_hash(layers),
+    )
+    summary = module.summarize_usage(
+        warm.usage,
+        module.Pricing(
+            base_input_usd_per_mtok=3.0,
+            cache_write_usd_per_mtok=3.75,
+            cache_hit_usd_per_mtok=0.30,
+        ),
+    )
+    comparison = module.compare_runs(cold, warm)
+
+    assert module.cache_boundary_index(layers) == 3
+    assert [layer.name for layer in layers[3:]] == [
+        "dynamic-memory",
+        "turn-input",
+    ]
+    assert summary.cache_read_share == 0.7
+    assert round(summary.estimated_input_cost_usd, 6) == 0.0111
+    assert comparison.latency_delta_ms == -2600
+    assert comparison.stable_prefix_changed is False
+
+    try:
+        module.TokenUsage(input_tokens=-1)
+    except ValueError as exc:
+        assert "input_tokens must be positive" in str(exc)
+    else:
+        raise AssertionError("negative input tokens should be rejected")
+
+    try:
+        module.TokenUsage(input_tokens=0)
+    except ValueError as exc:
+        assert "input_tokens must be positive" in str(exc)
+    else:
+        raise AssertionError("zero input tokens should be rejected")
+
+    try:
+        module.TokenUsage(
+            input_tokens=10,
+            cache_write_tokens=8,
+            cache_read_tokens=3,
+        )
+    except ValueError as exc:
+        assert "cannot exceed input tokens" in str(exc)
+    else:
+        raise AssertionError("cache token buckets should not exceed input tokens")
 
 
 def check_prompt_cache_starter() -> None:
