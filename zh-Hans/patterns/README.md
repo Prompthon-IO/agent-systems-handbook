@@ -33,4 +33,4 @@
 ## 示例入门项目
 
 - [Agent Memory Retrieval Starter](./examples/agent-memory-retrieval-starter/index.mdx):
-  一个用于分离活动笔记、检索输入和持久化工件的小型代码示意。
+  一个用于分离活动笔记、可验证 RAG 检索输入、citations 和持久化工件的小型代码示意。
