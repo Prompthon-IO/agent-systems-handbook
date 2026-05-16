@@ -16,6 +16,12 @@
 
 ## 当前笔记
 
+- [2026 年 5 月 agentic 购物助手观察](./2026-05-agentic-shopping-assistant-watch.mdx):
+  一则当前信号，聚焦 AI 助手如何从搜索和商品比较走向定时动作、购物车构建、跨设备购物记忆，以及结账前审阅边界。
+- [2026 年 4 月助手安全升级观察](./2026-04-assistant-safety-escalation-watch.mdx):
+  一则当前信号，聚焦可信暴力风险标记、报告义务边界、重复违反政策者，以及可审计的安全交接。
+- [2026 年 4 月防务智能体训练循环观察](./2026-04-defense-agent-training-loop-watch.mdx):
+  一则当前信号，聚焦特定领域的现场训练、从仿真到部署的循环，以及高风险自主性边界。
 - [2026 年 4 月可移植助手记忆观察](./2026-04-portable-assistant-memory-watch.mdx):
   一则有时间范围的笔记，聚焦导入的 personal context、默认开启的助手记忆，以及聊天记录迁移如何构成不同于 retrieval 和 durable artifacts 的信任边界。
 - [2026 年 4 月本地智能体观察](./2026-04-local-agent-watch.mdx): 一则有时间范围的笔记，聚焦本地智能体这一具体产品形态：附近的工作环境、可复用的技能或集成、明确的上下文边界，以及可审查的产物。

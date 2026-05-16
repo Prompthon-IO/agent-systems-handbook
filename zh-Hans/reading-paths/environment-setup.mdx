@@ -54,6 +54,24 @@ python3 scripts/verify_example_projects.py
 - `ecosystem/examples/`
 - `case-studies/examples/`
 
+## 可选的文件名大小写 Git hook
+
+如果你在 Windows、macOS 或其他大小写不敏感的文件系统上贡献，请在 push
+之前安装共享 Git hooks：
+
+```bash
+git config core.hooksPath githooks
+```
+
+当前的 `pre-push` hook 会运行：
+
+```bash
+python3 scripts/check_filename_casing.py
+```
+
+这会在 push 到达 CI 或 Linux review 环境之前，捕捉只在大小写上不同的路径冲突，
+以及受追踪路径的大小写漂移。
+
 ## 预期结果
 
 - 该检查会验证当前的代码草图和示例流程。

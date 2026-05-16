@@ -1,0 +1,67 @@
+---
+title: 2026年4月助手安全升级观察
+owner: Prompthon IO
+updated: 2026-04-29
+time_scope: 2026-04
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 摘要
+
+围绕 Tumbler Ridge 校园枪击事件的 2026 年 4 月诉讼，让一个 agent-systems 问题变得异常具体：当助手提供方检测到可信的现实世界暴力信号时，产品问题就不再只是内容审核，而会变成升级处理设计。
+
+对手册读者来说，实际启发是要区分正常隐私预期和少数例外场景：在这些场景中，风险审查可能需要保留证据、覆盖常规留存假设，并交给明确命名的人类负责人。
+
+## 为什么这很重要
+
+助手安全很容易被过度笼统地描述成“模型应该拒绝坏请求”。这对已部署系统并不够。高风险互动会带来需要明确回答的运营问题：
+
+- 系统检测到暴力意图时记录什么
+- 自动或人工标记之后由谁负责审查
+- 哪个阈值触发内部升级
+- 哪个阈值触发外部报告或法律审查
+- 如何识别重复违反政策者，同时不把每个用户记录都变成无边界的监控表面
+- 后续审阅者如何还原助手做了什么、用户说了什么、运营方作出了什么决定
+
+这些问题位于隐私、trust and safety、法律、事件响应和产品运营之间。它们不应被留作隐式模型行为。
+
+## 证据与来源
+
+- [Families of Canada school shooting victims sue OpenAI over shooter's use of ChatGPT](https://apnews.com/article/openai-chatgpt-tumbler-ridge-26d632a065e8420a263655c8ee29f961):
+  AP 报道称，受害者家属在美国提起诉讼，主张 OpenAI 在更早的账号活动被标记后本应提醒有关部门。OpenAI 表示已经加强围绕 distress responses、threat escalation 和 repeat policy violators 的 safeguards。
+- [School-shooting lawsuits accuse OpenAI of hiding violent ChatGPT users](https://arstechnica.com/tech-policy/2026/04/school-shooting-lawsuits-accuse-openai-of-hiding-violent-chatgpt-users/):
+  Ars Technica 将相关指控放在内部审查、外部警示阈值，以及安全标记是否在后续攻击之前被处理的框架下理解。
+
+## 需要关注的信号
+
+- 助手提供方是否发布更清晰的暴力威胁升级阈值，同时不暴露可被恶意行为者规避的检测手册。
+- 产品是否创建可审计的内部交接记录，而不是让升级处理埋在聊天日志或临时审核队列里。
+- 重复违规者检测是否成为不同于普通个性化、记忆和账号分析的独立信任边界。
+- 企业助手部署是否要求客户在高风险工作流上线前指定法律、安全和 trust-and-safety 负责人。
+- 监管者和法院是否把 failure-to-warn 主张视为产品设计失败、运营疏忽，还是更接近平台责任理论的问题。
+
+## 设计启发
+
+构建者应把安全升级视为一个工作流表面：
+
+- 将模型拒绝路径与人工升级路径分开
+- 写清楚谁能查看被保留的高风险证据
+- 为后续审计保留刚好足够的上下文
+- 除非法律或政策要求立即行动，否则外部报告前应要求人工审查
+- 让 duty-to-report 语言具体到司法辖区、组织政策和部署场景
+
+重要的设计动作不是让每一次助手对话都更可见，而是定义少数可信风险信号成为可问责运营 case 的条件。
+
+## 编辑判断
+
+这属于 `radar/`，因为法律和政策细节还会继续变化。更持久的手册经验更窄：助手系统需要一份升级处理契约，而不只是拒绝政策。
+
+这份契约应说明检测什么、保留什么、由谁审查、哪个阈值改变隐私预期，以及后续如何审计决策。没有这种形状时，“安全”仍然只是模型层面的愿望，而不是系统层面的工作流。
+
+## 更新日志
+
+- 2026-04-29：新增一条 radar 笔记，关注助手威胁升级、报告义务边界，以及可审计的安全交接。

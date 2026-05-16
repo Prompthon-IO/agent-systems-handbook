@@ -1,13 +1,17 @@
 ---
 title: "Claude Code 桌面智能体设置"
-description: "安装 Claude Code，并将它作为 repo-grounded 的本地终端智能体使用。"
+description: "安装 Claude Code，连接 project-scoped MCP 工具，并将它作为 repo-first 的本地编码智能体使用。"
 ---
 
 import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 <SupportCTA />
 
-Claude Code 是 Anthropic 提供的终端式编码智能体。在这条工作坊路线中，可以把它作为另一个本地智能体表面，用于阅读仓库、编辑文件和运行检查。
+Claude Code 是 Anthropic 提供的终端式编码智能体。在这条工作坊路线中，可以把它作为另一个本地智能体表面，用于阅读仓库、编辑文件和运行检查。当前官方文档让三个实践边界从一开始就值得看清：
+
+- Claude Code 应该工作的仓库根目录
+- 连接到这个仓库的 MCP 工具和数据源
+- 放在版本控制中的可复用项目说明
 
 ## 安装
 
@@ -24,7 +28,7 @@ claude --version
 brew install --cask claude-code
 ```
 
-在 Windows 上，请使用官方 Claude Code 文档中对应 PowerShell、CMD 或 WinGet 的安装命令。
+在 Windows 上，请使用官方 Claude Code 文档中对应 PowerShell、CMD 或 WinGet 的安装命令。新的工作坊设置应优先使用 native installer 或 package-manager 路径。当前 Anthropic 文档仍然记录 npm 全局包是受支持的安装方式，但推荐的起点是 native install。
 
 ## 从仓库启动
 
@@ -36,6 +40,30 @@ claude
 ```
 
 按照 CLI 显示的流程完成认证。
+
+## 用 MCP 连接工具
+
+当仓库可以访问团队已经在使用的系统时，Claude Code 会更有用。Anthropic 当前的 MCP 文档区分三种 scope：
+
+- `local`：当前项目条目的默认 server scope，存储在 `~/.claude.json`
+- `project`：签入仓库的团队共享 `.mcp.json` 文件
+- `user`：存储在 `~/.claude.json` 的私有跨项目 server
+
+对于团队共享 server，当前命令形状是：
+
+```bash
+claude mcp add --transport http --scope project <name> <url>
+```
+
+Claude Code 会把共享 server 写入 `.mcp.json`，并在使用来自版本控制的 project-scoped server 之前提示批准。当远程 server 需要 OAuth 登录时，使用 `/mcp`。
+
+在手册工作坊中，如果同一个工具边界应该对每位贡献者都可见，优先使用 project scope。只有个人工具或不应放入仓库的凭据才优先使用 user scope。
+
+## 保持项目说明明确
+
+Claude Code 当前文档期望团队将 repo-specific instructions 放在签入仓库的 `CLAUDE.md` 中。用它记录编码标准、架构决定、review checklist，以及那些应靠近仓库而不是留在一次性 prompt 里的“这里如何工作”规则。
+
+这本手册对公开学习材料也使用相同思路：让工作坊步骤、source map 和贡献者指导成为可被审阅和更新的可见 artifacts。
 
 ## 基本工作循环
 
@@ -51,14 +79,24 @@ git status --short
 - 让编辑保持在当前 issue 或工作坊步骤范围内
 - 修改文件后运行仓库的验证命令
 - 报告改动文件和失败的命令
+- 说明它依赖了哪个 MCP server、repo instruction file 或 permission boundary
 
 ## 推荐默认做法
 
 - 让 terminal 始终位于你要修改的 repo 根目录。
 - 不要将 secrets、bot token 或 API key 粘贴进聊天。
+- 将不可信 MCP server 和容易受到 prompt injection 的数据源视为真实安全边界，而不是便利功能。
 - 工作坊中优先做小而可 review 的改动。
 - 使用与 Codex 工作相同的验证 checklist。
 
+## 下一步
+
+- 当你需要第二个本地 coding-agent 表面时，对照 [Codex Desktop Agent Setup](/zh-Hans/workshops/desktop-agents/codex)。
+- 桌面设置可以工作之后，如果你想要可重复的 slash-command 工作流，请阅读 [Skills Introduction](/zh-Hans/workshops/skills-introduction)。
+- 当你需要本仓库关于 runtimes、skills、roots、resources 和 connectors 的术语时，使用 [Local Agent Tooling Source Map](/zh-Hans/contributor-kit/reference-notes/local-agent-tooling-source-map)。
+
 ## 参考
 
-- [Claude Code documentation](https://code.claude.com/docs/en/overview)
+- [Claude Code overview](https://code.claude.com/docs/en/overview)
+- [Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp)
+- [anthropics/claude-code](https://github.com/anthropics/claude-code)
