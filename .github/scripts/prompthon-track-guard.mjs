@@ -73,6 +73,16 @@ async function upsertFailureComment(repo, pullNumber, body) {
   });
 }
 
+async function tryUpsertFailureComment(repo, pullNumber, body) {
+  try {
+    await upsertFailureComment(repo, pullNumber, body);
+  } catch (error) {
+    console.warn(
+      `Warning: could not write prompthon-track-guard failure comment: ${error.message}`,
+    );
+  }
+}
+
 function failureComment({ allowedPaths, invalidFiles, track }) {
   return [
     COMMENT_MARKER,
@@ -111,7 +121,7 @@ async function main() {
   if (!track) {
     const message = "prompthon-track-guard could not determine a contribution track from the linked issue or PR labels.";
     if (!dryRun) {
-      await upsertFailureComment(repo, pullRequest.number, `${COMMENT_MARKER}\n${message}`);
+      await tryUpsertFailureComment(repo, pullRequest.number, `${COMMENT_MARKER}\n${message}`);
     }
     console.error(message);
     process.exitCode = 1;
@@ -128,7 +138,7 @@ async function main() {
 
   if (!validation.valid) {
     if (!dryRun) {
-      await upsertFailureComment(repo, pullRequest.number, failureComment({ track, ...validation }));
+      await tryUpsertFailureComment(repo, pullRequest.number, failureComment({ track, ...validation }));
     }
     console.error(JSON.stringify(summary, null, 2));
     process.exitCode = 1;

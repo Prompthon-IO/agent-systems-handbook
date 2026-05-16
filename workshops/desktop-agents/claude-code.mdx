@@ -1,6 +1,6 @@
 ---
 title: "Claude Code Desktop Agent Setup"
-description: "Install Claude Code and use it as a terminal agent for repo-grounded development work."
+description: "Install Claude Code, connect to project-scoped MCP tools, and use it as a repo-first local coding agent."
 ---
 
 import SupportCTA from "/snippets/support-cta.mdx";
@@ -9,7 +9,12 @@ import SupportCTA from "/snippets/support-cta.mdx";
 
 Claude Code is a terminal-based coding agent from Anthropic. In this workshop
 track, use it as another local agent surface for reading a repo, editing files,
-and running checks.
+and running checks. The current official docs make three practical boundaries
+worth keeping visible from the start:
+
+- the repository root Claude Code should work inside
+- the MCP tools and data sources you connect into that repo
+- the reusable project instructions you keep in version control
 
 ## Install
 
@@ -27,7 +32,9 @@ brew install --cask claude-code
 ```
 
 On Windows, use the installer command from the official Claude Code docs for
-PowerShell, CMD, or WinGet.
+PowerShell, CMD, or WinGet. For new workshop setups, prefer the native installer
+or package-manager paths first. The current Anthropic docs still document npm as
+a supported global package, but native install is the recommended starting point.
 
 ## Start In A Repository
 
@@ -39,6 +46,41 @@ claude
 ```
 
 Follow the authentication flow shown by the CLI.
+
+## Connect Tools With MCP
+
+Claude Code becomes more useful once the repo can reach the same systems your
+team already uses. Anthropic's current MCP docs distinguish three scopes:
+
+- `local`: the default server scope for the current project entry in
+  `~/.claude.json`
+- `project`: a team-shared `.mcp.json` file checked into the repository
+- `user`: private cross-project servers stored in `~/.claude.json`
+
+For a team-shared server, the current command shape is:
+
+```bash
+claude mcp add --transport http --scope project <name> <url>
+```
+
+Claude Code writes the shared server into `.mcp.json` and prompts for approval
+before using a project-scoped server from version control. Use `/mcp` when a
+remote server needs OAuth login.
+
+Prefer project scope for handbook workshops when the same tool boundary should
+be visible to every contributor. Prefer user scope only for personal utilities
+or credentials that should not live in the repository.
+
+## Keep Project Instructions Explicit
+
+Claude Code's current docs expect teams to keep repo-specific instructions in a
+checked-in `CLAUDE.md`. Use it for coding standards, architecture decisions,
+review checklists, and the "how we work here" rules that should stay close to
+the repo rather than inside a one-off prompt.
+
+This handbook uses the same idea for public learning material: keep workshop
+steps, source maps, and contributor guidance as visible artifacts that can be
+reviewed and updated.
 
 ## Basic Working Loop
 
@@ -54,14 +96,29 @@ Ask Claude Code to:
 - keep edits aligned with the current issue or workshop step
 - run the repo's validation command after changing files
 - report changed files and any commands that failed
+- name any MCP server, repo instruction file, or permission boundary it relied on
 
 ## Good Defaults
 
 - Keep the terminal rooted at the repo you want to change.
 - Do not paste secrets, bot tokens, or API keys into chat.
+- Treat untrusted MCP servers and prompt-injection-prone data sources as a real
+  security boundary, not as a convenience feature.
 - Prefer small, reviewable changes during a workshop.
 - Use the same validation checklist you would use for Codex work.
 
+## Next Steps
+
+- Compare this setup with [Codex Desktop Agent Setup](/workshops/desktop-agents/codex)
+  when you want a second local coding-agent surface.
+- Read [Skills Introduction](/workshops/skills-introduction) after desktop setup
+  is working and you want repeatable slash-command workflows.
+- Use [Local Agent Tooling Source Map](/contributor-kit/reference-notes/local-agent-tooling-source-map)
+  when you need the repo's terminology for runtimes, skills, roots, resources,
+  and connectors.
+
 ## Reference
 
-- [Claude Code documentation](https://code.claude.com/docs/en/overview)
+- [Claude Code overview](https://code.claude.com/docs/en/overview)
+- [Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp)
+- [anthropics/claude-code](https://github.com/anthropics/claude-code)

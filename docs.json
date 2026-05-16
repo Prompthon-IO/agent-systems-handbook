@@ -319,6 +319,9 @@
                 "group": "雷达",
                 "pages": [
                   "zh-Hans/radar/index",
+                  "zh-Hans/radar/2026-04-assistant-safety-escalation-watch",
+                  "zh-Hans/radar/2026-04-defense-agent-training-loop-watch",
+                  "zh-Hans/radar/2026-04-portable-assistant-memory-watch",
                   "zh-Hans/radar/2026-04-local-agent-watch",
                   "zh-Hans/radar/2026-04-interoperability-watch",
                   "zh-Hans/radar/2026-04-protocol-watch"

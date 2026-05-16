@@ -1,8 +1,8 @@
 ---
 title: 企业级智能体控制平面
 owner: Prompthon IO
-updated: 2026-04-29
-scope: enterprise agent control-plane framing through April 2026
+updated: 2026-05-03
+scope: current managed-runtime and control-plane framing for enterprise agents through May 2026
 status: draft
 ---
 
@@ -12,20 +12,27 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 ## 摘要
 
-这份 note 为贡献者提供一个更紧凑的 source map，用来理解企业级智能体里一个更新的比较轴：围绕智能体的控制平面，而不只是智能体内部使用的模型或运行时。
+这份 note 为贡献者提供一个紧凑的 source map，用来比较企业级智能体的两个相关维度：围绕智能体的 managed runtime，以及横跨智能体的 control plane。
 
-直接触发点是 Microsoft 在 2026 年 4 月 28 日提出的 `Intelligence + Trust` framing：Microsoft IQ 承载业务上下文，Agent 365 承载 observability、governance 和 security，并且覆盖 Microsoft 自家智能体表面以及第三方环境。
+直接触发点包括 Microsoft 在 2026 年 4 月 28 日围绕 `Intelligence + Trust` 的 framing：Microsoft IQ 承载业务上下文，Agent 365 承载覆盖 Microsoft 自家智能体表面和第三方环境的 observability、governance 与 security；以及 AWS 在 2026 年 4 月 28 日围绕 Bedrock Managed Agents 和 AgentCore 的发布 framing。
 
 ## 为什么这很重要
 
-智能体平台比较很容易被压缩成模型访问、编排体验或框架人体工学。但这会漏掉一个不同的采购问题：当组织中的智能体横跨多个运行时和供应商时，谁来负责观察、治理和保护这整个 agent fleet？
+智能体平台比较很容易被压缩成模型访问、编排体验或框架人体工学。但这会漏掉两个不同的采购问题：
+
+- 团队应把多少运行时留给托管层负责
+- 当组织中的智能体横跨多个运行时和供应商时，如何观察、治理和保护这一组不断增长的智能体
 
 这份 note 帮助贡献者把两个层次分开：
 
-- 负责规划、检索、调用工具和产生产出的 runtime layer
-- 负责跨多个智能体和环境执行 trust、visibility 与 policy 的 control-plane layer
+- managed-runtime layer：为单个智能体工作负载处理推理、记忆、执行和运行时安全
+- control-plane layer：在多个智能体和环境之间执行 trust、visibility 和 policy
 
-这个拆分正在变得比简单的“用哪个模型”更有用。
+它也帮助保留第三个边界：
+
+- open framework layer：团队仍然直接选择自己的编排模型和应用架构
+
+这个三层拆分正在变得比简单的“用哪个模型”比较更有用。
 
 ## 范围说明
 
@@ -34,35 +41,56 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 - Microsoft 当前关于 `Intelligence + Trust` 的商业 framing
 - Microsoft IQ 作为 context 和 intelligence layer
 - Agent 365 作为 observability、governance 和 security layer
-- 对本仓库后续 ecosystem 与 systems 刷新的启发
+- AWS 关于 Bedrock Managed Agents 的发布 framing
+- AgentCore 作为 managed runtime 底下的开放平台
+- 对本仓库后续 ecosystem 和 systems 刷新的启发
 
 不包含：
 
 - 详细的产品实现 walkthrough
 - 覆盖所有 agent platform 的宽泛厂商评分卡
-- 协议层互操作分析；那部分更适合放在 `radar/`
+- 协议层互操作分析；那部分属于 `radar/` 的其他位置
 
 ## 来源地图
 
-- [Unlocking human ambition to drive business growth with AI](https://blogs.microsoft.com/blog/2026/04/28/unlocking-human-ambition-to-drive-business-growth-with-ai/)：
+- [Unlocking human ambition to drive business growth with AI](https://blogs.microsoft.com/blog/2026/04/28/unlocking-human-ambition-to-drive-business-growth-with-ai/):
   Microsoft 在 2026 年 4 月 28 日的文章中表示，AI 解决方案最重要的两个元素是 `Intelligence + Trust`；其中 Microsoft IQ 被定位为围绕数据和 agent development 的 context layer，而 Agent 365 被定位为覆盖 Microsoft 与第三方 agent environment 的 observability、governance 和 security layer。
+- [Amazon Bedrock now offers OpenAI models, Codex, and Managed Agents (Limited Preview)](https://aws.amazon.com/about-aws/whats-new/2026/04/bedrock-openai-models-codex-managed-agents/):
+  AWS 将 Bedrock Managed Agents 定位为在 AWS 上部署生产就绪 OpenAI-powered agents 的快速路径，并为每个 agent 提供自己的身份、action logging 和由 AgentCore 支撑的默认计算环境。
+- [Amazon Bedrock Managed Agents](https://aws.amazon.com/bedrock/managed-agents-openai/):
+  产品页说明 managed runtime 会在客户环境中处理推理、记忆和 skills，并把托管表面连接到未来 AgentCore 能力，例如 authorization policy enforcement、discovery、observability 和 evaluation。
+- [Amazon Bedrock AgentCore overview](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html):
+  AWS 将 AgentCore 描述为一个 agentic platform，用于用任意 framework 和 foundation model 安全地大规模构建、部署和运营 agents，并提供 runtime、memory、identity、observability 和 gateway services。
+- [awslabs/agentcore-samples](https://github.com/awslabs/agentcore-samples):
+  AWS 官方 sample repo 说明 AgentCore 不只是营销标签；它已经有覆盖 hosted runtimes、gateways、memory、observability、browser tooling 和 evaluation 的实质代码表面。
+- [microsoft/agent-framework](https://github.com/microsoft/agent-framework):
+  Microsoft 官方 framework repo 为贡献者提供一个有用对照点：open framework surface 与 Microsoft 单独的 Agent 365 control-plane positioning 是分开的。
 
 ## 综合判断
 
-对贡献者来说，有三个最值得保留的结论：
+对贡献者来说，最重要的是四个结论：
 
-- 企业级智能体讨论正在超出模型选择本身。Microsoft 的 framing 把 control plane 变成了独立产品表面。
-- Trust 正被定位成跨环境基础设施，而不只是某一个 assistant 或某一个 runtime 的属性。这意味着贡献者在写作时应把本地运行时能力与全局治理能力分开。
-- 一个更有用的实验室比较轴正在出现：一边是 context 与 execution，另一边是 observability 与 policy control。这个拆分可以同时强化 systems 页面与 ecosystem 页面，而不必硬编码某个厂商自己的命名。
+- 企业级智能体讨论正在超出模型选择本身。AWS 推出 managed-runtime 叙事，而 Microsoft 推出 control-plane 叙事。
+- Trust 正被定位成跨环境基础设施，而不只是某一个 assistant 或某一个 runtime 的属性。这意味着贡献者应区分本地运行时能力和 fleet-level governance。
+- Managed runtime 正在成为独立的比较层。Bedrock Managed Agents 在团队开始追问“我们该写哪个 framework？”之前，就把推理、记忆、执行和可审计性打包进 hosted environment。
+- 一个有用的 lab 比较轴正在出现：open framework、managed runtime 和 control plane。这个拆分可以同时强化 systems 页面和 ecosystem 页面，而不必硬编码某个供应商自己的命名。
 
-对于 handbook，真正持久的收获不是某个厂商标签，而是这个类别边界本身。未来比较 agent platform 或企业部署路径时，贡献者应保留这个边界。
+对于 handbook，真正持久的经验不是厂商标签，而是贡献者在比较 agent platform 和企业部署叙事时应保留的类别边界。
+
+## 相关手册路径
+
+- [Reference Notes](/zh-Hans/contributor-kit/reference-notes)
+- [Agent Platforms And Low-Code Builders](/zh-Hans/ecosystem/agent-platforms-and-low-code-builders)
+- [Evaluation And Observability](/zh-Hans/systems/evaluation-and-observability)
+- [Protocols And Interoperability](/zh-Hans/systems/protocols-and-interoperability)
 
 ## 缺口与后续
 
-- 未来可以刷新 [Systems: Evaluation and Observability](/zh-Hans/systems/evaluation-and-observability)，加入一小段区分 runtime instrumentation 与 organization-level control plane。
-- 如果更多官方来源开始稳定地使用这条分界线，可以再刷新 [Agent Platforms And Low-Code Builders](/zh-Hans/ecosystem/agent-platforms-and-low-code-builders)。
-- 当其他第一方平台足够明确地描述相近的 fleet-level governance surface 时，再补入后续来源，避免靠猜测做比较。
+- 未来可以刷新 [Systems: Evaluation and Observability](/zh-Hans/systems/evaluation-and-observability)，加入一小段区分 runtime instrumentation、organization-level control plane 和 managed-runtime defaults。
+- 如果更多官方来源开始把 managed runtime 与 control plane 当作稳定比较框架，可以再刷新 [Agent Platforms And Low-Code Builders](/zh-Hans/ecosystem/agent-platforms-and-low-code-builders)。
+- 当其他第一方平台足够明确地描述相近的 managed-runtime 或 fleet-governance surface 时，再补入后续来源，避免靠猜测做比较。
 
 ## 更新日志
 
+- 2026-05-03：加入 AWS Bedrock Managed Agents 和 AgentCore，让贡献者可以区分 open frameworks、managed runtimes 和 control planes。
 - 2026-04-29：新增一份面向贡献者的企业级智能体控制平面 note，以 Microsoft 的 `Intelligence + Trust` framing 作为当前 source spine。
