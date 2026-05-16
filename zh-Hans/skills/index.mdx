@@ -13,7 +13,11 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 | 技能 | 包路径 | 展示内容 |
 | --- | --- | --- |
 | Agent Runtime Cache Benchmark | [`skills/agent-runtime-cache-benchmark/README.md`](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/skills/agent-runtime-cache-benchmark/README.md) | 面向本地运行的冷启动与热启动对比、基于结构化运行产物的缓存断点识别，以及报告驱动的 prompt cache 调优 |
+| Daily News Watcher | [`skills/daily-news-watcher/README.md`](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/skills/daily-news-watcher/README.md) | 基于 SQLite 的持久新闻监控、RSS/Atom 加可选 Playwright 抓取、URL+hash 去重，以及每次运行生成 Markdown 报告 |
 | Garbage Collector | [`skills/garbage-collector/README.md`](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/skills/garbage-collector/README.md) | 预览优先的本地清理、可读 CSV 规则、可撤销的重复文件清理，以及破坏性操作前的明确批准 |
+| Local Document Organizer | [`skills/local-document-organizer/README.md`](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/skills/local-document-organizer/README.md) | 预览优先的文件夹整理、带置信度评分的可读分类规则、带 action log 的可撤销移动，以及不删除、不覆盖的安全契约 |
+| Personal Knowledge Capture | [`skills/personal-knowledge-capture/README.md`](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/skills/personal-knowledge-capture/README.md) | 本地优先的 watch-path 注册、增量 source 检测、SQLite 状态，以及带引用的 Markdown 笔记生成 |
+| Prompt Cache Agent Harness | [`skills/prompt-cache-agent-harness/README.md`](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/skills/prompt-cache-agent-harness/README.md) | Claude prompt-cache 层规划、捕获的 usage metadata 审阅、cache-read/write 报告，以及可选的调用方输入成本估算 |
 | Safety Escalation Review | [`skills/safety-escalation-review/README.md`](https://github.com/Prompthon-IO/agent-systems-handbook/blob/main/skills/safety-escalation-review/README.md) | 本地证据审查、脱敏升级备忘录，以及由人工负责的安全交接清单，不执行外部报告 |
 
 ## 技能包结构
@@ -34,6 +38,10 @@ skills/<skill-name>/
 ## 贡献类型
 
 Practitioner skill package 是代码加文档的贡献。一个包应包含面向人的 `README.md`、面向 agent 的 `SKILL.md`、agent 元数据、确定性脚本、参考规则，以及让技能可审查、可运行所需的最少支持文档。除非请求只修改解释性页面，否则不要把这类 issue 当成纯文档 issue。
+
+## 贡献类型
+
+Practitioner skill package 是代码加文档的贡献。一个包可以包含 Markdown 指令、agent 元数据、确定性脚本、参考规则，以及让技能可审查、可运行所需的最少支持文档。除非请求只修改解释性页面，否则不要把这类 issue 当成纯文档 issue。
 
 ## 实践者边界
 

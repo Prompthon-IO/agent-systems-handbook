@@ -1,0 +1,63 @@
+---
+title: 2026年5月 Agentic 购物助手观察
+owner: Prompthon IO
+updated: 2026-05-13
+time_scope: 2026-05
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 摘要
+
+Amazon 在 2026 年 5 月发布的 Alexa for Shopping，把 "AI assistant" 这个说法推向了更具交易性的产品形态：购物助手可以记住偏好、比较商品、跟踪价格、安排重复购买动作、构建购物车，并在手机、网页和 Echo Show 表面之间交接。
+
+对手册读者来说，有用的信号不是电商又多了一个聊天框，而是助手正在被塑造成一个跨表面的系统：记忆、商品搜索、用户偏好、购买意图、自动化和结账审阅都处在同一个流程里。
+
+## 为什么这很重要
+
+购物助手是智能体系统的一个现实测试场景，因为它靠近金钱、个人偏好、家庭上下文和不可逆动作。这让设计边界比一般问答助手更清楚：系统需要知道自己什么时候是在研究、推荐、构建购物车、安排定时动作，或要求人类确认购买。
+
+这条笔记连接到四个持久的手册主题：
+
+- [agent runtime building blocks](/zh-Hans/patterns/agent-runtime-building-blocks)，因为助手需要消息层、工具边界、记忆层和动作层，而且这些层不能混在一起
+- [agent memory and retrieval](/zh-Hans/patterns/agent-memory-and-retrieval)，因为偏好、过去购买和当前研究上下文需要分开的存储与审阅规则
+- [evaluation and observability](/zh-Hans/systems/evaluation-and-observability)，因为商品比较、定时动作和购物车变更需要容易回放的审计轨迹
+- [messaging transaction assistant starter](/zh-Hans/ecosystem/examples/messaging-transaction-assistant-starter)，因为接近结账的助手应在用户审阅拟议动作之前，把支付执行留在助手之外
+
+## 证据与来源
+
+- [Alexa for Shopping](https://www.aboutamazon.com/news/retail/alexa-for-shopping-ai-assistant):
+  Amazon 描述了一个个性化、agentic 的购物助手，结合 Rufus 商品知识、Alexa+ 上下文、购物历史、偏好、商品比较、价格历史、定时动作、购物车构建，以及跨网页购买辅助。
+- [Echo Show shopping with Alexa+](https://www.aboutamazon.com/news/devices/echo-show-alexa-plus-shopping):
+  Amazon 正在把完整购物界面迁移到 Echo Show，用户可以通过语音、触控或两者结合来浏览、比较、审阅和下单。
+- [Amazon's generative and agentic AI shopping overview](https://www.aboutamazon.com/news/retail/amazon-agentic-ai-gen-ai-shopping/):
+  Amazon 将购物辅助定位为 agentic commerce 表面，包括价格追踪、推荐，以及面向 Amazon 自有商店之外合格商品的 Buy for Me 流程。
+
+## 需要关注的信号
+
+- 购物助手是否在用户界面和日志中区分研究、推荐、购物车变更、定时动作和购买确认。
+- 个人偏好记忆是否能独立于购物历史和订单历史被审阅、纠正、限定范围或删除。
+- "buy for me" 风格流程是否在完成前明确展示商家、付款方式、收货地址、退款路径和取消边界。
+- 跨设备助手是否暴露足够的上下文转移状态，让用户理解为什么某个建议会出现在另一个表面上。
+
+## 编辑判断
+
+这暂时属于 `radar/`。持久经验还不是 "shopping assistant as a category"。更可复用的模式更窄：交易型助手需要清晰的动作阶梯。
+
+一个有用的阶梯是：
+
+1. 回答商品或品类问题
+2. 用可见来源和标准比较选项
+3. 提议购物车或定时动作
+4. 请求用户明确审阅
+5. 只执行被批准的购买或提醒
+6. 保留说明发生了什么、为什么发生的审计轨迹
+
+未来的常青内容更新应把这个阶梯视为交易安全模式，而不是某个供应商特定的购物故事。
+
+## 更新日志
+
+- 2026-05-13：新增一条 radar 笔记，关注 agentic 购物助手、跨表面购物记忆、定时购买动作，以及结账前审阅边界。
