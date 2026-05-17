@@ -1,7 +1,7 @@
 ---
 title: Local Agent Tooling Source Map
 owner: Prompthon IO
-updated: 2026-04-24
+updated: 2026-05-17
 scope: local agent tooling, skills, roots, resources, connectors, and file-grounded workflows
 status: draft
 ---
@@ -63,6 +63,8 @@ Included:
 
 - official OpenAI source material on Responses API tools, file search, remote
   MCP support, and computer environments
+- official OpenAI, Claude Code, and MCP security guidance on prompt injection,
+  sandboxing, and trust boundaries for local agents
 - official MCP material on roots and resources
 - official Claude Code material on local stdio servers, project/user scopes,
   and MCP resources
@@ -83,6 +85,10 @@ Excluded:
 - [OpenAI computer environment for agents](https://openai.com/index/equip-responses-api-computer-environment/):
   use this for claims about execution environments, persistent files, shell
   access, compaction, and agent skills as runtime support.
+- [Designing AI agents to resist prompt injection](https://openai.com/index/designing-agents-to-resist-prompt-injection/):
+  use this when the draft needs a current OpenAI framing for source-sink
+  analysis, user confirmation, and constraining what untrusted content can
+  cause an agent to do.
 - [MCP introduction](https://modelcontextprotocol.io/docs/getting-started/intro):
   use this for a stable, high-level explanation of MCP as a connection layer
   between AI applications and external systems.
@@ -95,6 +101,19 @@ Excluded:
   use this as a practical example of local stdio servers, project-scoped MCP
   configuration, plugin-provided servers, and resources in a coding-agent
   workflow.
+- [Claude Code security](https://code.claude.com/docs/en/security):
+  use this for permission checks, trust verification for MCP servers, and
+  practical guidance for working with untrusted content.
+- [Claude Code sandboxing](https://code.claude.com/docs/en/sandboxing):
+  use this for claims about filesystem and network isolation that limit damage
+  if prompt injection succeeds.
+- [MCP security best practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices):
+  use this when the draft needs concrete language for local MCP server
+  compromise, one-click startup-command consent, scope minimization, and why
+  stdio or authenticated transports matter.
+- [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo):
+  use this as a high-signal implementation repo for red-teaming and CI-level
+  prompt-injection checks around agents, tools, and RAG systems.
 
 ## Synthesis
 
@@ -116,6 +135,27 @@ agent how to perform a task, but it should not be treated as current evidence.
 A connector can expose a useful system, but it should not imply permission to
 read or act on every object in that system.
 
+## Production-Readiness Note
+
+The current seven-day signal around prompt injection is a reminder that local
+agents should be described as authority systems, not just capability systems.
+The practical question is not only "what can the agent read?" It is "what
+authority travels with that input once the agent can call tools, touch files,
+or send data elsewhere?"
+
+- Treat retrieved files, web pages, emails, and connector output as untrusted
+  content unless a reviewed policy says otherwise.
+- Separate source from sink: untrusted content may inform the agent, but
+  sensitive tool calls, credential use, and outbound transmissions should stay
+  behind extra approval, sandboxing, or both.
+- Verify every MCP server before connecting it. Prefer explicit scope choice,
+  exact startup-command review, and `stdio` or authenticated transports for
+  local servers.
+- Keep human confirmation in the write path for consequential actions such as
+  sending messages, changing tickets, or moving data to third-party systems.
+- Add prompt-injection and tool-misuse checks to eval or red-team workflows
+  before calling a local-agent setup production-ready.
+
 ## Case-Study Hooks
 
 Good local-agent case studies should make the boundary visible:
@@ -131,15 +171,17 @@ requires human review.
 
 ## Gaps And Follow-up
 
-- Add a production-readiness note on local-agent security risks, especially
-  prompt injection from untrusted files and connectors.
 - Add a small matrix comparing direct local scripts, local stdio MCP servers,
   remote MCP servers, and platform-hosted tools.
 - Expand the customer-support case study once the starter code includes a real
   mailbox or Gmail adapter.
+- Add a future starter or case-study note showing how source-aware authority
+  enforcement or prompt-injection red-teaming fits into a local-agent workflow.
 
 ## Update Log
 
+- 2026-05-17: Added prompt-injection, sandboxing, trust-boundary, and
+  red-teaming guidance to the local-agent source map.
 - 2026-04-24: Refined the note for contributor comprehension with usage
   guidance, term boundaries, and clearer source-to-claim mapping.
 - 2026-04-23: Added a contributor-facing source map for local agent tooling,

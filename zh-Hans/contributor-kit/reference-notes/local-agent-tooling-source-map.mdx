@@ -1,7 +1,7 @@
 ---
 title: 本地智能体工具链来源图谱
 owner: Prompthon IO
-updated: 2026-04-24
+updated: 2026-05-17
 scope: local agent tooling, skills, roots, resources, connectors, and file-grounded workflows
 status: draft
 ---
@@ -56,6 +56,8 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 包括：
 
 - 关于 Responses API 工具、文件搜索、远程 MCP 支持和计算环境的 OpenAI 官方来源材料
+- 关于 prompt injection、沙箱和本地智能体信任边界的 OpenAI、Claude
+  Code 与 MCP 官方安全指引
 - 关于 roots 和 resources 的官方 MCP 材料
 - 关于本地 stdio 服务器、项目/用户作用域以及 MCP resources 的官方 Claude Code 材料
 
@@ -72,6 +74,8 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
   适用于关于托管工具、远程 MCP 支持、文件搜索和长时间运行后台工作的主张。
 - [OpenAI computer environment for agents](https://openai.com/index/equip-responses-api-computer-environment/):
   适用于关于执行环境、持久文件、shell 访问、压缩，以及作为运行时支持的智能体技能的主张。
+- [Designing AI agents to resist prompt injection](https://openai.com/index/designing-agents-to-resist-prompt-injection/):
+  当草稿需要引用 OpenAI 关于 source-sink analysis、用户确认，以及如何限制不可信内容驱动智能体动作的当前 framing 时使用。
 - [MCP introduction](https://modelcontextprotocol.io/docs/getting-started/intro):
   适用于将 MCP 作为 AI 应用与外部系统之间连接层的稳定、高层级说明。
 - [MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots):
@@ -80,6 +84,14 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
   当草稿需要解释由应用控制的上下文表面，例如文件、模式或应用特定对象时使用。
 - [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp):
   适合作为本地 stdio 服务器、项目作用域 MCP 配置、插件提供的服务器，以及编码智能体工作流中 resources 的实践示例。
+- [Claude Code security](https://code.claude.com/docs/en/security):
+  适用于关于权限检查、MCP server 信任校验，以及处理不可信内容的实践指导。
+- [Claude Code sandboxing](https://code.claude.com/docs/en/sandboxing):
+  适用于关于文件系统与网络隔离如何在 prompt injection 成功时限制损害的主张。
+- [MCP security best practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices):
+  当草稿需要讨论本地 MCP server compromise、一键配置时的启动命令确认、scope minimization，以及为什么 `stdio` 或受认证传输很重要时使用。
+- [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo):
+  适合作为针对 agents、tools 与 RAG systems 的 red teaming 与 CI 级 prompt-injection 检查的高信号实现仓库。
 
 ## 综合归纳
 
@@ -95,6 +107,16 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 同样的原则也适用于 skills 和 connectors。skill 可以告诉智能体如何执行某项任务，但不应被当作最新证据。connector 可以暴露一个有用的系统，但不应暗示有权读取或操作该系统中的所有对象。
 
+## 生产就绪提示
+
+当前七日窗口里关于 prompt injection 的 signal 提醒我们：本地智能体应当被描述为 authority system，而不只是 capability system。真正需要回答的不只是“智能体能读什么”，而是“一旦它能调用工具、接触文件或向外发送数据，不可信输入会带着什么 authority 一起流动”。
+
+- 除非经过人工审阅的策略明确说明，否则应把检索到的文件、网页、邮件和 connector 输出都视为不可信内容。
+- 要分清 source 和 sink：不可信内容可以为智能体提供信息，但敏感 tool call、credential 使用和对外数据传输应继续放在额外审批、沙箱或两者共同保护之后。
+- 连接任何 MCP server 之前都要先做信任校验。对本地 server，应优先采用明确的 scope 选择、完整启动命令审阅，以及 `stdio` 或受认证的传输方式。
+- 对发送消息、修改工单、向第三方系统迁移数据等后果明确的动作，应把人工确认保留在写路径中。
+- 在称一个本地智能体配置达到 production-ready 之前，应把 prompt injection 和 tool misuse 检查纳入 eval 或 red-team workflow。
+
 ## 案例研究切入点
 
 好的本地智能体案例研究应当让边界可见：
@@ -108,11 +130,12 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 ## 缺口与后续工作
 
-- 增加一条关于本地智能体安全风险的生产就绪说明，尤其是来自不受信任文件和连接器的提示注入风险。
 - 增加一个小型矩阵，对比直接本地脚本、本地 stdio MCP 服务器、远程 MCP 服务器和平台托管工具。
 - 一旦 starter code 包含真实邮箱或 Gmail 适配器，扩展客户支持案例研究。
+- 增加一个未来的 starter 或案例研究说明，展示 source-aware authority enforcement 或 prompt-injection red teaming 如何嵌入本地智能体工作流。
 
 ## 更新日志
 
+- 2026-05-17：为本地智能体来源图谱补充了 prompt injection、沙箱、信任边界和 red-teaming 指引。
 - 2026-04-24：通过使用指导、术语边界和更清晰的来源到主张映射，提升了该说明对贡献者的可理解性。
 - 2026-04-23：新增面向贡献者的本地智能体工具链、skills、roots、resources 和 file-grounded workflows 来源图谱。
