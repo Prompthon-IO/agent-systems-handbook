@@ -4,6 +4,13 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
+class BusinessContext:
+    business_name: str
+    knowledge_sources: tuple[str, ...]
+    human_takeover_available: bool = True
+
+
+@dataclass(frozen=True)
 class TransactionIntent:
     raw_message: str
     recipient: str
@@ -35,6 +42,7 @@ class PaymentHandoff:
     status: str
     payment_methods: tuple[str, ...]
     confirmation: Confirmation
+    business_context: BusinessContext
 
 
 PLANS = (
@@ -55,6 +63,13 @@ PLANS = (
         data_gb=2.0,
     ),
 )
+
+
+def build_business_context() -> BusinessContext:
+    return BusinessContext(
+        business_name="Neighborhood Mobile Shop",
+        knowledge_sources=("business profile", "product catalog", "support notes"),
+    )
 
 
 def capture_intent(message: str) -> TransactionIntent:
@@ -110,18 +125,22 @@ def build_confirmation(intent: TransactionIntent, plan: RechargePlan) -> Confirm
     )
 
 
-def prepare_payment_handoff(confirmation: Confirmation) -> PaymentHandoff:
+def prepare_payment_handoff(
+    confirmation: Confirmation, business_context: BusinessContext
+) -> PaymentHandoff:
     if not confirmation.requires_user_confirmation:
         raise ValueError("payment handoff must require explicit user confirmation")
     return PaymentHandoff(
         status="awaiting-user-confirmation",
         payment_methods=("instant-transfer-like", "card-like"),
         confirmation=confirmation,
+        business_context=business_context,
     )
 
 
 def run_flow(message: str, max_price_inr: int | None = None) -> PaymentHandoff:
+    business_context = build_business_context()
     intent = capture_intent(message)
     plan = select_plan(intent, max_price_inr=max_price_inr)
     confirmation = build_confirmation(intent, plan)
-    return prepare_payment_handoff(confirmation)
+    return prepare_payment_handoff(confirmation, business_context)
