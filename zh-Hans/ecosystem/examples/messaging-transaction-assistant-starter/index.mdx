@@ -1,5 +1,6 @@
 ---
 title: "消息交易助手入门项目"
+description: "一个面向 Business AI 风格消息助手的中立入门项目，强调资料与目录上下文、人工接管和支付交接边界。"
 ---
 
 import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
@@ -8,7 +9,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 ## 摘要
 
-这个入门项目展示了消息界面中的交易助手最小形态：意图捕获、套餐选择、用户确认和支付交接。
+这个入门项目展示了消息界面中的交易助手最小形态：有边界的商家上下文、意图捕获、套餐选择、用户确认和支付交接。
 
 ## 状态
 
@@ -20,9 +21,12 @@ Source code: [ecosystem/examples/messaging-transaction-assistant-starter](https:
 
 消息界面正在成为用户完成实际任务的地方。这个模式不是让模型直接付款，而是让助手收集意图、展示可审阅的选择，并在用户明确确认后交接给可信的支付界面。
 
+Meta 在 2026 年 5 月推出的 `Business AI on WhatsApp` 让这种面向商家的模式更具体：小商家可以把助手建立在自己的资料、目录和支持信息之上，让它在非营业时间回答问题，同时保留人工随时介入的权力。这个入门项目保留这种形状，但不绑定任何单一平台。
+
 ## 相关实验室页面
 
 - [生态概览](/zh-Hans/ecosystem)
+- [2026 年 5 月 agentic 购物助手观察](/zh-Hans/radar/2026-05-agentic-shopping-assistant-watch)
 - [Source Project Guidelines](/zh-Hans/contributor-kit/source-project-guidelines)
 
 ## 文件夹结构
@@ -39,7 +43,7 @@ messaging-transaction-assistant-starter/
 
 ## 包含的示例文件
 
-- `src/transaction_flow.py`：用于意图捕获、套餐选择、确认和支付交接的 typed helpers
+- `src/transaction_flow.py`：用于商家上下文、意图捕获、套餐选择、确认和支付交接的 typed helpers
 - `src/run_demo.py`：这个流程的极小命令行 demo
 - `SOURCE_NOTES.md`：来源脉络和署名边界
 
@@ -47,9 +51,11 @@ messaging-transaction-assistant-starter/
 
 助手可以：
 
+- 基于本地商家资料、目录和支持说明作答
 - 从消息中推断类似充值的意图
 - 询问缺失的套餐或收款方细节
 - 展示确认摘要
+- 在商家希望介入时保留人工接管
 - 为支付表面准备交接载荷
 
 助手不能：
@@ -58,6 +64,14 @@ messaging-transaction-assistant-starter/
 - 保存银行卡或银行凭据
 - 绕过用户确认
 - 暗示并不存在的供应商集成
+
+## 当前来源信号
+
+这次刷新使用的当前信号是 Meta 在 2026 年 5 月面向印度中小商家的
+`Business AI on WhatsApp`。Meta 的 framing 强调基于目录的商品问答、
+关键商家信息、非营业时间覆盖以及商家控制权。因此，可复用的实验室经验
+并不是“做一个泛聊天机器人”，而是让助手保持在清晰可见的商家上下文边界
+内，同时把最终覆盖权和支付权留给人类。
 
 ## 下一步
 
