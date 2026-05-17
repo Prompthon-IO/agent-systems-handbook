@@ -1,0 +1,4 @@
+interface:
+  display_name: "Local Document Organizer"
+  short_description: "Preview-first local file organizer with SQLite logs and undo"
+  default_prompt: "Use $local-document-organizer to scan my Downloads folder, propose a category structure, and wait for my approval before moving anything."

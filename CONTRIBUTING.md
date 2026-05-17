@@ -39,6 +39,10 @@ Use the matching guide before you draft anything:
 
 - Keep public content repo-native. Use imported material under `references/` as
   source input, not as publishable copy.
+- Treat English handbook pages as the canonical source. If a Simplified Chinese
+  page under `zh-Hans/` differs from its English counterpart in structure,
+  meaning, terminology, citations, reading links, or update history, align the
+  Chinese page to the English page as a translation and localization layer.
 - Do not copy upstream prose, screenshots, diagrams, or large code surfaces
   into tracked public paths.
 - Pick the correct lane or contribution type before writing.

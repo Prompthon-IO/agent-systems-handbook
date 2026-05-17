@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prompt Cache Agent Harness"
+  short_description: "Plan Claude prompt-cache layers and inspect captured cache metadata"
+  default_prompt: "Use $prompt-cache-agent-harness to review these Claude run artifacts and explain whether the prompt-cache boundary is working."

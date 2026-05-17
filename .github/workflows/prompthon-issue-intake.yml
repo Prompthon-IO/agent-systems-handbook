@@ -1,0 +1,24 @@
+name: Prompthon Issue Intake
+
+on:
+  issues:
+    types:
+      - opened
+      - edited
+      - reopened
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  label-activity-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Apply activity labels
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/prompthon-issue-intake-labeler.mjs

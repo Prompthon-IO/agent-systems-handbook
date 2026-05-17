@@ -20,8 +20,47 @@ Source code: [ecosystem/examples/messaging-transaction-assistant-starter](https:
 
 消息界面正在成为用户完成实际任务的地方。这个模式不是让模型直接付款，而是让助手收集意图、展示可审阅的选择，并在用户明确确认后交接给可信的支付界面。
 
-## 边界
+## 相关实验室页面
 
-助手可以推断充值类意图、补齐缺失信息、展示确认摘要，并准备支付交接载荷。
+- [生态概览](/zh-Hans/ecosystem)
+- [Source Project Guidelines](/zh-Hans/contributor-kit/source-project-guidelines)
 
-助手不能执行支付、保存银行卡或银行凭据、绕过用户确认，或暗示并不存在的供应商集成。
+## 文件夹结构
+
+```text
+messaging-transaction-assistant-starter/
+├── README.md
+├── SOURCE_NOTES.md
+├── index.mdx
+└── src/
+    ├── run_demo.py
+    └── transaction_flow.py
+```
+
+## 包含的示例文件
+
+- `src/transaction_flow.py`：用于意图捕获、套餐选择、确认和支付交接的 typed helpers
+- `src/run_demo.py`：这个流程的极小命令行 demo
+- `SOURCE_NOTES.md`：来源脉络和署名边界
+
+## 流程边界
+
+助手可以：
+
+- 从消息中推断类似充值的意图
+- 询问缺失的套餐或收款方细节
+- 展示确认摘要
+- 为支付表面准备交接载荷
+
+助手不能：
+
+- 执行支付
+- 保存银行卡或银行凭据
+- 绕过用户确认
+- 暗示并不存在的供应商集成
+
+## 下一步
+
+- 为缺失细节添加更丰富的状态机。
+- 为不同消息市场添加本地化 fixtures。
+- 添加一个只为测试记录交接状态的 fake payment adapter。

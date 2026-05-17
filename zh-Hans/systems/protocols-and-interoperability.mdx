@@ -58,6 +58,11 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 | 一个智能体如何把工作交给另一个类智能体服务？ | A2A | 边界在于委派与协作。 |
 | 智能体如何在更大网络中被发现？ | ANP | 边界在于路由与发现。 |
 
+还有一个边界现在值得被明确命名：面向用户的智能体界面。当问题变成智能体
+如何把状态流式传进应用、请求批准，或者提出可移植组件时，`AG-UI` 与
+`A2UI` 往往比把 UI 关注点硬塞进 `MCP` 或 `A2A` 更合适。参见
+[智能体界面协议与生成式 UI](/zh-Hans/systems/agent-ui-protocols-and-generative-ui)。
+
 对于本地智能体系统，MCP 还引入了两个重要的上下文边界概念：
 
 - `roots`：文件系统边界，告诉服务器哪些本地目录或文件在作用域内。
@@ -133,8 +138,6 @@ OpenAI 在 Responses API 中对远程 MCP 的支持，使远程一侧对于 API 
 
 ## 引用
 
-- 来源输入：[Chapter 10 Agent Communication Protocols](https://github.com/datawhalechina/Hello-Agents/blob/main/docs/chapter10/Chapter10-Agent-Communication-Protocols.md)
-- 来源输入：[Hello-Agents upstream repository](https://github.com/datawhalechina/Hello-Agents)
 - 官方来源：[MCP transports](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports)
 - 官方来源：[MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots)
 - 官方来源：[MCP resources](https://modelcontextprotocol.io/specification/2025-06-18/server/resources)
@@ -142,12 +145,15 @@ OpenAI 在 Responses API 中对远程 MCP 的支持，使远程一侧对于 API 
 
 ## 延伸阅读
 
+- [智能体界面协议与生成式 UI](/zh-Hans/systems/agent-ui-protocols-and-generative-ui)
 - [上下文工程](/zh-Hans/systems/context-engineering)
 - [评估与可观测性](/zh-Hans/systems/evaluation-and-observability)
 - [系统概览](/zh-Hans/systems)
 
 ## 更新日志
 
+- 2026-05-06：新增面向用户协议边界说明，并把 AG-UI 与 A2UI 链接进更广
+  的互操作地图。
 - 2026-04-24：澄清了协议层边界，并为 MCP、A2A、ANP、roots、resources 和 remote MCP 增加了快速决策表。
 - 2026-04-23：结合本地 roots、resources 和 remote MCP 边界说明，更新了协议指南。
 - 2026-04-21：基于导入的参考材料和实验室重写规则形成的仓库原生初稿。

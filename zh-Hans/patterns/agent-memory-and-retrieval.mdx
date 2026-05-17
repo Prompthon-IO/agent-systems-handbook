@@ -1,12 +1,20 @@
 ---
 title: 智能体记忆与检索
 owner: Prompthon IO
-updated: 2026-04-21
+updated: 2026-05-06
 depth: intermediate
 region_tags:
   - global
 coding_required: optional
-external_readings: []
+external_readings:
+  - title: Gemini API File Search is now multimodal
+    url: https://blog.google/innovation-and-ai/technology/developers-tools/expanded-gemini-api-file-search-multimodal-rag/
+  - title: Gemini API File Search documentation
+    url: https://ai.google.dev/gemini-api/docs/file-search
+  - title: OpenAI Responses API tools and remote MCP support
+    url: https://openai.com/index/new-tools-and-features-in-the-responses-api/
+  - title: google-gemini/cookbook
+    url: https://github.com/google-gemini/cookbook
 status: draft
 ---
 
@@ -77,11 +85,27 @@ flowchart LR
 
 在实践中，混合检索很常见，因为没有一种单一方法能很好地处理所有情况。关键词匹配有助于精确实体和字面值。稠密检索有助于语义相似性。结构化过滤有助于时间范围、用户范围或文档类型。合适的系统通常会把它们组合起来。
 
+## 检索边界
+
+当前的托管式 file search 工具，让“记忆”和“检索”的区别更容易讲清楚。一个托管 file-search store 并不是智能体的记忆。它是一个外部语料面，拥有自己的索引规则、过滤器和引用表面。
+
+有用的区分方式：
+
+- 当你需要跨任务、决策和历史动作保持连续性时，用 `memory`。
+- 当你需要外部证据，而且这些证据应当在问题真正提出前留在提示词之外时，用 `retrieval`。
+- 把 `metadata filters` 当作语义匹配之前的范围收窄手段，而不是相关性排序的替代品。
+- 当用户需要验证答案基于哪份文档或哪一页时，把 `citations` 视为输出工件的一部分。
+
+2026 年 5 月的 Gemini File Search 更新，就是这一方向的一个具体例子。Google 现在提供基于 `gemini-embedding-2` 的多模态 file search、自定义 metadata filtering，以及页级 citations。文档还明确了生命周期边界：原始上传文件走的是更短的保留路径，而导入后的 file-search store 数据会持续保留，直到被删除。这对可验证 RAG 很有价值，但它仍然属于检索，而不是记忆。
+
+托管式 file-search 产品也会带来架构选择。Google 当前文档指出，File Search 还不能与 Google Search 或 URL Context 之类的工具在同一次调用中组合使用，而且目前不支持音频和视频。因此，团队仍然需要在检索层之上保留编排逻辑，用来决定哪一种工具、语料和证据路径适合当前任务。
+
 ## 权衡
 
 - 会话记忆速度快、成本低，但重启后会消失，不能被当作持久记录。
 - 持久记忆提升连续性，但会引入写入质量问题：错误记忆的代价很高，因为它们会反复返回。
 - 检索带来新鲜度和广度，但也会引入延迟、排序错误和引用风险。
+- 托管式 file-search 工具减少了自建基础设施工作，但也会限制语料生命周期、工具组合方式和存储形态。
 - 笔记和工件提升可追溯性，但它们需要治理，否则智能体会生成无限堆积的过时文档。
 
 有三个设计选择会反复出现：
@@ -94,15 +118,20 @@ flowchart LR
 
 ## 引用
 
-- 来源说明：[Chapter 8 Memory and Retrieval](https://github.com/datawhalechina/Hello-Agents/blob/main/docs/chapter8/Chapter8-Memory-and-Retrieval.md)
-- 来源说明：[Hello-Agents upstream repository](https://github.com/datawhalechina/Hello-Agents)
+- 官方来源：[Gemini API File Search is now multimodal](https://blog.google/innovation-and-ai/technology/developers-tools/expanded-gemini-api-file-search-multimodal-rag/)
+- 官方来源：[Gemini API File Search documentation](https://ai.google.dev/gemini-api/docs/file-search)
+- 官方来源：[OpenAI Responses API tools and remote MCP support](https://openai.com/index/new-tools-and-features-in-the-responses-api/)
+- 高信号仓库：[google-gemini/cookbook](https://github.com/google-gemini/cookbook)
 
 ## 延伸阅读
 
+- [Agent Memory Retrieval Starter](/zh-Hans/patterns/examples/agent-memory-retrieval-starter)
 - [上下文工程](/zh-Hans/systems/context-engineering)
+- [Customer Support Agents](/zh-Hans/case-studies/customer-support-agents)
 - [Deep Research Agents](/zh-Hans/case-studies/deep-research-agents)
 - [模式总览](/zh-Hans/patterns)
 
 ## 更新日志
 
+- 2026-05-06：补充了检索边界刷新，覆盖多模态 file search、metadata filters、带 citations 的 RAG，以及托管检索 store 与智能体记忆之间的区别。
 - 2026-04-21：基于导入的参考材料和实验室重写规则生成的初始仓库原生草稿。

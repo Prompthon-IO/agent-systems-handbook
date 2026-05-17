@@ -1,12 +1,20 @@
 ---
 title: Agent Memory And Retrieval
 owner: Prompthon IO
-updated: 2026-04-21
+updated: 2026-05-06
 depth: intermediate
 region_tags:
   - global
 coding_required: optional
-external_readings: []
+external_readings:
+  - title: Gemini API File Search is now multimodal
+    url: https://blog.google/innovation-and-ai/technology/developers-tools/expanded-gemini-api-file-search-multimodal-rag/
+  - title: Gemini API File Search documentation
+    url: https://ai.google.dev/gemini-api/docs/file-search
+  - title: OpenAI Responses API tools and remote MCP support
+    url: https://openai.com/index/new-tools-and-features-in-the-responses-api/
+  - title: google-gemini/cookbook
+    url: https://github.com/google-gemini/cookbook
 status: draft
 ---
 
@@ -99,6 +107,35 @@ case well. Keyword matching helps with exact entities and literals. Dense
 retrieval helps with semantic similarity. Structured filters help with time
 range, user scope, or document type. The right system usually combines them.
 
+## Retrieval Boundaries
+
+Current hosted file-search tools make the memory-versus-retrieval split easier
+to explain. A managed file-search store is not the agent's memory. It is an
+external corpus with its own indexing rules, filters, and citation surface.
+
+Useful distinctions:
+
+- Use `memory` for continuity across tasks, decisions, and prior actions.
+- Use `retrieval` for external evidence that should stay outside the prompt
+  until a question or task asks for it.
+- Use `metadata filters` to narrow scope before semantic matching, not as a
+  replacement for relevance ranking.
+- Use `citations` as part of the output artifact when users need to verify what
+  document or page grounded the answer.
+
+The May 2026 Gemini File Search update is a concrete example of the direction.
+Google now exposes multimodal file search with `gemini-embedding-2`, custom
+metadata filtering, and page-level citations. The docs also make the lifecycle
+boundary explicit: raw uploaded files expire on a shorter path, while imported
+file-search store data persists until deletion. That is useful for verifiable
+RAG, but it is still retrieval, not memory.
+
+Managed file-search products also impose architecture choices. Google's current
+docs note that File Search cannot yet be combined with tools like Google Search
+or URL Context in the same call, and that audio and video are not currently
+supported. Teams still need orchestration above the retrieval layer to decide
+which tool, corpus, and evidence path fits the task.
+
 ## Tradeoffs
 
 - Session memory is fast and cheap, but it disappears on restart and should not
@@ -107,6 +144,8 @@ range, user scope, or document type. The right system usually combines them.
   bad memories are expensive because they keep returning.
 - Retrieval gives freshness and breadth, but it also creates latency, ranking
   errors, and citation risk.
+- Managed file-search tools reduce infrastructure work, but they constrain
+  corpus lifecycle, tool composition, and storage shape.
 - Notes and artifacts improve traceability, but they require governance so the
   agent does not create an unbounded pile of stale documents.
 
@@ -122,15 +161,22 @@ but it does not replace task memory, decision logs, or artifact management.
 
 ## Citations
 
-- Source input: [Chapter 8 Memory and Retrieval](https://github.com/datawhalechina/Hello-Agents/blob/main/docs/chapter8/Chapter8-Memory-and-Retrieval.md)
-- Source input: [Hello-Agents upstream repository](https://github.com/datawhalechina/Hello-Agents)
+- Official source: [Gemini API File Search is now multimodal](https://blog.google/innovation-and-ai/technology/developers-tools/expanded-gemini-api-file-search-multimodal-rag/)
+- Official source: [Gemini API File Search documentation](https://ai.google.dev/gemini-api/docs/file-search)
+- Official source: [OpenAI Responses API tools and remote MCP support](https://openai.com/index/new-tools-and-features-in-the-responses-api/)
+- High-signal repository: [google-gemini/cookbook](https://github.com/google-gemini/cookbook)
 
 ## Reading Extensions
 
+- [Agent Memory Retrieval Starter](/patterns/examples/agent-memory-retrieval-starter)
 - [Context Engineering](/systems/context-engineering)
+- [Customer Support Agents](/case-studies/customer-support-agents)
 - [Deep Research Agents](/case-studies/deep-research-agents)
 - [Patterns Overview](/patterns)
 
 ## Update Log
 
+- 2026-05-06: Added a retrieval-boundary refresh covering multimodal file
+  search, metadata filters, citation-bearing RAG, and the difference between
+  managed retrieval stores and agent memory.
 - 2026-04-21: Initial repo-native draft based on imported reference material and lab rewrite rules.

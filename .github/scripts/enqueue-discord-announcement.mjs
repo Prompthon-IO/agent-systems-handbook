@@ -30,6 +30,7 @@ const ELIGIBLE_FILES = new Set([
 function parseArgs(argv) {
   return {
     dryRun: argv.includes("--dry-run"),
+    releaseAnnouncement: argv.includes("--release-announcement"),
   };
 }
 
@@ -78,11 +79,31 @@ function firstLine(value) {
   return String(value || "").split(/\r?\n/)[0]?.trim() || "";
 }
 
+function shortSha(value) {
+  return typeof value === "string" && value.length >= 7 ? value.slice(0, 7) : value;
+}
+
+function firstNonEmpty(...values) {
+  for (const value of values) {
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+  return null;
+}
+
 function firstParagraph(value) {
   return String(value || "")
     .split(/\r?\n\r?\n/)
     .map((part) => part.replace(/\s+/g, " ").trim())
     .find(Boolean) || "";
+}
+
+function readTextFile(filePath) {
+  if (!filePath || !fs.existsSync(filePath)) {
+    return "";
+  }
+  return fs.readFileSync(filePath, "utf8");
 }
 
 function truncate(value, maxLength) {
@@ -100,6 +121,9 @@ function truncate(value, maxLength) {
 function channelIdFor(key) {
   if (key === "repo-updates") {
     return process.env.DISCORD_REPO_UPDATES_CHANNEL_ID || process.env.DISCORD_LAB_UPDATES_CHANNEL_ID || null;
+  }
+  if (key === "project-announcements") {
+    return process.env.DISCORD_PROJECT_ANNOUNCEMENTS_CHANNEL_ID || process.env.DISCORD_ANNOUNCEMENTS_CHANNEL_ID || null;
   }
   if (key === "good-first-issues-feed") {
     return process.env.DISCORD_GOOD_FIRST_ISSUES_CHANNEL_ID || null;
@@ -159,6 +183,45 @@ function labels(issue) {
 
 function hasGoodFirstLabel(issue) {
   return labels(issue).some((label) => label.toLowerCase() === GOOD_FIRST_LABEL);
+}
+
+function stripReleaseBullet(line) {
+  return String(line || "")
+    .replace(/^\s*[-*]\s+/, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function extractReleaseHighlights(releaseBody) {
+  const lines = String(releaseBody || "").split(/\r?\n/);
+  const changesHeadingIndex = lines.findIndex((line) =>
+    /^##\s+(what'?s changed|changes|major changes)\b/i.test(line.trim()),
+  );
+  const scopedLines = changesHeadingIndex >= 0 ? lines.slice(changesHeadingIndex + 1) : lines;
+  const highlights = [];
+
+  for (const line of scopedLines) {
+    const trimmed = line.trim();
+    if (changesHeadingIndex >= 0 && /^##\s+/.test(trimmed)) {
+      break;
+    }
+    if (/^[-*]\s+/.test(trimmed)) {
+      highlights.push(stripReleaseBullet(trimmed));
+    }
+  }
+
+  return unique(highlights).slice(0, 8);
+}
+
+function extractReleaseContributors(releaseBody) {
+  const contributors = [];
+  const pattern = /\bby @([A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?)\b/g;
+  let match = pattern.exec(String(releaseBody || ""));
+  while (match) {
+    contributors.push(match[1]);
+    match = pattern.exec(String(releaseBody || ""));
+  }
+  return unique(contributors);
 }
 
 async function fetchAssociatedPullRequest({ repoFullName, sha, token }) {
@@ -311,6 +374,71 @@ async function buildPushJobs(event) {
   ];
 }
 
+function buildReleaseAnnouncementJobs(event) {
+  const { repoFullName, repoUrl } = baseRepoInfo(event);
+  const sha = process.env.GITHUB_SHA || event.after || runGit(["rev-parse", "HEAD"]);
+  const releaseBody = firstNonEmpty(
+    process.env.ANNOUNCER_RELEASE_BODY,
+    readTextFile(process.env.ANNOUNCER_RELEASE_BODY_FILE),
+    event.release?.body,
+    "",
+  );
+  const releaseTag = firstNonEmpty(
+    process.env.ANNOUNCER_RELEASE_TAG,
+    event.release?.tag_name,
+  );
+  const releaseName = firstNonEmpty(
+    process.env.ANNOUNCER_RELEASE_NAME,
+    event.release?.name,
+    releaseTag,
+    "Latest handbook release",
+  );
+  const releaseUrl = firstNonEmpty(
+    process.env.ANNOUNCER_RELEASE_URL,
+    event.release?.html_url,
+    releaseTag ? `${repoUrl}/releases/tag/${releaseTag}` : null,
+    `${repoUrl}/releases`,
+  );
+  const handbookUrl = firstNonEmpty(
+    process.env.HANDBOOK_DEPLOYED_URL,
+    "https://labs.prompthon.io",
+  );
+  const releaseHighlights = extractReleaseHighlights(releaseBody);
+  const releaseContributors = extractReleaseContributors(releaseBody);
+
+  return [
+    makeJob({
+      branch: "main",
+      changeSummary: truncate(
+        firstParagraph(releaseBody) ||
+          `Release ${releaseTag || shortSha(sha)} is live from develop to main.`,
+        700,
+      ),
+      channelKey: "project-announcements",
+      commitSha: sha,
+      dedupeKey: `${repoFullName}:release:${releaseTag || sha}:project-announcements`,
+      eventType: "handbook_release_published",
+      mergedByLogin: process.env.GITHUB_ACTOR || null,
+      payloadJson: {
+        deploymentBranch: "main",
+        handbookUrl,
+        releaseBody,
+        releaseContributors,
+        releaseHighlights,
+        releaseName,
+        releaseTag,
+        releaseUrl,
+        sourceBranch: "develop",
+        sourceUrl: releaseUrl,
+      },
+      prTitle: releaseName,
+      prUrl: releaseUrl,
+      repoFullName,
+      repoUrl,
+    }),
+  ];
+}
+
 function buildIssueJobs(event) {
   const action = event.action;
   const issue = event.issue;
@@ -418,8 +546,11 @@ function buildPullRequestJobs(event) {
   return [];
 }
 
-async function buildJobs(event) {
+async function buildJobs(event, options = {}) {
   const eventName = process.env.GITHUB_EVENT_NAME || event.event_name || "";
+  if (options.releaseAnnouncement || (eventName === "release" && event.action === "published")) {
+    return buildReleaseAnnouncementJobs(event);
+  }
   if (eventName === "issues") {
     return buildIssueJobs(event);
   }
@@ -438,6 +569,9 @@ function publicJobSummary(job) {
     eventType: job.eventType,
     prNumber: job.prNumber,
     prTitle: job.prTitle,
+    ...(Array.isArray(job.payloadJson?.releaseContributors)
+      ? { releaseContributors: job.payloadJson.releaseContributors }
+      : {}),
     repoFullName: job.repoFullName,
     sourceUrl: job.payloadJson?.sourceUrl || job.payloadJson?.issueUrl || null,
   };
@@ -564,7 +698,7 @@ async function enqueueJob(job) {
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   const event = readEventPayload();
-  const jobs = await buildJobs(event);
+  const jobs = await buildJobs(event, options);
 
   if (!jobs.length) {
     console.log(JSON.stringify({ skipped: true, reason: "no_matching_event" }, null, 2));

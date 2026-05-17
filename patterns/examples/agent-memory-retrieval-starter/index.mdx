@@ -9,8 +9,8 @@ import SupportCTA from "/snippets/support-cta.mdx";
 ## Summary
 
 This starter shows one clean way to separate active notes, working memory,
-imported personal context, retrieval inputs, and durable artifacts in a small
-agent loop.
+imported personal context, retrieval inputs, citation-bearing verifiable RAG,
+and durable artifacts in a small agent loop.
 
 ## Status
 
@@ -23,7 +23,13 @@ Source code: [patterns/examples/agent-memory-retrieval-starter](https://github.c
 Memory examples often collapse everything into one vague history object. This
 starter is intentionally narrower: it highlights the boundary between what the
 agent is currently holding, what a user imported from another assistant, what
-it can retrieve, and what it should preserve as an artifact.
+it can retrieve, what must remain an external file-search corpus, and what it
+should preserve as an artifact.
+
+The May 2026 multimodal file-search updates from Google made that retrieval
+boundary easier to teach. A useful starter should show metadata filters,
+page-level citations, and multimodal chunks without pretending that retrieval
+stores are the same thing as agent memory.
 
 ## Related Lab Pages
 
@@ -39,15 +45,21 @@ agent-memory-retrieval-starter/
     ├── artifact_policy.py
     ├── memory_flow.py
     ├── personal_context.py
-    └── retrieval_trace.py
+    ├── retrieval_trace.py
+    └── verifiable_rag.py
 ```
 
 ## Quick Start
 
-This is a starter, not a runnable application. Read `src/memory_flow.py` for
-the minimal state shape and use it as a base for a fuller example later. For a
-repo-level smoke check, run `python3 scripts/verify_example_projects.py` from
-the repository root.
+From the repository root:
+
+```bash
+python3 scripts/verify_example_projects.py
+```
+
+This is still a starter, not a full application. Read `src/memory_flow.py` for
+the state boundary and `src/verifiable_rag.py` for the retrieval-side citation
+surface.
 
 ## Included Sample Files
 
@@ -58,6 +70,8 @@ the repository root.
   preference facts separate from retrieval results and artifacts
 - `src/retrieval_trace.py`: a tiny ranking and trace surface for making
   retrieval decisions inspectable
+- `src/verifiable_rag.py`: a tiny filter-and-citation surface for metadata
+  filters, page numbers, and multimodal grounding output
 - `src/artifact_policy.py`: one place to show how a starter can separate
   artifact-promotion rules from raw note capture
 
@@ -65,10 +79,30 @@ the repository root.
 
 - No storage backend is wired yet.
 - No embedding or vector-store integration is included.
+- No provider SDK is called directly.
 - Imported personal context stays deliberately small and reviewable.
 - The example favors clear boundaries over completeness.
+- Citations are modeled as output artifacts, not as proof that retrieval is
+  always correct.
+
+## Flow Boundaries
+
+The starter may:
+
+- keep working memory and personal context separate from retrieval inputs
+- apply metadata filters before selecting chunks
+- surface page-level and media citations as part of the returned artifact
+- keep retrieval traces inspectable enough for review
+
+The starter must not:
+
+- treat a file-search store as durable agent memory
+- silently promote retrieved snippets into long-term memory
+- hide filter decisions or cited locations from the reviewer
 
 ## Next Steps
 
 - Add a simple persistence layer for imported context and durable artifacts.
 - Add a clearer review workflow for memory imports before they become active.
+- Add a provider adapter for one real file-search API without collapsing the
+  retrieval store into the memory layer.
