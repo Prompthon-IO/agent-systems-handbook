@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import {
   extractTrackFromLabels,
@@ -8,6 +11,16 @@ import {
   labelsForIssueBody,
   validateChangedFilesForTrack,
 } from "./prompthon-activity-policy.mjs";
+
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const issueTemplateDir = path.join(repoRoot, ".github", "ISSUE_TEMPLATE");
+const issueTemplateFiles = [
+  "bug-report.yml",
+  "content-proposal.yml",
+  "meta-process.yml",
+  "practitioner-skill-package.yml",
+  "source-project-proposal.yml",
+];
 
 test("extracts track and work kind labels", () => {
   const labels = [
@@ -21,7 +34,7 @@ test("extracts track and work kind labels", () => {
 
 test("maps issue-form fields to activity labels", () => {
   const body = [
-    "### Contribution track",
+    "### Repository track",
     "",
     "Explorer",
     "",
@@ -39,6 +52,38 @@ test("maps issue-form fields to activity labels", () => {
     "track: explorer",
     "kind: radar-note",
   ]);
+});
+
+test("keeps legacy Contribution track issue bodies labelable", () => {
+  const body = [
+    "### Contribution track",
+    "",
+    "Builder",
+    "",
+    "### Work kind",
+    "",
+    "Feature",
+  ].join("\n");
+
+  assert.deepEqual(labelsForIssueBody(body), [
+    "status: pending-review",
+    "track: builder",
+    "kind: feature",
+  ]);
+});
+
+test("issue templates include visible Skill Compass score fields", () => {
+  for (const fileName of issueTemplateFiles) {
+    const source = fs.readFileSync(path.join(issueTemplateDir, fileName), "utf8");
+    assert.match(source, /label: Repository track/, fileName);
+    assert.match(source, /## Skill Compass score proposal/, fileName);
+    assert.match(source, /id: vision_score/, fileName);
+    assert.match(source, /label: Vision score/, fileName);
+    assert.match(source, /id: harness_score/, fileName);
+    assert.match(source, /label: Harness score/, fileName);
+    assert.match(source, /id: craft_score/, fileName);
+    assert.match(source, /label: Craft score/, fileName);
+  }
 });
 
 test("finds linked issue numbers from closing keywords", () => {
@@ -83,6 +128,7 @@ test("validates practitioner and builder path policy", () => {
   assert.equal(
     validateChangedFilesForTrack("builder", [
       ".github/workflows/prompthon-track-guard.yml",
+      "patterns/examples/deep-research-agent-starter/README.md",
       "systems/context-engineering.mdx",
     ]).valid,
     true,

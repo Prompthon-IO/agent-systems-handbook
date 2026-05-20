@@ -14,10 +14,10 @@ body:
   - type: dropdown
     id: contribution_track
     attributes:
-      label: Contribution track
-      description: Repository process work is builder-track work in v0.
+      label: Repository track
+      description: Repository process work is Builder-track repository maintenance work.
       options:
-        - builder
+        - Builder
     validations:
       required: true
   - type: dropdown
@@ -42,7 +42,7 @@ body:
     attributes:
       label: Vision score
       description: Discovery, framing, strategy, research, synthesis, or editorial judgment.
-      value: "35"
+      value: "20"
     validations:
       required: true
   - type: input
@@ -50,7 +50,7 @@ body:
     attributes:
       label: Harness score
       description: Applying workflows, tools, templates, systems, or existing repo patterns.
-      value: "45"
+      value: "40"
     validations:
       required: true
   - type: input
@@ -58,7 +58,7 @@ body:
     attributes:
       label: Craft score
       description: Building, writing, coding, polishing, testing, or improving the final artifact.
-      value: "20"
+      value: "40"
     validations:
       required: true
   - type: textarea

@@ -58,6 +58,10 @@ export const TRACK_ALLOWED_PATHS = {
     "githooks/",
     ".github/",
     "examples/",
+    "patterns/examples/",
+    "systems/examples/",
+    "ecosystem/examples/",
+    "case-studies/examples/",
     "systems/",
     "src/",
     "apps/",
@@ -131,6 +135,7 @@ export function extractIssueFormValue(body, heading) {
 
 export function labelsForIssueBody(body) {
   const track = normalizeChoice(
+    extractIssueFormValue(body, "Repository track") ||
     extractIssueFormValue(body, "Contribution track") ||
     extractIssueFormValue(body, "Track"),
   );

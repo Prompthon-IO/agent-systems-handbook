@@ -6,10 +6,10 @@ body:
   - type: dropdown
     id: contribution_track
     attributes:
-      label: Contribution track
-      description: Bug reports are builder-track work in v0.
+      label: Repository track
+      description: Bug reports are Builder-track repository maintenance work.
       options:
-        - builder
+        - Builder
     validations:
       required: true
   - type: dropdown

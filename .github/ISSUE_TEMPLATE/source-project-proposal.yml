@@ -19,11 +19,11 @@ body:
   - type: dropdown
     id: contribution_track
     attributes:
-      label: Contribution track
-      description: Most source projects are builder work; choose practitioner for template/workflow-focused assets.
+      label: Repository track
+      description: Most source projects are Builder work; choose Practitioner only for template or workflow-focused assets.
       options:
-        - builder
-        - practitioner
+        - Builder
+        - Practitioner
     validations:
       required: true
   - type: dropdown
@@ -61,7 +61,7 @@ body:
     attributes:
       label: Harness score
       description: Applying workflows, tools, templates, systems, or existing repo patterns.
-      value: "25"
+      value: "30"
     validations:
       required: true
   - type: input
@@ -69,7 +69,7 @@ body:
     attributes:
       label: Craft score
       description: Building, writing, coding, polishing, testing, or improving the final artifact.
-      value: "55"
+      value: "50"
     validations:
       required: true
   - type: dropdown
