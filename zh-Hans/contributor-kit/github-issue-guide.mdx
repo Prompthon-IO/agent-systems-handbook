@@ -21,6 +21,10 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 - `Repository Feature Or Process Proposal`：关于仓库工作流、issue 接收、模板、标签、审查规则、贡献者文档或维护者运营的功能请求
 - `Bug Or Broken Surface Report`：损坏的链接、事实问题、示例缺陷、模板问题，或仓库工作流回归
 
+每个表单都会询问 Prompthon 贡献 track 和 work kind。仓库自动化会把这些答案转换为安全的 `track:*`、`kind:*` 和 `status: pending-review` 标签，因此贡献者不需要标签权限。
+
+每个表单也包含 `Skill Compass score proposal` 区块，并预填 Vision、Harness 和 Craft points。如果这个 issue 比默认拆分更偏发现与判断、工作流执行，或最终产物打磨，请修改这些数值。数值会显示在创建后的 issue 正文中，协作者也可以在批准 issue 前调整它们。
+
 ## issue 编写标准
 
 - 一张 issue 只聚焦一个结果。

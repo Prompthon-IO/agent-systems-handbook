@@ -40,6 +40,38 @@ body:
         - tool-showcase
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Skill Compass score proposal
+
+        Propose how this issue should split Vision, Harness, and Craft points.
+        Use integers only. The total of all three values must be between 1 and
+        100. A collaborator may adjust these values before approving the issue.
+  - type: input
+    id: vision_score
+    attributes:
+      label: Vision score
+      description: Discovery, framing, strategy, research, synthesis, or editorial judgment.
+      value: "20"
+    validations:
+      required: true
+  - type: input
+    id: harness_score
+    attributes:
+      label: Harness score
+      description: Applying workflows, tools, templates, systems, or existing repo patterns.
+      value: "25"
+    validations:
+      required: true
+  - type: input
+    id: craft_score
+    attributes:
+      label: Craft score
+      description: Building, writing, coding, polishing, testing, or improving the final artifact.
+      value: "55"
+    validations:
+      required: true
   - type: dropdown
     id: lane
     attributes:
