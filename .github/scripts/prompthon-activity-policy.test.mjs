@@ -77,12 +77,14 @@ test("issue templates include visible Skill Compass score fields", () => {
     const source = fs.readFileSync(path.join(issueTemplateDir, fileName), "utf8");
     assert.match(source, /label: Repository track/, fileName);
     assert.match(source, /## Skill Compass score proposal/, fileName);
-    assert.match(source, /id: vision_score/, fileName);
+    assert.match(source, /- type: dropdown\n    id: vision_score/, fileName);
     assert.match(source, /label: Vision score/, fileName);
-    assert.match(source, /id: harness_score/, fileName);
+    assert.match(source, /- type: dropdown\n    id: harness_score/, fileName);
     assert.match(source, /label: Harness score/, fileName);
-    assert.match(source, /id: craft_score/, fileName);
+    assert.match(source, /- type: dropdown\n    id: craft_score/, fileName);
     assert.match(source, /label: Craft score/, fileName);
+    assert.match(source, /- "0"\n        - "5"/, fileName);
+    assert.match(source, /- "95"\n        - "100"/, fileName);
   }
 });
 

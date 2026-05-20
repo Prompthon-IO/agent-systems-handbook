@@ -35,30 +35,97 @@ body:
         ## Skill Compass score proposal
 
         Propose how this issue should split Vision, Harness, and Craft points.
-        Use integers only. The total of all three values must be between 1 and
-        100. A collaborator may adjust these values before approving the issue.
-  - type: input
+        Use the score dropdowns to select values from 0 to 100 in 5-point
+        steps. The total of all three values must be between 1 and 100.
+        A collaborator may adjust these values before approving the issue.
+  - type: dropdown
     id: vision_score
     attributes:
       label: Vision score
-      description: Discovery, framing, strategy, research, synthesis, or editorial judgment.
-      value: "20"
+      description: Discovery, framing, strategy, research, synthesis, or editorial judgment. Select a value from 0 to 100 in 5-point steps.
+      options:
+        - "0"
+        - "5"
+        - "10"
+        - "15"
+        - "20"
+        - "25"
+        - "30"
+        - "35"
+        - "40"
+        - "45"
+        - "50"
+        - "55"
+        - "60"
+        - "65"
+        - "70"
+        - "75"
+        - "80"
+        - "85"
+        - "90"
+        - "95"
+        - "100"
+      default: 4
     validations:
       required: true
-  - type: input
+  - type: dropdown
     id: harness_score
     attributes:
       label: Harness score
-      description: Applying workflows, tools, templates, systems, or existing repo patterns.
-      value: "40"
+      description: Applying workflows, tools, templates, systems, or existing repo patterns. Select a value from 0 to 100 in 5-point steps.
+      options:
+        - "0"
+        - "5"
+        - "10"
+        - "15"
+        - "20"
+        - "25"
+        - "30"
+        - "35"
+        - "40"
+        - "45"
+        - "50"
+        - "55"
+        - "60"
+        - "65"
+        - "70"
+        - "75"
+        - "80"
+        - "85"
+        - "90"
+        - "95"
+        - "100"
+      default: 8
     validations:
       required: true
-  - type: input
+  - type: dropdown
     id: craft_score
     attributes:
       label: Craft score
-      description: Building, writing, coding, polishing, testing, or improving the final artifact.
-      value: "40"
+      description: Building, writing, coding, polishing, testing, or improving the final artifact. Select a value from 0 to 100 in 5-point steps.
+      options:
+        - "0"
+        - "5"
+        - "10"
+        - "15"
+        - "20"
+        - "25"
+        - "30"
+        - "35"
+        - "40"
+        - "45"
+        - "50"
+        - "55"
+        - "60"
+        - "65"
+        - "70"
+        - "75"
+        - "80"
+        - "85"
+        - "90"
+        - "95"
+        - "100"
+      default: 8
     validations:
       required: true
   - type: textarea
