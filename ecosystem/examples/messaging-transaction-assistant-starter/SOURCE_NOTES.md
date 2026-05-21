@@ -30,8 +30,8 @@ human takeover available when the seller wants to step in directly.
 
 This starter does not copy WhatsApp UI or implement Meta-specific behavior. It
 uses the source as a product-shape signal for a generic messaging-native
-transaction assistant with catalog-grounded replies and explicit handoff
-boundaries.
+transaction assistant shaped by bounded business context labels and explicit
+handoff boundaries.
 
 The documentation and sample repositories are most useful for contributors who
 want to extend this starter toward structured messaging, Flows, or Cloud API
