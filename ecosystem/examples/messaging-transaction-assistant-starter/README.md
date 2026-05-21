@@ -3,9 +3,9 @@
 This starter demonstrates a compact transaction flow inside a messaging-style
 assistant. The motivating signals are Meta's April 2026 prepaid-recharge flow
 and the May 2026 `Business AI on WhatsApp` launch for Indian small businesses,
-but the implementation is repo-native and generic: it teaches catalog-grounded
-replies, intent capture, plan selection, user confirmation, human takeover, and
-payment handoff boundaries without copying a vendor UI.
+but the implementation is repo-native and generic: it teaches bounded
+business-context grounding, intent capture, plan selection, user confirmation,
+human takeover, and payment handoff boundaries without copying a vendor UI.
 
 ## Status
 
