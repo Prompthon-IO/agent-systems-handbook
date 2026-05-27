@@ -1,7 +1,7 @@
 ---
 title: May 2026 Customer Support Agent Evaluation Tradeoffs
-owner: xyanglu
-updated: 2026-05-18
+owner: Prompthon IO
+updated: 2026-05-27
 time_scope: 2026-05
 status: draft
 ---
@@ -12,79 +12,77 @@ import SupportCTA from "/snippets/support-cta.mdx";
 
 ## Summary
 
-Customer support agents built on LLMs are moving from prototype to production,
-but evaluation practices have not kept pace. Teams are shipping agents that
-handle real conversations without a clear framework for measuring what "good"
-means across the dimensions that actually matter: response quality, reliability
-under API failures, latency consistency, and cost control. The gap is widest for
-teams running multi-model setups with automatic fallback.
+Customer-support agents are a useful evaluation stress test because their
+failures can come from several places at once: retrieval, policy grounding,
+model selection, prompt instructions, escalation rules, or the evaluator
+itself. A single pass/fail score is rarely enough to explain which layer needs
+work.
+
+For handbook readers, the current signal is practical: before changing the
+model or rewriting the whole prompt, inspect the traces, test the grader, and
+run a small model sweep against the same support cases.
 
 ## Why It Matters
 
-Support agents operate under constraints that benchmarks do not capture. A
-model scoring well on MMLU or Arena can still fail in production when:
+Support replies sit close to customer trust, privacy, refunds, account changes,
+and escalation paths. Evaluation shortcuts that look harmless in demos can
+mislead production teams:
 
-- The cloud API returns empty responses due to content filtering or transient
-  errors, and the fallback model is too slow for interactive use.
-- Responses are syntactically correct but miss conversational context, tone,
-  or the user's actual intent.
-- Latency varies wildly between primary and fallback providers, creating an
-  inconsistent user experience.
+- Keyword matches can reward replies that mention the right terms while still
+  mishandling the policy.
+- Source-count checks can reward longer retrieval output without proving the
+  answer used the right evidence.
+- A model-only comparison can hide retrieval bugs, stale policies, or missing
+  escalation metadata.
+- Strict grounding instructions can reduce unsupported claims while also making
+  replies less helpful when the source material is incomplete.
 
-These are system-level evaluation problems, not model-level ones. The
-evaluation question is not "which model scores highest" but "does the full
-pipeline deliver acceptable replies reliably, under real failure conditions,
-within latency and cost budgets."
+The durable lesson is to evaluate the workflow boundary, not just the final
+message.
 
 ## Evidence And Sources
 
-- **Multi-model fallback in production**: A deployed auto-reply system using
-  GLM-5.1 (cloud, ~25 tok/s) as primary with Phi-3 mini (local, ~3.4 tok/s)
-  as fallback showed that cloud APIs can return empty responses with
-  `finish_reason: "length"` during transient outages. The system needed
-  explicit empty-response detection to trigger fallback, since HTTP 200 with
-  empty content is not an error. This is a common blind spot in agent
-  evaluation frameworks that only check for exceptions.
-  ([Discussion context: production Signal messaging agent, May 2026](https://www.linkedin.com/posts/yang-lu-a-engineer/))
+- [OpenAI trace grading](https://developers.openai.com/api/docs/guides/trace-grading):
+  OpenAI frames trace grading around structured scores or labels over a full
+  agent trace, including decisions, tool calls, and reasoning steps.
+- [OpenAI agent evals](https://developers.openai.com/api/docs/guides/agent-evals):
+  OpenAI recommends traces for workflow-level debugging, then repeatable
+  datasets and eval runs once the team knows what good behavior looks like.
+- [OpenAI model comparison](https://developers.openai.com/api/docs/models/compare):
+  OpenAI's model comparison surface makes speed, price, context, and supported
+  features visible, which helps teams test cost and quality tradeoffs instead
+  of assuming one model is always the right fit.
 
-- **OpenAI function calling evaluation guide**: OpenAI's documentation
-  emphasizes that evaluation should cover tool selection accuracy, argument
-  correctness, and response coherence separately, not just end-to-end task
-  completion.
-  ([OpenAI Evaluation Best Practices](https://platform.openai.com/docs/guides/evaluation))
+## Practical Audit Pattern
 
-- **LangSmith agent evaluation patterns**: LangChain's evaluation toolkit
-  treats agent evaluation as a multi-dimensional problem spanning trajectory
-  (did it pick the right tools?), final output (did it produce the right
-  answer?), and latency (did it finish in time?). Support agents add a fourth
-  dimension: conversational appropriateness.
-  ([LangSmith Evaluation Docs](https://docs.smith.langchain.com/evaluation))
+Use a small, repeatable audit before making broad changes:
 
-- **Local inference tradeoffs**: llama.cpp benchmarks on consumer hardware
-  (Intel i7, 16GB RAM) show that Q4-quantized 3.8B models achieve 3-4 tok/s,
-  which is too slow for interactive support chat but acceptable as a degraded
-  fallback. The tradeoff between model quality and inference speed is a
-  deployment decision that evaluation frameworks should surface explicitly.
-  ([llama.cpp](https://github.com/ggml-org/llama.cpp))
+1. Choose five to ten real support cases with approved expected outcomes.
+2. Preserve the retrieval query, retrieved snippets, draft reply, escalation
+   decision, and final review outcome for each run.
+3. Grade the trace for policy fit, grounding, tone, escalation behavior, and
+   missing evidence.
+4. Inspect failed traces before changing the prompt or model.
+5. Re-run the same cases across two or three model choices when cost or latency
+   matters.
+
+This keeps the evaluation useful even when the answer text changes. The team
+can see whether the system failed because it retrieved the wrong policy,
+ignored the right policy, over-escalated, under-escalated, or used a model that
+was not strong enough for the case.
 
 ## Signals To Watch
 
-- Whether evaluation frameworks add first-class support for fallback chain
-  testing: asserting that degraded-mode responses still meet minimum quality
-  bars, not just asserting happy-path behavior.
-- Whether content-filter-induced empty responses become a standard test case
-  in agent evaluation suites, alongside timeout and rate-limit scenarios.
-- Whether production support agents converge on a standard set of evaluation
-  dimensions: response quality, conversational tone, latency budget adherence,
-  fallback reliability, and cost per conversation.
-- Whether local inference hardware improvements (Apple Silicon unified memory,
-  NPUs) shift the cost-quality tradeoff enough to make single-model deployment
-  viable for support agents, eliminating fallback complexity entirely.
-- Whether observability tools begin correlating model-level metrics (token
-  speed, finish reason) with user-level outcomes (conversation resolution,
-  follow-up rate).
+- Whether support-agent teams keep retrieval traces alongside scorecards.
+- Whether grader criteria test policy use, not just answer fluency.
+- Whether model sweeps include cost, latency, and handoff rate, not only answer
+  quality.
+- Whether strict grounding policies are paired with a helpful fallback when the
+  approved support material is incomplete.
 
 ## Update Log
 
+- 2026-05-27: Refocused the note on official evaluation sources, trace
+  inspection, grader quality, retrieval checks, and model-sweep discipline.
 - 2026-05-18: Initial draft based on production experience with multi-model
   support agent systems.

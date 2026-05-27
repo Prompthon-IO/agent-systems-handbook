@@ -1,7 +1,7 @@
 ---
 title: Customer Support Agents
 owner: Prompthon IO
-updated: 2026-04-24
+updated: 2026-05-27
 depth: intermediate
 region_tags:
   - global
@@ -17,6 +17,10 @@ external_readings:
     url: https://modelcontextprotocol.io/specification/2025-06-18/client/roots
   - title: Model Context Protocol server resources specification
     url: https://modelcontextprotocol.io/specification/2025-06-18/server/resources
+  - title: OpenAI trace grading
+    url: https://developers.openai.com/api/docs/guides/trace-grading
+  - title: OpenAI agent evals
+    url: https://developers.openai.com/api/docs/guides/agent-evals
 status: draft
 ---
 
@@ -144,6 +148,19 @@ Practical default:
 - add mailbox integration only after the policy-grounded draft loop is reliable
 - add auto-send only for low-risk, high-confidence cases with clear audit logs
 
+## Evaluation Note
+
+Customer-support agents should be evaluated as grounded workflows, not only as
+message generators. A useful review keeps the retrieved policy snippets, draft
+reply, escalation decision, and final human decision together so reviewers can
+see whether a failure came from retrieval, policy interpretation, model choice,
+or the evaluator.
+
+See [Customer Support Agent Evaluation Tradeoffs](/radar/2026-05-customer-support-agent-evaluation-tradeoffs)
+for a short radar note on why keyword heuristics, source-count checks, and
+model-only comparisons can be misleading when support policy grounding is the
+real boundary.
+
 ## Starter Project
 
 The accompanying starter lives at
@@ -163,6 +180,8 @@ It demonstrates a small standard-library workflow for:
 - Official source: [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp)
 - Official source: [MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots)
 - Official source: [MCP resources](https://modelcontextprotocol.io/specification/2025-06-18/server/resources)
+- Official source: [OpenAI trace grading](https://developers.openai.com/api/docs/guides/trace-grading)
+- Official source: [OpenAI agent evals](https://developers.openai.com/api/docs/guides/agent-evals)
 
 ## Reading Extensions
 
@@ -172,6 +191,8 @@ It demonstrates a small standard-library workflow for:
 
 ## Update Log
 
+- 2026-05-27: Linked the case study to a support-agent evaluation radar note
+  and made workflow-level trace review explicit.
 - 2026-04-24: Refined the case study for readability and made the local input,
   policy source, review artifact, and human decision boundary more explicit.
 - 2026-04-23: Added a local-first customer-support case study with a
