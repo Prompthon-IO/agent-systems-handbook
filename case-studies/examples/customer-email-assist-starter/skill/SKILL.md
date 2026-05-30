@@ -84,11 +84,12 @@ tsx scripts/customer-email-assist.ts render-save-drafts --input /tmp/draft-field
      - `draftFields.policyEvidence`
      - `draftFields.signoff`
 8. Save that JSON and run `render-save-drafts --input <file>`.
-9. In the dashboard, let the user edit the rendered draft, queue send, mark
-   resolved, approve pending customers, ignore customers, or update customer
-   descriptions.
-10. For queued sends, use the Codex Gmail connector to create or send the reply
-    from approved SQLite rows, then mark the issue resolved.
+9. In the dashboard, let the user edit the rendered draft, approve send with
+   the undo countdown, mark resolved, approve pending customers, ignore
+   customers, or update customer descriptions.
+10. For `approved_to_send` rows that are waiting on connector mode, use the
+    Codex Gmail connector to create or send the reply, then mark the issue
+    resolved.
 
 ## Advanced Local OAuth Adapter
 
@@ -110,6 +111,12 @@ npm run sync:oauth
 tsx scripts/customer-email-assist.ts prepare-inbound-batch --out /tmp/prepared-inbound.json
 tsx scripts/customer-email-assist.ts apply-send-queue
 ```
+
+When this advanced local OAuth path is configured, the dashboard's
+`Approve & Send` action can execute the deterministic send path immediately
+after the undo countdown. Without those OAuth variables, the dashboard keeps
+the issue in `approved_to_send` for the Codex connector runner instead of
+attempting an unauthenticated send.
 
 ## Response Discipline
 

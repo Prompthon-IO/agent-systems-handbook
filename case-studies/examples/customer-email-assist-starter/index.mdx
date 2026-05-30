@@ -11,7 +11,7 @@ import SupportCTA from "/snippets/support-cta.mdx";
 This starter extends the customer-support case study into a connector-first
 local workflow: read Gmail through the Codex Gmail connector, classify customer
 issues with deterministic rules first, persist them in SQLite, and review or
-queue replies through a local dashboard.
+approve replies through a local dashboard.
 
 ## Status
 
@@ -84,6 +84,11 @@ integrations, but it is not the default setup path:
 ```bash
 npm run sync:oauth
 ```
+
+In connector-first mode, dashboard approval stores issues as
+`approved_to_send` for the Codex Gmail connector runner. If the advanced local
+OAuth variables are configured, the dashboard can execute the deterministic
+send path immediately after the undo countdown.
 
 ## Minimal-Token Boundary
 

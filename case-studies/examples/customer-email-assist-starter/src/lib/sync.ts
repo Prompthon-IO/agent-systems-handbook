@@ -310,19 +310,6 @@ async function sendIssueRow(
   },
 ): Promise<"sent" | "manually_resolved" | "error"> {
   const timestamp = nowIso();
-  if (await gmail.hasHumanReplyAfter(row.gmail_thread_id, row.gmail_last_inbound_message_id)) {
-    db.prepare(
-      `
-        UPDATE issues
-        SET issue_status = 'resolved',
-            resolved_at = ?,
-            last_synced_at = ?
-        WHERE id = ?
-      `,
-    ).run(timestamp, timestamp, row.id);
-    return "manually_resolved";
-  }
-
   if (!row.draft_reply_html) {
     db.prepare(
       `
@@ -337,6 +324,19 @@ async function sendIssueRow(
   }
 
   try {
+    if (await gmail.hasHumanReplyAfter(row.gmail_thread_id, row.gmail_last_inbound_message_id)) {
+      db.prepare(
+        `
+          UPDATE issues
+          SET issue_status = 'resolved',
+              resolved_at = ?,
+              last_synced_at = ?
+          WHERE id = ?
+        `,
+      ).run(timestamp, timestamp, row.id);
+      return "manually_resolved";
+    }
+
     const sent = await gmail.sendReply({
       threadId: row.gmail_thread_id,
       html: row.draft_reply_html,

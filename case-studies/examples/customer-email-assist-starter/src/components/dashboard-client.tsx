@@ -83,6 +83,16 @@ type PendingSend = {
   label: string;
   draftHtml: string;
   expiresAt: number;
+  previousStatus: string;
+};
+
+type PatchIssueResponse = {
+  ok: boolean;
+  queued?: boolean;
+  sent?: boolean;
+  manuallyResolved?: boolean;
+  sendMode?: "connector_required";
+  error?: string;
 };
 
 const EMPTY_ISSUES: IssuesResponse = {
@@ -400,9 +410,12 @@ export function DashboardClient() {
 
   async function patchIssue(
     issueId: number,
-    body: { action?: "approve_to_send" | "mark_resolved" | "queue_send"; draftReplyHtml?: string },
+    body: {
+      action?: "approve_to_send" | "mark_resolved" | "queue_send" | "send_approved";
+      draftReplyHtml?: string;
+    },
   ) {
-    await fetchJson(`/api/issues/${issueId}`, {
+    const response = await fetchJson<PatchIssueResponse>(`/api/issues/${issueId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -410,6 +423,7 @@ export function DashboardClient() {
       body: JSON.stringify(body),
     });
     await Promise.all([loadIssues(), loadReviewQueue(), loadCustomers()]);
+    return response;
   }
 
   async function reviewCustomerAction(customerId: number, status: "approved" | "ignored") {
@@ -457,6 +471,28 @@ export function DashboardClient() {
   function openIssue(record: IssueItem) {
     setSelectedIssue(record);
     setDraftHtml(record.draftReplyHtml ?? "<p></p>");
+  }
+
+  function setIssueStatusLocally(issueId: number, issueStatus: string) {
+    setSelectedIssue((current) =>
+      current && current.id === issueId
+        ? {
+            ...current,
+            issueStatus,
+          }
+        : current,
+    );
+    setIssues((current) => ({
+      ...current,
+      items: current.items.map((item) =>
+        item.id === issueId
+          ? {
+              ...item,
+              issueStatus,
+            }
+          : item,
+      ),
+    }));
   }
 
   function startEditingCustomer(record: CustomerItem) {
@@ -516,12 +552,16 @@ export function DashboardClient() {
   }, []);
 
   function cancelPendingSend() {
+    const pending = pendingSendRef.current;
     if (pendingSendTimerRef.current) {
       window.clearTimeout(pendingSendTimerRef.current);
       pendingSendTimerRef.current = null;
     }
     pendingSendRef.current = null;
     setPendingSend(null);
+    if (pending) {
+      setIssueStatusLocally(pending.issueId, pending.previousStatus);
+    }
   }
 
   function queueIssueSend(record: IssueItem, nextDraftHtml: string) {
@@ -533,23 +573,36 @@ export function DashboardClient() {
     cancelPendingSend();
     const scheduled: PendingSend = {
       issueId: record.id,
-      label: `Queue reply to ${record.customerName || record.customerEmail}`,
+      label: `Reply to ${record.customerName || record.customerEmail}`,
       draftHtml: nextDraftHtml,
       expiresAt: Date.now() + ACTION_DELAY_MS,
+      previousStatus: record.issueStatus,
     };
     pendingSendRef.current = scheduled;
     setPendingSend(scheduled);
+    setIssueStatusLocally(record.id, "approved_to_send");
     pendingSendTimerRef.current = window.setTimeout(() => {
-      cancelPendingSend();
+      pendingSendTimerRef.current = null;
+      pendingSendRef.current = null;
+      setPendingSend(null);
       void patchIssue(record.id, {
         draftReplyHtml: nextDraftHtml,
-        action: "queue_send",
+        action: "send_approved",
       })
-        .then(() => {
-          setSelectedIssue(null);
+        .then((result) => {
+          if (result.sent || result.manuallyResolved) {
+            setSelectedIssue(null);
+            return;
+          }
+          if (result.queued) {
+            setIssueStatusLocally(record.id, "approved_to_send");
+            return;
+          }
+          setIssueStatusLocally(record.id, "sync_error");
         })
         .catch((error: unknown) => {
           console.error("Deferred send failed", error);
+          setIssueStatusLocally(record.id, "sync_error");
         });
     }, ACTION_DELAY_MS);
   }
@@ -947,7 +1000,7 @@ export function DashboardClient() {
                 type="primary"
                 onClick={() => queueIssueSend(selectedIssue, draftHtml)}
               >
-                {pendingSend?.issueId === selectedIssue.id ? "Cancel Send" : "Queue Send"}
+                {pendingSend?.issueId === selectedIssue.id ? "Cancel Send" : "Approve & Send"}
               </Button>
             </Space>
           ) : null
@@ -960,10 +1013,10 @@ export function DashboardClient() {
                 className="pending-action-banner"
                 type="warning"
                 showIcon
-                title={`${pendingSend.label} scheduled`}
+                title={`${pendingSend.label} approved to send`}
                 description={
                   <Space wrap>
-                    <Text>{`Queueing in ${Math.max(1, Math.ceil((pendingSend.expiresAt - pendingNow) / 1000))}s.`}</Text>
+                    <Text>{`Sending in ${Math.max(1, Math.ceil((pendingSend.expiresAt - pendingNow) / 1000))}s.`}</Text>
                     <Button size="small" onClick={cancelPendingSend}>
                       Undo
                     </Button>

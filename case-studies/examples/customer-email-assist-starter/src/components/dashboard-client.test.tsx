@@ -72,7 +72,16 @@ describe("DashboardClient", () => {
       const url = typeof input === "string" ? input : input.toString();
       if (url.startsWith("/api/issues")) {
         if (init?.method === "PATCH") {
-          return new Response(JSON.stringify({ ok: true, queued: true }), { status: 200 });
+          const payload = JSON.parse(String(init.body)) as { action?: string };
+          return new Response(
+            JSON.stringify({
+              ok: payload.action === "send_approved",
+              queued: payload.action === "queue_send",
+              sent: payload.action === "send_approved",
+              manuallyResolved: false,
+            }),
+            { status: 200 },
+          );
         }
         return new Response(
           JSON.stringify({
@@ -170,7 +179,7 @@ describe("DashboardClient", () => {
 
     await user.click(screen.getByText("Wrong item received"));
     expect(await screen.findByText("Issue Summary")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Queue Send" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Approve & Send" })).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Close" }));
     await waitFor(() => {
@@ -224,17 +233,19 @@ describe("DashboardClient", () => {
     expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Wrong item received"));
     vi.useFakeTimers();
-    fireEvent.click(screen.getByRole("button", { name: "Queue Send" }));
+    fireEvent.click(screen.getByRole("button", { name: "Approve & Send" }));
 
-    expect(screen.getByText("Queue reply to Casey scheduled")).toBeInTheDocument();
-    expect(screen.getAllByText(/Queueing in \d+s\./).length).toBeGreaterThan(0);
+    expect(screen.getByText("Reply to Casey approved to send")).toBeInTheDocument();
+    expect(screen.getAllByText(/Sending in \d+s\./).length).toBeGreaterThan(0);
+    expect(screen.getByText("Status: approved_to_send")).toBeInTheDocument();
     expect(global.fetch).not.toHaveBeenCalledWith(
       "/api/issues/1",
       expect.objectContaining({ method: "PATCH" }),
     );
 
     fireEvent.click(screen.getByRole("button", { name: "Cancel Send" }));
-    expect(screen.queryByText("Queue reply to Casey scheduled")).not.toBeInTheDocument();
+    expect(screen.queryByText("Reply to Casey approved to send")).not.toBeInTheDocument();
+    expect(screen.getByText("Status: draft_ready")).toBeInTheDocument();
 
     await act(async () => {
       await vi.advanceTimersByTimeAsync(5000);
@@ -247,13 +258,13 @@ describe("DashboardClient", () => {
     vi.useRealTimers();
   });
 
-  it("queues connector send from the drawer after the countdown expires", async () => {
+  it("executes connector send from the drawer after the countdown expires", async () => {
     render(<DashboardClient />);
 
     expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Wrong item received"));
     vi.useFakeTimers();
-    fireEvent.click(screen.getByRole("button", { name: "Queue Send" }));
+    fireEvent.click(screen.getByRole("button", { name: "Approve & Send" }));
     await act(async () => {
       await vi.advanceTimersByTimeAsync(5000);
     });
@@ -265,7 +276,7 @@ describe("DashboardClient", () => {
         method: "PATCH",
         body: JSON.stringify({
           draftReplyHtml: "<p>Draft reply</p>",
-          action: "queue_send",
+          action: "send_approved",
         }),
       }),
     );
