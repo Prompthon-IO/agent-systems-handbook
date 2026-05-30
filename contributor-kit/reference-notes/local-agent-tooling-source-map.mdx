@@ -1,7 +1,7 @@
 ---
 title: Local Agent Tooling Source Map
 owner: Prompthon IO
-updated: 2026-05-17
+updated: 2026-05-27
 scope: local agent tooling, skills, roots, resources, connectors, and file-grounded workflows
 status: draft
 ---
@@ -63,8 +63,9 @@ Included:
 
 - official OpenAI source material on Responses API tools, file search, remote
   MCP support, and computer environments
-- official OpenAI, Claude Code, and MCP security guidance on prompt injection,
-  sandboxing, and trust boundaries for local agents
+- official OpenAI, Microsoft, Claude Code, and MCP security guidance on
+  indirect prompt injection, sandboxing, scope minimization, and trust
+  boundaries for local agents
 - official MCP material on roots and resources
 - official Claude Code material on local stdio servers, project/user scopes,
   and MCP resources
@@ -85,10 +86,14 @@ Excluded:
 - [OpenAI computer environment for agents](https://openai.com/index/equip-responses-api-computer-environment/):
   use this for claims about execution environments, persistent files, shell
   access, compaction, and agent skills as runtime support.
-- [Designing AI agents to resist prompt injection](https://openai.com/index/designing-agents-to-resist-prompt-injection/):
-  use this when the draft needs a current OpenAI framing for source-sink
-  analysis, user confirmation, and constraining what untrusted content can
-  cause an agent to do.
+- [Understanding prompt injections](https://openai.com/safety/prompt-injections/):
+  use this when the draft needs OpenAI's current plain-language framing for
+  third-party instructions, layered defenses, sandboxing, and user
+  confirmations around agent actions.
+- [Defend against indirect prompt injection attacks](https://learn.microsoft.com/en-us/security/zero-trust/sfi/defend-indirect-prompt-injection):
+  use this for a current enterprise defense stack that names prompt shields,
+  spotlighting, plan-drift detection, critic agents, tool-chain analysis,
+  information-flow control, and least privilege.
 - [MCP introduction](https://modelcontextprotocol.io/docs/getting-started/intro):
   use this for a stable, high-level explanation of MCP as a connection layer
   between AI applications and external systems.
@@ -111,6 +116,12 @@ Excluded:
   use this when the draft needs concrete language for local MCP server
   compromise, one-click startup-command consent, scope minimization, and why
   stdio or authenticated transports matter.
+- [modelcontextprotocol/modelcontextprotocol](https://github.com/modelcontextprotocol/modelcontextprotocol):
+  use this as the high-signal implementation and specification repo for
+  checking current MCP adoption, issue flow, and security-surface maintenance.
+- [microsoft/BIPIA](https://github.com/microsoft/BIPIA):
+  use this as a benchmark-oriented repo when the draft needs a concrete example
+  of evaluating indirect prompt-injection robustness.
 - [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo):
   use this as a high-signal implementation repo for red-teaming and CI-level
   prompt-injection checks around agents, tools, and RAG systems.
@@ -156,6 +167,35 @@ or send data elsewhere?"
 - Add prompt-injection and tool-misuse checks to eval or red-team workflows
   before calling a local-agent setup production-ready.
 
+## Authority Boundary Matrix
+
+The source map is easier to apply when contributors compare local-agent
+surfaces side by side instead of treating them all as "tool access."
+
+| Surface | Main boundary question | Main failure mode | Baseline defenses |
+| --- | --- | --- | --- |
+| Direct local script | Which user or service account executes the command? | Broad shell authority turns one bad instruction into immediate file or credential access. | Minimal default privileges, explicit input review, isolated runtime, and auditable outputs. |
+| Local `stdio` MCP server | Which startup command and local directories are in scope? | A trusted-looking local server can execute opaque startup commands or overreach into local files. | Exact startup-command review, sandboxing, restricted filesystem access, and narrow directory scope. |
+| Remote MCP server | Which remote scopes, tokens, and outbound actions are delegated? | Over-broad tokens or weak auth let untrusted content trigger high-impact remote actions. | Scope minimization, short-lived tokens, authenticated transport, per-action confirmation, and request logging. |
+| Platform-hosted tool | Which product-layer guardrails sit between the model and the action? | The platform hides the transport, so prompt injection can surface as plan drift or silent data overreach. | Layered prompt-injection defenses, tool-chain analysis, human confirmation, and policy-level review of high-risk actions. |
+
+## Where To Deepen This In The Handbook
+
+- [Reference Notes](/contributor-kit/reference-notes): keep the source-map and
+  contributor-briefing layer clear before drafting durable handbook pages.
+- [Protocols and Interoperability](/systems/protocols-and-interoperability):
+  use this when the draft needs the MCP, A2A, and remote-boundary comparison.
+- [Agent UI Protocols and Generative UI](/systems/agent-ui-protocols-and-generative-ui):
+  use this when the draft needs to separate tool permissions from UI state.
+- [Weather MCP Server Starter](/systems/examples/weather-mcp-server-starter):
+  use this as the repo-native example surface for explaining MCP boundaries in
+  runnable form.
+- [April 2026 Assistant Safety Escalation Watch](/radar/2026-04-assistant-safety-escalation-watch):
+  use this when a draft needs to connect local authority boundaries to human
+  escalation and audit paths.
+- [GitHub Issue Guide](/contributor-kit/github-issue-guide): use this when the
+  note turns into a scoped contribution proposal or issue claim.
+
 ## Case-Study Hooks
 
 Good local-agent case studies should make the boundary visible:
@@ -171,15 +211,18 @@ requires human review.
 
 ## Gaps And Follow-up
 
-- Add a small matrix comparing direct local scripts, local stdio MCP servers,
-  remote MCP servers, and platform-hosted tools.
 - Expand the customer-support case study once the starter code includes a real
   mailbox or Gmail adapter.
 - Add a future starter or case-study note showing how source-aware authority
   enforcement or prompt-injection red-teaming fits into a local-agent workflow.
+- Add a narrow walkthrough for turning indirect prompt-injection findings into
+  repo-native eval checks or contribution-ready issue templates.
 
 ## Update Log
 
+- 2026-05-27: Replaced the older prompt-injection source with current OpenAI
+  and Microsoft guidance, added an authority-boundary matrix, and linked the
+  note to related handbook surfaces.
 - 2026-05-17: Added prompt-injection, sandboxing, trust-boundary, and
   red-teaming guidance to the local-agent source map.
 - 2026-04-24: Refined the note for contributor comprehension with usage

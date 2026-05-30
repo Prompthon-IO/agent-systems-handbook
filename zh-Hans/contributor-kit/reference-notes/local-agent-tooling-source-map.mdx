@@ -1,7 +1,7 @@
 ---
 title: 本地智能体工具链来源图谱
 owner: Prompthon IO
-updated: 2026-05-17
+updated: 2026-05-27
 scope: local agent tooling, skills, roots, resources, connectors, and file-grounded workflows
 status: draft
 ---
@@ -56,8 +56,8 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 包括：
 
 - 关于 Responses API 工具、文件搜索、远程 MCP 支持和计算环境的 OpenAI 官方来源材料
-- 关于 prompt injection、沙箱和本地智能体信任边界的 OpenAI、Claude
-  Code 与 MCP 官方安全指引
+- 关于 indirect prompt injection、沙箱、scope minimization 与本地智能体
+  信任边界的 OpenAI、Microsoft、Claude Code 与 MCP 官方安全指引
 - 关于 roots 和 resources 的官方 MCP 材料
 - 关于本地 stdio 服务器、项目/用户作用域以及 MCP resources 的官方 Claude Code 材料
 
@@ -74,8 +74,10 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
   适用于关于托管工具、远程 MCP 支持、文件搜索和长时间运行后台工作的主张。
 - [OpenAI computer environment for agents](https://openai.com/index/equip-responses-api-computer-environment/):
   适用于关于执行环境、持久文件、shell 访问、压缩，以及作为运行时支持的智能体技能的主张。
-- [Designing AI agents to resist prompt injection](https://openai.com/index/designing-agents-to-resist-prompt-injection/):
-  当草稿需要引用 OpenAI 关于 source-sink analysis、用户确认，以及如何限制不可信内容驱动智能体动作的当前 framing 时使用。
+- [Understanding prompt injections](https://openai.com/safety/prompt-injections/):
+  当草稿需要引用 OpenAI 当前对第三方指令、分层防御、沙箱以及智能体动作用户确认的通俗 framing 时使用。
+- [Defend against indirect prompt injection attacks](https://learn.microsoft.com/en-us/security/zero-trust/sfi/defend-indirect-prompt-injection):
+  适用于需要引用当前企业级防御栈时：其中明确列出 prompt shields、spotlighting、plan-drift detection、critic agents、tool-chain analysis、information-flow control 和 least privilege。
 - [MCP introduction](https://modelcontextprotocol.io/docs/getting-started/intro):
   适用于将 MCP 作为 AI 应用与外部系统之间连接层的稳定、高层级说明。
 - [MCP roots](https://modelcontextprotocol.io/specification/2025-06-18/client/roots):
@@ -90,6 +92,10 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
   适用于关于文件系统与网络隔离如何在 prompt injection 成功时限制损害的主张。
 - [MCP security best practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices):
   当草稿需要讨论本地 MCP server compromise、一键配置时的启动命令确认、scope minimization，以及为什么 `stdio` 或受认证传输很重要时使用。
+- [modelcontextprotocol/modelcontextprotocol](https://github.com/modelcontextprotocol/modelcontextprotocol):
+  适合作为高信号的 MCP 实现与规范仓库，用于检查当前 adoption、issue 流向与 security surface 维护情况。
+- [microsoft/BIPIA](https://github.com/microsoft/BIPIA):
+  当草稿需要一个评估 indirect prompt-injection robustness 的具体 benchmark 仓库示例时使用。
 - [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo):
   适合作为针对 agents、tools 与 RAG systems 的 red teaming 与 CI 级 prompt-injection 检查的高信号实现仓库。
 
@@ -117,6 +123,26 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 - 对发送消息、修改工单、向第三方系统迁移数据等后果明确的动作，应把人工确认保留在写路径中。
 - 在称一个本地智能体配置达到 production-ready 之前，应把 prompt injection 和 tool misuse 检查纳入 eval 或 red-team workflow。
 
+## Authority Boundary Matrix
+
+当贡献者把不同本地智能体表面并排比较，而不是都笼统当作“tool access”时，这份来源图谱会更容易落地。
+
+| 表面 | 主要边界问题 | 主要失效模式 | 基线防御 |
+| --- | --- | --- | --- |
+| 直接本地脚本 | 哪个用户或服务账号在执行命令？ | 过宽的 shell authority 会把一条坏指令立刻放大成文件或凭证访问。 | 最小默认权限、显式输入审阅、隔离运行时，以及可审计的输出。 |
+| 本地 `stdio` MCP server | 哪条启动命令和哪些本地目录在作用范围内？ | 看似可信的本地 server 也可能执行不透明的启动命令，或越权读取本地文件。 | 完整启动命令审阅、沙箱、受限文件系统访问，以及窄目录范围。 |
+| 远程 MCP server | 委派了哪些远程 scope、token 和对外动作？ | 过宽 token 或薄弱认证会让不可信内容触发高影响远程动作。 | scope minimization、短时 token、受认证传输、逐动作确认，以及请求日志。 |
+| 平台托管工具 | 模型与动作之间有哪些产品层 guardrails？ | 平台隐藏了传输层，因此 prompt injection 往往会表现成 plan drift 或静默数据越界。 | 分层 prompt-injection 防御、tool-chain analysis、人工确认，以及高风险动作的策略级审查。 |
+
+## 在手册中继续展开的位置
+
+- [参考说明](/zh-Hans/contributor-kit/reference-notes)：在起草长期页面前，先把 source-map 与 contributor briefing 这一层讲清楚。
+- [协议与互操作性](/zh-Hans/systems/protocols-and-interoperability)：当草稿需要 MCP、A2A 与远程边界的对比时使用。
+- [智能体 UI 协议与生成式 UI](/zh-Hans/systems/agent-ui-protocols-and-generative-ui)：当草稿需要把工具权限与 UI 状态分开时使用。
+- [Weather MCP Server Starter](/zh-Hans/systems/examples/weather-mcp-server-starter)：适合作为解释 MCP 边界的仓库内可运行示例表面。
+- [2026 年 4 月助手安全升级观察](/zh-Hans/radar/2026-04-assistant-safety-escalation-watch)：当草稿需要把本地 authority boundary 与人工升级、审计路径联系起来时使用。
+- [GitHub Issue Guide](/zh-Hans/contributor-kit/github-issue-guide)：当这份说明要落成一个范围清晰的贡献提案或 issue claim 时使用。
+
 ## 案例研究切入点
 
 好的本地智能体案例研究应当让边界可见：
@@ -130,12 +156,13 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 ## 缺口与后续工作
 
-- 增加一个小型矩阵，对比直接本地脚本、本地 stdio MCP 服务器、远程 MCP 服务器和平台托管工具。
 - 一旦 starter code 包含真实邮箱或 Gmail 适配器，扩展客户支持案例研究。
 - 增加一个未来的 starter 或案例研究说明，展示 source-aware authority enforcement 或 prompt-injection red teaming 如何嵌入本地智能体工作流。
+- 增加一份狭义 walkthrough，说明如何把 indirect prompt injection 发现转成仓库原生的 eval 检查或可认领的 issue 模板。
 
 ## 更新日志
 
+- 2026-05-27：把较旧的 prompt-injection 来源替换为当前的 OpenAI 与 Microsoft 指引，补上 authority-boundary matrix，并把这份说明连接到相关手册表面。
 - 2026-05-17：为本地智能体来源图谱补充了 prompt injection、沙箱、信任边界和 red-teaming 指引。
 - 2026-04-24：通过使用指导、术语边界和更清晰的来源到主张映射，提升了该说明对贡献者的可理解性。
 - 2026-04-23：新增面向贡献者的本地智能体工具链、skills、roots、resources 和 file-grounded workflows 来源图谱。

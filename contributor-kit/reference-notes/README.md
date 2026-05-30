@@ -23,4 +23,5 @@ material and they are not replacements for lab pages.
 - [Deep Research Source Map](./deep-research-source-map.mdx)
 - [Local Agent Tooling Source Map](./local-agent-tooling-source-map.mdx): a
   contributor briefing for keeping local runtimes, skills, MCP roots,
-  resources, connectors, and file-grounded workflows distinct in future drafts.
+  resources, connectors, and file-grounded workflows distinct in future drafts
+  while adding prompt-injection and local authority-boundary guidance.
