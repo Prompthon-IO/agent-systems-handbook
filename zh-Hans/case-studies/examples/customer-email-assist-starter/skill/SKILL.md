@@ -80,10 +80,10 @@ tsx scripts/customer-email-assist.ts render-save-drafts --input /tmp/draft-field
      - `draftFields.policyEvidence`
      - `draftFields.signoff`
 8. 保存该 JSON，并运行 `render-save-drafts --input <file>`。
-9. 在 dashboard 中让用户编辑已渲染的草稿、排队发送、标记完成、批准
-   待审核客户、忽略客户，或更新客户描述。
-10. 对于已排队发送的 issue，使用 Codex Gmail connector 创建或发送回复，
-    然后把 issue 标记为 resolved。
+9. 在 dashboard 中让用户编辑已渲染的草稿、通过带 undo 倒计时的方式批准
+   发送、标记完成、批准待审核客户、忽略客户，或更新客户描述。
+10. 对于 connector 模式下仍处于 `approved_to_send` 的 issue，使用 Codex
+    Gmail connector 创建或发送回复，然后把 issue 标记为 resolved。
 
 ## 高级本地 OAuth Adapter
 
@@ -104,6 +104,11 @@ npm run sync:oauth
 tsx scripts/customer-email-assist.ts prepare-inbound-batch --out /tmp/prepared-inbound.json
 tsx scripts/customer-email-assist.ts apply-send-queue
 ```
+
+当这个高级本地 OAuth 路径已配置时，dashboard 的 `Approve & Send` 动作会在
+undo 倒计时结束后立即执行确定性的发送路径。没有这些 OAuth 变量时，
+dashboard 会把 issue 保持在 `approved_to_send`，等待 Codex connector runner
+处理，而不是尝试未认证的发送。
 
 ## 保护措施
 
