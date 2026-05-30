@@ -1,0 +1,207 @@
+---
+title: "Gmail OAuth 设置"
+description: "为本地 Gmail 智能体入门项目创建 Google Cloud OAuth 凭据。"
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+当本地智能体入门项目需要直接从你的机器调用 Gmail API 时，使用这套设置。
+对 Customer Email Assist 入门项目来说，这条路径可以让 dashboard 在 undo
+倒计时结束后自动发送已批准的回复。如果你只使用 Codex Gmail connector，可以
+跳过这套设置。
+
+<Warning>
+  不要公开 client secret、refresh token、`.env.local` 文件，或任何暴露 OAuth
+  凭据的截图。
+</Warning>
+
+## 你会得到哪些值
+
+| 值 | 来源 | 用途 |
+| --- | --- | --- |
+| `GOOGLE_CLIENT_ID` | Google Cloud OAuth client | 标识你的本地应用。 |
+| `GOOGLE_CLIENT_SECRET` | Google Cloud OAuth client | 用来认证 OAuth client。 |
+| `GOOGLE_REFRESH_TOKEN` | OAuth 2.0 Playground 的 token exchange | 让应用持续获取短期 Gmail access token。 |
+| `CUSTOMER_EMAIL_ASSIST_OPERATOR_EMAIL` | 你的 Gmail 地址 | 帮助判断人工已回复，避免重复发送。 |
+| `CUSTOMER_EMAIL_ASSIST_GMAIL_LABEL` | Gmail label ID，例如 `INBOX` | 控制本地同步读取哪个邮箱标签。 |
+
+`CUSTOMER_EMAIL_ASSIST_DB_PATH` 和
+`CUSTOMER_EMAIL_ASSIST_POLICY_PATH` 是可选本地路径。入门项目已经有默认值。
+
+## 第一步：打开或创建 Google Cloud 项目
+
+1. 打开 [Google Cloud Console](https://console.cloud.google.com/)。
+2. 用拥有目标 Gmail 邮箱的 Google 账号登录。
+3. 点击顶部栏里的项目选择器。
+4. 点击 **New Project**。
+5. 项目名使用清晰的本地名称，例如 `Customer Email Assist Local`。
+6. 点击 **Create**。
+7. 再次打开项目选择器，选中新项目。
+
+建议使用单独项目，避免把测试凭据混入生产 Google 项目。
+
+## 第二步：启用 Gmail API
+
+1. 在左侧导航打开 **APIs & Services**。
+2. 点击 **Library**。
+3. 搜索 `Gmail API`。
+4. 打开 **Gmail API**。
+5. 点击 **Enable**。
+
+如果按钮显示 **Manage**，说明该项目已经启用了 Gmail API。
+
+## 第三步：配置 OAuth Consent Screen
+
+Google 可能把这个流程显示为 **APIs & Services > OAuth consent screen**，
+也可能显示为 **Google Auth Platform**。即使标签变化，字段含义基本相同。
+
+1. 在左侧导航打开 **APIs & Services**。
+2. 点击 **OAuth consent screen**。如果看到 **Google Auth Platform**，
+   点击 **Get started** 或打开 **Branding**。
+3. App name 使用本地清晰名称，例如 `Customer Email Assist Local`。
+4. **User support email** 填你的 Gmail 地址。
+5. 设置 **Audience**：
+   - 个人 Gmail 账号选 **External**。
+   - 只有 Google Workspace 组织内部使用时才选 **Internal**。
+6. **Developer contact information** 填你的邮箱。
+7. 开发阶段保持 publishing status 为 **Testing**。
+8. 保存并继续。
+
+本地 workshop 或单人入门项目使用 Testing 模式即可。如果你要发布给多用户，
+需要预期 Google OAuth verification 要求。
+
+## 第四步：把自己加入 Test User
+
+1. 打开 **APIs & Services > OAuth consent screen**，或
+   **Google Auth Platform > Audience**。
+2. 找到 **Test users**。
+3. 点击 **Add users**。
+4. 输入将授权邮箱访问的 Gmail 地址。
+5. 点击 **Save**。
+
+如果应用仍处于 Testing 模式，只有 test users 列表中的账号可以授权。
+
+## 第五步：添加 Gmail Scopes
+
+1. 打开 consent screen 的 **Scopes** 步骤，或打开
+   **Google Auth Platform > Data Access**。
+2. 点击 **Add or remove scopes**。
+3. 搜索 Gmail。
+4. 选择或手动添加：
+
+```text
+https://www.googleapis.com/auth/gmail.send
+https://www.googleapis.com/auth/gmail.readonly
+```
+
+本地 dashboard 需要发送已批准回复时使用 `gmail.send`。本地脚本需要导入
+Gmail threads 时使用 `gmail.readonly`。如果你的流程只发送、不用本地 OAuth
+导入邮件，`gmail.send` 是最小 scope。
+
+## 第六步：创建 OAuth Client
+
+1. 打开 **APIs & Services > Credentials**。
+2. 点击 **Create Credentials**。
+3. 选择 **OAuth client ID**。
+4. **Application type** 选择 **Web application**。
+5. 名称填 `Customer Email Assist OAuth Playground`。
+6. 在 **Authorized redirect URIs** 下点击 **Add URI**。
+7. 输入：
+
+```text
+https://developers.google.com/oauthplayground
+```
+
+8. 点击 **Create**。
+9. 立即复制 client ID 和 client secret。
+
+client secret 只应保存到本地 `.env.local`，不要放入仓库。
+
+## 第七步：获取 Refresh Token
+
+1. 打开 [OAuth 2.0 Playground](https://developers.google.com/oauthplayground)。
+2. 点击右上角齿轮设置。
+3. 启用 **Use your own OAuth credentials**。
+4. 粘贴你的 Google client ID 和 client secret。
+5. 在 scope 输入框粘贴：
+
+```text
+https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.readonly
+```
+
+6. 点击 **Authorize APIs**。
+7. 使用你刚加入 test user 的同一个 Gmail 账号登录。
+8. 如果 Google 显示 unverified app 警告，只有在这是你自己的本地测试项目时才继续。
+9. 批准请求的 scopes。
+10. 点击 **Exchange authorization code for tokens**。
+11. 复制返回的 refresh token。
+
+如果没有 refresh token，先到 Google Account 的第三方访问页面移除这个 app，
+然后重新授权。Google 通常只在同一个 client/user/scope 组合第一次 offline
+consent 时返回 refresh token。
+
+## 第八步：创建 `.env.local`
+
+在入门项目目录创建：
+
+```text
+case-studies/examples/customer-email-assist-starter/.env.local
+```
+
+内容如下：
+
+```bash
+GOOGLE_CLIENT_ID="paste-client-id"
+GOOGLE_CLIENT_SECRET="paste-client-secret"
+GOOGLE_REFRESH_TOKEN="paste-refresh-token"
+
+CUSTOMER_EMAIL_ASSIST_OPERATOR_EMAIL="you@example.com"
+CUSTOMER_EMAIL_ASSIST_GMAIL_LABEL="INBOX"
+
+# Optional
+CUSTOMER_EMAIL_ASSIST_DB_PATH="/tmp/customer-email-assist.sqlite3"
+CUSTOMER_EMAIL_ASSIST_POLICY_PATH="./support-policy.md"
+```
+
+编辑 `.env.local` 后需要重启 dashboard。
+
+## 第九步：使用 Dashboard 模式开关
+
+在 Customer Email Assist dashboard 中：
+
+- 关闭 **Gmail connector** 使用本地 OAuth。这会在 undo 倒计时结束后尝试
+  直接 Gmail API 发送。
+- 打开 **Gmail connector** 则把已批准回复排队，交给 connector-backed
+  流程处理。
+
+## 快速验证
+
+在入门项目目录运行：
+
+```bash
+npm install
+npm run setup-local
+npm run dev
+```
+
+执行本地 OAuth 同步：
+
+```bash
+npm run sync:oauth
+```
+
+处理已批准的回复队列：
+
+```bash
+tsx scripts/customer-email-assist.ts apply-send-queue
+```
+
+## 官方参考
+
+- [Gmail API scopes](https://developers.google.com/workspace/gmail/api/auth/scopes)
+- [Gmail send API](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/send)
+- [Google OAuth app verification](https://support.google.com/cloud/answer/13463073)
+- [Google Auth Platform audience and test users](https://support.google.com/cloud/answer/15549945)
+- [OAuth 2.0 Playground](https://developers.google.com/oauthplayground)

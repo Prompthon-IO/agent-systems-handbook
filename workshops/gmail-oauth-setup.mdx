@@ -1,0 +1,214 @@
+---
+title: "Gmail OAuth Setup"
+description: "Create Google Cloud OAuth credentials for local Gmail-backed agent starters."
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+Use this setup when a local agent starter needs to call the Gmail API directly
+from your machine. For the Customer Email Assist starter, this is the path that
+lets the dashboard send an approved reply automatically after the undo
+countdown. If you only use the Codex Gmail connector, you can skip this setup.
+
+<Warning>
+  Do not publish client secrets, refresh tokens, `.env.local` files, or
+  screenshots that expose OAuth credentials.
+</Warning>
+
+## What You Will Create
+
+| Value | Where it comes from | Used for |
+| --- | --- | --- |
+| `GOOGLE_CLIENT_ID` | Google Cloud OAuth client | Identifies your local app to Google. |
+| `GOOGLE_CLIENT_SECRET` | Google Cloud OAuth client | Authenticates the OAuth client. |
+| `GOOGLE_REFRESH_TOKEN` | OAuth 2.0 Playground token exchange | Lets the app get short-lived Gmail access tokens. |
+| `CUSTOMER_EMAIL_ASSIST_OPERATOR_EMAIL` | Your Gmail address | Helps detect human outbound replies and avoid duplicate sends. |
+| `CUSTOMER_EMAIL_ASSIST_GMAIL_LABEL` | Gmail label ID such as `INBOX` | Controls which mailbox label the local sync reads. |
+
+`CUSTOMER_EMAIL_ASSIST_DB_PATH` and `CUSTOMER_EMAIL_ASSIST_POLICY_PATH` are
+optional local paths. The starter has defaults for both.
+
+## Step 1: Open Or Create A Google Cloud Project
+
+1. Open [Google Cloud Console](https://console.cloud.google.com/).
+2. Sign in with the Google account that owns the Gmail mailbox.
+3. In the top bar, click the project selector.
+4. Click **New Project**.
+5. Name it something explicit, such as `Customer Email Assist Local`.
+6. Click **Create**.
+7. Use the project selector again and select the new project.
+
+Using a dedicated project keeps testing credentials separate from production
+Google projects.
+
+## Step 2: Enable Gmail API
+
+1. In the left navigation, open **APIs & Services**.
+2. Click **Library**.
+3. Search for `Gmail API`.
+4. Open **Gmail API**.
+5. Click **Enable**.
+
+If the button says **Manage**, the API is already enabled for this project.
+
+## Step 3: Configure The OAuth Consent Screen
+
+Google may show this flow as **APIs & Services > OAuth consent screen** or as
+**Google Auth Platform**. The fields are the same even if the labels move.
+
+1. In the left navigation, open **APIs & Services**.
+2. Click **OAuth consent screen**. If you see **Google Auth Platform**, click
+   **Get started** or open **Branding**.
+3. Set the app name to something local and clear, such as
+   `Customer Email Assist Local`.
+4. Set **User support email** to your Gmail address.
+5. Set **Audience**:
+   - Choose **External** for a personal Gmail account.
+   - Choose **Internal** only for a Google Workspace app used inside that
+     organization.
+6. Add your email under **Developer contact information**.
+7. Keep the publishing status as **Testing** while developing.
+8. Save and continue.
+
+Testing mode is enough for a local workshop or single-operator starter. For a
+public multi-user app, expect Google OAuth verification requirements.
+
+## Step 4: Add Yourself As A Test User
+
+1. Open **APIs & Services > OAuth consent screen** or **Google Auth Platform >
+   Audience**.
+2. Find **Test users**.
+3. Click **Add users**.
+4. Enter the Gmail address that will authorize mailbox access.
+5. Click **Save**.
+
+If the app remains in Testing mode, only listed test users can authorize it.
+
+## Step 5: Add Gmail Scopes
+
+1. Open the consent screen's **Scopes** step, or open **Google Auth Platform >
+   Data Access**.
+2. Click **Add or remove scopes**.
+3. Search for Gmail.
+4. Select or manually add:
+
+```text
+https://www.googleapis.com/auth/gmail.send
+https://www.googleapis.com/auth/gmail.readonly
+```
+
+Use `gmail.send` when the local dashboard needs to send approved replies.
+Use `gmail.readonly` when local scripts need to import Gmail threads. If your
+flow only sends and never imports through local OAuth, `gmail.send` is the
+minimum scope.
+
+## Step 6: Create The OAuth Client
+
+1. Open **APIs & Services > Credentials**.
+2. Click **Create Credentials**.
+3. Select **OAuth client ID**.
+4. For **Application type**, choose **Web application**.
+5. Name it `Customer Email Assist OAuth Playground`.
+6. Under **Authorized redirect URIs**, click **Add URI**.
+7. Enter:
+
+```text
+https://developers.google.com/oauthplayground
+```
+
+8. Click **Create**.
+9. Copy the client ID and client secret immediately.
+
+Google may only show or download the client secret at creation time. Store it
+in your local `.env.local`, not in the repository.
+
+## Step 7: Get A Refresh Token
+
+1. Open [OAuth 2.0 Playground](https://developers.google.com/oauthplayground).
+2. Click the gear icon in the top-right settings panel.
+3. Enable **Use your own OAuth credentials**.
+4. Paste your Google client ID and client secret.
+5. In the scope input, paste:
+
+```text
+https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.readonly
+```
+
+6. Click **Authorize APIs**.
+7. Sign in as the same Gmail account you added as a test user.
+8. If Google shows an unverified-app warning, continue only if this is your own
+   local testing project.
+9. Approve the requested scopes.
+10. Click **Exchange authorization code for tokens**.
+11. Copy the returned refresh token.
+
+If there is no refresh token, remove the app from your Google Account's
+third-party access page and repeat the authorization. Google often returns a
+refresh token only on the first offline consent for a client/user/scope
+combination.
+
+## Step 8: Create `.env.local`
+
+In the starter directory, create:
+
+```text
+case-studies/examples/customer-email-assist-starter/.env.local
+```
+
+Use this shape:
+
+```bash
+GOOGLE_CLIENT_ID="paste-client-id"
+GOOGLE_CLIENT_SECRET="paste-client-secret"
+GOOGLE_REFRESH_TOKEN="paste-refresh-token"
+
+CUSTOMER_EMAIL_ASSIST_OPERATOR_EMAIL="you@example.com"
+CUSTOMER_EMAIL_ASSIST_GMAIL_LABEL="INBOX"
+
+# Optional
+CUSTOMER_EMAIL_ASSIST_DB_PATH="/tmp/customer-email-assist.sqlite3"
+CUSTOMER_EMAIL_ASSIST_POLICY_PATH="./support-policy.md"
+```
+
+Restart the dashboard after editing `.env.local`.
+
+## Step 9: Use The Dashboard Mode Switch
+
+In the Customer Email Assist dashboard:
+
+- Leave **Gmail connector** off to use local OAuth. This attempts the direct
+  Gmail API send path after the undo countdown.
+- Turn **Gmail connector** on to queue approved replies for connector-backed
+  processing instead.
+
+## Quick Verification
+
+From the starter folder:
+
+```bash
+npm install
+npm run setup-local
+npm run dev
+```
+
+For a local OAuth sync pass:
+
+```bash
+npm run sync:oauth
+```
+
+For queued approved replies:
+
+```bash
+tsx scripts/customer-email-assist.ts apply-send-queue
+```
+
+## Official References
+
+- [Gmail API scopes](https://developers.google.com/workspace/gmail/api/auth/scopes)
+- [Gmail send API](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/send)
+- [Google OAuth app verification](https://support.google.com/cloud/answer/13463073)
+- [Google Auth Platform audience and test users](https://support.google.com/cloud/answer/15549945)
+- [OAuth 2.0 Playground](https://developers.google.com/oauthplayground)

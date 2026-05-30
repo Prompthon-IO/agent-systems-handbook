@@ -128,7 +128,8 @@
                   "workshops/openclaw/commands",
                   "workshops/desktop-agents/codex",
                   "workshops/desktop-agents/claude-code",
-                  "workshops/skills-introduction"
+                  "workshops/skills-introduction",
+                  "workshops/gmail-oauth-setup"
                 ]
               }
             ]
@@ -350,7 +351,8 @@
                   "zh-Hans/workshops/openclaw/commands",
                   "zh-Hans/workshops/desktop-agents/codex",
                   "zh-Hans/workshops/desktop-agents/claude-code",
-                  "zh-Hans/workshops/skills-introduction"
+                  "zh-Hans/workshops/skills-introduction",
+                  "zh-Hans/workshops/gmail-oauth-setup"
                 ]
               }
             ]
