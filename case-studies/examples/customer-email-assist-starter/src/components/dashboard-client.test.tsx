@@ -72,7 +72,7 @@ describe("DashboardClient", () => {
       const url = typeof input === "string" ? input : input.toString();
       if (url.startsWith("/api/issues")) {
         if (init?.method === "PATCH") {
-          return new Response(JSON.stringify({ ok: true, sent: true }), { status: 200 });
+          return new Response(JSON.stringify({ ok: true, queued: true }), { status: 200 });
         }
         return new Response(
           JSON.stringify({
@@ -170,7 +170,7 @@ describe("DashboardClient", () => {
 
     await user.click(screen.getByText("Wrong item received"));
     expect(await screen.findByText("Issue Summary")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Send Reply" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Queue Send" })).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Close" }));
     await waitFor(() => {
@@ -188,23 +188,53 @@ describe("DashboardClient", () => {
     });
   });
 
+  it("refreshes the dashboard data from the issues toolbar", async () => {
+    const user = userEvent.setup();
+    const fetchMock = vi.mocked(global.fetch);
+    render(<DashboardClient />);
+
+    expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
+    expect(screen.getByText("Connector")).toBeInTheDocument();
+
+    const countCalls = (matcher: (url: string) => boolean) =>
+      fetchMock.mock.calls.filter(([input]) => matcher(typeof input === "string" ? input : input.toString())).length;
+
+    const issueCallsBefore = countCalls((url) => url.startsWith("/api/issues"));
+    const analyticsCallsBefore = countCalls((url) => url.startsWith("/api/analytics"));
+    const reviewCallsBefore = countCalls((url) => url.startsWith("/api/customers/review"));
+    const customerCallsBefore = countCalls(
+      (url) => url.startsWith("/api/customers?") || url === "/api/customers",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Refresh" }));
+
+    await waitFor(() => {
+      expect(countCalls((url) => url.startsWith("/api/issues"))).toBeGreaterThan(issueCallsBefore);
+      expect(countCalls((url) => url.startsWith("/api/analytics"))).toBeGreaterThan(analyticsCallsBefore);
+      expect(countCalls((url) => url.startsWith("/api/customers/review"))).toBeGreaterThan(reviewCallsBefore);
+      expect(countCalls((url) => url.startsWith("/api/customers?") || url === "/api/customers")).toBeGreaterThan(
+        customerCallsBefore,
+      );
+    });
+  });
+
   it("queues drawer send with a countdown and allows cancel before execution", async () => {
     render(<DashboardClient />);
 
     expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Wrong item received"));
     vi.useFakeTimers();
-    fireEvent.click(screen.getByRole("button", { name: "Send Reply" }));
+    fireEvent.click(screen.getByRole("button", { name: "Queue Send" }));
 
-    expect(screen.getByText("Send reply to Casey scheduled")).toBeInTheDocument();
-    expect(screen.getAllByText(/Sending in \d+s\./).length).toBeGreaterThan(0);
+    expect(screen.getByText("Queue reply to Casey scheduled")).toBeInTheDocument();
+    expect(screen.getAllByText(/Queueing in \d+s\./).length).toBeGreaterThan(0);
     expect(global.fetch).not.toHaveBeenCalledWith(
       "/api/issues/1",
       expect.objectContaining({ method: "PATCH" }),
     );
 
     fireEvent.click(screen.getByRole("button", { name: "Cancel Send" }));
-    expect(screen.queryByText("Send reply to Casey scheduled")).not.toBeInTheDocument();
+    expect(screen.queryByText("Queue reply to Casey scheduled")).not.toBeInTheDocument();
 
     await act(async () => {
       await vi.advanceTimersByTimeAsync(5000);
@@ -217,13 +247,13 @@ describe("DashboardClient", () => {
     vi.useRealTimers();
   });
 
-  it("sends from the drawer after the countdown expires", async () => {
+  it("queues connector send from the drawer after the countdown expires", async () => {
     render(<DashboardClient />);
 
     expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Wrong item received"));
     vi.useFakeTimers();
-    fireEvent.click(screen.getByRole("button", { name: "Send Reply" }));
+    fireEvent.click(screen.getByRole("button", { name: "Queue Send" }));
     await act(async () => {
       await vi.advanceTimersByTimeAsync(5000);
     });
@@ -235,7 +265,7 @@ describe("DashboardClient", () => {
         method: "PATCH",
         body: JSON.stringify({
           draftReplyHtml: "<p>Draft reply</p>",
-          action: "send_now",
+          action: "queue_send",
         }),
       }),
     );

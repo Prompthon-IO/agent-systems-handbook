@@ -8,10 +8,10 @@ import SupportCTA from "/snippets/support-cta.mdx";
 
 ## Summary
 
-This starter extends the customer-support case study into a mailbox-integrated
-local workflow: sync labeled Gmail threads, classify customer issues with
-deterministic rules first, persist them in SQLite, and review or send replies
-through a local dashboard.
+This starter extends the customer-support case study into a connector-first
+local workflow: read Gmail through the Codex Gmail connector, classify customer
+issues with deterministic rules first, persist them in SQLite, and review or
+queue replies through a local dashboard.
 
 ## Status
 
@@ -24,8 +24,8 @@ Source code: [case-studies/examples/customer-email-assist-starter](https://githu
 The earlier [Customer Support Email Agent Starter](/case-studies/examples/customer-support-email-agent-starter)
 shows the safer draft-only boundary. This follow-on starter keeps the same
 local-first posture, but adds the operational surfaces teams usually need next:
-Gmail sync, local SQLite state, customer review queues, and a deterministic
-dashboard.
+Gmail connector import, local SQLite state, customer review queues, and a
+deterministic dashboard.
 
 ## Related Lab Pages
 
@@ -64,28 +64,34 @@ npm run setup-local
 npm run dev
 ```
 
-For deterministic sync commands:
+For the default connector-assisted low-token path, let Codex use the Gmail
+connector to produce a prepared inbound batch, then import that batch:
 
 ```bash
-npm run sync
-tsx scripts/customer-email-assist.ts prepare-inbound-batch --out /tmp/prepared-inbound.json
-tsx scripts/customer-email-assist.ts apply-send-queue
+tsx scripts/customer-email-assist.ts import-prepared-batch --input /tmp/prepared-inbound.json
 ```
 
-For the connector-assisted low-token path, write batches to files instead of
-printing large JSON blobs to stdout:
+Write intermediate batches to files instead of printing large JSON blobs to
+stdout:
 
 ```bash
 tsx scripts/customer-email-assist.ts prepare-draft-batch --out /tmp/draft-batch.json
+```
+
+An advanced direct Gmail OAuth adapter still exists for standalone local
+integrations, but it is not the default setup path:
+
+```bash
+npm run sync:oauth
 ```
 
 ## Minimal-Token Boundary
 
 This starter is designed to minimize model usage.
 
-- Hard logic handles Gmail fetches, HTML stripping, signature trimming, quoted
-  history removal, customer matching, SQLite persistence, analytics, and send
-  queue execution.
+- Hard logic handles Gmail connector import shaping, HTML stripping, signature
+  trimming, quoted history removal, customer matching, SQLite persistence,
+  analytics, and queue state.
 - The intended skill workflow reserves model usage for only two JSON-only
   surfaces:
   - understanding cleaned inbound customer messages
@@ -101,18 +107,21 @@ This starter is designed to minimize model usage.
   heuristic classification helpers
 - `src/lib/repository.ts`: SQLite queries for issues, customers, analytics, and
   review actions
-- `src/lib/sync.ts`: deterministic send queue, inbound batch preparation, draft
-  preparation, and draft rendering coordination
+- `src/lib/sync.ts`: deterministic inbound batch import, draft preparation, and
+  draft rendering coordination
 - `app/page.tsx`: Next.js App Router dashboard with issues, analysis, customer
-  review, and customer CRUD tabs
+  review, and customer management
 
 ## Constraints
 
-- Gmail integration requires real OAuth environment variables.
+- Gmail authentication is expected to happen through the Codex Gmail connector
+  in the normal workflow.
+- Direct Gmail OAuth exists only as an advanced adapter for standalone local
+  runs.
 - Attachments and inline images are ignored in v1.
 - The dashboard is single-operator and local-machine oriented.
-- `npm run sync` uses deterministic fallback understanding and drafting so the
-  starter remains runnable without a live model call.
+- `import-prepared-batch` uses deterministic fallback understanding and drafting
+  so the starter remains runnable without a live model call.
 - `npm run setup-local` resets the local SQLite database to an empty state.
 
 ## Verification

@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
+  ApiOutlined,
   CheckCircleOutlined,
+  ReloadOutlined,
   StopOutlined,
 } from "@ant-design/icons";
 import {
@@ -197,6 +199,7 @@ export function DashboardClient() {
   const [editingCustomer, setEditingCustomer] = useState<CustomerItem | null>(null);
   const [pendingSend, setPendingSend] = useState<PendingSend | null>(null);
   const [pendingNow, setPendingNow] = useState(() => Date.now());
+  const [refreshingDashboard, setRefreshingDashboard] = useState(false);
   const [customerForm] = Form.useForm();
   const pendingSendRef = useRef<PendingSend | null>(null);
   const pendingSendTimerRef = useRef<number | null>(null);
@@ -288,6 +291,15 @@ export function DashboardClient() {
       items: data.items ?? [],
     });
     return data;
+  }
+
+  async function refreshDashboard() {
+    setRefreshingDashboard(true);
+    try {
+      await Promise.all([loadIssues(), loadAnalytics(), loadReviewQueue(), loadCustomers()]);
+    } finally {
+      setRefreshingDashboard(false);
+    }
   }
 
   useEffect(() => {
@@ -388,7 +400,7 @@ export function DashboardClient() {
 
   async function patchIssue(
     issueId: number,
-    body: { action?: "approve_to_send" | "mark_resolved" | "send_now"; draftReplyHtml?: string },
+    body: { action?: "approve_to_send" | "mark_resolved" | "queue_send"; draftReplyHtml?: string },
   ) {
     await fetchJson(`/api/issues/${issueId}`, {
       method: "PATCH",
@@ -521,7 +533,7 @@ export function DashboardClient() {
     cancelPendingSend();
     const scheduled: PendingSend = {
       issueId: record.id,
-      label: `Send reply to ${record.customerName || record.customerEmail}`,
+      label: `Queue reply to ${record.customerName || record.customerEmail}`,
       draftHtml: nextDraftHtml,
       expiresAt: Date.now() + ACTION_DELAY_MS,
     };
@@ -531,7 +543,7 @@ export function DashboardClient() {
       cancelPendingSend();
       void patchIssue(record.id, {
         draftReplyHtml: nextDraftHtml,
-        action: "send_now",
+        action: "queue_send",
       })
         .then(() => {
           setSelectedIssue(null);
@@ -763,6 +775,24 @@ export function DashboardClient() {
                         onChange={setIncludeResolved}
                       />
                     </div>
+                    <Tooltip
+                      title="Gmail authentication is handled by the Codex Gmail connector."
+                      placement="top"
+                    >
+                      <Tag color="processing" icon={<ApiOutlined />} className="connection-mode-tag">
+                        Connector
+                      </Tag>
+                    </Tooltip>
+                    <Tooltip title="Refresh" placement="top">
+                      <Button
+                        aria-label="Refresh"
+                        title="Refresh"
+                        shape="circle"
+                        icon={<ReloadOutlined />}
+                        loading={refreshingDashboard}
+                        onClick={() => void refreshDashboard()}
+                      />
+                    </Tooltip>
                   </Space>
                 </Card>
                 <Table
@@ -917,14 +947,14 @@ export function DashboardClient() {
                 type="primary"
                 onClick={() => queueIssueSend(selectedIssue, draftHtml)}
               >
-                {pendingSend?.issueId === selectedIssue.id ? "Cancel Send" : "Send Reply"}
+                {pendingSend?.issueId === selectedIssue.id ? "Cancel Send" : "Queue Send"}
               </Button>
             </Space>
           ) : null
         }
       >
         {selectedIssue ? (
-            <Space orientation="vertical" size="large" style={{ display: "flex" }}>
+          <Space orientation="vertical" size="large" style={{ display: "flex" }}>
             {pendingSend?.issueId === selectedIssue.id ? (
               <Alert
                 className="pending-action-banner"
@@ -933,7 +963,7 @@ export function DashboardClient() {
                 title={`${pendingSend.label} scheduled`}
                 description={
                   <Space wrap>
-                    <Text>{`Sending in ${Math.max(1, Math.ceil((pendingSend.expiresAt - pendingNow) / 1000))}s.`}</Text>
+                    <Text>{`Queueing in ${Math.max(1, Math.ceil((pendingSend.expiresAt - pendingNow) / 1000))}s.`}</Text>
                     <Button size="small" onClick={cancelPendingSend}>
                       Undo
                     </Button>

@@ -25,15 +25,16 @@ function usage(): never {
   throw new Error(
     [
       "Usage: tsx scripts/customer-email-assist.ts <command> [options]",
-      "Commands:",
+      "Connector-first commands:",
       "  init-db [--fresh]",
       "  setup-local",
-      "  apply-send-queue",
-      "  prepare-inbound-batch [--out <file>]",
       "  import-prepared-batch --input <file> [--policy <file>]",
       "  persist-understanding --input <file>",
       "  prepare-draft-batch [--policy <file>] [--out <file>]",
       "  render-save-drafts --input <file>",
+      "Advanced local OAuth commands:",
+      "  apply-send-queue",
+      "  prepare-inbound-batch [--out <file>]",
       "  sync [--policy <file>]",
     ].join("\n"),
   );
