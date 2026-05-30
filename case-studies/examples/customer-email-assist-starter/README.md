@@ -5,7 +5,7 @@ This starter can run in two Gmail modes:
 - Connector mode: Codex reads/sends through the Codex Gmail connector. This is easiest inside Codex, but the Next.js dashboard cannot call the connector directly.
 - Local OAuth mode: the dashboard and scripts call the Gmail API directly with your own Google OAuth credentials. Use this when you want `Approve & Send` to send automatically from the dashboard after the undo countdown.
 
-The dashboard defaults to Local OAuth mode. Turn on the `Gmail connector` switch when you want approvals to be queued for connector-backed processing instead.
+The dashboard defaults to Local OAuth mode. Use the `Gmail mode` selector to switch between direct OAuth sends and Gmail connector queue mode.
 
 ## Local OAuth Environment
 
@@ -95,7 +95,7 @@ http://localhost:3000/api/gmail/oauth/callback
 After `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set:
 
 1. Restart the dashboard.
-2. Leave the `Gmail connector` switch off.
+2. Leave `Gmail mode` set to `OAuth`.
 3. Click `Connect Gmail`.
 4. Approve the Gmail consent screen.
 5. The callback stores the refresh token in local state at `~/.codex/state/customer-email-assist/gmail-oauth.json`.

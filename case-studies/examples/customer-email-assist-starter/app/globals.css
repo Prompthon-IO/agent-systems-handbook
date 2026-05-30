@@ -254,6 +254,34 @@ body {
   gap: 10px;
 }
 
+.gmail-mode-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #d9d9d9;
+  border-radius: 999px;
+  color: rgba(0, 0, 0, 0.65);
+  cursor: pointer;
+  font-size: 0.86rem;
+  line-height: 1;
+  padding: 7px 11px;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.gmail-mode-option input {
+  accent-color: #1677ff;
+  margin: 0;
+}
+
+.gmail-mode-option-active {
+  background: #e6f4ff;
+  border-color: #1677ff;
+  color: #0958d9;
+}
+
 .connection-mode-tag {
   margin-inline-end: 0;
   line-height: 30px;

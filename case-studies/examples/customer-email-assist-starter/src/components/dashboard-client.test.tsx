@@ -220,7 +220,7 @@ describe("DashboardClient", () => {
     render(<DashboardClient />);
 
     expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
-    expect(screen.getByLabelText("Gmail connector")).toBeInTheDocument();
+    expect(screen.getByRole("radiogroup", { name: "Gmail mode" })).toBeInTheDocument();
     expect(screen.getByText("OAuth")).toBeInTheDocument();
 
     const countCalls = (matcher: (url: string) => boolean) =>
@@ -306,8 +306,8 @@ describe("DashboardClient", () => {
     render(<DashboardClient />);
 
     expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
-    fireEvent.click(screen.getByLabelText("Gmail connector"));
-    expect(screen.getByText("Connector")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Gmail connector"));
+    expect(screen.getByRole("radiogroup", { name: "Gmail mode" })).toBeInTheDocument();
 
     fireEvent.click(screen.getByText("Wrong item received"));
     vi.useFakeTimers();

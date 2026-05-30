@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
-  ApiOutlined,
   CheckCircleOutlined,
   ReloadOutlined,
   StopOutlined,
@@ -923,26 +922,47 @@ export function DashboardClient() {
                         onChange={setIncludeResolved}
                       />
                     </div>
-                    <Tooltip
-                      title="Off uses local Google OAuth. On queues approved replies for the Codex Gmail connector."
-                      placement="top"
-                    >
-                      <div className="gmail-mode-toggle">
-                        <Text type="secondary">Gmail connector</Text>
-                        <Switch
-                          aria-label="Gmail connector"
-                          checked={gmailConnectorEnabled}
-                          onChange={setGmailConnectorEnabled}
+                    <div className="gmail-mode-toggle" role="radiogroup" aria-label="Gmail mode">
+                      <Text type="secondary">Gmail mode</Text>
+                      <label
+                        className={
+                          gmailConnectorEnabled
+                            ? "gmail-mode-option"
+                            : "gmail-mode-option gmail-mode-option-active"
+                        }
+                        onClick={() => setGmailConnectorEnabled(false)}
+                      >
+                        <input
+                          type="radio"
+                          name="gmail-mode"
+                          checked={!gmailConnectorEnabled}
+                          onClick={() => setGmailConnectorEnabled(false)}
+                          onChange={() => setGmailConnectorEnabled(false)}
                         />
-                        <Tag
-                          color={gmailConnectorEnabled ? "processing" : "success"}
-                          icon={<ApiOutlined />}
-                          className="connection-mode-tag"
-                        >
-                          {gmailConnectorEnabled ? "Connector" : "OAuth"}
-                        </Tag>
-                      </div>
-                    </Tooltip>
+                        <span>
+                          OAuth
+                        </span>
+                      </label>
+                      <label
+                        className={
+                          gmailConnectorEnabled
+                            ? "gmail-mode-option gmail-mode-option-active"
+                            : "gmail-mode-option"
+                        }
+                        onClick={() => setGmailConnectorEnabled(true)}
+                      >
+                        <input
+                          type="radio"
+                          name="gmail-mode"
+                          checked={gmailConnectorEnabled}
+                          onClick={() => setGmailConnectorEnabled(true)}
+                          onChange={() => setGmailConnectorEnabled(true)}
+                        />
+                        <span>
+                          Gmail connector
+                        </span>
+                      </label>
+                    </div>
                     {!gmailConnectorEnabled ? (
                       gmailOAuthStatus.connected ? (
                         <Tooltip
