@@ -164,7 +164,7 @@ Restart the dashboard after editing `.env.local`.
 ## Step 8: Connect Gmail From The Dashboard
 
 1. Start the dashboard.
-2. Leave **Gmail connector** off.
+2. Leave **Gmail mode** set to **OAuth**.
 3. Click **Connect Gmail**.
 4. Sign in as the same test user you configured in Google Cloud.
 5. Approve the Gmail scopes.
@@ -182,9 +182,9 @@ fallback now; users should not need it for the starter.
 
 In the Customer Email Assist dashboard:
 
-- Leave **Gmail connector** off to use local OAuth. This attempts the direct
-  Gmail API send path after the undo countdown.
-- Turn **Gmail connector** on to queue approved replies for connector-backed
+- Select **OAuth** to use local OAuth. This attempts the direct Gmail API send
+  path after the undo countdown.
+- Select **Gmail connector** to queue approved replies for connector-backed
   processing instead.
 
 ## Quick Verification
