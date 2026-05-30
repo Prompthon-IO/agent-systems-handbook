@@ -86,16 +86,17 @@ integrations, but it is not the default setup path:
 npm run sync:oauth
 ```
 
-For the direct OAuth auto-send path, follow the starter README:
+For the direct OAuth auto-send path, follow the starter README and use the
+dashboard `Connect Gmail` button after creating the Google OAuth client:
 
 ```text
 case-studies/examples/customer-email-assist-starter/README.md
 ```
 
 In connector-first mode, dashboard approval stores issues as
-`approved_to_send` for the Codex Gmail connector runner. If the advanced local
-OAuth variables are configured, the dashboard can execute the deterministic
-send path immediately after the undo countdown.
+`approved_to_send` for the Codex Gmail connector runner. If local OAuth is
+connected, the dashboard can execute the deterministic send path immediately
+after the undo countdown.
 
 ## Minimal-Token Boundary
 
@@ -123,17 +124,16 @@ This starter is designed to minimize model usage.
   draft rendering coordination
 - `app/page.tsx`: Next.js App Router dashboard with issues, analysis, customer
   review, and customer management
-- `README.md`: direct Gmail OAuth setup, refresh-token guidance, and optional
+- `README.md`: direct Gmail OAuth setup, dashboard connection flow, and optional
   runtime variables
 
 ## Constraints
 
 - Gmail authentication is expected to happen through the Codex Gmail connector
   in the normal workflow.
-- Direct Gmail OAuth exists only as an advanced adapter for standalone local
-  runs. Its required values are `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and
-  `GOOGLE_REFRESH_TOKEN`; `CUSTOMER_EMAIL_ASSIST_OPERATOR_EMAIL` is optional in
-  code but recommended for duplicate-send protection.
+- Direct Gmail OAuth exists as an advanced adapter for standalone local runs.
+  Its required values are `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`; the
+  dashboard connection flow stores the refresh token in local state.
 - Attachments and inline images are ignored in v1.
 - The dashboard is single-operator and local-machine oriented.
 - `import-prepared-batch` uses deterministic fallback understanding and drafting

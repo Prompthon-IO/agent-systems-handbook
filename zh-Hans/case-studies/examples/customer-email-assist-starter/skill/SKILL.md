@@ -95,8 +95,12 @@ tsx scripts/customer-email-assist.ts render-save-drafts --input /tmp/draft-field
 - `CUSTOMER_EMAIL_ASSIST_GMAIL_LABEL`
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
-- `GOOGLE_REFRESH_TOKEN`
 - `CUSTOMER_EMAIL_ASSIST_OPERATOR_EMAIL`
+- `GOOGLE_REDIRECT_URI`
+
+dashboard 的 `Connect Gmail` 按钮会在 Google consent callback 之后把
+refresh token 写入本地状态。`GOOGLE_REFRESH_TOKEN` 仍可作为手动兜底变量，
+但不是 web-app 流程必需项。
 
 高级命令：
 
@@ -106,10 +110,9 @@ tsx scripts/customer-email-assist.ts prepare-inbound-batch --out /tmp/prepared-i
 tsx scripts/customer-email-assist.ts apply-send-queue
 ```
 
-当这个高级本地 OAuth 路径已配置时，dashboard 的 `Approve & Send` 动作会在
-undo 倒计时结束后立即执行确定性的发送路径。没有这些 OAuth 变量时，
-dashboard 会把 issue 保持在 `approved_to_send`，等待 Codex connector runner
-处理，而不是尝试未认证的发送。
+当这个高级本地 OAuth 路径已连接时，dashboard 的 `Approve & Send` 动作会在
+undo 倒计时结束后立即执行确定性的发送路径。没有 OAuth 连接时，dashboard
+会把 issue 保持在 `approved_to_send`，而不是尝试未认证的发送。
 
 ## 保护措施
 

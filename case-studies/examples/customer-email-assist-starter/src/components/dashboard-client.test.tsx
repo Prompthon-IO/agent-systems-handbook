@@ -72,6 +72,18 @@ describe("DashboardClient", () => {
 
     global.fetch = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const url = typeof input === "string" ? input : input.toString();
+      if (url === "/api/gmail/oauth/status") {
+        return new Response(
+          JSON.stringify({
+            configured: true,
+            connected: false,
+            emailAddress: "",
+            connectedAt: null,
+            usesEnvRefreshToken: false,
+          }),
+          { status: 200 },
+        );
+      }
       if (url.startsWith("/api/issues")) {
         if (init?.method === "PATCH") {
           const payload = JSON.parse(String(init.body)) as { action?: string };

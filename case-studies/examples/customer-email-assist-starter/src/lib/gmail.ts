@@ -1,5 +1,10 @@
 import { google } from "googleapis";
 
+import {
+  resolveStoredOperatorEmail,
+  resolveStoredRefreshToken,
+} from "@/lib/gmail-oauth-store";
+
 export interface GmailMessageSummary {
   id: string;
   threadId: string;
@@ -94,10 +99,10 @@ export class GoogleGmailAdapter implements GmailAdapter {
       process.env.GOOGLE_REDIRECT_URI,
     );
     oauth2.setCredentials({
-      refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+      refresh_token: resolveStoredRefreshToken(),
     });
     this.gmail = google.gmail({ version: "v1", auth: oauth2 });
-    this.operatorEmail = (process.env.CUSTOMER_EMAIL_ASSIST_OPERATOR_EMAIL ?? "").toLowerCase();
+    this.operatorEmail = resolveStoredOperatorEmail();
     this.label = process.env.CUSTOMER_EMAIL_ASSIST_GMAIL_LABEL ?? "";
   }
 

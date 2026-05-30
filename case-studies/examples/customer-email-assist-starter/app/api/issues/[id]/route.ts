@@ -2,18 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { openDatabase } from "@/lib/db";
 import { GoogleGmailAdapter } from "@/lib/gmail";
+import { hasGoogleOAuthSendConfig } from "@/lib/gmail-oauth";
 import { updateIssue } from "@/lib/repository";
 import { sendIssueNow } from "@/lib/sync";
 
 export const dynamic = "force-dynamic";
-
-function hasLocalGmailSendConfig(): boolean {
-  return Boolean(
-    process.env.GOOGLE_CLIENT_ID &&
-      process.env.GOOGLE_CLIENT_SECRET &&
-      process.env.GOOGLE_REFRESH_TOKEN,
-  );
-}
 
 export async function PATCH(
   request: NextRequest,
@@ -43,7 +36,7 @@ export async function PATCH(
       draftReplyHtml: body.draftReplyHtml,
       action: "approve_to_send",
     });
-    if (!hasLocalGmailSendConfig()) {
+    if (!hasGoogleOAuthSendConfig()) {
       return NextResponse.json({
         ok: true,
         queued: true,

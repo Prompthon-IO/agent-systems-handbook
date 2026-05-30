@@ -98,6 +98,14 @@ type PatchIssueResponse = {
   error?: string;
 };
 
+type GmailOAuthStatus = {
+  configured: boolean;
+  connected: boolean;
+  emailAddress: string;
+  connectedAt: string | null;
+  usesEnvRefreshToken: boolean;
+};
+
 const EMPTY_ISSUES: IssuesResponse = {
   items: [],
   total: 0,
@@ -123,6 +131,14 @@ const EMPTY_ANALYTICS: AnalyticsResponse = {
   typeCounts: [],
   statusCounts: [],
   buckets: [],
+};
+
+const EMPTY_GMAIL_OAUTH_STATUS: GmailOAuthStatus = {
+  configured: false,
+  connected: false,
+  emailAddress: "",
+  connectedAt: null,
+  usesEnvRefreshToken: false,
 };
 
 const ACTION_DELAY_MS = 5000;
@@ -214,6 +230,9 @@ export function DashboardClient() {
   const [pendingNow, setPendingNow] = useState(() => Date.now());
   const [refreshingDashboard, setRefreshingDashboard] = useState(false);
   const [gmailConnectorEnabled, setGmailConnectorEnabled] = useState(false);
+  const [gmailOAuthStatus, setGmailOAuthStatus] = useState<GmailOAuthStatus>(
+    EMPTY_GMAIL_OAUTH_STATUS,
+  );
   const [customerForm] = Form.useForm();
   const pendingSendRef = useRef<PendingSend | null>(null);
   const pendingSendTimerRef = useRef<number | null>(null);
@@ -269,6 +288,14 @@ export function DashboardClient() {
     });
   }
 
+  async function loadGmailOAuthStatus() {
+    const data = await fetchJson<GmailOAuthStatus>("/api/gmail/oauth/status");
+    setGmailOAuthStatus({
+      ...EMPTY_GMAIL_OAUTH_STATUS,
+      ...data,
+    });
+  }
+
   async function loadReviewQueue() {
     const data = await fetchJson<CustomerResponse>("/api/customers/review?page=1&pageSize=20");
     setReviewQueue({
@@ -310,7 +337,13 @@ export function DashboardClient() {
   async function refreshDashboard() {
     setRefreshingDashboard(true);
     try {
-      await Promise.all([loadIssues(), loadAnalytics(), loadReviewQueue(), loadCustomers()]);
+      await Promise.all([
+        loadIssues(),
+        loadAnalytics(),
+        loadReviewQueue(),
+        loadCustomers(),
+        loadGmailOAuthStatus(),
+      ]);
     } finally {
       setRefreshingDashboard(false);
     }
@@ -366,6 +399,22 @@ export function DashboardClient() {
       active = false;
     };
   }, [analyticsStart, analyticsEnd]);
+
+  useEffect(() => {
+    let active = true;
+    void (async () => {
+      const data = await fetchJson<GmailOAuthStatus>("/api/gmail/oauth/status");
+      if (active) {
+        setGmailOAuthStatus({
+          ...EMPTY_GMAIL_OAUTH_STATUS,
+          ...data,
+        });
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -894,6 +943,40 @@ export function DashboardClient() {
                         </Tag>
                       </div>
                     </Tooltip>
+                    {!gmailConnectorEnabled ? (
+                      gmailOAuthStatus.connected ? (
+                        <Tooltip
+                          title={
+                            gmailOAuthStatus.emailAddress
+                              ? `Connected as ${gmailOAuthStatus.emailAddress}`
+                              : "Local OAuth is connected."
+                          }
+                          placement="top"
+                        >
+                          <Tag color="success" className="connection-mode-tag">
+                            Gmail connected
+                          </Tag>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip
+                          title={
+                            gmailOAuthStatus.configured
+                              ? "Open Google consent and connect this local dashboard to Gmail."
+                              : "Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET before connecting Gmail."
+                          }
+                          placement="top"
+                        >
+                          <Button
+                            disabled={!gmailOAuthStatus.configured}
+                            onClick={() => {
+                              window.location.href = "/api/gmail/oauth/start";
+                            }}
+                          >
+                            Connect Gmail
+                          </Button>
+                        </Tooltip>
+                      )
+                    ) : null}
                     <Tooltip title="Refresh" placement="top">
                       <Button
                         aria-label="Refresh"

@@ -101,14 +101,18 @@ present it as the normal setup path.
 Required advanced variables:
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
-- `GOOGLE_REFRESH_TOKEN`
 
-Optional but recommended:
+The dashboard `Connect Gmail` button stores the refresh token locally after the
+Google consent callback. `GOOGLE_REFRESH_TOKEN` is still accepted as a manual
+fallback, but it is not required for the web-app flow.
+
+Optional:
 - `CUSTOMER_EMAIL_ASSIST_OPERATOR_EMAIL`
+- `GOOGLE_REDIRECT_URI` if the dashboard callback should not be inferred from the current origin
 - `CUSTOMER_EMAIL_ASSIST_GMAIL_LABEL` for OAuth-based inbound fetch/sync
 
 For setup details, read `README.md` in this starter directory. It documents how
-to create the Google OAuth client, where to get the refresh token, and which
+to create the Google OAuth client, use the dashboard callback, and which
 database/policy variables are optional.
 
 Advanced commands:
@@ -119,11 +123,10 @@ tsx scripts/customer-email-assist.ts prepare-inbound-batch --out /tmp/prepared-i
 tsx scripts/customer-email-assist.ts apply-send-queue
 ```
 
-When this advanced local OAuth path is configured, the dashboard's
-`Approve & Send` action can execute the deterministic send path immediately
-after the undo countdown. Without those OAuth variables, the dashboard keeps
-the issue in `approved_to_send` for the Codex connector runner instead of
-attempting an unauthenticated send.
+When this advanced local OAuth path is connected, the dashboard's `Approve &
+Send` action can execute the deterministic send path immediately after the undo
+countdown. Without an OAuth connection, the dashboard keeps the issue in
+`approved_to_send` instead of attempting an unauthenticated send.
 
 ## Response Discipline
 
