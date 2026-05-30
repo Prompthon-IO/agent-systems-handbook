@@ -7,8 +7,6 @@ This starter can run in two Gmail modes:
 
 The dashboard defaults to Local OAuth mode. Turn on the `Gmail connector` switch when you want approvals to be queued for connector-backed processing instead.
 
-For the handbook version of this walkthrough, including Google Cloud Console click-through steps, see `/workshops/gmail-oauth-setup`.
-
 ## Local OAuth Environment
 
 Create `.env.local` in this folder. Do not commit it.
