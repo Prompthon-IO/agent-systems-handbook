@@ -99,11 +99,17 @@ explicitly want a standalone local integration. Treat it as advanced and do not
 present it as the normal setup path.
 
 Required advanced variables:
-- `CUSTOMER_EMAIL_ASSIST_GMAIL_LABEL`
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
 - `GOOGLE_REFRESH_TOKEN`
+
+Optional but recommended:
 - `CUSTOMER_EMAIL_ASSIST_OPERATOR_EMAIL`
+- `CUSTOMER_EMAIL_ASSIST_GMAIL_LABEL` for OAuth-based inbound fetch/sync
+
+For setup details, read `README.md` in this starter directory. It documents how
+to create the Google OAuth client, where to get the refresh token, and which
+database/policy variables are optional.
 
 Advanced commands:
 

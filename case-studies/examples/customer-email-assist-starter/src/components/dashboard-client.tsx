@@ -78,10 +78,13 @@ type AnalyticsResponse = {
   buckets: Array<{ day: string; classification: string; issueStatus: string; count: number }>;
 };
 
+type SendMode = "oauth" | "connector";
+
 type PendingSend = {
   issueId: number;
   label: string;
   draftHtml: string;
+  mode: SendMode;
   expiresAt: number;
   previousStatus: string;
 };
@@ -210,6 +213,7 @@ export function DashboardClient() {
   const [pendingSend, setPendingSend] = useState<PendingSend | null>(null);
   const [pendingNow, setPendingNow] = useState(() => Date.now());
   const [refreshingDashboard, setRefreshingDashboard] = useState(false);
+  const [gmailConnectorEnabled, setGmailConnectorEnabled] = useState(false);
   const [customerForm] = Form.useForm();
   const pendingSendRef = useRef<PendingSend | null>(null);
   const pendingSendTimerRef = useRef<number | null>(null);
@@ -580,6 +584,7 @@ export function DashboardClient() {
       issueId: record.id,
       label: `Reply to ${record.customerName || record.customerEmail}`,
       draftHtml: nextDraftHtml,
+      mode: gmailConnectorEnabled ? "connector" : "oauth",
       expiresAt: pendingNow + ACTION_DELAY_MS,
       previousStatus: record.issueStatus,
     };
@@ -592,7 +597,7 @@ export function DashboardClient() {
       setPendingSend(null);
       void patchIssue(record.id, {
         draftReplyHtml: nextDraftHtml,
-        action: "send_approved",
+        action: scheduled.mode === "connector" ? "queue_send" : "send_approved",
       })
         .then((result) => {
           if (result.sent || result.manuallyResolved) {
@@ -621,7 +626,7 @@ export function DashboardClient() {
     if (pendingSend?.issueId === record.id) {
       return (
         <Button type="primary" onClick={() => queueIssueSend(record, draftHtml)}>
-          Cancel Send
+          {pendingSend.mode === "connector" ? "Cancel Approval" : "Cancel Send"}
         </Button>
       );
     }
@@ -643,7 +648,7 @@ export function DashboardClient() {
 
     return (
       <Button type="primary" onClick={() => queueIssueSend(record, draftHtml)}>
-        Approve & Send
+        {gmailConnectorEnabled ? "Approve for Connector" : "Approve & Send"}
       </Button>
     );
   }
@@ -870,12 +875,24 @@ export function DashboardClient() {
                       />
                     </div>
                     <Tooltip
-                      title="Gmail authentication is handled by the Codex Gmail connector."
+                      title="Off uses local Google OAuth. On queues approved replies for the Codex Gmail connector."
                       placement="top"
                     >
-                      <Tag color="processing" icon={<ApiOutlined />} className="connection-mode-tag">
-                        Connector
-                      </Tag>
+                      <div className="gmail-mode-toggle">
+                        <Text type="secondary">Gmail connector</Text>
+                        <Switch
+                          aria-label="Gmail connector"
+                          checked={gmailConnectorEnabled}
+                          onChange={setGmailConnectorEnabled}
+                        />
+                        <Tag
+                          color={gmailConnectorEnabled ? "processing" : "success"}
+                          icon={<ApiOutlined />}
+                          className="connection-mode-tag"
+                        >
+                          {gmailConnectorEnabled ? "Connector" : "OAuth"}
+                        </Tag>
+                      </div>
                     </Tooltip>
                     <Tooltip title="Refresh" placement="top">
                       <Button
@@ -1052,7 +1069,17 @@ export function DashboardClient() {
                 title={`${pendingSend.label} approved to send`}
                 description={
                   <Space wrap>
-                    <Text>{`Sending in ${Math.max(1, Math.ceil((pendingSend.expiresAt - pendingNow) / 1000))}s.`}</Text>
+                    <Text>
+                      {pendingSend.mode === "connector"
+                        ? `Queuing for connector in ${Math.max(
+                            1,
+                            Math.ceil((pendingSend.expiresAt - pendingNow) / 1000),
+                          )}s.`
+                        : `Sending in ${Math.max(
+                            1,
+                            Math.ceil((pendingSend.expiresAt - pendingNow) / 1000),
+                          )}s.`}
+                    </Text>
                     <Button size="small" onClick={cancelPendingSend}>
                       Undo
                     </Button>
@@ -1066,7 +1093,7 @@ export function DashboardClient() {
                 type="info"
                 showIcon
                 title="Approved to send"
-                description="This issue is queued for the Gmail send runner. It cannot be approved again; cancel approval if you need to return it to draft review."
+                description="This issue is already approved for the next selected send runner. It cannot be approved again; cancel approval if you need to return it to draft review."
               />
             ) : null}
             <Card size="small" title="Issue Summary">

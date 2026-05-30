@@ -248,6 +248,12 @@ body {
   gap: 10px;
 }
 
+.gmail-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .connection-mode-tag {
   margin-inline-end: 0;
   line-height: 30px;

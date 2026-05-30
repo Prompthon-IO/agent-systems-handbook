@@ -44,6 +44,7 @@ customer-email-assist-starter/
 │   └── page.tsx
 ├── index.mdx
 ├── package.json
+├── README.md
 ├── scripts/
 │   └── customer-email-assist.ts
 ├── skill/
@@ -85,6 +86,12 @@ integrations, but it is not the default setup path:
 npm run sync:oauth
 ```
 
+For the direct OAuth auto-send path, follow the starter README:
+
+```text
+case-studies/examples/customer-email-assist-starter/README.md
+```
+
 In connector-first mode, dashboard approval stores issues as
 `approved_to_send` for the Codex Gmail connector runner. If the advanced local
 OAuth variables are configured, the dashboard can execute the deterministic
@@ -116,13 +123,17 @@ This starter is designed to minimize model usage.
   draft rendering coordination
 - `app/page.tsx`: Next.js App Router dashboard with issues, analysis, customer
   review, and customer management
+- `README.md`: direct Gmail OAuth setup, refresh-token guidance, and optional
+  runtime variables
 
 ## Constraints
 
 - Gmail authentication is expected to happen through the Codex Gmail connector
   in the normal workflow.
 - Direct Gmail OAuth exists only as an advanced adapter for standalone local
-  runs.
+  runs. Its required values are `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and
+  `GOOGLE_REFRESH_TOKEN`; `CUSTOMER_EMAIL_ASSIST_OPERATOR_EMAIL` is optional in
+  code but recommended for duplicate-send protection.
 - Attachments and inline images are ignored in v1.
 - The dashboard is single-operator and local-machine oriented.
 - `import-prepared-batch` uses deterministic fallback understanding and drafting

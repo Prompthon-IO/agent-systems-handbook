@@ -77,7 +77,10 @@ describe("DashboardClient", () => {
           const payload = JSON.parse(String(init.body)) as { action?: string };
           return new Response(
             JSON.stringify({
-              ok: payload.action === "send_approved",
+              ok:
+                payload.action === "send_approved" ||
+                payload.action === "queue_send" ||
+                payload.action === "revoke_send_approval",
               queued: payload.action === "queue_send",
               sent: payload.action === "send_approved",
               manuallyResolved: false,
@@ -205,7 +208,8 @@ describe("DashboardClient", () => {
     render(<DashboardClient />);
 
     expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
-    expect(screen.getByText("Connector")).toBeInTheDocument();
+    expect(screen.getByLabelText("Gmail connector")).toBeInTheDocument();
+    expect(screen.getByText("OAuth")).toBeInTheDocument();
 
     const countCalls = (matcher: (url: string) => boolean) =>
       fetchMock.mock.calls.filter(([input]) => matcher(typeof input === "string" ? input : input.toString())).length;
@@ -260,7 +264,7 @@ describe("DashboardClient", () => {
     vi.useRealTimers();
   });
 
-  it("executes connector send from the drawer after the countdown expires", async () => {
+  it("executes OAuth send from the drawer after the countdown expires", async () => {
     render(<DashboardClient />);
 
     expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
@@ -279,6 +283,37 @@ describe("DashboardClient", () => {
         body: JSON.stringify({
           draftReplyHtml: "<p>Draft reply</p>",
           action: "send_approved",
+        }),
+      }),
+    );
+
+    vi.useRealTimers();
+  });
+
+  it("queues connector send when the Gmail connector switch is enabled", async () => {
+    render(<DashboardClient />);
+
+    expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
+    fireEvent.click(screen.getByLabelText("Gmail connector"));
+    expect(screen.getByText("Connector")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("Wrong item received"));
+    vi.useFakeTimers();
+    fireEvent.click(screen.getByRole("button", { name: "Approve for Connector" }));
+    expect(screen.getAllByText(/Queuing for connector in \d+s\./).length).toBeGreaterThan(0);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5000);
+    });
+    await Promise.resolve();
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      "/api/issues/1",
+      expect.objectContaining({
+        method: "PATCH",
+        body: JSON.stringify({
+          draftReplyHtml: "<p>Draft reply</p>",
+          action: "queue_send",
         }),
       }),
     );
