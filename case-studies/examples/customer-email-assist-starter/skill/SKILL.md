@@ -85,8 +85,9 @@ tsx scripts/customer-email-assist.ts render-save-drafts --input /tmp/draft-field
      - `draftFields.signoff`
 8. Save that JSON and run `render-save-drafts --input <file>`.
 9. In the dashboard, let the user edit the rendered draft, approve send with
-   the undo countdown, mark resolved, approve pending customers, ignore
-   customers, or update customer descriptions.
+   the undo countdown, cancel approval for still-queued replies, mark
+   resolved, approve pending customers, ignore customers, or update customer
+   descriptions.
 10. For `approved_to_send` rows that are waiting on connector mode, use the
     Codex Gmail connector to create or send the reply, then mark the issue
     resolved.

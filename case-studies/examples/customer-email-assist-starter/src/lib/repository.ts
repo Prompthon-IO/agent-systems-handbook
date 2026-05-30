@@ -425,7 +425,7 @@ export function updateIssue(
   id: number,
   input: {
     draftReplyHtml?: string;
-    action?: "approve_to_send" | "mark_resolved";
+    action?: "approve_to_send" | "mark_resolved" | "revoke_send_approval";
   },
 ): void {
   const existing = db
@@ -476,6 +476,18 @@ export function updateIssue(
         `,
       ).run(timestamp, timestamp, existing.customer_id);
     }
+  }
+
+  if (input.action === "revoke_send_approval") {
+    db.prepare(
+      `
+        UPDATE issues
+        SET issue_status = 'draft_ready',
+            approved_at = NULL,
+            last_synced_at = ?
+        WHERE id = ?
+      `,
+    ).run(timestamp, id);
   }
 
   if (input.action === "mark_resolved") {

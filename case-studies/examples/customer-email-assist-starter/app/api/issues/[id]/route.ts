@@ -22,7 +22,12 @@ export async function PATCH(
   const { id } = await context.params;
   const body = (await request.json()) as {
     draftReplyHtml?: string;
-    action?: "approve_to_send" | "mark_resolved" | "queue_send" | "send_approved";
+    action?:
+      | "approve_to_send"
+      | "mark_resolved"
+      | "queue_send"
+      | "send_approved"
+      | "revoke_send_approval";
   };
   const db = openDatabase();
   if (body.action === "queue_send") {

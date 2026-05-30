@@ -6,6 +6,7 @@ import { DashboardClient } from "@/components/dashboard-client";
 const originalFetch = global.fetch;
 
 describe("DashboardClient", () => {
+  let issueStatusResponse: string;
   let reviewQueueResponse: {
     items: Array<{
       id: number;
@@ -36,6 +37,7 @@ describe("DashboardClient", () => {
   };
 
   beforeEach(() => {
+    issueStatusResponse = "draft_ready";
     reviewQueueResponse = {
       items: [],
       total: 0,
@@ -94,7 +96,7 @@ describe("DashboardClient", () => {
                 summary: "Wrong item received",
                 urgency: "normal",
                 actionSuggestion: "send_reply",
-                issueStatus: "draft_ready",
+                issueStatus: issueStatusResponse,
                 receivedAt: "2026-05-30T12:00:00Z",
                 originalMessageText: "The wrong item was delivered.",
                 draftReplyHtml: "<p>Draft reply</p>",
@@ -282,6 +284,30 @@ describe("DashboardClient", () => {
     );
 
     vi.useRealTimers();
+  });
+
+  it("does not allow an approved issue to be approved again", async () => {
+    issueStatusResponse = "approved_to_send";
+    render(<DashboardClient />);
+
+    expect(await screen.findByText("Wrong item received")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Wrong item received"));
+
+    expect(await within(screen.getByRole("dialog")).findByText("Approved to send")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Approved to Send" })).toBeDisabled();
+    expect(screen.queryByRole("button", { name: "Approve & Send" })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Cancel Approval" })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Cancel Approval" }));
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith(
+        "/api/issues/1",
+        expect.objectContaining({
+          method: "PATCH",
+          body: JSON.stringify({ action: "revoke_send_approval" }),
+        }),
+      );
+    });
   });
 
   it("shows a customer review button only when pending review customers exist and opens the drawer", async () => {

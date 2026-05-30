@@ -9,6 +9,7 @@ import {
   listCustomers,
   listIssues,
   reviewCustomer,
+  updateIssue,
   upsertIssueRecord,
 } from "@/lib/repository";
 
@@ -150,5 +151,36 @@ describe("repository queries", () => {
       "ignored@example.com",
       "approved@example.com",
     ]);
+  });
+
+  it("revokes send approval back to draft review", () => {
+    const db = openDatabase(dbPath);
+    db.exec("DELETE FROM issues; DELETE FROM customers;");
+    const customer = createCustomer(db, {
+      email: "approved@example.com",
+      displayName: "Approved",
+      description: "",
+      status: "approved",
+    });
+    const issueId = upsertIssueRecord(db, {
+      gmailThreadId: "thread-approved",
+      gmailLastInboundMessageId: "msg-approved",
+      customerId: customer.id,
+      receivedAt: "2026-05-30T12:00:00Z",
+      classification: "query",
+      summary: "Question",
+      urgency: "normal",
+      originalMessageText: "Question body",
+      actionSuggestion: "send_reply",
+      issueStatus: "approved_to_send",
+    });
+
+    updateIssue(db, issueId, { action: "revoke_send_approval" });
+
+    const row = db
+      .prepare("SELECT issue_status, approved_at FROM issues WHERE id = ?")
+      .get(issueId) as { issue_status: string; approved_at: string | null };
+    expect(row.issue_status).toBe("draft_ready");
+    expect(row.approved_at).toBeNull();
   });
 });

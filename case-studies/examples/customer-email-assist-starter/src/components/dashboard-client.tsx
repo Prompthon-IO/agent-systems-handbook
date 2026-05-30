@@ -411,7 +411,12 @@ export function DashboardClient() {
   async function patchIssue(
     issueId: number,
     body: {
-      action?: "approve_to_send" | "mark_resolved" | "queue_send" | "send_approved";
+      action?:
+        | "approve_to_send"
+        | "mark_resolved"
+        | "queue_send"
+        | "send_approved"
+        | "revoke_send_approval";
       draftReplyHtml?: string;
     },
   ) {
@@ -575,7 +580,7 @@ export function DashboardClient() {
       issueId: record.id,
       label: `Reply to ${record.customerName || record.customerEmail}`,
       draftHtml: nextDraftHtml,
-      expiresAt: Date.now() + ACTION_DELAY_MS,
+      expiresAt: pendingNow + ACTION_DELAY_MS,
       previousStatus: record.issueStatus,
     };
     pendingSendRef.current = scheduled;
@@ -605,6 +610,42 @@ export function DashboardClient() {
           setIssueStatusLocally(record.id, "sync_error");
         });
     }, ACTION_DELAY_MS);
+  }
+
+  async function revokeIssueSendApproval(record: IssueItem) {
+    await patchIssue(record.id, { action: "revoke_send_approval" });
+    setIssueStatusLocally(record.id, "draft_ready");
+  }
+
+  function renderIssueSendAction(record: IssueItem) {
+    if (pendingSend?.issueId === record.id) {
+      return (
+        <Button type="primary" onClick={() => queueIssueSend(record, draftHtml)}>
+          Cancel Send
+        </Button>
+      );
+    }
+
+    if (record.issueStatus === "approved_to_send") {
+      return (
+        <>
+          <Button type="primary" disabled>
+            Approved to Send
+          </Button>
+          <Button onClick={() => void revokeIssueSendApproval(record)}>Cancel Approval</Button>
+        </>
+      );
+    }
+
+    if (record.issueStatus === "resolved") {
+      return <Button disabled>Resolved</Button>;
+    }
+
+    return (
+      <Button type="primary" onClick={() => queueIssueSend(record, draftHtml)}>
+        Approve & Send
+      </Button>
+    );
   }
 
   const issueColumns = [
@@ -996,12 +1037,7 @@ export function DashboardClient() {
           selectedIssue ? (
             <Space>
               <Button onClick={() => void patchIssue(selectedIssue.id, { draftReplyHtml: draftHtml })}>Save Draft</Button>
-              <Button
-                type="primary"
-                onClick={() => queueIssueSend(selectedIssue, draftHtml)}
-              >
-                {pendingSend?.issueId === selectedIssue.id ? "Cancel Send" : "Approve & Send"}
-              </Button>
+              {renderIssueSendAction(selectedIssue)}
             </Space>
           ) : null
         }
@@ -1022,6 +1058,15 @@ export function DashboardClient() {
                     </Button>
                   </Space>
                 }
+              />
+            ) : null}
+            {selectedIssue.issueStatus === "approved_to_send" && pendingSend?.issueId !== selectedIssue.id ? (
+              <Alert
+                className="pending-action-banner"
+                type="info"
+                showIcon
+                title="Approved to send"
+                description="This issue is queued for the Gmail send runner. It cannot be approved again; cancel approval if you need to return it to draft review."
               />
             ) : null}
             <Card size="small" title="Issue Summary">

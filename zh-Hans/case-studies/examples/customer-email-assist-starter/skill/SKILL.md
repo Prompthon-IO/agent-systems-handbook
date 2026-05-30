@@ -81,7 +81,8 @@ tsx scripts/customer-email-assist.ts render-save-drafts --input /tmp/draft-field
      - `draftFields.signoff`
 8. 保存该 JSON，并运行 `render-save-drafts --input <file>`。
 9. 在 dashboard 中让用户编辑已渲染的草稿、通过带 undo 倒计时的方式批准
-   发送、标记完成、批准待审核客户、忽略客户，或更新客户描述。
+   发送、对仍在排队的回复取消批准、标记完成、批准待审核客户、忽略客户，
+   或更新客户描述。
 10. 对于 connector 模式下仍处于 `approved_to_send` 的 issue，使用 Codex
     Gmail connector 创建或发送回复，然后把 issue 标记为 resolved。
 
