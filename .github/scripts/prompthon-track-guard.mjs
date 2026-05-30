@@ -96,6 +96,12 @@ function failureComment({ allowedPaths, invalidFiles, track }) {
   ].join("\n");
 }
 
+function isReleasePullRequest(pullRequest, repo) {
+  return pullRequest.base?.ref === "main" &&
+    pullRequest.head?.ref === "develop" &&
+    pullRequest.head?.repo?.full_name === repo;
+}
+
 async function main() {
   const dryRun = process.argv.includes("--dry-run");
   const event = readEventPayload();
@@ -103,6 +109,14 @@ async function main() {
   const repo = event.repository?.full_name || process.env.GITHUB_REPOSITORY;
   if (!pullRequest?.number || !repo) {
     console.log(JSON.stringify({ skipped: true, reason: "missing_pull_request_payload" }, null, 2));
+    return;
+  }
+
+  if (isReleasePullRequest(pullRequest, repo)) {
+    console.log(JSON.stringify({
+      skipped: true,
+      reason: "develop_to_main_release_pr",
+    }, null, 2));
     return;
   }
 
