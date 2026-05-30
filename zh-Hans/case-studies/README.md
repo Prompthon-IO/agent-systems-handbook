@@ -26,3 +26,4 @@
 
 - [Deep Research Agent Starter](./examples/deep-research-agent-starter/index.mdx)：一个用于规划、证据收集和带引用输出的小型项目脚手架。
 - [Customer Support Email Agent Starter](./examples/customer-support-email-agent-starter/index.mdx)：一个用于客户邮件分流和草拟基于政策回复的小型本地文档工作流。
+- [Customer Email Assist Starter](./examples/customer-email-assist-starter/index.mdx)：一个用于 Gmail 同步、SQLite 问题队列、确定性审核流程和基于政策回复的接入邮箱 dashboard 入门项目。

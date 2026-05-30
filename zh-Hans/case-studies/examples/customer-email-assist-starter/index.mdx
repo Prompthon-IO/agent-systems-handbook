@@ -1,0 +1,120 @@
+---
+title: "Customer Email Assist 入门项目"
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 摘要
+
+这个入门项目把客户支持案例研究扩展成一个接入邮箱的本地工作流：
+同步带标签的 Gmail 线程，先用确定性规则分类客户问题，再把它们写入
+SQLite，并通过本地 dashboard 审阅或发送回复。
+
+## 状态
+
+`starter`
+
+源代码：[case-studies/examples/customer-email-assist-starter](https://github.com/Prompthon-IO/agent-systems-handbook/tree/main/case-studies/examples/customer-email-assist-starter)
+
+## 存在原因
+
+之前的 [Customer Support Email Agent Starter](/zh-Hans/case-studies/examples/customer-support-email-agent-starter)
+展示了更安全的仅草稿边界。这个后续入门项目保持同样的本地优先姿态，
+但加入了团队下一步通常需要的运行面：Gmail 同步、本地 SQLite 状态、
+客户审核队列，以及一个确定性的 dashboard。
+
+## 相关实验室页面
+
+- [Customer Support Agents](/zh-Hans/case-studies/customer-support-agents)
+- [Customer Support Email Agent Starter](/zh-Hans/case-studies/examples/customer-support-email-agent-starter)
+- [Case Studies Overview](/zh-Hans/case-studies)
+
+## 文件夹结构
+
+```text
+customer-email-assist-starter/
+├── app/
+│   ├── api/
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── index.mdx
+├── package.json
+├── scripts/
+│   └── customer-email-assist.ts
+├── skill/
+│   └── SKILL.md
+└── src/
+    ├── components/
+    ├── lib/
+    └── test/
+```
+
+## 快速开始
+
+安装依赖并启动本地 dashboard：
+
+```bash
+npm install
+npm run setup-local
+npm run dev
+```
+
+用于确定性同步的命令：
+
+```bash
+npm run sync
+tsx scripts/customer-email-assist.ts prepare-inbound-batch --out /tmp/prepared-inbound.json
+tsx scripts/customer-email-assist.ts apply-send-queue
+```
+
+对于 connector 辅助的低 token 路径，优先把批次写入文件，而不是把大段 JSON
+直接打印到 stdout：
+
+```bash
+tsx scripts/customer-email-assist.ts prepare-draft-batch --out /tmp/draft-batch.json
+```
+
+## 最小 token 边界
+
+这个入门项目专门为了尽量减少模型使用而设计。
+
+- 硬逻辑负责 Gmail 抓取、HTML 清洗、签名裁剪、引用历史移除、客户匹配、
+  SQLite 持久化、分析统计和发送队列执行。
+- 预期的 skill 工作流只为两个 JSON-only 表面保留模型使用：
+  - 理解清洗后的客户来信
+  - 生成回复模板字段 JSON
+- 最终渲染出的回复文本和 HTML 在本地通过固定模板生成，而不是依赖自由
+  文本模型输出。
+
+## 包含的示例文件
+
+- `skill/SKILL.md`：只为两个模型步骤保留 token 的 Codex 工作流说明
+- `src/lib/email-processing.ts`：HTML 清洗、引用历史裁剪和启发式分类辅助工具
+- `src/lib/repository.ts`：issues、customers、analytics 和审核动作的 SQLite 查询
+- `src/lib/sync.ts`：确定性的发送队列、来信批次、草稿批次和草稿渲染协调逻辑
+- `app/page.tsx`：包含 issues、analysis、customer review 和 customer CRUD 标签页的 Next.js dashboard
+
+## 约束
+
+- Gmail 集成需要真实的 OAuth 环境变量。
+- v1 忽略附件和内联图片。
+- 该 dashboard 面向单操作员和本地机器。
+- `npm run sync` 使用确定性的理解和起草兜底逻辑，因此即使没有实时模型调用也能运行。
+- `npm run setup-local` 会把本地 SQLite 数据库重置为空状态。
+
+## 验证
+
+- `npm run lint`
+- `npm run test`
+- `npm run build`
+
+## 后续步骤
+
+- 在 `prepare-inbound-batch` 与 `persist-understanding` 之间接入真实的
+  模型 `understand` 步骤。
+- 在 `prepare-draft-batch` 与 `render-save-drafts` 之间接入真实的模型
+  `draft-fields` 步骤。
+- 增加一个基于固定样本的 Gmail 线程回放测试套件。

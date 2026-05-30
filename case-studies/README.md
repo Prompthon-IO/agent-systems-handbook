@@ -35,3 +35,6 @@ modes.
 - [Customer Support Email Agent Starter](./examples/customer-support-email-agent-starter/index.mdx):
   a small local-document workflow for triaging customer emails and drafting
   policy-grounded replies.
+- [Customer Email Assist Starter](./examples/customer-email-assist-starter/index.mdx):
+  a mailbox-integrated dashboard starter for Gmail sync, SQLite issue queues,
+  deterministic review flows, and policy-grounded replies.

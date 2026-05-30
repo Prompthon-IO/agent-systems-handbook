@@ -144,17 +144,18 @@ Practical default:
 - add mailbox integration only after the policy-grounded draft loop is reliable
 - add auto-send only for low-risk, high-confidence cases with clear audit logs
 
-## Starter Project
+## Starter Projects
 
-The accompanying starter lives at
-[Customer Support Email Agent Starter](/case-studies/examples/customer-support-email-agent-starter).
-It demonstrates a small standard-library workflow for:
+Two starter projects sit on this case-study path:
 
-- loading a customer email from a local path
-- loading a support policy from a local path
-- classifying complaints, queries, refund requests, and handoff cases
-- drafting a safe policy-grounded reply
-- marking uncertain or sensitive cases for human review
+- [Customer Support Email Agent Starter](/case-studies/examples/customer-support-email-agent-starter):
+  a smaller draft-only workflow for loading a local email, loading a local
+  policy, classifying complaints, queries, refund requests, and handoff cases,
+  then drafting a safe policy-grounded reply.
+- [Customer Email Assist Starter](/case-studies/examples/customer-email-assist-starter):
+  a mailbox-integrated follow-on starter for Gmail sync, local SQLite issue
+  queues, customer review, deterministic send-queue execution, and a dashboard
+  for editing and approving replies.
 
 ## Citations
 
