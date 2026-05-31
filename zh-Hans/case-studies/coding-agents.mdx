@@ -1,16 +1,22 @@
 ---
 title: 编码智能体
 owner: Prompthon IO
-updated: 2026-05-03
+updated: 2026-05-31
 depth: intermediate
 region_tags:
   - global
 coding_required: optional
 external_readings:
-  - title: Introducing Codex
-    url: https://openai.com/index/introducing-codex/
-  - title: Codex CLI documentation
-    url: https://developers.openai.com/codex/cli
+  - title: Unrolling the Codex agent loop
+    url: https://openai.com/index/unrolling-the-codex-agent-loop
+  - title: Claude Code overview
+    url: https://docs.anthropic.com/en/docs/claude-code/overview
+  - title: Claude Code settings
+    url: https://docs.anthropic.com/en/docs/claude-code/settings
+  - title: About GitHub Copilot coding agent
+    url: https://docs.github.com/en/copilot/concepts/about-copilot-coding-agent
+  - title: Adding repository custom instructions for GitHub Copilot
+    url: https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot
   - title: openai/codex repository
     url: https://github.com/openai/codex
 status: draft
@@ -25,9 +31,9 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 编码智能体把一个软件任务变成有边界的实现循环：检查仓库、提出改动、
 编辑正确文件、运行检查，并交付带验证说明的 diff。
 
-当前的产品信号已经足够强，不应再把它视为“带聊天框的补全”。OpenAI 对
-Codex 的当前定位同时覆盖云端软件工程智能体和本地终端编码智能体，这让
-团队和个人构建者都能更清楚地理解这类工作流。
+当前的产品信号已经足够强，不应再把它视为“带聊天框的补全”。这个产品类
+别现在已经横跨云端任务运行器、本地终端智能体，以及 GitHub 原生的后台
+PR worker，因此运行时边界比单纯的模型品牌更重要。
 
 ## 为什么这很重要
 
@@ -83,15 +89,32 @@ flowchart LR
 - 当任务依赖当前文档或运行中的 UI 时的浏览器或网页访问
 - 面向审批、网络访问和破坏性命令的 guardrails
 
-OpenAI 当前的 Codex 表面比很多早期编码助手更清楚地暴露了这条分工线：
+OpenAI、Anthropic 和 GitHub 现在都在暴露同一类基础系统形态，只是运行边
+界不同：
 
-- 云端 Codex 将软件任务描述为各自独立的运行，每次运行都在 sandbox 环境
-  中并预装仓库
-- 开源的 Codex CLI 则把本地路径描述为一个终端编码智能体，具备 approval
-  modes、MCP 访问、web search 和 cloud-task handoff
+- OpenAI Codex 同时覆盖云端任务与本地 Codex CLI，因此团队可以在隔离运行
+  与真实本地仓库会话之间做选择
+- Claude Code 把编码工作描述为一个终端原生智能体，带有项目记忆、权限、
+  MCP 访问和可选 hooks
+- GitHub Copilot coding agent 则把工作描述为 GitHub 托管基础设施中的后台
+  issue 或 PR 执行器，并支持仓库指令、MCP 扩展和工作流 hooks
 
 因此，编码智能体更适合被教授为一条端到端系统循环，而不只是模型输出质
 量问题。
+
+## 指令面与运行时边界
+
+最值得比较的不是模型质量，而是每个编码智能体如何把指令、工具和审批边
+界讲清楚。
+
+| 产品形态 | 主要运行时 | 持久指令面 | 工具扩展面 | 主要信任边界 |
+| --- | --- | --- | --- | --- |
+| OpenAI Codex | 本地 CLI 加云端任务运行器 | `AGENTS.md` 与 Codex 配置驱动指令 | 内建工具加 MCP | 本地审批策略或云端 sandbox 策略 |
+| Claude Code | 本地终端会话或 GitHub Action | `CLAUDE.md` 加 `.claude/settings.json` | MCP 加 hooks | 默认只读，额外能力需显式授权 |
+| GitHub Copilot coding agent | GitHub 托管后台环境 | `AGENTS.md`、`.github/copilot-instructions.md` 与路径级指令文件 | MCP 加 hooks | 仓库设置加短生命周期 GitHub 执行环境 |
+
+这也是对构建者最可复用的经验：指令文件不是一个小型 prompt 技巧，而是运
+行时契约的一部分。
 
 ## Guardrails
 
@@ -107,6 +130,13 @@ OpenAI 当前的 Codex 表面比很多早期编码助手更清楚地暴露了这
 如果环境同时支持本地执行和云端执行，就要把信任边界讲清楚。本地执行能看
 到开发者真实机器状态，但也会继承更多 secrets 与工作站风险。云端 sandbox
 更容易隔离，但仍然需要明确的仓库、密钥和网络策略。
+
+针对编码智能体的评审还应当继续追问：
+
+- 这个任务到底加载了哪些指令文件
+- hook 或审批策略能否在高风险命令运行前阻止它
+- MCP 访问是否比完整 shell 或文件系统权限更窄
+- 验证路径是否足够自动化，能拦住“说得很自信但改错了”的结果
 
 ## 权衡
 
@@ -125,15 +155,32 @@ OpenAI 当前的 Codex 表面比很多早期编码助手更清楚地暴露了这
 
 ## 当前产品信号
 
-本次手册运行的当前七日信号是 `OpenAI Codex`。这个词先来自已存储的文章覆
-盖，然后再用当前的一手文档和公开 GitHub 仓库完成核实。
+本次手册运行的七日文章信号是 `coding agents`，而不是某一个单独的供应商
+ 发布。
 
-可复用的经验比某一家供应商更广：
+已存储文章的证据主要聚到三个实际问题上：
 
-- 编码智能体正在变成一个独立产品类别
-- 最有效的形态是 repository-first、verification-heavy、approval-aware
-- 团队应把它们作为带有 memory、tools、policies 和 review artifacts 的
-  智能体系统来评估，而不是把它们当作纯 prompt UX
+- “vibe coding” 这类编码方式正在通过 Google AI Studio 一类工具进入主
+  流视野
+- prompt injection 之类的 hostile inputs 会直接破坏编码智能体循环
+- 团队越来越把后台编码智能体运行视为可计量、可评审的工程工作流，而不是
+  一个聊天玩具
+
+当前的一手官方验证进一步强化了更大的类别结论：
+
+- OpenAI 把 Codex 文档化为一个横跨 Codex CLI、Codex Cloud 与 Codex VS
+  Code extension 的产品套件
+- Anthropic 把 Claude Code 文档化为一个带项目记忆、权限设置与自动化 hooks
+  的终端编码智能体
+- GitHub 把 Copilot coding agent 文档化为一个可以接 issue 或 PR 工作、
+  应用仓库指令，并使用 MCP 与 hooks 的后台 worker
+
+因此，比 5 月上旬更清楚的可复用结论是：
+
+- 编码智能体已经是一个独立的智能体类别，而不是“更强一点的自动补全”
+- `AGENTS.md`、`CLAUDE.md` 与仓库 instruction files 已经成为一等运行面
+- 最有效的产品形态是 repository-first、verification-heavy、
+  approval-aware，并且明确说明智能体到底运行在哪里
 
 ## 入门方向
 
@@ -147,23 +194,34 @@ OpenAI 当前的 Codex 表面比很多早期编码助手更清楚地暴露了这
   证和轨迹循环
 - [上下文工程](/zh-Hans/systems/context-engineering)，理解 instruction、
   state 和 retrieval 边界
+- [本地智能体工具源图](/zh-Hans/contributor-kit/reference-notes/local-agent-tooling-source-map)，理解
+  roots、resources 与本地智能体安全边界
 - [案例研究总览](/zh-Hans/case-studies)，对照 deep research 与客户支持
   等其他产品形态
 
 ## 引用
 
-- 官方来源：[Introducing Codex](https://openai.com/index/introducing-codex/)
-- 官方来源：[Codex CLI documentation](https://developers.openai.com/codex/cli)
+- 官方来源：[Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop)
+- 官方来源：[Claude Code overview](https://docs.anthropic.com/en/docs/claude-code/overview)
+- 官方来源：[Claude Code settings](https://docs.anthropic.com/en/docs/claude-code/settings)
+- 官方来源：[About GitHub Copilot coding agent](https://docs.github.com/en/copilot/concepts/about-copilot-coding-agent)
+- 官方来源：[Adding repository custom instructions for GitHub Copilot](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot)
+- 官方来源：[Extending GitHub Copilot cloud agent with MCP](https://docs.github.com/en/copilot/how-tos/agents/copilot-coding-agent/extending-copilot-coding-agent-with-mcp)
 - 高信号仓库：[openai/codex](https://github.com/openai/codex)
+- 高信号仓库：[anthropics/claude-code-action](https://github.com/anthropics/claude-code-action)
 
 ## 延伸阅读
 
 - [Codex 桌面智能体设置](/zh-Hans/workshops/desktop-agents/codex)
 - [评估与可观测性](/zh-Hans/systems/evaluation-and-observability)
 - [上下文工程](/zh-Hans/systems/context-engineering)
+- [本地智能体工具源图](/zh-Hans/contributor-kit/reference-notes/local-agent-tooling-source-map)
 - [案例研究总览](/zh-Hans/case-studies)
 
 ## 更新日志
 
+- 2026-05-31：把页面从较早的单一供应商 Codex 快照刷新为更广义的编码智能
+  体类别说明，补上 OpenAI、Anthropic 与 GitHub 在 instruction files、
+  权限、MCP、hooks 与验证边界上的对照。
 - 2026-05-03：新增一个 repo 原生的编码智能体案例研究，用当前 OpenAI
   Codex 信号锚定，并与仓库现有的 Codex 工作坊互相链接。
