@@ -121,14 +121,33 @@
               {
                 "group": "Workshop materials",
                 "pages": [
-                  "workshops/openclaw/index",
-                  "workshops/openclaw/install-windows",
-                  "workshops/openclaw/install-mac",
-                  "workshops/openclaw/accounts-and-onboarding",
-                  "workshops/openclaw/commands",
-                  "workshops/desktop-agents/codex",
-                  "workshops/desktop-agents/claude-code",
-                  "workshops/skills-introduction"
+                  {
+                    "group": "OpenClaw",
+                    "root": "workshops/openclaw/index",
+                    "pages": [
+                      "workshops/openclaw/install-windows",
+                      "workshops/openclaw/install-mac",
+                      "workshops/openclaw/accounts-and-onboarding",
+                      "workshops/openclaw/commands"
+                    ]
+                  },
+                  {
+                    "group": "Codex",
+                    "root": "workshops/codex/index",
+                    "pages": [
+                      "workshops/codex/install-windows",
+                      "workshops/codex/install-mac",
+                      "workshops/codex/github-and-repository"
+                    ]
+                  },
+                  {
+                    "group": "Shared",
+                    "pages": [
+                      "workshops/desktop-agents/claude-code",
+                      "workshops/skills-introduction",
+                      "workshops/gmail-oauth-setup"
+                    ]
+                  }
                 ]
               }
             ]
@@ -343,14 +362,32 @@
               {
                 "group": "工作坊材料",
                 "pages": [
-                  "zh-Hans/workshops/openclaw/index",
-                  "zh-Hans/workshops/openclaw/install-windows",
-                  "zh-Hans/workshops/openclaw/install-mac",
-                  "zh-Hans/workshops/openclaw/accounts-and-onboarding",
-                  "zh-Hans/workshops/openclaw/commands",
-                  "zh-Hans/workshops/desktop-agents/codex",
-                  "zh-Hans/workshops/desktop-agents/claude-code",
-                  "zh-Hans/workshops/skills-introduction"
+                  {
+                    "group": "OpenClaw",
+                    "root": "zh-Hans/workshops/openclaw/index",
+                    "pages": [
+                      "zh-Hans/workshops/openclaw/install-windows",
+                      "zh-Hans/workshops/openclaw/install-mac",
+                      "zh-Hans/workshops/openclaw/accounts-and-onboarding",
+                      "zh-Hans/workshops/openclaw/commands"
+                    ]
+                  },
+                  {
+                    "group": "Codex",
+                    "root": "zh-Hans/workshops/codex/index",
+                    "pages": [
+                      "zh-Hans/workshops/codex/install-windows",
+                      "zh-Hans/workshops/codex/install-mac",
+                      "zh-Hans/workshops/codex/github-and-repository"
+                    ]
+                  },
+                  {
+                    "group": "共享材料",
+                    "pages": [
+                      "zh-Hans/workshops/desktop-agents/claude-code",
+                      "zh-Hans/workshops/skills-introduction"
+                    ]
+                  }
                 ]
               }
             ]

@@ -1,0 +1,68 @@
+---
+title: "Codex 工作坊 GitHub 与仓库设置"
+description: "创建或登录 GitHub，安装 GitHub Desktop，fork handbook，并把你的 fork 克隆到本地。"
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+在完成 Windows 或 Mac 设置页后，使用本页把流程收束到一个 Codex 可以立刻打
+开的本地 handbook 仓库。
+
+<Warning>
+  不要把 GitHub 密码、浏览器会话、2FA 验证码或 personal access token 放
+  进截图和公开笔记。
+</Warning>
+
+## 创建或确认你的 GitHub 账号
+
+1. 打开 [github.com](https://github.com/)，创建或登录你的个人账号。
+2. 在工作坊开始前完成邮箱验证和必要的 2FA 设置。
+
+## 安装并登录 GitHub Desktop
+
+1. 下载 [GitHub Desktop](https://desktop.github.com/)。
+2. 在你的 Mac 或 Windows 机器上完成安装。
+3. 打开 GitHub Desktop，并通过浏览器流程登录 GitHub。
+
+## Fork Handbook 仓库
+
+这条工作坊路线即使只打算本地阅读仓库，也优先使用 fork-first 工作流。
+
+1. 在浏览器中打开
+   [Prompthon-IO/agent-systems-handbook](https://github.com/Prompthon-IO/agent-systems-handbook)。
+2. 点击 `Fork`，在你自己的 GitHub 账号下创建 fork。
+3. 等 fork 准备好，例如
+   `https://github.com/<your-username>/agent-systems-handbook`。
+
+## 用 GitHub Desktop 克隆你的 Fork
+
+1. 在 GitHub Desktop 中打开 `File` 菜单，选择 `Clone Repository`。
+2. 使用 `GitHub.com` 标签页选择你的 fork，或者切到 `URL` 标签页并粘贴你
+   的 fork URL。
+3. 选择一个本地路径，例如 `~/Projects/agent-systems-handbook` 或
+   `C:\Users\your-name\Projects\agent-systems-handbook`。
+4. 点击 `Clone`。
+5. 克隆完成后，如果你想先检查本地文件，可以直接用 GitHub Desktop 打开
+   Finder 或 File Explorer。
+
+## 在 Codex 中打开这个 Clone
+
+1. 在 Codex 中选择刚刚克隆好的本地文件夹。
+2. 让会话始终停留在这个仓库根目录。
+3. 可以先从这样一个范围明确的提示开始：
+   - `Summarize the workshops directory before changing anything.`
+   - `Find all links pointing to the current Codex workshop route.`
+
+## 工作坊偏好
+
+GitHub Desktop 也可以在你第一次向无写权限仓库 push 时提示你 fork。对这个
+handbook 工作坊来说，我们更推荐先 fork，再克隆 fork，这样一开始就把所有权
+边界说清楚。
+
+## 参考
+
+- [Using Codex with your ChatGPT plan](https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan)
+- [GitHub Desktop setup docs](https://docs.github.com/en/desktop/installing-and-authenticating-to-github-desktop/setting-up-github-desktop)
+- [Cloning and forking repositories from GitHub Desktop](https://docs.github.com/en/desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop)

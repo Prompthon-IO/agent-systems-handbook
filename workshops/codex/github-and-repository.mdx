@@ -1,0 +1,71 @@
+---
+title: "Codex Workshop GitHub And Repository Setup"
+description: "Create or sign in to GitHub, install GitHub Desktop, fork the handbook, and clone your fork locally."
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+Use this page after the Windows or Mac setup page. The goal is to end with a
+local handbook repo that Codex can open immediately.
+
+<Warning>
+  Keep GitHub passwords, browser sessions, 2FA codes, and personal access
+  tokens out of screenshots and public notes.
+</Warning>
+
+## Create Or Confirm Your GitHub Account
+
+1. Go to [github.com](https://github.com/) and create or sign in to your
+   personal account.
+2. Verify your email address and finish any required 2FA steps before the
+   workshop.
+
+## Install And Sign In To GitHub Desktop
+
+1. Download [GitHub Desktop](https://desktop.github.com/).
+2. Install it on your Mac or Windows machine.
+3. Open GitHub Desktop and sign in to GitHub through the browser flow.
+
+## Fork The Handbook Repository
+
+For this workshop, prefer a fork-first workflow even if you only plan to read
+the repo today.
+
+1. In your browser, open
+   [Prompthon-IO/agent-systems-handbook](https://github.com/Prompthon-IO/agent-systems-handbook).
+2. Click `Fork` and create a fork under your own GitHub account.
+3. Wait until your fork is ready, for example
+   `https://github.com/<your-username>/agent-systems-handbook`.
+
+## Clone Your Fork With GitHub Desktop
+
+1. In GitHub Desktop, open the `File` menu and choose `Clone Repository`.
+2. Use the `GitHub.com` tab to pick your fork, or the `URL` tab and paste your
+   fork URL.
+3. Choose a local path such as `~/Projects/agent-systems-handbook` or
+   `C:\Users\your-name\Projects\agent-systems-handbook`.
+4. Click `Clone`.
+5. After the clone finishes, use GitHub Desktop to open the repo in Finder or
+   File Explorer if you want to inspect the local files first.
+
+## Open The Clone In Codex
+
+1. In Codex, choose the local folder you just cloned.
+2. Keep the session rooted at that repository.
+3. Start with a scoped prompt such as:
+   - `Summarize the workshops directory before changing anything.`
+   - `Find all links pointing to the current Codex workshop route.`
+
+## Workshop Preference
+
+GitHub Desktop can also prompt you to fork a repository the first time you push
+to a repo without write access. For this handbook workshop, fork first and then
+clone the fork so the ownership boundary stays obvious from the start.
+
+## Reference
+
+- [Using Codex with your ChatGPT plan](https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan)
+- [GitHub Desktop setup docs](https://docs.github.com/en/desktop/installing-and-authenticating-to-github-desktop/setting-up-github-desktop)
+- [Cloning and forking repositories from GitHub Desktop](https://docs.github.com/en/desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop)
