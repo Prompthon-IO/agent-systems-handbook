@@ -1,7 +1,7 @@
 ---
 title: Coding Agents
 owner: Prompthon IO
-updated: 2026-05-03
+updated: 2026-05-31
 depth: intermediate
 region_tags:
   - global
@@ -11,6 +11,14 @@ external_readings:
     url: https://openai.com/index/introducing-codex/
   - title: Codex CLI documentation
     url: https://developers.openai.com/codex/cli
+  - title: How we contain Claude across products
+    url: https://www.anthropic.com/engineering/how-we-contain-claude
+  - title: Understanding prompt injections
+    url: https://openai.com/safety/prompt-injections/
+  - title: Safety in building agents
+    url: https://developers.openai.com/api/docs/guides/agent-builder-safety
+  - title: MCP security best practices
+    url: https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices
   - title: openai/codex repository
     url: https://github.com/openai/codex
 status: draft
@@ -30,6 +38,11 @@ The current product signal is strong enough to treat this as a real agent shape,
 not just autocomplete with a chat box. OpenAI's Codex positioning now spans a
 cloud software-engineering agent plus a local terminal coding agent, which
 makes the workflow legible for both teams and individual builders.
+
+The newer lesson from this week's source window is that coding-agent quality is
+not only about code generation. It is also about containment: where the agent
+can read, what it can execute, which network paths it can reach, and how much
+untrusted content can flow into its context before a user establishes trust.
 
 ## Why It Matters
 
@@ -97,16 +110,46 @@ coding assistants:
 That is why coding agents should be taught as an end-to-end system loop, not as
 just model output quality.
 
+## Containment Boundaries
+
+Recent first-party guidance makes the boundary design more explicit.
+
+- `environment`: use sandboxes, VMs, filesystem boundaries, and egress controls
+  to cap what the agent can reach
+- `model`: use prompts, confirmations, and other safeguards to reduce risky
+  behavior, but do not treat them as a complete defense
+- `external content`: treat repositories, MCP servers, tool output, copied
+  prompts, and fetched pages as untrusted inputs that can carry prompt
+  injections
+
+For coding agents, that means "approval-aware" is not enough on its own.
+Current Anthropic engineering guidance frames containment as the hard cap on
+blast radius across Claude.ai, Claude Code, and Cowork. OpenAI's current safety
+guidance makes the same point from another angle: prompt injection is often
+third-party content entering the agent's context, and the risk can include data
+exfiltration or misaligned tool use. MCP security guidance adds the protocol
+layer lesson that tool and scope grants should stay progressive and
+least-privilege.
+
+The practical takeaway is simple: evaluate a coding agent like a bounded
+runtime, not just a model with shell access.
+
 ## Guardrails
 
 Useful defaults for coding agents:
 
 - start from repository inspection, not instant editing
 - keep the write scope as small as possible
+- keep secrets, host credentials, and unrelated folders outside the visible
+  workspace whenever possible
+- keep network access off by default and elevate it only for the specific task
+  that needs it
 - preserve unrelated working-tree changes
 - require explicit verification before claiming completion
 - keep command output, diffs, and test results visible to the reviewer
 - treat secrets, production credentials, and destructive git commands as separate approvals
+- treat repository content, project-local config, MCP tool output, and fetched
+  web pages as untrusted until the boundary is established
 
 If the environment supports both local and cloud execution, keep the trust
 boundary explicit. Local execution can see the developer's real machine state.
@@ -121,6 +164,9 @@ network policy.
   secrets and workstation risk.
 - Cloud sandboxes isolate runs more cleanly, but they can drift from the exact
   local setup if dependencies or secrets differ.
+- Better models can catch more uncertainty and flawed code, but they do not
+  remove the need for containment when the agent can read untrusted content or
+  call powerful tools.
 - Fast patch generation feels productive, but a slower repo-inspect and verify
   loop usually produces better changes.
 
@@ -132,14 +178,18 @@ Practical default:
 
 ## Current Product Signal
 
-The current seven-day signal for this handbook run was `OpenAI Codex`, drawn
-from stored article coverage and then verified against current first-party docs
-and the public GitHub repository.
+The current seven-day signal for this handbook run was `coding agent
+containment`, refined from stored article coverage around Anthropic's
+containment write-up, Anthropic's Claude Opus 4.8 launch, and a current
+prompt-injection incident aimed at coding workflows.
 
 The reusable lesson is broader than one vendor:
 
 - coding agents are becoming a distinct product category
 - the winning shape is repository-first, verification-heavy, and approval-aware
+- the next differentiation layer is containment: workspace-only writes, scoped
+  network policy, controlled tool grants, and explicit treatment of untrusted
+  content
 - teams should evaluate them as agent systems with memory, tools, policies, and
   review artifacts, not as pure prompt UX
 
@@ -155,6 +205,10 @@ From there, connect this case study to:
   verification and trace loop
 - [Context Engineering](/systems/context-engineering) for instruction, state,
   and retrieval boundaries
+- [Claude Code Desktop Agent Setup](/workshops/desktop-agents/claude-code) for
+  a local coding-agent workflow that makes sandbox and approval choices visible
+- [Local Agent Tooling Source Map](/contributor-kit/reference-notes/local-agent-tooling-source-map)
+  for roots, resources, connectors, and file-grounded boundary design
 - [Case Studies Overview](/case-studies) for adjacent product shapes such as
   deep research and customer support agents
 
@@ -162,17 +216,28 @@ From there, connect this case study to:
 
 - Official source: [Introducing Codex](https://openai.com/index/introducing-codex/)
 - Official source: [Codex CLI documentation](https://developers.openai.com/codex/cli)
+- Official source: [How we contain Claude across products](https://www.anthropic.com/engineering/how-we-contain-claude)
+- Official source: [Understanding prompt injections](https://openai.com/safety/prompt-injections/)
+- Official source: [Safety in building agents](https://developers.openai.com/api/docs/guides/agent-builder-safety)
+- Official source: [MCP security best practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices)
 - High-signal repository: [openai/codex](https://github.com/openai/codex)
+- High-signal repository: [modelcontextprotocol/modelcontextprotocol](https://github.com/modelcontextprotocol/modelcontextprotocol)
+- High-signal repository: [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action)
 
 ## Reading Extensions
 
 - [Codex Desktop Agent Setup](/workshops/desktop-agents/codex)
+- [Claude Code Desktop Agent Setup](/workshops/desktop-agents/claude-code)
 - [Evaluation And Observability](/systems/evaluation-and-observability)
 - [Context Engineering](/systems/context-engineering)
+- [Local Agent Tooling Source Map](/contributor-kit/reference-notes/local-agent-tooling-source-map)
 - [Case Studies Overview](/case-studies)
 
 ## Update Log
 
+- 2026-05-31: Refreshed the case study around coding-agent containment
+  boundaries, prompt-injection risk, and stronger source links across Codex,
+  Claude Code, OpenAI safety guidance, and MCP security guidance.
 - 2026-05-03: Added a repo-native coding-agents case study anchored in the
   current OpenAI Codex signal and linked it to the handbook's existing Codex
   workshop.
