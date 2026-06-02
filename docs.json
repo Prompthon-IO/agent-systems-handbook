@@ -82,6 +82,7 @@
                 "pages": [
                   "ecosystem/index",
                   "ecosystem/agent-frameworks",
+                  "ecosystem/framework-comparison",
                   "ecosystem/agent-platforms-and-low-code-builders"
                 ]
               },
@@ -323,6 +324,7 @@
                 "pages": [
                   "zh-Hans/ecosystem/index",
                   "zh-Hans/ecosystem/agent-frameworks",
+                  "zh-Hans/ecosystem/framework-comparison",
                   "zh-Hans/ecosystem/agent-platforms-and-low-code-builders"
                 ]
               },
