@@ -30,7 +30,8 @@ and operational tradeoffs.
 - [Protocols And Interoperability](./protocols-and-interoperability.mdx): how
   tool access, agent collaboration, and network discovery fit together.
 - [Evaluation And Observability](./evaluation-and-observability.mdx): how to
-  measure capability and explain failures in production-minded agent systems.
+  measure capability, turn written intent into runnable evals, and explain
+  failures in production-minded agent systems.
 
 ## Example starters
 

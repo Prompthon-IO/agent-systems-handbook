@@ -25,7 +25,7 @@
 - [协议与互操作](./protocols-and-interoperability.mdx): 说明工具访问、
   智能体协作和网络发现如何协同工作。
 - [评估与可观测性](./evaluation-and-observability.mdx): 说明如何
-  衡量能力，并解释面向生产的智能体系统中的失败。
+  衡量能力、把书面意图转成可运行评估，并解释面向生产的智能体系统中的失败。
 
 ## 示例 starter
 
