@@ -29,8 +29,9 @@ retrieval, state, routing, retries, and observability. They exist because the
 first demo is often simple, but the second and third feature quickly create
 the same engineering problems again.
 
-The beginner rule is direct: **start with the smallest thing that solves the
-job, then adopt a framework when the missing structure becomes painful.**
+A practical default for beginners is: **start with the smallest thing that
+solves the job, then adopt a framework when the project needs structure that
+is no longer easy to maintain manually.**
 
 ## Why It Matters
 
@@ -45,9 +46,10 @@ when the project needs:
 - **collaboration patterns** where several roles or agents divide the work
 - **observability** so failures can be traced and improved
 
-The trap is adopting the framework before the problem exists. That turns a
-small learning project into dependency management, new vocabulary, and harder
-debugging. The right question is not "which framework is best?" It is:
+A common over-engineering pattern is adopting a framework before the project
+needs one. That can turn a small learning project into dependency management,
+new vocabulary, and more difficult debugging. The right question is not "which
+framework is best?" It is:
 
 > Which part of my current project is becoming repetitive, fragile, or hard to
 > reason about?
@@ -87,7 +89,7 @@ flowchart TD
 | **Purpose** | Direct LLM calls with manual control | Data ingestion, indexing, retrieval, and document QA | General LLM app and agent development | Stateful graph orchestration | Role-based multi-agent task execution |
 | **Complexity** | Low | Low to moderate | Moderate | Moderate to high | Moderate |
 | **Best use cases** | Learning, demos, one-off scripts, simple assistants | RAG, knowledge bases, document search, internal QA | Chatbots with tools, agent apps, reusable integrations | Long-running workflows, loops, checkpoints, human review, recovery | Research, writing, analysis, or operations tasks split across roles |
-| **What it saves you from writing** | Nothing; you write it yourself | Loaders, indexes, retrievers, query flows | Model/tool/prompt wiring, agent harnesses, integrations | State transitions, branching, persistence, resumability | Role/task setup and delegation patterns |
+| **What it saves you from writing** | No framework layer; you implement the pieces directly | Loaders, indexes, retrievers, query flows | Model/tool/prompt wiring, agent harnesses, integrations | State transitions, branching, persistence, resumability | Role/task setup and delegation patterns |
 | **When to avoid** | When state, retrieval, or tools are growing | When documents are not central | When a direct API call is enough | When the workflow is linear and short | When one agent or a plain workflow is enough |
 
 ## Scenario Walkthroughs
@@ -134,8 +136,8 @@ flowchart TD
   multi-step process?"
 - Use **CrewAI** when the question is "how do I divide this work across named
   agent roles?"
-- If a task is deterministic, use a normal function or workflow. Do not add an
-  agent just to make it sound more advanced.
+- If a task is deterministic, use a normal function or workflow. Add an agent
+  only when it provides useful coordination, tool use, or decision-making.
 
 ## Citations
 
@@ -157,5 +159,5 @@ flowchart TD
 ## Update Log
 
 - 2026-06-02: Revised into a beginner decision guide with current official
-  links, clearer analogies, and less API-specific guidance.
+  links, clearer mental models, and less API-specific guidance.
 - 2026-05-04: Initial draft for beginner-oriented framework comparison.
