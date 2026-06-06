@@ -65,13 +65,6 @@ starter kit, or using a workflow engine:
 | **LangGraph** | A workflow engine or state machine | It makes steps, branches, loops, checkpoints, and recovery explicit. Use it when control flow matters more than quick setup. |
 | **CrewAI** | A small project team with assigned roles | It models agents as role-based collaborators with tasks. Use it when the problem naturally fits a planner/researcher/writer/reviewer style of division. |
 
-The LEGO analogy can still help, but only as a secondary image: no framework is
-loose pieces, LlamaIndex is a specialized kit, LangChain is a large general kit,
-LangGraph is the instruction sheet plus moving control logic, and CrewAI is a
-set of role-based figures working on one mission. The limitation is important:
-real frameworks are not just blocks. They also define runtime behavior, state,
-failure handling, and boundaries.
-
 ```mermaid
 flowchart TD
   Start["What is the job?"] --> Q1{"One small prompt or script?"}
