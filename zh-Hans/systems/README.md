@@ -20,6 +20,8 @@
 
 - [上下文工程](./context-engineering.mdx): 说明系统如何写入、选择、
   压缩和隔离上下文，以实现可靠的多步骤工作。
+- [智能体安全与提示注入](./agent-security-and-prompt-injection.mdx):
+  说明团队如何在面向生产的智能体系统里约束不可信输入、危险工具和外部副作用。
 - [智能体界面协议与生成式 UI](./agent-ui-protocols-and-generative-ui.mdx):
   说明 AG-UI 与 A2UI 如何把面向用户的交互从工具协议和智能体协议中分离出来。
 - [协议与互操作](./protocols-and-interoperability.mdx): 说明工具访问、
