@@ -16,6 +16,10 @@
 
 ## 当前笔记
 
+- [2026 年 6 月 Prompt Injection Lockdown Mode 观察](./2026-06-prompt-injection-lockdown-mode-watch.mdx):
+  一则当前信号，聚焦 Lockdown Mode、elevated-risk 助手 surface、
+  connector scope，以及针对 prompt injection 的 outbound-network
+  containment。
 - [2026 年 5 月 agentic 购物助手观察](./2026-05-agentic-shopping-assistant-watch.mdx):
   一则当前信号，聚焦 AI 助手如何从搜索和商品比较走向定时动作、购物车构建、跨设备购物记忆，以及结账前审阅边界。
 - [2026 年 4 月助手安全升级观察](./2026-04-assistant-safety-escalation-watch.mdx):

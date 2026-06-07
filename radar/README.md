@@ -19,6 +19,9 @@ without destabilizing the evergreen structure.
 
 ## Current notes
 
+- [June 2026 Prompt Injection Lockdown Mode Watch](./2026-06-prompt-injection-lockdown-mode-watch.mdx):
+  a current signal on Lockdown Mode, elevated-risk assistant surfaces,
+  connector scope, and outbound-network containment for prompt injection.
 - [May 2026 Agentic Shopping Assistant Watch](./2026-05-agentic-shopping-assistant-watch.mdx):
   a current signal on AI assistants moving from search and product comparison
   into scheduled actions, cart building, cross-device shopping memory, and
