@@ -28,8 +28,9 @@ They should stay useful even as individual frameworks rise or fall.
   think-act-observe loops shape control, explainability, and tool use.
 - [Planning And Reflection](./planning-and-reflection.mdx): how plan-first and
   critique-and-refine patterns improve quality on longer tasks.
-- [Agent Runtime Building Blocks](./agent-runtime-building-blocks.mdx): the
-  runtime components that show up beneath most frameworks and custom agents.
+- [Agent Runtime Building Blocks](./agent-runtime-building-blocks.mdx): how
+  modern runtimes combine sandboxes, tool and protocol boundaries, control
+  planes, memory, and adaptive endpoint surfaces.
 
 ## Example starters
 

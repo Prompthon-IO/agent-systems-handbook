@@ -19,6 +19,9 @@ without destabilizing the evergreen structure.
 
 ## Current notes
 
+- [June 2026 Agent-First Devices Watch](./2026-06-agent-first-devices-watch.mdx):
+  a current signal on Project Solara, agent-native runtimes, just-in-time UI,
+  OS-enforced containment, and control-plane governance for local agents.
 - [May 2026 Agentic Shopping Assistant Watch](./2026-05-agentic-shopping-assistant-watch.mdx):
   a current signal on AI assistants moving from search and product comparison
   into scheduled actions, cart building, cross-device shopping memory, and

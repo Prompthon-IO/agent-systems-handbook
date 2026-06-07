@@ -1,0 +1,91 @@
+---
+title: 2026年6月 Agent-First 设备观察
+owner: Prompthon IO
+updated: 2026-06-03
+time_scope: 2026-06
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 摘要
+
+6 月初最清晰的信号不是又一个泛化的 `AI agents` 标题，而是
+Microsoft 明确推动 `agent-first devices`：Project Solara、面向本地智能体的
+Agent 365、MXC 沙箱，以及 Foundry Local，一起指向一个新的运行时边界，
+它不再停留在单一聊天表面，而是横跨设备、云、身份与治理。
+
+对手册读者来说，有用的问题不是设备是否“AI native”，而是系统是否暴露了
+清晰的运行时模型：智能体在哪里运行、如何被约束、just-in-time UI 如何出现，
+以及谁在本地与云执行之间治理整个智能体系统。
+
+## 为什么这很重要
+
+这个 radar 信号有价值，因为它把几个经常被分开讨论的手册主题连接到了一起：
+
+- [Radar](/zh-Hans/radar)，因为这个设备方向仍然很早期，也仍然带着明显的供应商叙事
+- [2026 年 4 月本地智能体观察](/zh-Hans/radar/2026-04-local-agent-watch)，因为靠近用户环境执行与可审查产物，仍然比“本地”这个词本身更重要
+- [智能体运行时构建模块](/zh-Hans/patterns/agent-runtime-building-blocks)，因为 agent-first 设备依然需要消息流、工具边界、状态与失败处理
+- [智能体 UI 协议与生成式 UI](/zh-Hans/systems/agent-ui-protocols-and-generative-ui)，因为自适应与 just-in-time UI 正在变成运行时契约的一部分
+- [企业级智能体控制平面](/zh-Hans/contributor-kit/reference-notes/enterprise-agent-control-planes)，因为设备侧智能体现在也需要 fleet-level governance，而不只是 app-local controls
+
+持久的经验不是某个硬件概念本身，而是一个系统层判断：`agent-first`
+意味着分布式执行、约束、身份、治理，以及 UI 适配必须一起被设计。
+
+## 证据与来源
+
+- [Composing a new platform for agent-first devices](https://commandline.microsoft.com/project-solara-build-2026/):
+  Microsoft 在 2026 年 6 月 3 日的 Project Solara 文章里，明确把平台转移描述为
+  `from apps to agents`，并把 chip-to-cloud runtime、企业级可管理性、身份、隐私和
+  just-in-time UI 放进设计本体，而不是事后补充。
+- [Microsoft Build 2026](https://news.microsoft.com/build-2026/):
+  Microsoft 的 Build 汇总页把 `Project Solara`、`Foundry Local`、
+  `Windows platform security for AI agents` 和 `Agent Control Specification`
+  放在同一个事件表面下。这很重要，因为它说明设备叙事、信任叙事和运行时叙事正在一起移动。
+- [Microsoft Build 2026: Be yourself at work](https://blogs.microsoft.com/blog/2026/06/02/microsoft-build-2026-be-yourself-at-work/):
+  Microsoft 在 2026 年 6 月 2 日的 keynote 文章中写到，`Agent 365 for local agents`
+  会把 Entra、Defender 和 Purview 扩展成一个 single control plane；同时把 Windows
+  定位成 `agent-native runtime`，引入用于操作系统强制约束的 Microsoft Execution
+  Containers，并且与 Foundry Agent Service 里的 hosted agents 搭配起来。
+- [Foundry Local documentation](https://learn.microsoft.com/en-us/azure/foundry-local/):
+  Microsoft Learn 把 Foundry Local 描述为一种安全地在设备上设计、定制和管理 AI 应用与智能体的方式，这说明 on-device agent execution 正在成为一个正式产品层，而不只是 demo 形态。
+- [microsoft/Foundry-Local](https://github.com/microsoft/Foundry-Local):
+  该官方仓库当前有 2,323 stars、317 forks，并在 2026-06-03 更新，为
+  agent-first 设备叙事提供了真实的 on-device inference、SDK 和 samples 代码表面。
+- [microsoft/agent-framework](https://github.com/microsoft/agent-framework):
+  该官方 framework 仓库当前有 10,990 stars、1,834 forks，并在 2026-06-03 更新，
+  有助于把 open framework layer 和新的 device/runtime/control-plane 叙事区分开。
+- [microsoft/Agent365-Samples](https://github.com/microsoft/Agent365-Samples):
+  这个官方 samples 仓库给贡献者提供了一个后续观察面，说明 Microsoft 希望 observability、
+  notifications、runtime utilities 和 hosting patterns 如何出现在真实智能体里。
+
+## 需要关注的信号
+
+- `agent-first devices` 会不会稳定成一个持久类别，还是仍然只是 Microsoft 的发布框架。
+- just-in-time UI 会不会变成一个可操作、可审查的运行时层，而不只是 generative UI 的宽泛愿景。
+- 面向智能体的 OS-enforced containment，会不会在本地设备、云沙箱和混合 edge-cloud runtime 之间变成真正的比较维度。
+- 团队是否开始把 open framework、managed runtime 和 control plane 当成三个独立的采购与架构决策。
+- 是否会出现贡献者可复用的 example，展示同一个工作流如何在设备、云沙箱与企业治理上下文之间移动，同时不丢失可审计性。
+
+## 编辑判断
+
+这条内容现在仍应留在 `radar/`，因为真正稳定的手册经验比发布叙事更小。最可复用的模式不是
+“Project Solara” 这个名字本身，而是一个新的比较问题：
+
+1. 哪些部分运行在设备上
+2. 哪些部分移到云端
+3. 什么负责执行约束
+4. 什么负责把 UI 适配到当前场景
+5. 什么治理整个智能体系统
+
+等到样例不再那么像 launch framing 之后，这个比较问题才适合进一步沉淀到 systems 页面或可运行 starter。当前阶段，贡献者应避免把它写成 `AI PC` 热词或泛化的本地智能体叙事。
+
+如果你想继续扩展这条笔记，请从 [Contributor Kit](/zh-Hans/contributor-kit/index.mdx)
+开始，并坚持使用第一方 runtime、containment 与 control-plane 证据。
+
+## 更新日志
+
+- 2026-06-03：新增一条 radar 笔记，关注 Project Solara、agent-first 设备、
+  agent-native runtime 边界，以及 control-plane 驱动的本地智能体治理。

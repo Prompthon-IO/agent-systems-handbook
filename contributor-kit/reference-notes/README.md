@@ -14,6 +14,9 @@ material and they are not replacements for lab pages.
 
 ## Current notes
 
+- [AI Education Policy To Practice](./ai-education-policy-to-practice.mdx): a
+  product-agnostic education workshop planning note on shared AI language,
+  teacher-led implementation, peer learning, and practical roadmaps.
 - [Enterprise Agent Control Planes](./enterprise-agent-control-planes.mdx): a
   contributor-facing note on separating managed runtimes from cross-agent
   control planes in enterprise agent systems.
