@@ -17,3 +17,4 @@
 - [Deep Research Product Signals](./deep-research-product-signals.mdx): 面向贡献者的当前 OpenAI 和 Google deep-research 产品信号对比。
 - [Deep Research Source Map](./deep-research-source-map.mdx)
 - [Local Agent Tooling Source Map](./local-agent-tooling-source-map.mdx): 一份面向贡献者的简报，用于在未来草稿中保持本地运行时、技能、MCP roots、resources、connectors 和基于文件的工作流彼此区分，同时也把 prompt injection 与本地 authority boundary 保持明确。
+- [开放式智能体环境](./open-agent-environments.mdx): 一份面向贡献者的说明，用于区分 agentic RL 中的环境契约、harness、trainer 与 MCP-native 执行表面。

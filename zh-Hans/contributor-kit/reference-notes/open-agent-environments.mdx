@@ -1,0 +1,110 @@
+---
+title: 开放式智能体环境
+owner: Prompthon IO
+updated: 2026-06-10
+scope: open agent environments, agentic RL, training and evaluation harnesses, and MCP-native execution surfaces
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 概述
+
+这份说明汇集了供贡献者撰写开放式智能体环境内容时使用的官方来源输入：这些环境是共享的执行层，让智能体 harness、trainer 和评估循环可以围绕同一套环境契约工作。
+
+当草稿需要解释为什么开源智能体训练不只是一个 benchmark 数据集或单一的 coding harness 时，可以使用它。真正持久的模式并不只是“面向智能体的 RL”，而是以下要素的组合：
+
+- 暴露动作与状态的环境契约
+- 将模型输出转成工具或 UI 动作的 harness
+- 驱动重复交互的 trainer 或 evaluator
+- 能在 train、eval 和 production 之间保持一致的部署表面
+- 让环境可复用的打包与传输规则
+
+## 如何使用这份说明
+
+这是一张来源图谱，不是一篇完整文章。后续贡献者应使用它来：
+
+- 在描述 benchmark 或模型收益之前先定义环境层
+- 将环境契约与 reward logic、trainer 选择区分开来
+- 说明同一个环境如何同时支持评估与部署
+- 把 agentic RL 主张重新连接到 coding、browsing 或 tool use 这样的具体构建者工作流
+
+## 为什么它很重要
+
+最近的开源智能体工作正在推动一个很实际的缺口：frontier labs 可以针对自家的 harness 训练模型，而开源构建者需要一个可跨模型、trainer 和执行表面的共享层。
+
+因此，与其把每个新项目都当成“只是一个 benchmark”或“只是一个 reinforcement-learning library”，手册里更有用的 framing 是“开放式智能体环境”。贡献者真正要回答的问题不只是“应该用哪个 trainer？”，还包括“智能体、评估器和运行时表面能够共同复用的稳定环境契约是什么？”
+
+| 术语 | 读者问题 | 常见错误 |
+| --- | --- | --- |
+| `environment contract` | 智能体能看到哪些动作、观察和状态？ | 把环境压缩成一个 benchmark 分数 |
+| `harness` | 智能体如何在环境中行动？ | 把 coding UI 或 browser wrapper 当成整个系统 |
+| `trainer` | 谁来驱动重复 rollout 和优化？ | 以为环境本身决定学习方法 |
+| `reward logic` | 分数或 rubric 来自哪里？ | 把环境本身当成全部奖励定义 |
+| `deployment boundary` | 同一种环境形状能否延续到训练之外？ | 写出只能一次性使用的评估代码 |
+
+## 作用范围说明
+
+包括：
+
+- 关于 OpenEnv 治理变化、定位和环境互操作的 Hugging Face 官方来源材料
+- 关于核心环境模型和执行表面的 OpenEnv 官方文档
+- 关于 OpenEnv 如何接入 LLM 训练工作流的 TRL 官方文档
+- 关于当前功能形状的官方 GitHub 仓库和 release notes
+
+不包括：
+
+- 没有可复用环境契约的封闭 benchmark 排行
+- 不会改变手册智能体系统心理模型的通用 RL 教程
+- 无法映射到面向贡献者工作流的厂商 eval 系统
+- 从不描述环境边界的 reward-model 深入材料
+
+## 来源图谱
+
+- [The Open Source Community is backing OpenEnv for Agentic RL](https://huggingface.co/blog/openenv-agentic-rl):
+  适用于关于 2026 年 6 月 8 日治理变化、委员会模式、迁移到
+  `huggingface/OpenEnv`，以及将 OpenEnv 定位为 protocol layer 而不是
+  reward framework 的主张。
+- [OpenEnv documentation](https://huggingface.co/docs/openenv/index):
+  适用于将 OpenEnv 定义为面向 agentic reinforcement learning 的隔离执行环境框架，以及其使用 Gymnasium 风格 `step()`、`reset()` 和 `state()` API 的主张。
+- [TRL OpenEnv integration](https://huggingface.co/docs/trl/openenv):
+  当草稿需要解释 OpenEnv 作为面向训练的层、如何为 LLM 工作流提供标准化环境 API 与后端服务器执行时使用。
+- [huggingface/OpenEnv](https://github.com/huggingface/OpenEnv):
+  适用于当前公开实现表面、贡献活动和官方仓库历史。
+- [OpenEnv releases](https://github.com/huggingface/OpenEnv/releases):
+  适用于 MCP-native environments、evaluation harness 支持、内建 web inspection，以及环境作者工具等当前功能主张。
+
+## 综合归纳
+
+最强的手册 framing 是把开放式智能体环境视为连接三层的共享插槽：
+
+1. 让智能体在浏览器、终端、notebook 或工具表面中行动的 harness。
+2. 标准化智能体可观察、可调用和可验证内容的环境契约。
+3. 使用重复 rollout、rubric 或 reward 的 trainer 或 evaluator。
+
+这种拆分之所以重要，是因为它让仓库对“哪些东西真正可复用”保持诚实。一个有用的环境层应该能够在模型、trainer 和 benchmark 组合变化后仍然成立。它还应让部署边界可见：使用哪种 transport、状态如何存储、MCP 工具是否原生属于环境，以及哪些部分运行在 simulation 与 production 中。
+
+对手册贡献者来说，这正是 [评估与可观测性](/zh-Hans/systems/evaluation-and-observability) 与 [Local Agent Tooling Source Map](/zh-Hans/contributor-kit/reference-notes/local-agent-tooling-source-map) 之间的桥梁。它也与 [编码智能体](/zh-Hans/case-studies/coding-agents) 自然配套，因为 coding agents 正是 harness、执行环境和 review loop 汇合得最清晰的地方之一。
+
+## 案例研究切入点
+
+未来适合围绕该主题展开的手册表面包括：
+
+- 一个 coding-agent 环境：暴露终端、浏览器和验证循环，但不把某个特定 trainer 写死
+- 一个 browser 或 research 环境：把工具访问、奖励定义和人工审阅保持为分开的设计决策
+- 一个 contributor starter：定义一个小环境，再配一个 TRL 或评估 walkthrough
+- 一份对比说明：区分 MCP-native environments、直接 benchmark scripts 和一次性 sandboxes
+
+每一种处理方式都应说明环境暴露了什么、harness 增加了什么、成功如何定义，以及 reviewer 在运行后可以检查哪些产物。
+
+## 缺口与后续工作
+
+- 增加一个小型对比矩阵，对比 OpenEnv、直接 benchmark harness、MCP-native tool environments 和 repo-local starters。
+- 如果仓库之后想要一个比来源说明更高转化的例子，可以考虑补一个极小的可运行环境 starter。
+- 如果未来草稿需要更明确的环境层图示，可回访 [Agent Runtime Building Blocks](/zh-Hans/patterns/agent-runtime-building-blocks)。
+
+## 更新日志
+
+- 2026-06-10：新增一份面向贡献者的来源图谱，用于整理开放式智能体环境、OpenEnv 和 agentic RL 执行表面。
