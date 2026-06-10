@@ -16,6 +16,8 @@
 
 ## 当前笔记
 
+- [2026 年 6 月开放式智能体训练环境观察](./2026-06-open-agent-training-environments-watch.mdx):
+  一则当前信号，聚焦 OpenEnv、有状态执行环境，以及 agent harness、environment 和 reward loop 之间的分层。
 - [2026 年 6 月 Agent-First 设备观察](./2026-06-agent-first-devices-watch.mdx):
   一则当前信号，聚焦 Project Solara、agent-native runtimes、just-in-time UI、
   操作系统强制约束，以及面向本地智能体的控制平面治理。
