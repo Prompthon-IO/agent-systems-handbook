@@ -16,4 +16,5 @@
 - [企业级智能体控制平面](./enterprise-agent-control-planes.mdx): 一份面向贡献者的 note，说明在企业级智能体系统里应区分 managed runtimes 和跨智能体 control planes。
 - [Deep Research Product Signals](./deep-research-product-signals.mdx): 面向贡献者的当前 OpenAI 和 Google deep-research 产品信号对比。
 - [Deep Research Source Map](./deep-research-source-map.mdx)
+- [评估工作台信号](./evaluation-workbench-signals.mdx): 一份面向贡献者的说明，整理 development-loop eval、agent-workflow eval 与持久开源仓库之间的 evaluation workbench 模式。
 - [Local Agent Tooling Source Map](./local-agent-tooling-source-map.mdx): 一份面向贡献者的简报，用于在未来草稿中保持本地运行时、技能、MCP roots、resources、connectors 和基于文件的工作流彼此区分，同时也把 prompt injection 与本地 authority boundary 保持明确。

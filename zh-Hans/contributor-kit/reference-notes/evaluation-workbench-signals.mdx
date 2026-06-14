@@ -1,0 +1,93 @@
+---
+title: 评估工作台信号
+owner: Prompthon IO
+updated: 2026-06-14
+scope: current evaluation workbench signals through June 2026
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 概述
+
+这份说明跟踪当前围绕 evaluation workbench 的来源信号：这类工具帮助贡献者在模型或智能体系统发生变化时定义、重跑、对比并检查 eval，而不是把评估只当成最终的一次 benchmark。
+
+当草稿需要解释为什么 eval 基础设施越来越像可复用的工作台，而不是排行榜脚本时，可以使用这份说明。
+
+## 为什么它很重要
+
+最近七天的文章窗口给出的信号，比 selector 的字面厂商词更强：benchmark 与 eval 工具正在变得更模块化、更面向 agent，并且更贴近开发循环。
+
+这对手册很重要，因为 [评估与可观测性](/zh-Hans/systems/evaluation-and-observability) 不应只被描述成 dashboard 和运行后的 traces。贡献者需要更清楚地区分：
+
+- benchmark registry
+- agent-workflow eval surface
+- 用于重复 checkpoint 或 runtime 对比的 development-loop workbench
+
+这种拆分也有助于未来扩展 [Coding Agents](/zh-Hans/case-studies/coding-agents)、[Deep Research Agents](/zh-Hans/case-studies/deep-research-agents) 和 [Prompt Cache Agent Starter](/zh-Hans/patterns/examples/prompt-cache-agent-starter)。
+
+## 范围说明
+
+包括：
+
+- AllenAI 在 2026 年 6 月 12 日发布的 `olmo-eval` 及其仓库定位
+- OpenAI 当前关于通用 eval 设计和 agent workflow 的评估指引
+- 贡献者在撰写 evaluation workbench 主题时可以用作类别锚点的持久开源仓库
+
+不包括：
+
+- 一次性的排行榜分数争论
+- 没有可复用工作流经验的 benchmark 结果汇总
+- 没有文档或代码表面的厂商营销主张
+- 在 PR `#174` 仍占用该 lane 时，去完整重写现有 systems 页面
+
+## 来源图谱
+
+- [olmo-eval: An evaluation workbench for the model development loop](https://huggingface.co/blog/allenai/olmo-eval):
+  用于说明最新类别信号。AllenAI 明确把 `olmo-eval` 定位为面向重复模型开发评估的 workbench，强调 harness separation、sandboxed agentic eval 和 pairwise checkpoint comparison。
+- [allenai/olmo-eval](https://github.com/allenai/olmo-eval):
+  用于锚定具体实现表面。该仓库把自己定位为 unified workbench，包含 benchmark registry、harness、多轮工具使用、judge model 和 instance-level inspection。
+- [Evaluation best practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices):
+  用于 OpenAI 当前的 eval 设计 framing。它也提醒我们，较早的 OpenAI Evals platform 正处在 deprecation path 上，因此手册草稿应把 eval process guidance 与任何单一托管产品表面区分开。
+- [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals):
+  当草稿需要 OpenAI 关于 traces、graders、datasets 与 workflow quality loop 的当前 agent 评估指引时使用。
+- [openai/evals](https://github.com/openai/evals):
+  即使托管平台路径在变化，它仍可作为 registry-style eval 与 custom eval authoring 的持久开源参考。
+- [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness):
+  用作长期存在的 baseline harness 参考。当草稿需要对比 classic benchmark harness 与更模块化的 development-loop workbench 时很有帮助。
+
+## 综合归纳
+
+这里有三个值得保留的信号。
+
+- 评估正在从“只跑一次 benchmark”转向“每次系统变化都重跑 workbench”。`olmo-eval` 的发布把这一点说得很明确：它强调 checkpoint comparison、harness reuse 以及 aggregate 加 instance 双层 inspection，而不是一个最终分数。
+- Agent evaluation 正在成为一等需求，而不是附加项。AllenAI 把多轮工具使用和 sandboxing 直接放进 workbench；OpenAI 也提供了独立的 agent-evals guide，而不是把 agent 质量问题留在通用模型 benchmark 里。
+- 实现表面正在以一种有用的方式分化。OpenAI 的文档让 eval workflow 仍然保持当前，即使较早的 Evals platform 正在退出；与此同时，`openai/evals`、`olmo-eval` 和 `lm-evaluation-harness` 这类开源仓库依然是贡献者可以查看、比较和引用的持久产物。
+
+对手册来说，这意味着“evaluation”应当按三层来讲：
+
+1. benchmark task 和 dataset
+2. runtime 或 workflow execution policy
+3. 用于重跑、对比和检查的 workbench infrastructure
+
+这种 framing 能帮助未来贡献者更清楚地解释：为什么 coding agent、research agent 或本地工具型系统需要的不只是一个 accuracy score。
+
+## 在仓库中的后续展开位置
+
+- [参考说明](/zh-Hans/contributor-kit/reference-notes)：当贡献者在起草长页面前需要一个有边界的来源汇总时，先回到这个父级 hub。
+- [评估与可观测性](/zh-Hans/systems/evaluation-and-observability)：这是最终的 systems 落点；等当前的开放刷新稳定后，可以把 evaluation workbench 的一小节吸收到那里。
+- [Local Agent Tooling Source Map](/zh-Hans/contributor-kit/reference-notes/local-agent-tooling-source-map)：当 eval 草稿需要把 runtime boundary 与 tool 或 resource scope 区分开时，这份说明很有用。
+- [Coding Agents](/zh-Hans/case-studies/coding-agents)：这是 workbench-style eval 的自然案例，因为回归往往表现为 tool use 或 verification failure，而不只是纯文本错误。
+- [贡献工作流](/zh-Hans/contributor-kit/contribution-workflow)：当要把这份说明转成 follow-up issue、PR 计划或 source-project proposal 时使用。
+
+## 缺口与后续工作
+
+- 等当前关于该页面的开放 PR 合并后，在 [评估与可观测性](/zh-Hans/systems/evaluation-and-observability) 中补一个简洁的 “evaluation workbenches” 小节。
+- 增加一个未来的 starter 或 skill package，用来比较两次结构化 agent run，并解释变化是否真正改善了结果，还是只是移动了 benchmark 平均值。
+- 重新评估手册是否应增加一张面向贡献者的矩阵，区分 benchmark harness、agent-workflow eval 和 production QA review loop。
+
+## 更新日志
+
+- 2026-06-14：基于 2026 年 6 月 `olmo-eval` 发布、当前 OpenAI eval 指引，以及持久的开源 eval 仓库，新增一份面向贡献者的 evaluation workbench 信号说明。

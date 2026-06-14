@@ -1,0 +1,148 @@
+---
+title: Evaluation Workbench Signals
+owner: Prompthon IO
+updated: 2026-06-14
+scope: current evaluation workbench signals through June 2026
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+## Summary
+
+This note tracks current source signals around evaluation workbenches: tooling
+that helps contributors define, rerun, compare, and inspect evals across model
+or agent changes instead of treating evaluation as one final benchmark pass.
+
+Use it when a draft needs to explain why eval infrastructure now looks more
+like a reusable workbench than a leaderboard script.
+
+## Why It Matters
+
+The seven-day article window surfaced a stronger pattern than the selector's
+literal vendor phrases: benchmark and eval tooling is becoming more modular,
+agent-aware, and development-loop-oriented.
+
+That matters for the handbook because [Evaluation And
+Observability](/systems/evaluation-and-observability) should not be framed only
+as dashboards and post-run traces. Contributors increasingly need a clearer
+split between:
+
+- benchmark registries
+- agent-workflow eval surfaces
+- development-loop workbenches for repeated checkpoint or runtime comparisons
+
+That split also helps future work in [Coding Agents](/case-studies/coding-agents),
+[Deep Research Agents](/case-studies/deep-research-agents), and the
+[Prompt Cache Agent Starter](/patterns/examples/prompt-cache-agent-starter).
+
+## Scope Notes
+
+Included:
+
+- AllenAI's June 12, 2026 `olmo-eval` launch and repo framing
+- OpenAI's current eval guidance for both general eval design and agent
+  workflows
+- durable open-source repos that contributors can use as category anchors when
+  writing about evaluation workbenches
+
+Excluded:
+
+- one-off leaderboard score arguments
+- benchmark result summaries without reusable workflow lessons
+- vendor marketing claims that do not expose either docs or code
+- a full rewrite of the existing systems page while PR `#174` is still open on
+  that lane
+
+## Source Map
+
+- [olmo-eval: An evaluation workbench for the model development loop](https://huggingface.co/blog/allenai/olmo-eval):
+  use this for the fresh category signal. AllenAI explicitly frames
+  `olmo-eval` as a workbench for repeated model-development evaluation, with
+  harness separation, sandboxed agentic evals, and pairwise checkpoint
+  comparison.
+- [allenai/olmo-eval](https://github.com/allenai/olmo-eval):
+  use this to ground the concrete implementation surface. The repo positions
+  itself as a unified workbench, with benchmark registries, harnesses,
+  multi-turn tool use, judge models, and instance-level inspection.
+- [Evaluation best practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices):
+  use this for OpenAI's current eval-design framing. It is also a live reminder
+  that the older OpenAI Evals platform is on a deprecation path, so handbook
+  drafts should separate eval process guidance from any single hosted product
+  surface.
+- [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals):
+  use this when the draft needs current OpenAI guidance for agent-facing eval
+  surfaces such as traces, graders, datasets, and workflow quality loops.
+- [openai/evals](https://github.com/openai/evals):
+  use this as the durable open-source reference for registry-style evals and
+  custom eval authoring, even while the hosted platform path changes.
+- [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness):
+  use this as the long-lived baseline harness reference. It is helpful when a
+  draft needs to contrast a classic benchmark harness with a more modular
+  development-loop workbench.
+
+## Synthesis
+
+Three useful signals stand out.
+
+- Evaluation is moving from "run a benchmark once" toward "rerun a workbench
+  every time the system changes." The `olmo-eval` launch makes this explicit by
+  centering checkpoint comparison, harness reuse, and aggregate-plus-instance
+  inspection instead of one final score.
+- Agent evaluation is now a first-class requirement, not a bolt-on. AllenAI
+  includes multi-turn tool use and sandboxing in the workbench itself, while
+  OpenAI exposes a dedicated agent-evals guide rather than leaving agent
+  quality inside generic model benchmarks.
+- The implementation surface is fragmenting in a useful way. OpenAI's docs keep
+  the eval workflow current even as the older Evals platform is being wound
+  down, while open-source repos such as `openai/evals`, `olmo-eval`, and
+  `lm-evaluation-harness` remain durable artifacts contributors can inspect,
+  compare, and cite.
+
+For handbook purposes, this means "evaluation" should be taught at three
+layers:
+
+1. benchmark tasks and datasets
+2. runtime or workflow execution policy
+3. workbench infrastructure for reruns, comparisons, and inspection
+
+That framing gives future contributors a cleaner way to explain why a coding
+agent, research agent, or local tool-using system needs more than a single
+accuracy score.
+
+## In-Repo Follow-up Paths
+
+- [Reference Notes](/contributor-kit/reference-notes): use this parent hub when
+  contributors need a bounded source roundup before drafting a long-form page.
+- [Evaluation And Observability](/systems/evaluation-and-observability): the
+  durable systems destination that should eventually absorb a short subsection
+  on evaluation workbenches after the current open refresh settles.
+- [Local Agent Tooling Source Map](/contributor-kit/reference-notes/local-agent-tooling-source-map):
+  useful when an eval draft needs to separate runtime boundaries from tool or
+  resource scope.
+- [Coding Agents](/case-studies/coding-agents): a natural case study for
+  workbench-style evals because regressions often show up as tool-use or
+  verification failures rather than pure text errors.
+- [Contribution Workflow](/contributor-kit/contribution-workflow): use this
+  when turning the note into a follow-up issue, PR plan, or source-project
+  proposal.
+
+## Gaps And Follow-up
+
+- Add a compact "evaluation workbenches" subsection to
+  [Evaluation And Observability](/systems/evaluation-and-observability) after
+  the current open PR on that page merges.
+- Add a future starter or skill package that compares two structured agent runs
+  and explains whether the change improved outcomes or only shifted benchmark
+  averages.
+- Revisit whether the handbook should add a contributor-facing matrix that
+  distinguishes benchmark harnesses, agent-workflow evals, and production QA
+  review loops.
+
+## Update Log
+
+- 2026-06-14: Added a contributor-facing note on evaluation workbench signals
+  from the June 2026 `olmo-eval` launch, current OpenAI eval guidance, and
+  durable open-source eval repos.
