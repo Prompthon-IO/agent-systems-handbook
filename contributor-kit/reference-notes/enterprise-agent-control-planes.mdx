@@ -1,8 +1,8 @@
 ---
 title: Enterprise Agent Control Planes
 owner: Prompthon IO
-updated: 2026-05-03
-scope: current managed-runtime and control-plane framing for enterprise agents through May 2026
+updated: 2026-06-14
+scope: current managed-runtime, partner-delivery, and control-plane framing for enterprise agents through June 2026
 status: draft
 ---
 
@@ -19,8 +19,10 @@ control plane across them.
 The immediate triggers are Microsoft's April 28, 2026 framing around
 `Intelligence + Trust`, where Microsoft IQ carries business context and Agent
 365 carries observability, governance, and security across both Microsoft's own
-agent surfaces and third-party environments, and AWS's April 28, 2026 launch
-framing for Bedrock Managed Agents and AgentCore.
+agent surfaces and third-party environments, AWS's April 28, 2026 launch
+framing for Bedrock Managed Agents and AgentCore, and Anthropic's June 2026
+Claude Partner Network signals around TCS and DXC bringing Claude into
+regulated and mission-critical enterprise systems.
 
 ## Why It Matters
 
@@ -28,6 +30,7 @@ Agent-platform comparisons often collapse into model access, orchestration UX,
 or framework ergonomics. That misses two different buying questions:
 
 - how much of the runtime should stay managed for the team
+- who operates the deployment surface inside regulated industries
 - how does an organization observe, govern, and secure a growing set of agents
   that span multiple runtimes and vendors?
 
@@ -35,6 +38,9 @@ This note helps contributors keep two layers separate:
 
 - the managed-runtime layer that handles inference, memory, execution, and
   runtime security for one agent workload
+- the partner-delivery layer where consultancies, systems integrators, and
+  forward-deployed engineers adapt agent systems to industry-specific
+  controls, legacy estates, and compliance requirements
 - the control-plane layer that enforces trust, visibility, and policy across
   many agents and environments
 
@@ -55,6 +61,8 @@ Included:
 - Agent 365 as the observability, governance, and security layer
 - AWS's launch framing for Bedrock Managed Agents
 - AgentCore as the underlying open platform beneath the managed runtime
+- Anthropic's Claude Partner Network framing for TCS and DXC deployments in
+  regulated industries
 - implications for later ecosystem and systems refreshes in this repo
 
 Excluded:
@@ -94,10 +102,25 @@ Excluded:
   the official Microsoft framework repo gives contributors a useful contrast
   point between an open framework surface and Microsoft's separate Agent 365
   control-plane positioning.
+- [TCS and Anthropic partner to bring Claude to regulated industries](https://www.anthropic.com/news/tcs-anthropic-partnership):
+  Anthropic says TCS will use Claude internally, build Claude-powered products
+  for clients in financial services, healthcare, public services, aviation,
+  telecom, medical technology, and other regulated industries, and create
+  reusable Claude Code skills and plugins for domains such as claims
+  adjudication and lending advisory.
+- [DXC will integrate Claude into the systems banks, airlines, and other regulated industries rely on](https://www.anthropic.com/news/dxc-anthropic-alliance):
+  Anthropic frames DXC as a forward-deployed engineering partner that will
+  bring Claude into long-running customer systems for banks, airlines,
+  insurers, manufacturers, and government agencies, with DXC OASIS and its
+  agentic workflows as an internal proof point.
+- [Anthropic invests $100 million into the Claude Partner Network](https://www.anthropic.com/news/claude-partner-network):
+  the network page positions partners as the delivery and adoption layer that
+  helps enterprises navigate deployment requirements, compliance, change
+  management, training, certification, and production rollout.
 
 ## Synthesis
 
-Four contributor-facing takeaways matter most:
+Five contributor-facing takeaways matter most:
 
 - Enterprise agent discussion is shifting beyond model choice. AWS is pushing a
   managed-runtime story, while Microsoft is pushing a control-plane story.
@@ -108,9 +131,13 @@ Four contributor-facing takeaways matter most:
   Agents packages inference, memory, execution, and auditability inside a
   hosted environment before the question becomes "which framework should we
   write?"
+- Partner delivery is becoming its own enterprise-agent layer. Anthropic's TCS
+  and DXC announcements are less about a new model interface and more about
+  who carries Claude into regulated business processes, legacy systems,
+  reusable skills, certification, and ongoing operation.
 - A useful lab comparison axis is emerging: open framework, managed runtime,
-  and control plane. That split can sharpen both systems pages and ecosystem
-  pages without hard-coding one vendor's naming.
+  partner delivery, and control plane. That split can sharpen both systems
+  pages and ecosystem pages without hard-coding one vendor's naming.
 
 For the handbook, the durable lesson is not the vendor label. It is the
 category boundary that contributors should preserve when comparing agent
@@ -131,12 +158,18 @@ platforms and enterprise deployment stories.
 - Revisit [Agent Platforms And Low-Code Builders](/ecosystem/agent-platforms-and-low-code-builders)
   if more official sources begin using managed runtime versus control plane as a
   stable comparison frame.
+- Revisit ecosystem pages if partner networks, certifications, and
+  forward-deployed engineering practices become durable comparison criteria for
+  enterprise agent platforms.
 - Add future sources when other first-party platforms describe comparable
   managed-runtime or fleet-governance surfaces explicitly enough to compare
   without guesswork.
 
 ## Update Log
 
+- 2026-06-14: Added Anthropic's TCS, DXC, and Claude Partner Network signals
+  so contributors can compare partner-delivery layers alongside managed
+  runtimes and control planes for regulated enterprise agent deployments.
 - 2026-05-03: Expanded the note with AWS Bedrock Managed Agents and AgentCore
   so contributors can separate open frameworks, managed runtimes, and control
   planes.
