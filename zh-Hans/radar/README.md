@@ -16,6 +16,8 @@
 
 ## 当前笔记
 
+- [2026 年 6 月智能体运行时计费观察](./2026-06-agent-runtime-billing-watch.mdx):
+  一则当前信号，聚焦如何把本地 SDK 编排、托管运行时计量，以及智能体产品的权威计费表面区分开来。
 - [2026 年 6 月 Agent-First 设备观察](./2026-06-agent-first-devices-watch.mdx):
   一则当前信号，聚焦 Project Solara、agent-native runtimes、just-in-time UI、
   操作系统强制约束，以及面向本地智能体的控制平面治理。

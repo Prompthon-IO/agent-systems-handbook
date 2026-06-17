@@ -1,0 +1,98 @@
+---
+title: June 2026 Agent Runtime Billing Watch
+owner: Prompthon IO
+updated: 2026-06-17
+time_scope: 2026-06
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+## Summary
+
+June 2026 product signals around Anthropic's Claude Agent SDK and Claude
+Managed Agents make one systems boundary more explicit: agent runtime billing
+is becoming a product design surface, not just a pricing-table footnote.
+
+For handbook readers, the useful takeaway is simple: separate local SDK
+orchestration, managed runtime metering, and authoritative cost reporting
+before those concerns get buried inside one vague "agent platform" label.
+
+## Why It Matters
+
+Builders often talk about an agent stack as if model, tools, execution, and
+cost all collapse into one runtime choice. The latest Anthropic docs point in
+the opposite direction. An SDK can expose the agent loop and local tooling,
+while a managed runtime can add session-level billing and hosted execution
+semantics that need different review rules.
+
+This note connects to four durable handbook topics:
+
+- [agent runtime building blocks](/patterns/agent-runtime-building-blocks),
+  because runtime ownership and runtime billing are not the same decision
+- [local agent tooling source map](/contributor-kit/reference-notes/local-agent-tooling-source-map),
+  because a local SDK still needs clear boundaries for files, commands,
+  approvals, and external systems
+- [enterprise agent control planes](/contributor-kit/reference-notes/enterprise-agent-control-planes),
+  because fleet-level governance should stay separate from one workload's SDK
+  or session bill
+- [agent platforms and low-code builders](/ecosystem/agent-platforms-and-low-code-builders),
+  because managed platforms increasingly compete on hosted runtime defaults as
+  much as on model access or UI polish
+
+## Evidence And Sources
+
+- [Agent SDK overview](https://code.claude.com/docs/en/agent-sdk/overview):
+  Anthropic positions the Claude Agent SDK as a programmable surface for the
+  same tools, agent loop, and context management that power Claude Code.
+- [Track cost and usage](https://code.claude.com/docs/en/agent-sdk/cost-tracking):
+  Anthropic states that the SDK's `total_cost_usd` and `costUSD` fields are
+  client-side estimates and should not be treated as authoritative billing.
+- [Claude pricing](https://platform.claude.com/docs/en/about-claude/pricing):
+  Anthropic documents Claude Managed Agents as a separate billing shape with
+  token charges plus session runtime metered while a session is actively
+  running.
+- [Claude docs home](https://platform.claude.com/docs/en/home):
+  Anthropic now presents `Messages` and `Managed Agents` as distinct build
+  surfaces, reinforcing that direct model access and managed runtime
+  infrastructure are different product choices.
+- [anthropics/claude-agent-sdk-python](https://github.com/anthropics/claude-agent-sdk-python)
+  and
+  [anthropics/claude-agent-sdk-typescript](https://github.com/anthropics/claude-agent-sdk-typescript):
+  the public SDK repos make the runtime split more concrete for builders who
+  want to inspect examples, release cadence, and issue flow before committing
+  to the tooling surface.
+
+## Signals To Watch
+
+- Whether more vendors publish side-by-side guidance for local SDK estimates,
+  hosted runtime charges, and authoritative usage APIs.
+- Whether session-runtime billing becomes the default for long-running managed
+  agent products instead of being hidden behind generic container or tool fees.
+- Whether builders start adding explicit cost checkpoints before long tool
+  loops, approvals, or web-search-heavy workflows.
+- Whether framework and platform comparisons get clearer about which layer owns
+  orchestration code, execution time, and final billing truth.
+
+## Editorial Take
+
+This belongs in `radar/` for now because the vendor vocabulary is still moving.
+The durable handbook lesson is narrower: billing is a system boundary.
+
+When contributors review an agent product, they should ask three separate
+questions:
+
+1. where does the orchestration logic run
+2. what part of the runtime is provider-managed
+3. which cost surface is only an estimate versus the source of truth
+
+That framing is more reusable than treating every SDK launch or pricing change
+as a standalone ecosystem story.
+
+## Update Log
+
+- 2026-06-17: Added a radar note on agent runtime billing boundaries,
+  separating local SDK orchestration from managed runtime metering and billing
+  truth.

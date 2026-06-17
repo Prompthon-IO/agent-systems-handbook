@@ -1,0 +1,67 @@
+---
+title: 2026 年 6 月智能体运行时计费观察
+owner: Prompthon IO
+updated: 2026-06-17
+time_scope: 2026-06
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 摘要
+
+Anthropic 在 2026 年 6 月围绕 Claude Agent SDK 和 Claude Managed Agents
+释放出的产品信号，让一个系统边界更明确了：智能体运行时计费正在变成产品设计表面，而不只是定价表里的脚注。
+
+对手册读者来说，实用的结论很直接：要把本地 SDK 编排、托管运行时计量，以及权威成本报表区分开来，不要把这些问题混进一个模糊的“agent platform”标签里。
+
+## 为什么这很重要
+
+很多构建者讨论智能体栈时，会把模型、工具、执行和成本都压缩成一个“运行时选择”。Anthropic 最新文档指向了相反方向。一个 SDK 可以暴露智能体循环和本地工具，而托管运行时则会加入 session 级计费和 hosted execution 语义，这些都需要不同的审查规则。
+
+这条观察与四个长期有效的手册主题相连：
+
+- [智能体运行时构建模块](/zh-Hans/patterns/agent-runtime-building-blocks)，因为运行时归属和运行时计费不是同一个决策
+- [本地智能体工具 Source Map](/zh-Hans/contributor-kit/reference-notes/local-agent-tooling-source-map)，因为本地 SDK 仍然需要清晰的文件、命令、审批和外部系统边界
+- [企业级智能体控制平面](/zh-Hans/contributor-kit/reference-notes/enterprise-agent-control-planes)，因为 fleet-level governance 应当与单个工作负载的 SDK 或 session 账单分开
+- [智能体平台与低代码构建器](/zh-Hans/ecosystem/agent-platforms-and-low-code-builders)，因为托管平台正在越来越多地用 hosted runtime 默认值来竞争，而不只是模型访问或界面包装
+
+## 证据与来源
+
+- [Agent SDK overview](https://code.claude.com/docs/en/agent-sdk/overview)：
+  Anthropic 将 Claude Agent SDK 定位为一个可编程表面，提供与 Claude Code 相同的工具、agent loop 和上下文管理能力。
+- [Track cost and usage](https://code.claude.com/docs/en/agent-sdk/cost-tracking)：
+  Anthropic 明确说明 SDK 中的 `total_cost_usd` 和 `costUSD` 只是客户端估算值，不应被当成权威计费结果。
+- [Claude pricing](https://platform.claude.com/docs/en/about-claude/pricing)：
+  Anthropic 将 Claude Managed Agents 描述为一种单独的计费形态：既收 token 费用，也按 session 处于运行状态时的 runtime 计量收费。
+- [Claude docs home](https://platform.claude.com/docs/en/home)：
+  Anthropic 现在把 `Messages` 和 `Managed Agents` 作为不同的构建表面展示，进一步强化了直接模型访问与托管运行时基础设施是两种不同产品选择。
+- [anthropics/claude-agent-sdk-python](https://github.com/anthropics/claude-agent-sdk-python)
+  和
+  [anthropics/claude-agent-sdk-typescript](https://github.com/anthropics/claude-agent-sdk-typescript)：
+  这两个公开 SDK 仓库让运行时拆分对构建者更具体，也方便在采用前检查示例、发布节奏和 issue 流动。
+
+## 需要关注的信号
+
+- 是否会有更多厂商并排发布本地 SDK 估算、托管运行时费用和权威 usage API 的说明。
+- session-runtime 计费是否会成为长运行托管智能体产品的默认模式，而不是隐藏在泛化的 container 或 tool 费用后面。
+- 构建者是否会在长工具循环、审批步骤或重度 web search 工作流之前加入显式的成本检查点。
+- framework 与 platform 的比较是否会更清楚地区分：哪一层拥有编排代码、执行时间，以及最终计费真相。
+
+## 编辑观点
+
+这个主题目前更适合放在 `radar/`，因为各家厂商的术语仍在变化。真正持久的手册结论更窄：计费是一个系统边界。
+
+当贡献者审阅一个智能体产品时，应当分开问三个问题：
+
+1. 编排逻辑在哪里运行
+2. 运行时的哪一部分由提供方托管
+3. 哪个成本表面只是估算，哪个才是事实来源
+
+这种框架比把每一次 SDK 发布或定价变化都当作单独的生态新闻，更容易复用。
+
+## 更新日志
+
+- 2026-06-17：新增一条关于智能体运行时计费边界的雷达笔记，强调本地 SDK 编排、托管运行时计量和权威计费结果之间的拆分。
