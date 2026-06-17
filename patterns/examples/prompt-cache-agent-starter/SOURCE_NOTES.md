@@ -5,22 +5,31 @@ copying implementation code or long-form text.
 
 ## First-Party References
 
+- Anthropic Agent SDK cost tracking:
+  https://code.claude.com/docs/en/agent-sdk/cost-tracking
+- Anthropic Usage and Cost API:
+  https://platform.claude.com/docs/en/manage-claude/usage-cost-api
 - Anthropic prompt caching:
   https://platform.claude.com/docs/en/build-with-claude/prompt-caching
 - Anthropic pricing:
   https://platform.claude.com/docs/en/about-claude/pricing
+- OpenAI prompt caching:
+  https://developers.openai.com/api/docs/guides/prompt-caching
+- OpenAI current model guidance:
+  https://developers.openai.com/api/docs/guides/latest-model
 
 These sources inform the concepts of cache writes, cache reads, stable prompt
-prefixes, and provider pricing columns. The starter keeps pricing values as
-caller-supplied inputs because provider prices can change.
+prefixes, prompt-cache routing keys, authoritative usage reporting, and
+provider pricing columns. The starter keeps pricing values as caller-supplied
+inputs because provider prices and billing rules can change.
 
-## Community Signal
+## Current Trend Signal
 
-- Community prompt-cache harness discussion:
-  https://www.reddit.com/r/artificial/comments/1syw5al/87_cost_savings_sub3s_latency_i_built_a_warmcache/
+- Seven-day stored article signal for this handbook refresh:
+  https://arstechnica.com/ai/2026/06/anthropic-pauses-token-based-billing-for-its-claude-agent-sdk/
 
-The Reddit post was used only as the issue's topic signal. No code, examples,
-or prose from that post are copied into this starter.
+This article was used only as the topic signal for the refresh. Current claims
+in the handbook-facing page come from the first-party docs above.
 
 ## Attribution Boundary
 
