@@ -1,0 +1,122 @@
+---
+title: June 2026 Agent-First Devices Watch
+owner: Prompthon IO
+updated: 2026-06-03
+time_scope: 2026-06
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+## Summary
+
+The clearest early-June signal is not another generic `AI agents` headline. It
+is Microsoft's explicit push toward `agent-first devices`: Project Solara,
+Agent 365 for local agents, MXC sandboxing, and Foundry Local all point to a
+world where the runtime boundary spans device, cloud, identity, and governance
+rather than stopping at one chat surface.
+
+For handbook readers, the useful question is not whether a device is "AI
+native." It is whether the system exposes a clear runtime model for where the
+agent runs, how it is contained, how just-in-time UI appears, and who governs
+the agent across local and cloud execution.
+
+## Why It Matters
+
+This is a meaningful radar signal because it ties together several handbook
+themes that often get discussed separately:
+
+- [Radar](/radar), because the device story is still early and vendor-shaped
+- [April 2026 Local Agent Watch](/radar/2026-04-local-agent-watch), because
+  nearby execution and reviewable artifacts still matter more than the word
+  `local`
+- [Agent Runtime Building Blocks](/patterns/agent-runtime-building-blocks),
+  because agent-first devices still need message flow, tool boundaries, state,
+  and failure handling
+- [Agent UI Protocols And Generative UI](/systems/agent-ui-protocols-and-generative-ui),
+  because adaptive and just-in-time UI becomes part of the runtime contract
+- [Enterprise Agent Control Planes](/contributor-kit/reference-notes/enterprise-agent-control-planes),
+  because device-side agents now need fleet-level governance rather than only
+  app-local controls
+
+The durable lesson is that "agent-first" is not a hardware claim by itself. It
+is a systems claim about distributed execution, containment, identity,
+governance, and UI adaptation.
+
+## Evidence And Sources
+
+- [Composing a new platform for agent-first devices](https://commandline.microsoft.com/project-solara-build-2026/):
+  Microsoft's June 3, 2026 Project Solara post explicitly frames the platform
+  shift as `from apps to agents`, describes a chip-to-cloud runtime, and makes
+  enterprise manageability, identity, privacy, and just-in-time UI part of the
+  design rather than follow-up implementation details.
+- [Microsoft Build 2026](https://news.microsoft.com/build-2026/):
+  Microsoft's live Build hub groups `Project Solara`, `Foundry Local`,
+  `Windows platform security for AI agents`, and the `Agent Control
+  Specification` under one event surface. That clustering matters because it
+  shows the device story, trust story, and runtime story moving together.
+- [Microsoft Build 2026: Be yourself at work](https://blogs.microsoft.com/blog/2026/06/02/microsoft-build-2026-be-yourself-at-work/):
+  Microsoft's June 2, 2026 keynote write-up says `Agent 365 for local agents`
+  extends Entra, Defender, and Purview into a single control plane, positions
+  Windows as an `agent-native runtime`, introduces Microsoft Execution
+  Containers for OS-enforced containment, and pairs that with hosted agents in
+  Foundry Agent Service.
+- [Foundry Local documentation](https://learn.microsoft.com/en-us/azure/foundry-local/):
+  Microsoft's Learn docs describe Foundry Local as a way to safely design,
+  customize, and manage AI applications and agents on-device, which reinforces
+  that on-device agent execution is becoming a supported product layer rather
+  than only a demo pattern.
+- [microsoft/Foundry-Local](https://github.com/microsoft/Foundry-Local):
+  the official repo currently has 2,323 stars, 317 forks, and was updated on
+  2026-06-03, giving the agent-first device story a real code surface around
+  on-device inference, SDKs, and samples.
+- [microsoft/agent-framework](https://github.com/microsoft/agent-framework):
+  the official framework repo currently has 10,990 stars, 1,834 forks, and was
+  updated on 2026-06-03, which helps separate the open framework layer from
+  the newer device/runtime and control-plane claims.
+- [microsoft/Agent365-Samples](https://github.com/microsoft/Agent365-Samples):
+  the official samples repo gives contributors a concrete follow-up surface for
+  how Microsoft wants observability, notifications, runtime utilities, and
+  hosting patterns to show up in real agents.
+
+## Signals To Watch
+
+- Whether `agent-first devices` stabilizes as a durable category or remains a
+  Microsoft-specific launch framing.
+- Whether just-in-time UI becomes a practical, reviewable runtime layer rather
+  than a broad generative-UI aspiration.
+- Whether OS-enforced containment for agents becomes a real comparison axis
+  across local devices, cloud sandboxes, and mixed edge-cloud runtimes.
+- Whether teams begin choosing between open framework, managed runtime, and
+  control plane as three separate buying and architecture decisions.
+- Whether contributor-facing examples emerge that show the same workflow moving
+  between device, cloud sandbox, and governed enterprise context without losing
+  auditability.
+
+## Editorial Take
+
+This belongs in `radar/` for now because the stable handbook lesson is still
+smaller than the launch framing. The most reusable pattern is not "Project
+Solara" by itself. It is a new comparison question:
+
+1. what runs on-device
+2. what moves to the cloud
+3. what enforces containment
+4. what adapts UI to the moment
+5. what governs the full agent estate
+
+That comparison question can later strengthen a systems page or a runnable
+starter once the examples are less launch-shaped. Until then, contributors
+should resist collapsing this into `AI PC` hype or generic local-agent prose.
+
+If you want to extend this note, use the [Contributor Kit](/contributor-kit/index.mdx)
+and keep future additions grounded in first-party runtime, containment, and
+control-plane evidence.
+
+## Update Log
+
+- 2026-06-03: Added a radar note on Project Solara, agent-first devices,
+  agent-native runtime boundaries, and control-plane-driven local agent
+  governance.

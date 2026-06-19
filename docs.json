@@ -82,6 +82,7 @@
                 "pages": [
                   "ecosystem/index",
                   "ecosystem/agent-frameworks",
+                  "ecosystem/framework-comparison",
                   "ecosystem/agent-platforms-and-low-code-builders"
                 ]
               },
@@ -98,6 +99,8 @@
                 "group": "Radar",
                 "pages": [
                   "radar/index",
+                  "radar/2026-06-agent-first-devices-watch",
+                  "radar/2026-05-agentic-shopping-assistant-watch",
                   "radar/2026-04-assistant-safety-escalation-watch",
                   "radar/2026-04-defense-agent-training-loop-watch",
                   "radar/2026-04-portable-assistant-memory-watch",
@@ -323,6 +326,7 @@
                 "pages": [
                   "zh-Hans/ecosystem/index",
                   "zh-Hans/ecosystem/agent-frameworks",
+                  "zh-Hans/ecosystem/framework-comparison",
                   "zh-Hans/ecosystem/agent-platforms-and-low-code-builders"
                 ]
               },
@@ -339,6 +343,8 @@
                 "group": "雷达",
                 "pages": [
                   "zh-Hans/radar/index",
+                  "zh-Hans/radar/2026-06-agent-first-devices-watch",
+                  "zh-Hans/radar/2026-05-agentic-shopping-assistant-watch",
                   "zh-Hans/radar/2026-04-assistant-safety-escalation-watch",
                   "zh-Hans/radar/2026-04-defense-agent-training-loop-watch",
                   "zh-Hans/radar/2026-04-portable-assistant-memory-watch",
