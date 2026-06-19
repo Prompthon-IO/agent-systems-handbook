@@ -22,6 +22,9 @@ without destabilizing the evergreen structure.
 - [June 2026 Agent Runtime Billing Watch](./2026-06-agent-runtime-billing-watch.mdx):
   a current signal on separating local SDK orchestration, managed runtime
   metering, and authoritative billing surfaces for agent products.
+- [June 2026 Prompt Injection Lockdown Mode Watch](./2026-06-prompt-injection-lockdown-mode-watch.mdx):
+  a current signal on Lockdown Mode, elevated-risk assistant surfaces,
+  connector scope, and outbound-network containment for prompt injection.
 - [June 2026 Agent-First Devices Watch](./2026-06-agent-first-devices-watch.mdx):
   a current signal on Project Solara, agent-native runtimes, just-in-time UI,
   OS-enforced containment, and control-plane governance for local agents.
