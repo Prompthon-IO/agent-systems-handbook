@@ -1,0 +1,136 @@
+---
+title: June 2026 Prompt Injection Lockdown Mode Watch
+owner: Prompthon IO
+updated: 2026-06-07
+time_scope: 2026-06
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+## Summary
+
+The June 2026 Lockdown Mode rollout makes a narrower assistant-systems point
+easier to see: prompt-injection defense is no longer just a model-alignment
+question. It is an outbound-surface design question.
+
+For handbook readers, the current lesson is to separate three controls that are
+often collapsed together:
+
+- what untrusted content the assistant may read
+- what networked tools, connectors, or MCP actions it may call
+- what high-risk actions still require a person to review or approve
+
+Lockdown Mode matters because it constrains those surfaces directly instead of
+pretending prompt injection can be solved by instruction following alone.
+
+## Why It Matters
+
+Teams often describe prompt injection as a filtering or refusal problem. The
+current OpenAI framing is more operational: even if malicious content enters the
+context, the system should still reduce the chance that sensitive data leaves
+the trusted boundary.
+
+That moves the design conversation toward concrete product questions:
+
+- which browsing paths are live versus cached
+- which connectors are sync-only versus live network calls
+- which read actions are allowed without new approval
+- which write actions are blocked, elevated, or fully disabled
+- which agent surfaces can keep running when a high-risk mode is enabled
+- how admins can audit the remaining tool and app usage
+
+Those are system controls, not only model behaviors.
+
+## Evidence And Sources
+
+- [Lockdown Mode](https://help.openai.com/en/articles/20001061-lockdown-mode):
+  OpenAI's help center says Lockdown Mode is designed to reduce prompt
+  injection-based data exfiltration by limiting outbound network requests. The
+  current restrictions include live web browsing, deep research, agent mode,
+  file downloads, and live connector access or writes for supported account
+  types.
+- [ChatGPT release notes](https://help.openai.com/en/articles/6825453-chatgpt-release-notes):
+  the June 2, 2026 release notes say Lockdown Mode is now available to logged-in
+  users across account types and workspaces, which makes it a live product
+  pattern rather than a narrow pilot.
+- [Designing AI agents to resist prompt injection](https://openai.com/index/designing-agents-to-resist-prompt-injection/):
+  OpenAI frames the strongest real attacks as social engineering in context,
+  which supports containment and reviewable actions instead of string matching
+  alone.
+- [Safety in building agents](https://platform.openai.com/docs/guides/agent-builder-safety):
+  OpenAI's developer guidance says to keep tool approvals on, constrain data
+  flow with structured outputs, and be especially careful with MCP tool calls.
+- [Building MCP servers for ChatGPT and API integrations](https://platform.openai.com/docs/mcp/):
+  OpenAI's MCP guidance explicitly calls out prompt-injection-related risks when
+  models encounter hostile content and can take downstream actions.
+- [MCP Security Best Practices](https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices):
+  the current spec guidance expands the problem into token passthrough, SSRF,
+  local MCP compromise, session hijacking, and scope minimization.
+- High-signal repos for current operator attention:
+  [openai/codex](https://github.com/openai/codex) (89,280 stars / 13,139 forks /
+  pushed 2026-06-07),
+  [openai/openai-agents-python](https://github.com/openai/openai-agents-python)
+  (26,968 stars / 4,167 forks / pushed 2026-06-05), and
+  [modelcontextprotocol/modelcontextprotocol](https://github.com/modelcontextprotocol/modelcontextprotocol)
+  (8,337 stars / 1,579 forks / pushed 2026-06-07).
+
+## Signals To Watch
+
+- Whether more assistant products adopt a distinct "high-risk" operating mode
+  that removes live network paths instead of relying on stronger warnings alone.
+- Whether connector policies keep separating synced data access from live
+  remote reads and writes.
+- Whether MCP client and server tooling add clearer consent, scope, and local
+  sandbox defaults instead of leaving those controls to operator folklore.
+- Whether assistant products expose a cleaner audit trail for which tools were
+  available, approved, blocked, or downgraded during a high-risk session.
+- Whether "elevated risk" labels become stable cross-product vocabulary for
+  web access, connector actions, code execution, and remote tool use.
+
+## Design Implications
+
+Builders should treat prompt injection containment as a layered workflow:
+
+- reduce the live network surface before trying to perfect detection
+- separate sync-only context sources from tools that can exfiltrate data or
+  create side effects
+- keep explicit approvals on for consequential reads and writes
+- use narrow scopes and progressive elevation for MCP and connector access
+- preserve audit visibility on what the agent was allowed to do in each mode
+
+One detail is especially useful for handbook readers: OpenAI's current Lockdown
+Mode guidance says the setting does not affect Codex network access. That is a
+practical reminder that "assistant risk mode" and "developer environment risk
+mode" may remain different control planes even inside the same product family.
+
+## Related Handbook Pages
+
+- [Radar](/radar): the parent lane for time-scoped product and ecosystem shifts.
+- [April 2026 Assistant Safety Escalation Watch](/radar/2026-04-assistant-safety-escalation-watch):
+  a neighboring note on threat escalation and audit ownership after high-risk
+  detections.
+- [Local Agent Tooling Source Map](/contributor-kit/reference-notes/local-agent-tooling-source-map):
+  a contributor-facing source map for local agent boundaries, approval paths,
+  and prompt-injection risk from tools and files.
+- [Protocols and Interoperability](/systems/protocols-and-interoperability):
+  the durable systems chapter for MCP, A2A, and boundary-setting across agent
+  integrations.
+
+## Editorial Take
+
+This belongs in `radar/` because the product controls will keep moving. The
+durable lesson is narrower: assistant safety is becoming a capability-shaping
+surface, not only a moderation or refusal surface.
+
+The important question is no longer just "can the model recognize malicious
+instructions?" It is "what can the system still reach, send, approve, or write
+after malicious instructions appear in context?"
+
+## Update Log
+
+- 2026-06-07: Added a radar note on Lockdown Mode, elevated-risk assistant
+  surfaces, and prompt-injection containment through network and tool
+  restrictions.

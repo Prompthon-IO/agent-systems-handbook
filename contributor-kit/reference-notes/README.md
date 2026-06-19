@@ -29,3 +29,6 @@ material and they are not replacements for lab pages.
   skills, MCP roots, resources, connectors, and file-grounded workflows
   distinct in future drafts while adding prompt-injection and local
   authority-boundary guidance.
+- [Open Agent Environments](./open-agent-environments.mdx): a contributor note
+  on separating environment contracts, harnesses, trainers, and MCP-native
+  execution surfaces in agentic RL work.

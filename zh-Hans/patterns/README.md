@@ -27,8 +27,8 @@
   可解释性和工具使用。
 - [Planning And Reflection](./planning-and-reflection.mdx): 以计划优先和
   批判与改进模式如何提升长任务的质量。
-- [Agent Runtime Building Blocks](./agent-runtime-building-blocks.mdx): 大多数
-  框架和自定义智能体之下都会出现的运行时组件。
+- [Agent Runtime Building Blocks](./agent-runtime-building-blocks.mdx): 现代
+  运行时如何把沙箱、工具与协议边界、控制平面、记忆以及自适应端点表面组合起来。
 
 ## 示例入门项目
 
