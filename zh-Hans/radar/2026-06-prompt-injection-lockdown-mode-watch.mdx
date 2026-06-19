@@ -1,0 +1,131 @@
+---
+title: 2026年6月 Prompt Injection Lockdown Mode 观察
+owner: Prompthon IO
+updated: 2026-06-07
+time_scope: 2026-06
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 摘要
+
+2026 年 6 月 Lockdown Mode 的扩大可用性，让一个更窄但更实用的
+assistant-systems 结论更清楚：prompt injection 防御不再只是模型对齐问
+题，也是一种 outbound surface 设计问题。
+
+对手册读者来说，这一轮信号的价值在于把三个常被混在一起的控制面拆开：
+
+- 助手可以读取哪些不可信内容
+- 它可以调用哪些联网工具、connectors 或 MCP actions
+- 哪些高风险动作仍然必须经过人工审阅或批准
+
+Lockdown Mode 的意义在于，它直接收紧这些 surface，而不是假设只靠更好
+的 instruction following 就能解决 prompt injection。
+
+## 为什么这很重要
+
+团队常把 prompt injection 描述成过滤或拒绝问题。OpenAI 当前的 framing 更
+偏运营：即使恶意内容已经进入上下文，系统也应尽量降低敏感数据离开可信边
+界的概率。
+
+这会把设计讨论拉向更具体的产品问题：
+
+- 哪些 browsing path 是 live 的，哪些只允许 cached content
+- 哪些 connector 是 sync-only，哪些会触发 live network call
+- 哪些 read action 不需要新的 approval
+- 哪些 write action 会被阻止、升级或完全禁用
+- 启用高风险模式后，哪些 agent surface 仍可继续运行
+- 管理员如何审计剩余的工具与 app 使用情况
+
+这些都是系统控制，而不只是模型行为。
+
+## 证据与来源
+
+- [Lockdown Mode](https://help.openai.com/en/articles/20001061-lockdown-mode):
+  OpenAI 帮助中心说明，Lockdown Mode 旨在通过限制 outbound network
+  request 来降低基于 prompt injection 的 data exfiltration 风险。当前限
+  制包括 live web browsing、deep research、agent mode、file
+  downloads，以及在适用账号类型上的 live connector access 或 write。
+- [ChatGPT release notes](https://help.openai.com/en/articles/6825453-chatgpt-release-notes):
+  2026 年 6 月 2 日的 release notes 表示，Lockdown Mode 已向已登录用户
+  跨账号类型和 workspace 提供，因此它已经是一个真实的产品模式，而不是小
+  范围试点。
+- [Designing AI agents to resist prompt injection](https://openai.com/index/designing-agents-to-resist-prompt-injection/):
+  OpenAI 把更强的真实攻击描述为上下文里的 social engineering，这支持
+  containment 与可审阅动作，而不只是字符串过滤。
+- [Safety in building agents](https://platform.openai.com/docs/guides/agent-builder-safety):
+  OpenAI 的开发者指南建议保持 tool approvals 开启、用 structured
+  outputs 收紧数据流，并特别谨慎处理 MCP tool calling。
+- [Building MCP servers for ChatGPT and API integrations](https://platform.openai.com/docs/mcp/):
+  OpenAI 的 MCP 指南明确指出，当模型遇到恶意内容且能够触发 downstream
+  action 时，会出现 prompt injection 相关风险。
+- [MCP Security Best Practices](https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices):
+  当前规范级安全指南把问题进一步展开到 token passthrough、SSRF、local
+  MCP compromise、session hijacking 和 scope minimization。
+- 当前值得运营方关注的高信号仓库：
+  [openai/codex](https://github.com/openai/codex)（89,280 stars / 13,139
+  forks / 2026-06-07 pushed），
+  [openai/openai-agents-python](https://github.com/openai/openai-agents-python)
+  （26,968 stars / 4,167 forks / 2026-06-05 pushed），以及
+  [modelcontextprotocol/modelcontextprotocol](https://github.com/modelcontextprotocol/modelcontextprotocol)
+  （8,337 stars / 1,579 forks / 2026-06-07 pushed）。
+
+## 需要关注的信号
+
+- 是否会有更多助手产品采用独立的“高风险”运行模式，通过移除 live
+  network path，而不是只增加 warning。
+- connector policy 是否继续把 synced data access 与 live remote reads
+  / writes 分开。
+- MCP client 与 server tooling 是否提供更明确的 consent、scope 与 local
+  sandbox 默认值，而不是继续依赖运营方口口相传的做法。
+- 助手产品是否暴露更清晰的审计轨迹，说明在高风险 session 里哪些工具可
+  用、已批准、被阻止或被降级。
+- “elevated risk” 标签是否会变成覆盖 web access、connector actions、
+  code execution 与 remote tool use 的稳定跨产品词汇。
+
+## 设计启发
+
+构建者应把 prompt injection containment 视为分层工作流：
+
+- 在追求完美检测之前，先缩小 live network surface
+- 把 sync-only 的上下文来源与可能 exfiltrate data 或产生 side effect 的
+  工具分开
+- 对重要的 reads 和 writes 保持明确 approval
+- 对 MCP 与 connector access 使用更窄的 scope 和渐进式提升
+- 保留每种模式下 agent 被允许做什么的审计可见性
+
+有一个细节尤其值得手册读者注意：OpenAI 当前的 Lockdown Mode 指南说明，
+该设置不会影响 Codex 的 network access。这提醒我们，“assistant risk
+mode”和“developer environment risk mode”即使在同一家产品族内，也可
+能仍然属于不同的 control plane。
+
+## 相关手册页面
+
+- [Radar](/zh-Hans/radar): 用于承载时间范围明确的产品与生态变化。
+- [2026 年 4 月助手安全升级观察](/zh-Hans/radar/2026-04-assistant-safety-escalation-watch):
+  相邻的观察笔记，聚焦高风险检测之后的 threat escalation 与 audit
+  ownership。
+- [本地智能体工具来源图](/zh-Hans/contributor-kit/reference-notes/local-agent-tooling-source-map):
+  面向贡献者的来源图，覆盖 local agent 边界、approval path，以及工具与
+  文件带来的 prompt injection 风险。
+- [协议与互操作性](/zh-Hans/systems/protocols-and-interoperability):
+  更持久的 systems 章节，解释 MCP、A2A 与 agent integration 的边界设
+  计。
+
+## 编辑判断
+
+这属于 `radar/`，因为这些产品控制还会持续变化。更持久的经验更窄：助手
+安全正在变成 capability-shaping surface，而不只是 moderation 或 refusal
+ surface。
+
+重要问题不再只是“模型能不能识别恶意指令？”，而是“恶意指令进入上下文后，
+系统还能够访问、发送、批准或写入什么？”
+
+## 更新日志
+
+- 2026-06-07：新增一条 radar 笔记，聚焦 Lockdown Mode、elevated-risk
+  助手 surface，以及通过网络与工具限制来做 prompt injection
+  containment。
