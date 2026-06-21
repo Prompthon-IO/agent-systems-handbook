@@ -16,6 +16,9 @@
 
 ## 当前笔记
 
+- [2026 年 6 月 Agentic Resource Discovery 观察](./2026-06-agentic-resource-discovery-watch.mdx):
+  一则当前信号，聚焦可搜索 capability registry、`ai-catalog.json`、
+  trust metadata，以及智能体的 discovery-before-execution 边界。
 - [2026 年 6 月开放式智能体训练环境观察](./2026-06-open-agent-training-environments-watch.mdx):
   一则当前信号，聚焦 OpenEnv、有状态执行环境，以及 agent harness、environment 和 reward loop 之间的分层。
 - [2026 年 6 月 Prompt Injection Lockdown Mode 观察](./2026-06-prompt-injection-lockdown-mode-watch.mdx):
