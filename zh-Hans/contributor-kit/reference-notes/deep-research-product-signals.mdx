@@ -1,8 +1,8 @@
 ---
 title: 深度研究产品信号
 owner: Prompthon IO
-updated: 2026-04-23
-scope: current deep research product signals through April 2026
+updated: 2026-06-24
+scope: current deep research and Gemini Interactions API signals through June 2026
 status: draft
 ---
 
@@ -24,7 +24,8 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 - OpenAI 目前在 ChatGPT 中对 deep research 的定位
 - Google 面向 Gemini Deep Research 的开发者 API 表述
-- Google 2026 年 4 月 Deep Research Max 更新
+- Google 在 2026 年 6 月将 Interactions API 推向 GA 并提升为主接口
+- Google 当前围绕 Interactions-based agents 的 ADK 和 A2A bridge 信号
 
 不包含：
 
@@ -38,25 +39,39 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
   OpenAI 将 deep research 描述为一种多步骤互联网研究智能体，并指出 2026 年 2 月 10 日的更新新增了 MCP 和应用连接、受信任站点搜索控制，以及改进的进度跟踪。
 - [Build with Gemini Deep Research](https://blog.google/innovation-and-ai/technology/developers-tools/deep-research-agent-gemini-api/):
   Google 通过 Interactions API 提供 Gemini Deep Research，并将其定位为可嵌入的智能体，用于长时间运行的上下文收集与综合。
-- [Introducing Deep Research and Deep Research Max](https://blog.google/innovation-and-ai/models-and-research/gemini-models/next-generation-gemini-deep-research/):
-  Google 将 2026 年 4 月 21 日的发布定位为围绕 MCP 支持、原生可视化，以及在长周期研究工作流上的更好表现。
+- [Interactions API: our primary interface for Gemini models and agents](https://blog.google/innovation-and-ai/technology/developers-tools/interactions-api-general-availability/):
+  Google 表示 Interactions API 已于 2026 年 6 月 22 日达到 GA，并成为 Gemini models and agents 的主接口。
+- [Gemini API docs](https://ai.google.dev/gemini-api/docs) 和
+  [Interactions overview](https://ai.google.dev/gemini-api/docs/interactions-overview):
+  当前文档建议新项目优先使用 Interactions API，并将 server-side state、background execution 与 resumable interaction flows 作为默认开发者表面。
+- [Building agents with the ADK and the new Interactions API](https://developers.googleblog.com/building-agents-with-the-adk-and-the-new-interactions-api/)
+  以及 [Gemini Enterprise Agent Platform ADK guide](https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/adk):
+  Google 已将 Interactions API 与 ADK-managed tools、A2A bridges 以及 enterprise deployment 路径连接起来，而不是把 deep research 视为孤立的产品叶子节点。
 
 ## 综合
 
-从这些来源中可以看出三个稳定信号：
+从这些来源中可以看出四个稳定信号：
 
 - Deep research 正被定位为工作产物，而不仅仅是聊天。OpenAI 描述的是基于多种来源生成的分析师级报告，而 Google 则将 Deep Research 定位为一种长时间运行的综合智能体。
-- 产品边界正在超越公开网页搜索。OpenAI 在 2026 年 2 月 10 日的更新中加入了 MCP 和应用连接，以及受信任站点限制。Google 2026 年 4 月的更新则为自定义和专业数据源增加了 MCP 支持。
-- Deep research 正在分化为面向终端用户和面向开发者的两类入口。OpenAI 以 ChatGPT 用法为中心，而 Google 现在通过 Interactions API 直接暴露这种形态，用于嵌入式产品使用。
+- 产品边界正在超越公开网页搜索。OpenAI 在 2026 年 2 月 10 日的更新中加入了 MCP 和应用连接，以及受信任站点限制。Google 则继续通过 connected data、managed tools 和长时间运行的 interaction state 推动同一方向。
+- Google 已不再只是说“Gemini Deep Research 存在”。更强的 2026 年 6 月信号是：Interactions API 现在是 Gemini models and agents 的主接口，而 Deep Research 只是这一更广泛 runtime model 上的一个具体表面。
+- 面向开发者的 agent systems 正在吸收越来越多原本属于产品层的形态。Server-side state、resumable background work、tool execution 和 A2A bridges，如今都出现在此前看起来像单一 research-agent 功能的同一家接口族中。
 
-这意味着实验室应将 deep research 视为一个更广义的产品类别，其共享特征包括规划、证据收集、可追溯性和产物质量，而不是某一家供应商的一个孤立功能。
+这意味着实验室应将 deep research 视为一个更广义的产品类别，其共享特征包括规划、证据收集、可追溯性、产物质量以及长时间运行的 interaction state，而不是某一家供应商的一个孤立功能。
+
+## 对贡献者的含义
+
+- 扩展 [Deep Research Agents](/zh-Hans/case-studies/deep-research-agents)，补上一段内容，明确区分面向终端用户的 deep-research 产品与如今暴露同一智能体形态的面向开发者 runtime surfaces。
+- 将未来更新与 [Agent Frameworks](/zh-Hans/ecosystem/agent-frameworks)、[Protocols And Interoperability](/zh-Hans/systems/protocols-and-interoperability) 以及 [Deep Research Agent Starter](/zh-Hans/case-studies/examples/deep-research-agent-starter) 交叉链接，让这份说明指向持久的实现表面，而不是停留在市场快照。
+- 通过 [Reference Notes hub](/zh-Hans/contributor-kit/reference-notes) 和 [Contributor reading path](/zh-Hans/reading-paths/contributor) 来组织后续整理工作，使产品信号刷新持续依附于仓库原生的起草规则。
 
 ## 差距与后续
 
-- 扩展 [Deep Research Agents](/zh-Hans/case-studies/deep-research-agents)，增加一个简短的产品信号部分，让案例研究体现当前的市场动向。
-- 添加一条后续说明，聚焦于长时间运行研究智能体的评估与信任边界。
-- 重新评估未来的入门项目是否应支持可信来源约束，或支持 MCP 连接的私有数据。
+- 扩展 [Deep Research Agents](/zh-Hans/case-studies/deep-research-agents)，补上一段关于 Gemini Interactions API 作为长时间运行研究智能体默认开发者表面的产品信号内容。
+- 添加一条后续说明，聚焦于混合 built-in agents 与 framework-owned outer loops 的长时间运行研究智能体的评估与信任边界。
+- 重新评估未来的入门项目是否应支持可信来源约束，或在 MCP 连接的私有数据之外加入 server-side interaction state。
 
 ## 更新日志
 
+- 2026-06-24：围绕 Google Interactions API 的 GA 以及其作为主要 Gemini agent interface 的新角色刷新本说明。
 - 2026-04-23：基于当前 OpenAI 和 Google 来源，新增一份面向贡献者的产品信号说明。

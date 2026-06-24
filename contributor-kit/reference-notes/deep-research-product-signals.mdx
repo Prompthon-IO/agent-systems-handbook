@@ -1,8 +1,8 @@
 ---
 title: Deep Research Product Signals
 owner: Prompthon IO
-updated: 2026-04-23
-scope: current deep research product signals through April 2026
+updated: 2026-06-24
+scope: current deep research and Gemini Interactions API signals through June 2026
 status: draft
 ---
 
@@ -30,7 +30,8 @@ Included:
 
 - OpenAI's current deep research positioning in ChatGPT
 - Google's developer API framing for Gemini Deep Research
-- Google's April 2026 Deep Research Max update
+- Google's June 2026 Interactions API general-availability shift
+- current Google ADK and A2A bridge signals for Interactions-based agents
 
 Excluded:
 
@@ -47,40 +48,76 @@ Excluded:
 - [Build with Gemini Deep Research](https://blog.google/innovation-and-ai/technology/developers-tools/deep-research-agent-gemini-api/):
   Google exposes Gemini Deep Research through the Interactions API and frames it
   as an embeddable agent for long-running context gathering and synthesis.
-- [Introducing Deep Research and Deep Research Max](https://blog.google/innovation-and-ai/models-and-research/gemini-models/next-generation-gemini-deep-research/):
-  Google positions the April 21, 2026 release around MCP support, native
-  visualizations, and better performance on long-horizon research workflows.
+- [Interactions API: our primary interface for Gemini models and agents](https://blog.google/innovation-and-ai/technology/developers-tools/interactions-api-general-availability/):
+  Google says the Interactions API reached general availability on June 22,
+  2026 and now serves as the primary interface for Gemini models and agents.
+- [Gemini API docs](https://ai.google.dev/gemini-api/docs) and
+  [Interactions overview](https://ai.google.dev/gemini-api/docs/interactions-overview):
+  the current docs recommend the Interactions API for new projects and frame
+  server-side state, background execution, and resumable interaction flows as
+  the default developer surface.
+- [Building agents with the ADK and the new Interactions API](https://developers.googleblog.com/building-agents-with-the-adk-and-the-new-interactions-api/)
+  plus the [Gemini Enterprise Agent Platform ADK guide](https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/adk):
+  Google now connects the Interactions API to ADK-managed tools, A2A bridges,
+  and enterprise deployment paths instead of treating deep research as an
+  isolated product leaf.
 
 ## Synthesis
 
-Three stable signals stand out across these sources:
+Four stable signals stand out across these sources:
 
 - Deep research is being framed as work product, not just chat. OpenAI
   describes analyst-level reports built from many sources, while Google frames
   Deep Research as a long-running synthesis agent.
 - The product boundary is moving beyond public web search. OpenAI added MCP and
   app connections plus trusted-site restrictions in the February 10, 2026
-  update. Google's April 2026 update adds MCP support for custom and
-  professional data sources.
-- Deep research is splitting into both end-user and developer surfaces. OpenAI
-  centers ChatGPT usage, while Google now exposes the shape directly through the
-  Interactions API for embedded product use.
+  update. Google keeps pushing the same direction through connected data,
+  managed tools, and long-running interaction state.
+- Google is no longer only saying "Gemini Deep Research exists." The stronger
+  June 2026 signal is that Interactions API is now the primary interface for
+  Gemini models and agents, with Deep Research becoming one concrete surface on
+  top of that wider runtime model.
+- Developer-facing agent systems are absorbing more of the product shape.
+  Server-side state, resumable background work, tool execution, and A2A bridges
+  now show up in the same interface family that previously looked like a single
+  research-agent feature.
 
 This means the lab should treat deep research as a broader product category
-with shared traits such as planning, evidence gathering, traceability, and
-artifact quality rather than as one isolated feature from one vendor.
+with shared traits such as planning, evidence gathering, traceability,
+artifact quality, and long-running interaction state rather than as one
+isolated feature from one vendor.
+
+## Contributor Implications
+
+- Extend [Deep Research Agents](/case-studies/deep-research-agents) with a
+  short section that distinguishes end-user deep-research products from the
+  developer-facing runtime surfaces that now expose the same agent shape.
+- Cross-link future updates with [Agent Frameworks](/ecosystem/agent-frameworks),
+  [Protocols And Interoperability](/systems/protocols-and-interoperability),
+  and the
+  [Deep Research Agent Starter](/case-studies/examples/deep-research-agent-starter)
+  so the note points to durable implementation surfaces instead of remaining a
+  pure market snapshot.
+- Route future curation through the
+  [Reference Notes hub](/contributor-kit/reference-notes) and the
+  [Contributor reading path](/reading-paths/contributor) so product-signal
+  refreshes stay attached to repo-native drafting rules.
 
 ## Gaps And Follow-up
 
 - Expand [Deep Research Agents](/case-studies/deep-research-agents)
-  with a short product-signals section so the case study acknowledges current
-  market movement.
+  with a short product-signals section on Gemini Interactions API as a default
+  developer surface for long-running research agents.
 - Add a follow-up note focused on evaluation and trust boundaries for
-  long-running research agents.
+  long-running research agents that mix built-in agents with framework-owned
+  outer loops.
 - Revisit whether a starter project should support trusted-source constraints or
-  MCP-connected private data in a future iteration.
+  server-side interaction state alongside MCP-connected private data in a future
+  iteration.
 
 ## Update Log
 
+- 2026-06-24: Refreshed the note around Google's Interactions API general
+  availability and its new role as a primary Gemini agent interface.
 - 2026-04-23: Added a contributor-facing product-signals note based on current
   OpenAI and Google sources.
