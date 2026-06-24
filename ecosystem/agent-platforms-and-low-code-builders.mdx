@@ -1,7 +1,7 @@
 ---
 title: Agent Platforms And Low-Code Builders
 owner: Prompthon IO
-updated: 2026-05-01
+updated: 2026-06-24
 depth: intermediate
 region_tags:
   - global
@@ -14,6 +14,12 @@ external_readings:
     url: https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/agent-builder
   - title: Choose between Microsoft 365 Copilot and Copilot Studio to build your agent
     url: https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/copilot-studio-experience
+  - title: Interactions API: our primary interface for Gemini models and agents
+    url: https://blog.google/innovation-and-ai/technology/developers-tools/interactions-api-general-availability/
+  - title: Interactions API | Gemini API
+    url: https://ai.google.dev/gemini-api/docs/interactions-overview
+  - title: Introducing Managed Agents in the Gemini API
+    url: https://blog.google/innovation-and-ai/technology/developers-tools/managed-agents-gemini-api/
   - title: Amazon Bedrock Managed Agents, powered by OpenAI
     url: https://aws.amazon.com/bedrock/managed-agents-openai/
   - title: Automate tasks in your application using AI agents - Amazon Bedrock
@@ -30,10 +36,10 @@ import SupportCTA from "/snippets/support-cta.mdx";
 ## Summary
 
 Low-code agent platforms turn recurring application patterns into visual,
-configuration-first, workspace-native, or cloud-managed building blocks. In
-2026, the comparison surface includes not only standalone builder products but
-also agent builders that live inside existing productivity suites and managed
-cloud runtimes.
+configuration-first, workspace-native, API-first managed, or cloud-managed
+building blocks. In 2026, the comparison surface includes not only standalone
+builder products but also agent builders that live inside existing productivity
+suites and managed cloud runtimes.
 
 ## Why It Matters
 
@@ -42,11 +48,11 @@ need to validate a product surface, connect common services, or let
 non-engineer stakeholders participate in building the workflow.
 
 That is where builder-first, platform-first, automation-first,
-workspace-native, and cloud-managed surfaces become attractive.
+workspace-native, and managed-runtime surfaces become attractive.
 
 ## Mental Model
 
-The current platform market points to seven useful anchors:
+The current platform market points to eight useful anchors:
 
 - `Coze`: builder-first experience for quick assembly, plugins, and publishing
 - `Dify`: application platform for orchestration, plugins, knowledge, and
@@ -59,6 +65,9 @@ The current platform market points to seven useful anchors:
   declarative scenarios
 - `Copilot Studio`: broader Microsoft platform for larger audiences, custom
   integrations, and more advanced control
+- `Gemini Managed Agents`: an agent-first API surface where Google hosts the
+  sandbox, state, and long-running execution while builders still author
+  instructions and skills
 - `Bedrock Managed Agents`: AWS-managed agent runtime for OpenAI-powered agents
   that need cloud governance, service proximity, and managed operations
 
@@ -66,7 +75,8 @@ These are different choices, not direct substitutes.
 
 - builder-first products optimize fast creation and operator friendliness
 - workspace-native builders optimize shared agents inside an existing suite
-- cloud-managed builders optimize enterprise runtime ownership and governance
+- cloud-managed and API-first managed surfaces optimize enterprise runtime
+  ownership and governance
 - application platforms optimize broader product and deployment control
 - automation platforms optimize integration into existing business processes
 
@@ -81,6 +91,7 @@ flowchart LR
   Choice --> App["Application platform"]
   Choice --> Automation["Automation-first"]
   Workspace --> OpenAI["Workspace agents / Agent Builder"]
+  Managed --> Gemini["Gemini Managed Agents"]
   Managed --> Bedrock["Bedrock Managed Agents"]
   Builder --> Coze["Coze-style"]
   App --> Dify["Dify / Copilot Studio style"]
@@ -100,6 +111,12 @@ flowchart LR
 - Copilot Studio matters when the audience is larger, the workflow is more
   complex, or the agent needs custom integrations and stronger deployment
   management than Agent Builder is designed to provide.
+- Gemini Managed Agents and the Interactions API point to an API-first managed
+  surface: one interface for model calls, Deep Research, and custom managed
+  agents with server-side state, background execution, and hosted Linux
+  sandboxes. This sits between a framework and a hosted platform because the
+  builder still defines instructions and skills, but Google owns the runtime
+  boundary.
 - Bedrock Managed Agents points to a cloud-managed enterprise surface: teams can
   run OpenAI-powered agents on AWS infrastructure while relying on the provider
   for runtime concerns such as inference, memory, skills, identity, audit logs,
@@ -119,6 +136,9 @@ flowchart LR
 - Choose workspace-native builders when the team already lives inside the host
   suite and wants shared agents with built-in governance and familiar
   permissions.
+- Choose agent-first managed APIs when the team wants code-first control over
+  instructions and tools but does not want to own sandbox infrastructure,
+  background execution, or server-side state handling.
 - Choose cloud-managed agents when the team already standardizes on a cloud
   provider's data boundaries, governance model, and adjacent services.
 - Choose builder-first platforms when quick iteration and cross-functional
@@ -140,6 +160,9 @@ flowchart LR
 - Cloud-managed agents reduce runtime ownership, but they increase dependence on
   provider-specific capabilities, pricing, regional availability, and release
   timing.
+- API-first managed surfaces speed up long-running tool use and hosted
+  sandboxes, but they also bind you to provider-specific interaction-state
+  semantics, tool contracts, and observability surfaces.
 - Visual platforms improve accessibility, but complex flows can still become
   hard to debug.
 - Rich plugin ecosystems accelerate capability growth, but they also create
@@ -150,6 +173,8 @@ flowchart LR
 Useful defaults:
 
 - use suite-native builders to validate shared internal workflows quickly
+- use agent-first managed APIs when you need hosted sandboxes, resumable
+  execution, or one endpoint for both models and agents
 - use cloud-managed agents when service proximity, auditability, and managed
   runtime operations matter more than framework portability
 - move to a broader platform or custom code when the host surface becomes the
@@ -165,11 +190,15 @@ Useful defaults:
 ## Reading Extensions
 
 - [Agent Frameworks](/ecosystem/agent-frameworks)
+- [Deep Research Product Signals](/contributor-kit/reference-notes/deep-research-product-signals)
+- [Protocols And Interoperability](/systems/protocols-and-interoperability)
 - [Agents Vs Workflows](/foundations/agents-vs-workflows)
 - [Ecosystem Overview](/ecosystem)
 
 ## Update Log
 
+- 2026-06-24: Added Gemini Interactions API and Managed Agents as an API-first
+  managed platform signal in the 2026 comparison.
 - 2026-05-01: Added Bedrock Managed Agents as a cloud-managed enterprise agent
   platform signal from the seven-day trend run.
 - 2026-04-23: Refreshed the page with current workspace-agent and Microsoft
