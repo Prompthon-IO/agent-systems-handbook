@@ -26,9 +26,9 @@ material and they are not replacements for lab pages.
 - [Deep Research Source Map](./deep-research-source-map.mdx)
 - [Local Agent Tooling Source Map](./local-agent-tooling-source-map.mdx): a
   contributor briefing for keeping local execution boundaries, runtimes,
-  skills, MCP roots, resources, connectors, and file-grounded workflows
-  distinct in future drafts while adding prompt-injection and local
-  authority-boundary guidance.
+  skills, discovery registries, MCP roots, resources, connectors, and
+  file-grounded workflows distinct in future drafts while adding
+  prompt-injection and local authority-boundary guidance.
 - [Open Agent Environments](./open-agent-environments.mdx): a contributor note
   on separating environment contracts, harnesses, trainers, and MCP-native
   execution surfaces in agentic RL work.
