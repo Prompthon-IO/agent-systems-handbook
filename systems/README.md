@@ -24,13 +24,17 @@ and operational tradeoffs.
 
 - [Context Engineering](./context-engineering.mdx): how systems write, select,
   compress, and isolate context for reliable multi-step work.
+- [Agent Security And Prompt Injection](./agent-security-and-prompt-injection.mdx):
+  how teams contain untrusted inputs, dangerous tools, and external side
+  effects in production-minded agent systems.
 - [Agent UI Protocols And Generative UI](./agent-ui-protocols-and-generative-ui.mdx):
   how AG-UI and A2UI separate user-facing interaction from tool and agent
   protocols.
 - [Protocols And Interoperability](./protocols-and-interoperability.mdx): how
   tool access, agent collaboration, and network discovery fit together.
 - [Evaluation And Observability](./evaluation-and-observability.mdx): how to
-  measure capability and explain failures in production-minded agent systems.
+  measure capability, turn written intent into runnable evals, and explain
+  failures in production-minded agent systems.
 
 ## Example starters
 

@@ -1,5 +1,6 @@
 ---
 title: "Prompt Cache Agent Starter"
+description: "A runnable starter for agent runtime cost controls, prompt caching boundaries, and cold-versus-warm usage checks."
 ---
 
 import SupportCTA from "/snippets/support-cta.mdx";
@@ -8,9 +9,9 @@ import SupportCTA from "/snippets/support-cta.mdx";
 
 ## Summary
 
-This starter shows a small prompt-cache-aware agent loop: stable prompt layers
-first, dynamic memory later, and a tiny benchmark surface for comparing cold
-and warm run metadata.
+This starter shows a small prompt-cache-aware agent loop for agent runtime cost
+controls: stable prompt layers first, dynamic memory later, and a tiny
+benchmark surface for comparing cold and warm run metadata.
 
 ## Status
 
@@ -30,11 +31,32 @@ instructions, and stable reference context as cacheable layers, while durable
 memory summaries and current tasks stay outside the cached prefix unless the
 builder intentionally promotes them.
 
+## Agent Runtime Cost Controls
+
+Recent agent SDK changes are a reminder that provider billing rules and pricing
+tables can move faster than a handbook page. The durable lesson is to keep the
+runtime cost boundary inspectable:
+
+- treat tools, system instructions, and shared reference context as the stable
+  prefix
+- move user-specific memory, current-turn tasks, and volatile tool outputs
+  later in the request
+- track cache writes and cache reads separately so a warm rerun is verifiably
+  cheaper instead of only shorter
+- compare SDK-side estimates with provider-side usage reporting before turning
+  token math into budgets or customer billing
+
+This starter stays provider-agnostic, but current Anthropic and OpenAI docs now
+reinforce the same pattern: stable prefixes improve cache reuse, runtime usage
+fields reveal whether cache hits actually happened, and explicit cost controls
+belong in the operator loop instead of guesswork.
+
 ## Related Lab Pages
 
 - [Agent Memory And Retrieval](/patterns/agent-memory-and-retrieval)
 - [Agent Runtime Building Blocks](/patterns/agent-runtime-building-blocks)
 - [Patterns Overview](/patterns)
+- [Contribution Workflow](/contributor-kit/contribution-workflow)
 
 ## Folder Structure
 
@@ -65,6 +87,12 @@ The starter may:
 - calculate where the stable prefix ends
 - compare cache-read and cache-write shares
 - estimate input cost when current pricing values are supplied
+
+When you map it to a real runtime, preserve three separate checks:
+
+- a stop condition or budget control before the loop runs too far
+- cache-specific usage fields that show whether repeated prefixes were reused
+- an authoritative usage export or admin API outside local estimates
 
 The starter must not:
 

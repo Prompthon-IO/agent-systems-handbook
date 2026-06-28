@@ -1,12 +1,18 @@
 ---
 title: Evaluation And Observability
 owner: Prompthon IO
-updated: 2026-05-18
+updated: 2026-06-06
 depth: advanced
 region_tags:
   - global
 coding_required: optional
-external_readings: []
+external_readings:
+  - title: "Microsoft Command Line: Turn specs into evals for any agent with ASSERT"
+    url: https://commandline.microsoft.com/assert-written-intent-executable-evals/
+  - title: "Google: Build Kaggle Benchmarks Locally"
+    url: https://blog.google/innovation-and-ai/technology/developers-tools/build-kaggle--benchmarks-locally/
+  - title: "Microsoft Foundry Blog: Build agents you can trust across any framework with open evals and a control standard"
+    url: https://devblogs.microsoft.com/foundry/build-2026-open-trust-stack-ai-agents/
 status: draft
 ---
 
@@ -144,6 +150,14 @@ Different task types need different metrics.
 - Data generation or synthesis tasks may need comparative review, judge models,
   or human verification.
 
+The current signal adds one more useful split inside offline evaluation:
+
+- `spec-driven evals`: turn written product requirements or policies into
+  inspectable behavior taxonomies, stratified test cases, and verdicts tied to
+  the original rule or expectation.
+- `benchmark authoring`: create portable task suites and leaderboards that can
+  be edited, run, and compared from a local development workflow.
+
 ## Architecture Diagram
 
 ```mermaid
@@ -195,6 +209,46 @@ Observability should remain structured from the start.
 
 That is what turns a black-box failure into an actionable bug.
 
+### Current evaluation signal
+
+The June 2026 source cluster makes the evaluation loop more concrete than a
+generic "run some benchmarks" story:
+
+- `ASSERT` shows a requirement-driven path from written intent to executable
+  evals. The useful lesson is not the product name. It is the pipeline shape:
+  specification, editable taxonomy, generated scenarios, full traces, and
+  inspectable scoring.
+- `Kaggle Benchmarks` shows a benchmark-authoring path that now fits local
+  development and coding-agent workflows instead of only a hosted notebook
+  flow. That makes benchmark work easier to version, review, and iterate next
+  to real application code.
+- `open eval registries and trace grading` remain useful when teams need shared
+  baselines, but they should sit beside product-specific evaluation rather than
+  replace it.
+
+This suggests a practical operating model:
+
+1. Write the intended behavior in a form humans can review.
+2. Turn that specification into executable cases or benchmark tasks.
+3. Run the target agent with full traces, tool evidence, and environment
+   context preserved.
+4. Review both the score and the failure artifacts before changing prompts,
+   tools, or runtime policy.
+
+### Runtime traces versus control planes
+
+Evaluation also needs one boundary that teams often blur:
+
+- `runtime instrumentation` explains what happened in one run.
+- `eval infrastructure` compares many runs against explicit expectations.
+- `control planes` govern fleets of agents, environments, and policies across
+  an organization.
+
+Do not collapse those into one category. A strong trace is not a full control
+plane. A control plane is not a substitute for product-specific evals. See
+[Enterprise Agent Control Planes](/contributor-kit/reference-notes/enterprise-agent-control-planes)
+for that organization-level layer.
+
 ## Tradeoffs
 
 - Offline benchmarks are useful, but they can overfit the system to lab tasks
@@ -212,21 +266,37 @@ That is what turns a black-box failure into an actionable bug.
 Useful operating defaults:
 
 - evaluate the capability you are actually changing
+- treat written policy or product requirements as evaluation inputs, not only
+  background prose
+- keep benchmark tasks and scoring artifacts close enough to code that they can
+  be versioned and reviewed
 - keep traces for both failed and successful runs
 - review failure modes before rewriting prompts
 - do not ship "tool failed" as the only explanation developers can see
 - maintain a calibration set and re-check judge agreement after every model
   change
 
+## Citations
+
+- Official source: [Turn specs into evals for any agent with ASSERT](https://commandline.microsoft.com/assert-written-intent-executable-evals/)
+- Official source: [Build Kaggle Benchmarks Locally](https://blog.google/innovation-and-ai/technology/developers-tools/build-kaggle--benchmarks-locally/)
+- Official source: [Build agents you can trust across any framework with open evals and a control standard](https://devblogs.microsoft.com/foundry/build-2026-open-trust-stack-ai-agents/)
+- High-signal repository: [responsibleai/ASSERT](https://github.com/responsibleai/ASSERT)
+- High-signal repository: [openai/evals](https://github.com/openai/evals)
+
 ## Reading Extensions
 
+- [Enterprise Agent Control Planes](/contributor-kit/reference-notes/enterprise-agent-control-planes)
 - [LLM Foundations for Agent Systems](/foundations/llm-foundations-for-agent-systems)
 - [Context Engineering](/systems/context-engineering)
+- [Customer Support Agents](/case-studies/customer-support-agents)
 - [Deep Research Agents](/case-studies/deep-research-agents)
 - [Protocols And Interoperability](/systems/protocols-and-interoperability)
 - [Systems Overview](/systems)
 
 ## Update Log
 
+- 2026-06-06: Added spec-driven evals, local benchmark authoring, and
+  control-plane boundary notes using current ASSERT and Kaggle source signals.
 - 2026-05-18: Major revision adding LLM-specific evaluation methodology, approach map, human-in-the-loop vs LLM-as-a-judge, and framework landscape.
 - 2026-04-21: Initial repo-native draft based on imported reference material and lab rewrite rules.

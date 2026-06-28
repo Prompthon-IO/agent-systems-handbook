@@ -1,8 +1,8 @@
 ---
 title: Local Agent Tooling Source Map
 owner: Prompthon IO
-updated: 2026-05-27
-scope: local agent tooling, skills, roots, resources, connectors, and file-grounded workflows
+updated: 2026-06-06
+scope: local agent tooling, execution boundaries, skills, roots, resources, connectors, and file-grounded workflows
 status: draft
 ---
 
@@ -63,6 +63,8 @@ Included:
 
 - official OpenAI source material on Responses API tools, file search, remote
   MCP support, and computer environments
+- current OpenAI documentation for approval-gated connectors and remote MCP
+  servers
 - official OpenAI, Microsoft, Claude Code, and MCP security guidance on
   indirect prompt injection, sandboxing, scope minimization, and trust
   boundaries for local agents
@@ -83,6 +85,10 @@ Excluded:
 - [OpenAI Responses API tools and remote MCP support](https://openai.com/index/new-tools-and-features-in-the-responses-api/):
   use this for claims about hosted tools, remote MCP support, file search, and
   long-running background work.
+- [OpenAI MCP and Connectors guide](https://developers.openai.com/api/docs/guides/tools-connectors-mcp):
+  use this when the draft needs approval rules, remote-server transport
+  details, tool-list caching, or the practical boundary between trusted
+  connectors and third-party MCP servers.
 - [OpenAI computer environment for agents](https://openai.com/index/equip-responses-api-computer-environment/):
   use this for claims about execution environments, persistent files, shell
   access, compaction, and agent skills as runtime support.
@@ -115,7 +121,7 @@ Excluded:
 - [MCP security best practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices):
   use this when the draft needs concrete language for local MCP server
   compromise, one-click startup-command consent, scope minimization, and why
-  stdio or authenticated transports matter.
+  `stdio` or authenticated transports matter.
 - [modelcontextprotocol/modelcontextprotocol](https://github.com/modelcontextprotocol/modelcontextprotocol):
   use this as the high-signal implementation and specification repo for
   checking current MCP adoption, issue flow, and security-surface maintenance.
@@ -146,6 +152,11 @@ agent how to perform a task, but it should not be treated as current evidence.
 A connector can expose a useful system, but it should not imply permission to
 read or act on every object in that system.
 
+The June 2026 refresh is a useful reminder that the stable handbook term is
+not just "local agent tooling." It is `local agent execution boundaries`:
+where the work runs, which approvals exist, which roots or resources are in
+scope, and what review surface remains after the action completes.
+
 ## Production-Readiness Note
 
 The current seven-day signal around prompt injection is a reminder that local
@@ -167,17 +178,17 @@ or send data elsewhere?"
 - Add prompt-injection and tool-misuse checks to eval or red-team workflows
   before calling a local-agent setup production-ready.
 
-## Authority Boundary Matrix
+## Execution Boundary Matrix
 
 The source map is easier to apply when contributors compare local-agent
 surfaces side by side instead of treating them all as "tool access."
 
-| Surface | Main boundary question | Main failure mode | Baseline defenses |
-| --- | --- | --- | --- |
-| Direct local script | Which user or service account executes the command? | Broad shell authority turns one bad instruction into immediate file or credential access. | Minimal default privileges, explicit input review, isolated runtime, and auditable outputs. |
-| Local `stdio` MCP server | Which startup command and local directories are in scope? | A trusted-looking local server can execute opaque startup commands or overreach into local files. | Exact startup-command review, sandboxing, restricted filesystem access, and narrow directory scope. |
-| Remote MCP server | Which remote scopes, tokens, and outbound actions are delegated? | Over-broad tokens or weak auth let untrusted content trigger high-impact remote actions. | Scope minimization, short-lived tokens, authenticated transport, per-action confirmation, and request logging. |
-| Platform-hosted tool | Which product-layer guardrails sit between the model and the action? | The platform hides the transport, so prompt injection can surface as plan drift or silent data overreach. | Layered prompt-injection defenses, tool-chain analysis, human confirmation, and policy-level review of high-risk actions. |
+| Surface | Where it runs | Main boundary signal | Main failure mode | Baseline defenses |
+| --- | --- | --- | --- | --- |
+| Direct local script | As a process on the user's machine | repo path, shell command, and explicit read/write scope | Broad shell authority turns one bad instruction into immediate file or credential access. | Minimal default privileges, explicit input review, isolated runtime, and auditable outputs. |
+| Local `stdio` MCP server | As a local process started by the client | startup-command review, project scope, `CLAUDE_PROJECT_DIR`, and `roots/list` | A trusted-looking local server can execute opaque startup commands or overreach into local files. | Exact startup-command review, sandboxing, restricted filesystem access, and narrow directory scope. |
+| Remote MCP server or connector | On a remote service | `server_url`, allowed tools, auth scope, and approval requirements | Over-broad tokens or weak auth let untrusted content trigger high-impact remote actions. | Scope minimization, short-lived tokens, authenticated transport, per-action confirmation, and request logging. |
+| Hosted computer environment | Inside a provider-managed container workspace | isolated filesystem, restricted network access, and explicit tool outputs | The platform hides the transport, so prompt injection can surface as plan drift or silent data overreach, or the runtime can drift from the developer's local machine. | Layered prompt-injection defenses, tool-chain analysis, human confirmation, and policy-level review of high-risk actions. |
 
 ## Where To Deepen This In The Handbook
 
@@ -185,11 +196,17 @@ surfaces side by side instead of treating them all as "tool access."
   contributor-briefing layer clear before drafting durable handbook pages.
 - [Protocols and Interoperability](/systems/protocols-and-interoperability):
   use this when the draft needs the MCP, A2A, and remote-boundary comparison.
+- [Agent Runtime Building Blocks](/patterns/agent-runtime-building-blocks):
+  use this when the draft needs a reusable breakdown of execution, memory,
+  interface, and action layers inside an agent system.
 - [Agent UI Protocols and Generative UI](/systems/agent-ui-protocols-and-generative-ui):
   use this when the draft needs to separate tool permissions from UI state.
 - [Weather MCP Server Starter](/systems/examples/weather-mcp-server-starter):
   use this as the repo-native example surface for explaining MCP boundaries in
   runnable form.
+- [Codex Workshop](/workshops/codex): use this when the draft needs the
+  shortest repo-native path from local setup to a real repository-scoped
+  coding-agent loop.
 - [April 2026 Assistant Safety Escalation Watch](/radar/2026-04-assistant-safety-escalation-watch):
   use this when a draft needs to connect local authority boundaries to human
   escalation and audit paths.
@@ -220,9 +237,11 @@ requires human review.
 
 ## Update Log
 
-- 2026-05-27: Replaced the older prompt-injection source with current OpenAI
-  and Microsoft guidance, added an authority-boundary matrix, and linked the
-  note to related handbook surfaces.
+- 2026-06-06: Added current OpenAI MCP/connectors guidance and refreshed the
+  matrix around explicit local-versus-hosted execution boundaries.
+- 2026-05-27: Replaced older prompt-injection sources with current OpenAI and
+  Microsoft guidance, added the authority-boundary matrix, and connected the
+  note to relevant handbook surfaces.
 - 2026-05-17: Added prompt-injection, sandboxing, trust-boundary, and
   red-teaming guidance to the local-agent source map.
 - 2026-04-24: Refined the note for contributor comprehension with usage

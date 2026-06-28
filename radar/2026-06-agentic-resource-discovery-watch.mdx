@@ -1,0 +1,104 @@
+---
+title: June 2026 Agentic Resource Discovery Watch
+owner: Prompthon IO
+updated: 2026-06-21
+time_scope: 2026-06
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+## Summary
+
+June 2026 made discovery look more like a first-class agent-system layer. The
+useful signal is not "another agent marketplace." It is that capability search
+is being separated from capability execution.
+
+Hugging Face launched Agentic Resource Discovery (ARD) support on June 17,
+2026, framing discovery as the layer in front of MCP tools, skills, and A2A
+agents. GitHub shipped agent finder the same day and positioned it as runtime
+search over approved capabilities instead of a giant preinstalled tool list.
+
+## Why It Matters
+
+Many agent stacks still rely on hard-wired MCP server URLs, manually installed
+skills, or oversized tool descriptions stuffed into the prompt. ARD points at a
+cleaner shape:
+
+- discovery is a separate job from execution
+- registries search capabilities by intent before the model loads them
+- publisher identity and trust data become part of the lookup surface
+- enterprise policy can scope what an agent is even allowed to discover
+
+This note connects to four durable handbook topics:
+
+- [Protocols And Interoperability](/systems/protocols-and-interoperability),
+  because discovery now sits in front of MCP, A2A, and skill packages instead
+  of replacing them
+- [Context Engineering](/systems/context-engineering), because search-backed
+  capability selection keeps giant tool catalogs out of the context window
+- [Agent Runtime Building Blocks](/patterns/agent-runtime-building-blocks),
+  because discovery becomes a distinct pre-execution layer in the runtime path
+- [Local Agent Tooling Source Map](/contributor-kit/reference-notes/local-agent-tooling-source-map),
+  because readers now need a clearer map of registries, skills, MCP servers,
+  and remote tools
+
+## Evidence And Sources
+
+- [Agentic Resource Discovery: Let agents search for tools, skills, and other agents](https://huggingface.co/blog/agentic-resource-discovery-launch):
+  Hugging Face describes ARD as a draft open specification, explains the
+  `ai-catalog.json` manifest plus dynamic `POST /search` registry interface,
+  and shows how its Discover tool can surface skills and MCP servers from the
+  Hub.
+- [Agent finder for GitHub Copilot now available](https://github.blog/changelog/2026-06-17-agent-finder-for-github-copilot-now-available/):
+  GitHub frames discovery as ranked runtime search across MCP servers, skills,
+  canvases, agents, and tools, with enterprise-controlled registries and no
+  silent auto-installation.
+- [MCP server usage in your company](https://docs.github.com/enterprise-cloud%40latest/copilot/concepts/mcp-management):
+  GitHub's docs make the governance story explicit: agent finder implements
+  ARD, while MCP policy settings and registry controls decide what developers
+  can discover and use.
+- [ARD specification](https://github.com/ards-project/ard-spec/blob/main/spec/ard.md):
+  the spec defines `/.well-known/ai-catalog.json`, a REST registry baseline,
+  artifact-agnostic media types, and optional trust manifests for identity and
+  attestations.
+- [huggingface/hf-discover](https://github.com/huggingface/hf-discover):
+  a current reference implementation that shows ARD as real code rather than
+  only a draft document.
+
+## Signals To Watch
+
+- Whether discovery stays cleanly separated from execution, approval, and
+  installation instead of turning into silent auto-connection.
+- Whether publisher identity, trust manifests, and enterprise allowlists become
+  practical defaults rather than optional metadata nobody checks.
+- Whether one discovery layer can span MCP servers, skills, A2A agents, and
+  other artifacts without flattening their different trust and runtime models.
+- Whether `/.well-known/ai-catalog.json` and searchable registries become
+  common publishing patterns outside the first wave of early adopters.
+
+## Editorial Take
+
+This belongs in `radar/` for now. The draft is promising, but the durable
+lesson is narrower than "everyone needs ARD immediately."
+
+The reusable pattern is:
+
+1. publish capabilities in a machine-readable catalog
+2. let a registry index them
+3. search by user intent
+4. verify the publisher and trust metadata
+5. ask for approval where policy requires it
+6. only then connect over MCP, A2A, skills, or another execution surface
+
+If that shape holds, future evergreen updates should add a short discovery
+layer section to the protocol comparison pages rather than treating discovery
+as a replacement for the execution protocols themselves.
+
+## Update Log
+
+- 2026-06-21: Added a June 2026 radar note on agentic resource discovery,
+  searchable capability registries, trust metadata, and discovery-before-execution
+  boundaries.

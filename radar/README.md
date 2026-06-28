@@ -22,6 +22,12 @@ without destabilizing the evergreen structure.
 - [June 2026 Agent Runtime Billing Watch](./2026-06-agent-runtime-billing-watch.mdx):
   a current signal on separating local SDK orchestration, managed runtime
   metering, and authoritative billing surfaces for agent products.
+- [June 2026 Agentic Resource Discovery Watch](./2026-06-agentic-resource-discovery-watch.mdx):
+  a current signal on searchable capability registries, `ai-catalog.json`,
+  trust metadata, and discovery-before-execution boundaries for agents.
+- [June 2026 Open Agent Training Environments Watch](./2026-06-open-agent-training-environments-watch.mdx):
+  a current signal on OpenEnv, stateful execution environments, and the
+  separation between agent harnesses, environments, and reward loops.
 - [June 2026 Prompt Injection Lockdown Mode Watch](./2026-06-prompt-injection-lockdown-mode-watch.mdx):
   a current signal on Lockdown Mode, elevated-risk assistant surfaces,
   connector scope, and outbound-network containment for prompt injection.

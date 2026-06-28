@@ -1,5 +1,6 @@
 ---
 title: "Prompt Cache Agent Starter"
+description: "一个可运行的 starter，用于讲清 agent runtime cost controls、提示词缓存边界，以及冷启动与热启动使用量检查。"
 ---
 
 import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
@@ -8,9 +9,9 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 ## 摘要
 
-这个 starter 展示一个很小的、感知提示词缓存边界的智能体循环：
-先放稳定提示词层，再放动态记忆，并用一个小型 benchmark 表面比较
-冷启动和热启动运行元数据。
+这个 starter 展示一个很小的、围绕 agent runtime cost controls 组织的
+提示词缓存感知型智能体循环：先放稳定提示词层，再放动态记忆，并用
+一个小型 benchmark 表面比较冷启动和热启动运行元数据。
 
 ## 状态
 
@@ -28,11 +29,30 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 参考上下文视为可缓存层，而把持久化记忆摘要和当前任务放在缓存
 前缀之外，除非构建者有意提升它们。
 
+## Agent Runtime Cost Controls
+
+最近的 agent SDK 变化再次说明，提供方的计费规则和价格表可能比一页
+handbook 更新得更快。更持久的经验是把运行时成本边界保持为可检查的
+对象：
+
+- 把工具、系统指令和共享参考上下文视为稳定前缀
+- 把用户特定记忆、当前回合任务和易变工具输出放到请求后段
+- 分开跟踪 cache write 和 cache read，这样 warm rerun 是否真的更便宜
+  就可以被验证，而不只是更短
+- 在把 token 计算变成预算或客户计费之前，把 SDK 侧估算与提供方侧的
+  使用量报告分开比较
+
+这个 starter 仍然保持提供方无关，但 Anthropic 和 OpenAI 当前文档现在
+都在强化同一个模式：稳定前缀会提高缓存复用率，运行时使用量字段会揭示
+缓存命中是否真的发生，而显式成本控制应该放在 operator loop 中，而不是
+靠猜测。
+
 ## 相关实验室页面
 
 - [Agent Memory And Retrieval](/zh-Hans/patterns/agent-memory-and-retrieval)
 - [Agent Runtime Building Blocks](/zh-Hans/patterns/agent-runtime-building-blocks)
 - [Patterns Overview](/zh-Hans/patterns)
+- [Contribution Workflow](/zh-Hans/contributor-kit/contribution-workflow)
 
 ## 文件结构
 
@@ -63,6 +83,12 @@ prompt-cache-agent-starter/
 - 计算稳定前缀在哪里结束
 - 比较缓存读取和缓存写入占比
 - 在提供当前价格值时估算输入成本
+
+当你把它映射到真实运行时里时，请保留三类分开的检查：
+
+- 一个在循环跑太远之前就生效的 stop condition 或 budget control
+- 能显示重复前缀是否真的被复用的 cache-specific 使用量字段
+- 一个独立于本地估算之外的 authoritative usage export 或 admin API
 
 这个 starter 不应：
 

@@ -1,8 +1,8 @@
 ---
 title: 本地智能体工具链来源图谱
 owner: Prompthon IO
-updated: 2026-05-27
-scope: local agent tooling, skills, roots, resources, connectors, and file-grounded workflows
+updated: 2026-06-06
+scope: local agent tooling, execution boundaries, skills, roots, resources, connectors, and file-grounded workflows
 status: draft
 ---
 
@@ -35,7 +35,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 本地智能体相关话题很容易被夸大。一本有用的手册应当区分几个经常混在一起的关注点：
 
-- `runtime`: 工作执行在哪里进行？
+- `runtime`: 工作在哪里执行？
 - `skills`: 可复用的任务知识如何打包？
 - `roots`: 工具面向的服务器可以看到哪些本地文件系统区域？
 - `resources`: 哪些文件、模式、记录或应用对象可以作为模型上下文暴露？
@@ -56,8 +56,8 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 包括：
 
 - 关于 Responses API 工具、文件搜索、远程 MCP 支持和计算环境的 OpenAI 官方来源材料
-- 关于 indirect prompt injection、沙箱、scope minimization 与本地智能体
-  信任边界的 OpenAI、Microsoft、Claude Code 与 MCP 官方安全指引
+- 关于需要审批的 connectors 与远程 MCP servers 的当前 OpenAI 官方文档
+- 关于 indirect prompt injection、沙箱、scope minimization 与本地智能体信任边界的 OpenAI、Microsoft、Claude Code 与 MCP 官方安全指引
 - 关于 roots 和 resources 的官方 MCP 材料
 - 关于本地 stdio 服务器、项目/用户作用域以及 MCP resources 的官方 Claude Code 材料
 
@@ -72,6 +72,8 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 - [OpenAI Responses API tools and remote MCP support](https://openai.com/index/new-tools-and-features-in-the-responses-api/):
   适用于关于托管工具、远程 MCP 支持、文件搜索和长时间运行后台工作的主张。
+- [OpenAI MCP and Connectors guide](https://developers.openai.com/api/docs/guides/tools-connectors-mcp):
+  当草稿需要审批规则、远程服务器传输细节、tool list 缓存机制，或需要解释受信任 connectors 与第三方 MCP servers 之间的实际边界时使用。
 - [OpenAI computer environment for agents](https://openai.com/index/equip-responses-api-computer-environment/):
   适用于关于执行环境、持久文件、shell 访问、压缩，以及作为运行时支持的智能体技能的主张。
 - [Understanding prompt injections](https://openai.com/safety/prompt-injections/):
@@ -113,6 +115,8 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 同样的原则也适用于 skills 和 connectors。skill 可以告诉智能体如何执行某项任务，但不应被当作最新证据。connector 可以暴露一个有用的系统，但不应暗示有权读取或操作该系统中的所有对象。
 
+这次 2026 年 6 月的刷新也提醒我们，一个更稳定的手册术语并不只是 “local agent tooling”，而是 `local agent execution boundaries`：工作在哪里运行、有哪些审批、哪些 roots 或 resources 在作用范围内，以及动作完成后还留下了什么可审阅的表面。
+
 ## 生产就绪提示
 
 当前七日窗口里关于 prompt injection 的 signal 提醒我们：本地智能体应当被描述为 authority system，而不只是 capability system。真正需要回答的不只是“智能体能读什么”，而是“一旦它能调用工具、接触文件或向外发送数据，不可信输入会带着什么 authority 一起流动”。
@@ -123,23 +127,25 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 - 对发送消息、修改工单、向第三方系统迁移数据等后果明确的动作，应把人工确认保留在写路径中。
 - 在称一个本地智能体配置达到 production-ready 之前，应把 prompt injection 和 tool misuse 检查纳入 eval 或 red-team workflow。
 
-## Authority Boundary Matrix
+## 执行边界矩阵
 
 当贡献者把不同本地智能体表面并排比较，而不是都笼统当作“tool access”时，这份来源图谱会更容易落地。
 
-| 表面 | 主要边界问题 | 主要失效模式 | 基线防御 |
-| --- | --- | --- | --- |
-| 直接本地脚本 | 哪个用户或服务账号在执行命令？ | 过宽的 shell authority 会把一条坏指令立刻放大成文件或凭证访问。 | 最小默认权限、显式输入审阅、隔离运行时，以及可审计的输出。 |
-| 本地 `stdio` MCP server | 哪条启动命令和哪些本地目录在作用范围内？ | 看似可信的本地 server 也可能执行不透明的启动命令，或越权读取本地文件。 | 完整启动命令审阅、沙箱、受限文件系统访问，以及窄目录范围。 |
-| 远程 MCP server | 委派了哪些远程 scope、token 和对外动作？ | 过宽 token 或薄弱认证会让不可信内容触发高影响远程动作。 | scope minimization、短时 token、受认证传输、逐动作确认，以及请求日志。 |
-| 平台托管工具 | 模型与动作之间有哪些产品层 guardrails？ | 平台隐藏了传输层，因此 prompt injection 往往会表现成 plan drift 或静默数据越界。 | 分层 prompt-injection 防御、tool-chain analysis、人工确认，以及高风险动作的策略级审查。 |
+| 表面 | 运行位置 | 主要边界信号 | 主要失效模式 | 基线防御 |
+| --- | --- | --- | --- | --- |
+| 直接本地脚本 | 作为用户机器上的进程运行 | 仓库路径、shell 命令和显式读写范围 | 过宽的 shell authority 会把一条坏指令立刻放大成文件或凭证访问。 | 最小默认权限、显式输入审阅、隔离运行时，以及可审计的输出。 |
+| 本地 `stdio` MCP server | 作为由客户端启动的本地进程运行 | 启动命令审阅、project scope、`CLAUDE_PROJECT_DIR` 和 `roots/list` | 看似可信的本地 server 也可能执行不透明的启动命令，或越权读取本地文件。 | 完整启动命令审阅、沙箱、受限文件系统访问，以及窄目录范围。 |
+| 远程 MCP server 或 connector | 运行在远程服务上 | `server_url`、allowed tools、auth scope 和 approval requirements | 过宽 token 或薄弱认证会让不可信内容触发高影响远程动作。 | scope minimization、短时 token、受认证传输、逐动作确认，以及请求日志。 |
+| 托管计算环境 | 运行在 provider 托管的容器工作区里 | 隔离文件系统、受限网络访问和显式工具输出 | 平台隐藏了传输层，因此 prompt injection 往往会表现成 plan drift、静默数据越界，或让运行时逐渐偏离开发者的本地机器。 | 分层 prompt-injection 防御、tool-chain analysis、人工确认，以及高风险动作的策略级审查。 |
 
 ## 在手册中继续展开的位置
 
 - [参考说明](/zh-Hans/contributor-kit/reference-notes)：在起草长期页面前，先把 source-map 与 contributor briefing 这一层讲清楚。
 - [协议与互操作性](/zh-Hans/systems/protocols-and-interoperability)：当草稿需要 MCP、A2A 与远程边界的对比时使用。
+- [Agent Runtime Building Blocks](/zh-Hans/patterns/agent-runtime-building-blocks)：当草稿需要一个关于 execution、memory、interface 与 action layers 的可复用拆解时使用。
 - [智能体 UI 协议与生成式 UI](/zh-Hans/systems/agent-ui-protocols-and-generative-ui)：当草稿需要把工具权限与 UI 状态分开时使用。
 - [Weather MCP Server Starter](/zh-Hans/systems/examples/weather-mcp-server-starter)：适合作为解释 MCP 边界的仓库内可运行示例表面。
+- [Codex 工作坊](/zh-Hans/workshops/codex)：当草稿需要从本地设置进入真实仓库级 coding-agent loop 的最短仓库原生路径时使用。
 - [2026 年 4 月助手安全升级观察](/zh-Hans/radar/2026-04-assistant-safety-escalation-watch)：当草稿需要把本地 authority boundary 与人工升级、审计路径联系起来时使用。
 - [GitHub Issue Guide](/zh-Hans/contributor-kit/github-issue-guide)：当这份说明要落成一个范围清晰的贡献提案或 issue claim 时使用。
 
@@ -162,6 +168,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 ## 更新日志
 
+- 2026-06-06：加入当前 OpenAI MCP/connectors 指引，并围绕显式的本地与托管执行边界刷新矩阵。
 - 2026-05-27：把较旧的 prompt-injection 来源替换为当前的 OpenAI 与 Microsoft 指引，补上 authority-boundary matrix，并把这份说明连接到相关手册表面。
 - 2026-05-17：为本地智能体来源图谱补充了 prompt injection、沙箱、信任边界和 red-teaming 指引。
 - 2026-04-24：通过使用指导、术语边界和更清晰的来源到主张映射，提升了该说明对贡献者的可理解性。

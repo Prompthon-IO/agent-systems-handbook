@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prompthon Social Campaign Manager"
+  short_description: "Run production social campaigns with bridge auth"
+  default_prompt: "Use $prompthon-social-campaign-manager to open agents.prompthon.io, retrieve or mint a Local-mode handoff through the signed-in page, and manage a production social campaign with API-based media attach and post editing."
