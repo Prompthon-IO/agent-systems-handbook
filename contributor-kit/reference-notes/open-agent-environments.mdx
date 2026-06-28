@@ -1,0 +1,154 @@
+---
+title: Open Agent Environments
+owner: Prompthon IO
+updated: 2026-06-10
+scope: open agent environments, agentic RL, training and evaluation harnesses, and MCP-native execution surfaces
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta.mdx";
+
+<SupportCTA />
+
+## Summary
+
+This note gathers official source inputs for contributors writing about open
+agent environments: shared execution layers that let agent harnesses, trainers,
+and evaluation loops interact with the same environment contract.
+
+Use it when a draft needs to explain why open-source agent training needs more
+than a benchmark dataset or a single coding harness. The durable pattern is not
+just "RL for agents." It is the combination of:
+
+- an environment contract that exposes actions and state
+- a harness that turns model outputs into tool or UI actions
+- a trainer or evaluator that drives repeated interaction
+- a deployment surface that can stay consistent across train, eval, and
+  production
+- packaging and transport rules that keep the environment reusable
+
+## How To Use This Note
+
+This is a source map, not a full article. Future contributors should use it to:
+
+- define the environment layer before describing a benchmark or model gain
+- separate the environment contract from reward logic and trainer choice
+- show how the same environment can support both evaluation and deployment
+- connect agentic RL claims back to concrete builder workflows such as coding,
+  browsing, or tool use
+
+## Why It Matters
+
+Recent open-source agent work is pushing on a practical gap: frontier labs can
+train models against their own harnesses, while open-source builders need a
+shared layer that works across models, trainers, and execution surfaces.
+
+That makes "open agent environments" a better handbook framing than treating
+every new project as only a benchmark or only a reinforcement-learning library.
+The contributor question is not just "which trainer should we use?" It is also
+"what is the stable environment contract that agents, evaluators, and runtime
+surfaces can all share?"
+
+| Term | Reader question | Common mistake |
+| --- | --- | --- |
+| `environment contract` | What actions, observations, and state does the agent see? | Collapsing the environment into one benchmark score |
+| `harness` | How does the agent act inside the environment? | Treating a coding UI or browser wrapper as the whole system |
+| `trainer` | Who drives repeated rollouts and optimization? | Assuming the environment picks the learning method |
+| `reward logic` | Where do scores or rubrics come from? | Acting like the environment itself defines all rewards |
+| `deployment boundary` | Can the same environment shape survive beyond training? | Writing one-off evaluation code that cannot be reused |
+
+## Scope Notes
+
+Included:
+
+- official Hugging Face source material on OpenEnv governance, positioning, and
+  environment interoperability
+- official OpenEnv docs on the core environment model and execution surface
+- official TRL docs on how OpenEnv integrates with LLM training workflows
+- the official GitHub repo and release notes for current feature shape
+
+Excluded:
+
+- closed benchmark leaderboards with no reusable environment contract
+- generic RL tutorials that do not change the handbook's agent-systems mental
+  model
+- vendor eval systems that cannot be mapped to a contributor-facing workflow
+- reward-model deep dives that never describe the environment boundary
+
+## Source Map
+
+- [The Open Source Community is backing OpenEnv for Agentic RL](https://huggingface.co/blog/openenv-agentic-rl):
+  use this for claims about the June 8, 2026 governance shift, the committee
+  model, the move to `huggingface/OpenEnv`, and the framing of OpenEnv as a
+  protocol layer rather than a reward framework.
+- [OpenEnv documentation](https://huggingface.co/docs/openenv/index):
+  use this for the core definition of OpenEnv as a framework for isolated
+  execution environments for agentic reinforcement learning with
+  Gymnasium-style `step()`, `reset()`, and `state()` APIs.
+- [TRL OpenEnv integration](https://huggingface.co/docs/trl/openenv):
+  use this when the draft needs to explain OpenEnv as a training-facing layer
+  that exposes standardized environment APIs and backend-server execution for
+  LLM workflows.
+- [huggingface/OpenEnv](https://github.com/huggingface/OpenEnv):
+  use this for the current public implementation surface, contributor activity,
+  and official repository history.
+- [OpenEnv releases](https://github.com/huggingface/OpenEnv/releases):
+  use this for current feature claims such as MCP-native environments,
+  evaluation harness support, built-in web inspection, and environment author
+  tooling.
+
+## Synthesis
+
+The strongest handbook framing is to treat open agent environments as the
+shared socket between three layers:
+
+1. A harness that lets an agent act in a browser, terminal, notebook, or tool
+   surface.
+2. An environment contract that standardizes what the agent can observe, call,
+   and verify.
+3. A trainer or evaluator that uses repeated rollouts, rubrics, or rewards.
+
+That split matters because it keeps the repository honest about what is
+actually reusable. A useful environment layer should survive changes in model,
+trainer, and benchmark mix. It should also make the deployment boundary
+visible: which transport is used, how state is stored, whether MCP tools are
+native to the environment, and what parts can run in simulation versus
+production.
+
+For handbook contributors, this is the bridge between
+[Evaluation And Observability](/systems/evaluation-and-observability) and
+[Local Agent Tooling Source Map](/contributor-kit/reference-notes/local-agent-tooling-source-map).
+It also pairs naturally with [Coding Agents](/case-studies/coding-agents),
+because coding agents are one of the clearest places where harnesses,
+execution environments, and review loops meet.
+
+## Case-Study Hooks
+
+Good future handbook surfaces for this topic include:
+
+- a coding-agent environment that exposes a terminal, browser, and verification
+  loop without hardwiring one specific trainer
+- a browser or research environment that keeps tool access, rewards, and human
+  review as separate design decisions
+- a contributor starter that defines one small environment plus one TRL or
+  evaluation walkthrough
+- a comparison note that distinguishes MCP-native environments from direct
+  benchmark scripts and one-off sandboxes
+
+Each treatment should state what the environment exposes, what the harness
+adds, what defines success, and which artifacts a reviewer can inspect after a
+run.
+
+## Gaps And Follow-up
+
+- Add a small comparison matrix for OpenEnv, direct benchmark harnesses,
+  MCP-native tool environments, and repo-local starters.
+- Consider a tiny runnable environment starter if the repo later wants a
+  higher-conversion example instead of a source note alone.
+- Revisit [Agent Runtime Building Blocks](/patterns/agent-runtime-building-blocks)
+  if future drafts need a more explicit environment-layer diagram.
+
+## Update Log
+
+- 2026-06-10: Added a contributor-facing source map for open agent
+  environments, OpenEnv, and agentic RL execution surfaces.

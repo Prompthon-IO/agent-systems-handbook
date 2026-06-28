@@ -1,8 +1,8 @@
 ---
 title: 企业级智能体控制平面
 owner: Prompthon IO
-updated: 2026-05-03
-scope: current managed-runtime and control-plane framing for enterprise agents through May 2026
+updated: 2026-06-14
+scope: current managed-runtime, partner-delivery, and control-plane framing for enterprise agents through June 2026
 status: draft
 ---
 
@@ -14,18 +14,20 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 这份 note 为贡献者提供一个紧凑的 source map，用来比较企业级智能体的两个相关维度：围绕智能体的 managed runtime，以及横跨智能体的 control plane。
 
-直接触发点包括 Microsoft 在 2026 年 4 月 28 日围绕 `Intelligence + Trust` 的 framing：Microsoft IQ 承载业务上下文，Agent 365 承载覆盖 Microsoft 自家智能体表面和第三方环境的 observability、governance 与 security；以及 AWS 在 2026 年 4 月 28 日围绕 Bedrock Managed Agents 和 AgentCore 的发布 framing。
+直接触发点包括 Microsoft 在 2026 年 4 月 28 日围绕 `Intelligence + Trust` 的 framing：Microsoft IQ 承载业务上下文，Agent 365 承载覆盖 Microsoft 自家智能体表面和第三方环境的 observability、governance 与 security；AWS 在 2026 年 4 月 28 日围绕 Bedrock Managed Agents 和 AgentCore 的发布 framing；以及 Anthropic 在 2026 年 6 月围绕 Claude Partner Network、TCS 与 DXC 的信号，即把 Claude 带入受监管行业和关键企业系统。
 
 ## 为什么这很重要
 
 智能体平台比较很容易被压缩成模型访问、编排体验或框架人体工学。但这会漏掉两个不同的采购问题：
 
 - 团队应把多少运行时留给托管层负责
+- 谁在受监管行业中运营部署表面
 - 当组织中的智能体横跨多个运行时和供应商时，如何观察、治理和保护这一组不断增长的智能体
 
 这份 note 帮助贡献者把两个层次分开：
 
 - managed-runtime layer：为单个智能体工作负载处理推理、记忆、执行和运行时安全
+- partner-delivery layer：由咨询公司、系统集成商和 forward-deployed engineers 将 agent systems 适配到行业控制、遗留系统和合规要求中
 - control-plane layer：在多个智能体和环境之间执行 trust、visibility 和 policy
 
 它也帮助保留第三个边界：
@@ -43,6 +45,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 - Agent 365 作为 observability、governance 和 security layer
 - AWS 关于 Bedrock Managed Agents 的发布 framing
 - AgentCore 作为 managed runtime 底下的开放平台
+- Anthropic 关于 TCS 和 DXC 在受监管行业中部署 Claude 的 Claude Partner Network framing
 - 对本仓库后续 ecosystem 和 systems 刷新的启发
 
 不包含：
@@ -65,15 +68,22 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
   AWS 官方 sample repo 说明 AgentCore 不只是营销标签；它已经有覆盖 hosted runtimes、gateways、memory、observability、browser tooling 和 evaluation 的实质代码表面。
 - [microsoft/agent-framework](https://github.com/microsoft/agent-framework):
   Microsoft 官方 framework repo 为贡献者提供一个有用对照点：open framework surface 与 Microsoft 单独的 Agent 365 control-plane positioning 是分开的。
+- [TCS and Anthropic partner to bring Claude to regulated industries](https://www.anthropic.com/news/tcs-anthropic-partnership):
+  Anthropic 表示，TCS 会在内部使用 Claude，为金融服务、医疗保健、公共服务、航空、电信、医疗技术和其他受监管行业的客户构建 Claude-powered products，并为 claims adjudication 和 lending advisory 等领域创建可复用的 Claude Code skills 和 plugins。
+- [DXC will integrate Claude into the systems banks, airlines, and other regulated industries rely on](https://www.anthropic.com/news/dxc-anthropic-alliance):
+  Anthropic 将 DXC 描述为 forward-deployed engineering partner，会把 Claude 带入银行、航空公司、保险公司、制造商和政府机构长期依赖的客户系统，并把 DXC OASIS 及其中的 agentic workflows 作为内部 proof point。
+- [Anthropic invests $100 million into the Claude Partner Network](https://www.anthropic.com/news/claude-partner-network):
+  该网络页将 partners 定位为 delivery 和 adoption layer，帮助企业处理 deployment requirements、compliance、change management、training、certification 和 production rollout。
 
 ## 综合判断
 
-对贡献者来说，最重要的是四个结论：
+对贡献者来说，最重要的是五个结论：
 
 - 企业级智能体讨论正在超出模型选择本身。AWS 推出 managed-runtime 叙事，而 Microsoft 推出 control-plane 叙事。
 - Trust 正被定位成跨环境基础设施，而不只是某一个 assistant 或某一个 runtime 的属性。这意味着贡献者应区分本地运行时能力和 fleet-level governance。
 - Managed runtime 正在成为独立的比较层。Bedrock Managed Agents 在团队开始追问“我们该写哪个 framework？”之前，就把推理、记忆、执行和可审计性打包进 hosted environment。
-- 一个有用的 lab 比较轴正在出现：open framework、managed runtime 和 control plane。这个拆分可以同时强化 systems 页面和 ecosystem 页面，而不必硬编码某个供应商自己的命名。
+- Partner delivery 正在成为自己的企业级智能体层。Anthropic 关于 TCS 和 DXC 的公告不只是新的模型接口，而是说明谁把 Claude 带入受监管业务流程、遗留系统、可复用 skills、认证和持续运营。
+- 一个有用的 lab 比较轴正在出现：open framework、managed runtime、partner delivery 和 control plane。这个拆分可以同时强化 systems 页面和 ecosystem 页面，而不必硬编码某个供应商自己的命名。
 
 对于 handbook，真正持久的经验不是厂商标签，而是贡献者在比较 agent platform 和企业部署叙事时应保留的类别边界。
 
@@ -88,9 +98,11 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 - 未来可以刷新 [Systems: Evaluation and Observability](/zh-Hans/systems/evaluation-and-observability)，加入一小段区分 runtime instrumentation、organization-level control plane 和 managed-runtime defaults。
 - 如果更多官方来源开始把 managed runtime 与 control plane 当作稳定比较框架，可以再刷新 [Agent Platforms And Low-Code Builders](/zh-Hans/ecosystem/agent-platforms-and-low-code-builders)。
+- 如果 partner networks、certifications 和 forward-deployed engineering practices 成为企业级智能体平台的持久比较标准，可以再刷新 ecosystem 页面。
 - 当其他第一方平台足够明确地描述相近的 managed-runtime 或 fleet-governance surface 时，再补入后续来源，避免靠猜测做比较。
 
 ## 更新日志
 
+- 2026-06-14：加入 Anthropic 关于 TCS、DXC 和 Claude Partner Network 的信号，让贡献者可以在受监管企业级智能体部署中，把 partner-delivery layer 与 managed runtimes 和 control planes 一起比较。
 - 2026-05-03：加入 AWS Bedrock Managed Agents 和 AgentCore，让贡献者可以区分 open frameworks、managed runtimes 和 control planes。
 - 2026-04-29：新增一份面向贡献者的企业级智能体控制平面 note，以 Microsoft 的 `Intelligence + Trust` framing 作为当前 source spine。

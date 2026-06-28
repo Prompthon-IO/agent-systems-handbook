@@ -1,0 +1,81 @@
+---
+title: 2026年6月 Agentic Resource Discovery 观察
+owner: Prompthon IO
+updated: 2026-06-21
+time_scope: 2026-06
+status: draft
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+## 摘要
+
+2026 年 6 月让 discovery 看起来更像是一个一级的 agent-system layer。真正有用的信号不是“又一个 agent marketplace”，而是 capability search 正在被明确地从 capability execution 里拆出来。
+
+Hugging Face 在 2026 年 6 月 17 日发布了 Agentic Resource Discovery
+（ARD）支持，把 discovery 定位为位于 MCP tools、skills 和 A2A agents
+之前的一层。GitHub 在同一天发布了 agent finder，把它描述成对已批准能力做运行时搜索，而不是预先安装一个巨大的工具列表。
+
+## 为什么这很重要
+
+很多智能体栈仍然依赖手写的 MCP server URL、手动安装的 skill，或者把过大的工具描述塞进 prompt。ARD 指向了一个更清晰的形态：
+
+- discovery 是一个独立于 execution 的工作
+- registry 会先按意图搜索 capability，再决定模型加载什么
+- publisher identity 和 trust data 会成为查找表面的一部分
+- enterprise policy 可以先限定智能体“能发现什么”，再谈能不能调用
+
+这条笔记连接到四个持久的手册主题：
+
+- [协议与互操作性](/zh-Hans/systems/protocols-and-interoperability)，因为 discovery 现在位于 MCP、A2A 和 skill package 之前，而不是取代它们
+- [上下文工程](/zh-Hans/systems/context-engineering)，因为基于搜索的 capability selection 可以把巨大的工具目录移出 context window
+- [agent runtime building blocks](/zh-Hans/patterns/agent-runtime-building-blocks)，因为 discovery 正在变成 runtime path 里的一个独立前置层
+- [本地智能体工具来源地图](/zh-Hans/contributor-kit/reference-notes/local-agent-tooling-source-map)，因为读者现在更需要看清 registry、skills、MCP servers 和 remote tools 之间的关系
+
+## 证据与来源
+
+- [Agentic Resource Discovery: Let agents search for tools, skills, and other agents](https://huggingface.co/blog/agentic-resource-discovery-launch)：
+  Hugging Face 把 ARD 描述为一个 draft open specification，解释了
+  `ai-catalog.json` manifest 和动态 `POST /search` registry interface，
+  以及它如何用 Discover tool 暴露 Hub 上的 skills 和 MCP servers。
+- [Agent finder for GitHub Copilot now available](https://github.blog/changelog/2026-06-17-agent-finder-for-github-copilot-now-available/)：
+  GitHub 把 discovery 描述为对 MCP servers、skills、canvases、agents
+  和 tools 的运行时排序搜索，同时强调 enterprise-controlled registries
+  和不会静默自动安装。
+- [MCP server usage in your company](https://docs.github.com/enterprise-cloud%40latest/copilot/concepts/mcp-management)：
+  GitHub 文档把治理边界说得更清楚：agent finder 实现了 ARD，而 MCP
+  policy settings 与 registry controls 决定开发者究竟能发现并使用什么。
+- [ARD specification](https://github.com/ards-project/ard-spec/blob/main/spec/ard.md)：
+  规范定义了 `/.well-known/ai-catalog.json`、REST registry baseline、
+  artifact-agnostic media types，以及用于身份和 attestations 的可选
+  trust manifest。
+- [huggingface/hf-discover](https://github.com/huggingface/hf-discover)：
+  这是一个当前的 reference implementation，说明 ARD 不只是草案，也已经有真实代码表面。
+
+## 需要关注的信号
+
+- discovery 是否会继续与 execution、approval 和 installation 保持清晰分离，而不是变成静默自动连接。
+- publisher identity、trust manifest 和 enterprise allowlist 是否会变成可操作的默认能力，而不是没人检查的可选元数据。
+- 一层 discovery 是否能同时覆盖 MCP servers、skills、A2A agents 和其他 artifacts，同时又不抹平它们不同的 trust 与 runtime model。
+- `/.well-known/ai-catalog.json` 与 searchable registry 是否会在第一波早期采用者之外，变成常见的发布模式。
+
+## 编辑判断
+
+这暂时属于 `radar/`。这个 draft 很有前景，但可持久复用的经验比“所有人现在都需要 ARD”要更窄。
+
+更可复用的模式是：
+
+1. 用机器可读 catalog 发布 capability
+2. 让 registry 去索引它们
+3. 按用户意图搜索
+4. 校验 publisher 与 trust metadata
+5. 在策略要求的地方请求审批
+6. 之后才通过 MCP、A2A、skills 或其他 execution surface 连接
+
+如果这个形状稳定下来，未来的常青更新更适合在协议比较页面里增加一个简短的 discovery layer 小节，而不是把 discovery 当成 execution protocol 的替代品。
+
+## 更新日志
+
+- 2026-06-21：新增一条 2026 年 6 月的 radar 笔记，关注 agentic resource discovery、可搜索 capability registry、trust metadata，以及 discovery-before-execution 边界。
