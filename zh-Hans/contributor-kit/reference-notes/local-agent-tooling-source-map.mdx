@@ -1,8 +1,8 @@
 ---
 title: 本地智能体工具链来源图谱
 owner: Prompthon IO
-updated: 2026-06-06
-scope: local agent tooling, execution boundaries, skills, roots, resources, connectors, and file-grounded workflows
+updated: 2026-06-21
+scope: local agent tooling, agentic resource discovery, execution boundaries, skills, roots, resources, connectors, and file-grounded workflows
 status: draft
 ---
 
@@ -16,6 +16,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 当草稿需要解释“本地”究竟意味着什么时，可以使用它。真正持久的模式不是某个模型所在的位置，而是以下要素的组合：
 
+- 用于寻找相关能力的 discovery 路径
 - 执行环境或本地工具边界
 - 可复用的技能或工作流打包
 - 明确的文件系统或文档作用范围
@@ -26,6 +27,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 这是一张来源图谱，不是一篇完整文章。后续贡献者应使用它来：
 
+- 先判断草稿讨论的是 discovery、connection 还是 execution
 - 在描述智能体之前先定义边界
 - 为所做的主张选择合适的来源
 - 将本地文件、所选资源、技能和连接器区分开来
@@ -35,6 +37,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 本地智能体相关话题很容易被夸大。一本有用的手册应当区分几个经常混在一起的关注点：
 
+- `discovery`: 智能体如何在运行时找到相关能力？
 - `runtime`: 工作在哪里执行？
 - `skills`: 可复用的任务知识如何打包？
 - `roots`: 工具面向的服务器可以看到哪些本地文件系统区域？
@@ -45,6 +48,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 | 术语 | 读者问题 | 常见错误 |
 | --- | --- | --- |
+| `discovery` | 智能体如何找到新的能力？ | 把搜索或 registry 结果直接当作使用该工具的权限 |
 | `runtime` | 工作在哪里执行？ | 把所有智能体工作都当作聊天回复 |
 | `skills` | 可复用的任务知识如何打包？ | 把过时指令藏在一个很长的提示词里 |
 | `roots` | 哪些文件系统边界在作用范围内？ | 不说明边界，只说“文件访问” |
@@ -55,6 +59,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 包括：
 
+- 关于 catalogs、registries 和 trust metadata 的官方 ARD 材料
 - 关于 Responses API 工具、文件搜索、远程 MCP 支持和计算环境的 OpenAI 官方来源材料
 - 关于需要审批的 connectors 与远程 MCP servers 的当前 OpenAI 官方文档
 - 关于 indirect prompt injection、沙箱、scope minimization 与本地智能体信任边界的 OpenAI、Microsoft、Claude Code 与 MCP 官方安全指引
@@ -70,6 +75,15 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 ## 来源图谱
 
+- [Hugging Face: Agentic Resource Discovery - Let agents search](https://huggingface.co/blog/agentic-resource-discovery-launch):
+  适用于说明当前 discovery layer 的 framing、为什么 install-first 的
+  agent wiring 无法扩展，以及 registry 如何让智能体在运行时搜索相关能力。
+- [Google Developers: Announcing the Agentic Resource Discovery specification](https://developers.googleblog.com/announcing-the-agentic-resource-discovery-specification/):
+  适用于解释 catalogs、registries、trust metadata，以及 discovery
+  如何把能力交回其原生协议。
+- [Microsoft: Introducing the Agentic Resource Discovery specification](https://commandline.microsoft.com/agentic-resource-discovery-specification-ard/):
+  当草稿需要一个清晰的问题陈述，说明为什么随着 agentic resources
+  增多，手工 wiring 会失效时使用。
 - [OpenAI Responses API tools and remote MCP support](https://openai.com/index/new-tools-and-features-in-the-responses-api/):
   适用于关于托管工具、远程 MCP 支持、文件搜索和长时间运行后台工作的主张。
 - [OpenAI MCP and Connectors guide](https://developers.openai.com/api/docs/guides/tools-connectors-mcp):
@@ -100,22 +114,31 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
   当草稿需要一个评估 indirect prompt-injection robustness 的具体 benchmark 仓库示例时使用。
 - [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo):
   适合作为针对 agents、tools 与 RAG systems 的 red teaming 与 CI 级 prompt-injection 检查的高信号实现仓库。
+- [ards-project/ard-spec](https://github.com/ards-project/ard-spec):
+  适合作为 ARD 的标准草案仓库，用于查看 schemas、conformance artifacts
+  与 trust-model 表述。
+- [huggingface/hf-discover](https://github.com/huggingface/hf-discover):
+  适合作为具体的 ARD client/server 实现，用于搜索 skills、spaces 与
+  MCP servers。
 
 ## 综合归纳
 
 最强的本地智能体主干是分层的：
 
 1. 用户或宿主应用选择一个运行边界。
-2. 工具和服务器在该边界内暴露能力。
-3. resources 和 roots 描述哪些上下文可以被读取或选择。
-4. skills 打包可重复的任务知识。
-5. 智能体生成可供审阅的产物或动作。
+2. discovery 表面帮助智能体找到相关能力。
+3. 工具和服务器在该边界内暴露能力。
+4. resources 和 roots 描述哪些上下文可以被读取或选择。
+5. skills 打包可重复的任务知识。
+6. 智能体生成可供审阅的产物或动作。
 
 就手册而言，这比简单说“智能体可以访问文件”更有用。本地访问应始终附带边界来说明：哪些文件、哪个服务器、哪种传输、哪些权限，以及什么产物。
 
 同样的原则也适用于 skills 和 connectors。skill 可以告诉智能体如何执行某项任务，但不应被当作最新证据。connector 可以暴露一个有用的系统，但不应暗示有权读取或操作该系统中的所有对象。
 
-这次 2026 年 6 月的刷新也提醒我们，一个更稳定的手册术语并不只是 “local agent tooling”，而是 `local agent execution boundaries`：工作在哪里运行、有哪些审批、哪些 roots 或 resources 在作用范围内，以及动作完成后还留下了什么可审阅的表面。
+agentic resource discovery 又补上了一个贡献者需要单独命名的边界。discovery 回答的是“有什么可用？”，并不回答“这里允许做什么？”。catalog 或 registry 的结果仍然需要经过 approval、pinning、auth 与 scope review，智能体才应连接或执行。
+
+这次 2026 年 6 月的刷新也提醒我们，一个更稳定的手册术语并不只是 “local agent tooling”，而是 `local agent discovery and execution boundaries`：工作在哪里运行、如何发现新能力、有哪些审批、哪些 roots 或 resources 在作用范围内，以及动作完成后还留下了什么可审阅的表面。
 
 ## 生产就绪提示
 
@@ -136,12 +159,13 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 | 直接本地脚本 | 作为用户机器上的进程运行 | 仓库路径、shell 命令和显式读写范围 | 过宽的 shell authority 会把一条坏指令立刻放大成文件或凭证访问。 | 最小默认权限、显式输入审阅、隔离运行时，以及可审计的输出。 |
 | 本地 `stdio` MCP server | 作为由客户端启动的本地进程运行 | 启动命令审阅、project scope、`CLAUDE_PROJECT_DIR` 和 `roots/list` | 看似可信的本地 server 也可能执行不透明的启动命令，或越权读取本地文件。 | 完整启动命令审阅、沙箱、受限文件系统访问，以及窄目录范围。 |
 | 远程 MCP server 或 connector | 运行在远程服务上 | `server_url`、allowed tools、auth scope 和 approval requirements | 过宽 token 或薄弱认证会让不可信内容触发高影响远程动作。 | scope minimization、短时 token、受认证传输、逐动作确认，以及请求日志。 |
+| ARD 风格 discovery registry | 运行在可搜索的 catalog 或 federated registry 服务上 | catalog provenance、trust metadata、registry URL 和 pinning rules | discovery 结果看起来足够可信，容易让人跳过真正的 scope review，或把智能体路由到错误的能力类型。 | 校验 publisher identity、pin 住选中的 capability、把 discovery 与 execution approval 分离，并记录选用了哪个 registry 结果。 |
 | 托管计算环境 | 运行在 provider 托管的容器工作区里 | 隔离文件系统、受限网络访问和显式工具输出 | 平台隐藏了传输层，因此 prompt injection 往往会表现成 plan drift、静默数据越界，或让运行时逐渐偏离开发者的本地机器。 | 分层 prompt-injection 防御、tool-chain analysis、人工确认，以及高风险动作的策略级审查。 |
 
 ## 在手册中继续展开的位置
 
 - [参考说明](/zh-Hans/contributor-kit/reference-notes)：在起草长期页面前，先把 source-map 与 contributor briefing 这一层讲清楚。
-- [协议与互操作性](/zh-Hans/systems/protocols-and-interoperability)：当草稿需要 MCP、A2A 与远程边界的对比时使用。
+- [协议与互操作性](/zh-Hans/systems/protocols-and-interoperability)：当草稿需要 MCP、A2A、ARD 与远程边界的对比时使用。
 - [Agent Runtime Building Blocks](/zh-Hans/patterns/agent-runtime-building-blocks)：当草稿需要一个关于 execution、memory、interface 与 action layers 的可复用拆解时使用。
 - [智能体 UI 协议与生成式 UI](/zh-Hans/systems/agent-ui-protocols-and-generative-ui)：当草稿需要把工具权限与 UI 状态分开时使用。
 - [Weather MCP Server Starter](/zh-Hans/systems/examples/weather-mcp-server-starter)：适合作为解释 MCP 边界的仓库内可运行示例表面。
@@ -155,6 +179,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 - 客户支持邮件智能体：传入消息路径 + 本地政策文档路径
 - 编码智能体：仓库根目录 + issue、测试和分支权限
+- 基于 registry 的编码智能体：ARD 或 catalog 搜索结果 + 在执行前对远程 MCP 或 skill 的 pinning 决策
 - 运维智能体：仪表盘或数据库资源 + 只读查询规则
 - 研究智能体：来源文件夹 + 引用产物输出
 
@@ -168,6 +193,7 @@ import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
 
 ## 更新日志
 
+- 2026-06-21：加入 agentic resource discovery 来源，明确 discovery 与 connection 的边界，并把执行边界矩阵扩展到 ARD 风格 registry。
 - 2026-06-06：加入当前 OpenAI MCP/connectors 指引，并围绕显式的本地与托管执行边界刷新矩阵。
 - 2026-05-27：把较旧的 prompt-injection 来源替换为当前的 OpenAI 与 Microsoft 指引，补上 authority-boundary matrix，并把这份说明连接到相关手册表面。
 - 2026-05-17：为本地智能体来源图谱补充了 prompt injection、沙箱、信任边界和 red-teaming 指引。

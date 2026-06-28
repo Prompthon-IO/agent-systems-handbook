@@ -1,8 +1,8 @@
 ---
 title: Local Agent Tooling Source Map
 owner: Prompthon IO
-updated: 2026-06-06
-scope: local agent tooling, execution boundaries, skills, roots, resources, connectors, and file-grounded workflows
+updated: 2026-06-21
+scope: local agent tooling, agentic resource discovery, execution boundaries, skills, roots, resources, connectors, and file-grounded workflows
 status: draft
 ---
 
@@ -19,6 +19,7 @@ workflow instructions rather than operating only as a remote chat surface.
 Use it when a draft needs to explain what "local" actually means. The durable
 pattern is not the location of one model. It is the combination of:
 
+- a discovery path for finding relevant capabilities
 - an execution environment or local tool boundary
 - reusable skill or workflow packaging
 - explicit filesystem or document scope
@@ -29,6 +30,7 @@ pattern is not the location of one model. It is the combination of:
 
 This is a source map, not a full article. Future contributors should use it to:
 
+- decide whether the draft is about discovery, connection, or execution
 - define the boundary before describing the agent
 - choose the right source for the claim they are making
 - keep local files, selected resources, skills, and connectors separate
@@ -39,6 +41,7 @@ This is a source map, not a full article. Future contributors should use it to:
 Local-agent topics are becoming easy to overstate. A useful handbook treatment
 should separate several concerns that are often mixed together:
 
+- `discovery`: how an agent finds a relevant capability at runtime
 - `runtime`: where commands, scripts, files, or containers run
 - `skills`: how reusable task knowledge is packaged
 - `roots`: which local filesystem areas a tool-facing server may see
@@ -51,6 +54,7 @@ pretending that every integration is the same kind of agent capability.
 
 | Term | Reader question | Common mistake |
 | --- | --- | --- |
+| `discovery` | How does the agent find a new capability? | Treating search or registry results as permission to use the tool |
 | `runtime` | Where does the work execute? | Treating all agent work as a chat reply |
 | `skills` | What reusable task knowledge is packaged? | Hiding stale instructions inside one long prompt |
 | `roots` | Which filesystem boundaries are in scope? | Saying "file access" without naming the boundary |
@@ -61,6 +65,7 @@ pretending that every integration is the same kind of agent capability.
 
 Included:
 
+- official ARD material on catalogs, registries, and trust metadata
 - official OpenAI source material on Responses API tools, file search, remote
   MCP support, and computer environments
 - current OpenAI documentation for approval-gated connectors and remote MCP
@@ -82,6 +87,17 @@ Excluded:
 
 ## Source Map
 
+- [Hugging Face: Agentic Resource Discovery - Let agents search](https://huggingface.co/blog/agentic-resource-discovery-launch):
+  use this for the current discovery-layer framing, why install-first agent
+  wiring does not scale, and how registries let agents search for relevant
+  capabilities at runtime.
+- [Google Developers: Announcing the Agentic Resource Discovery specification](https://developers.googleblog.com/announcing-the-agentic-resource-discovery-specification/):
+  use this for the cleanest explanation of catalogs, registries, trust
+  metadata, and the handoff from discovery into a capability's native
+  protocol.
+- [Microsoft: Introducing the Agentic Resource Discovery specification](https://commandline.microsoft.com/agentic-resource-discovery-specification-ard/):
+  use this when the draft needs a practical problem statement for why manual
+  capability wiring breaks down as more agentic resources are published.
 - [OpenAI Responses API tools and remote MCP support](https://openai.com/index/new-tools-and-features-in-the-responses-api/):
   use this for claims about hosted tools, remote MCP support, file search, and
   long-running background work.
@@ -131,16 +147,23 @@ Excluded:
 - [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo):
   use this as a high-signal implementation repo for red-teaming and CI-level
   prompt-injection checks around agents, tools, and RAG systems.
+- [ards-project/ard-spec](https://github.com/ards-project/ard-spec):
+  use this as the canonical draft specification repo for ARD schemas,
+  conformance artifacts, and trust-model wording.
+- [huggingface/hf-discover](https://github.com/huggingface/hf-discover):
+  use this as a concrete ARD client/server implementation that searches
+  skills, spaces, and MCP servers.
 
 ## Synthesis
 
 The strongest local-agent spine is a layered one:
 
 1. The user or host application chooses an operating boundary.
-2. Tools and servers expose capabilities inside that boundary.
-3. Resources and roots describe which context can be read or selected.
-4. Skills package repeatable task knowledge.
-5. The agent produces an artifact or action that can be reviewed.
+2. Discovery surfaces help the agent find relevant capabilities.
+3. Tools and servers expose capabilities inside that boundary.
+4. Resources and roots describe which context can be read or selected.
+5. Skills package repeatable task knowledge.
+6. The agent produces an artifact or action that can be reviewed.
 
 For handbook purposes, this is more useful than saying "the agent has access to
 files." Local access should always be explained with the boundary attached:
@@ -152,10 +175,16 @@ agent how to perform a task, but it should not be treated as current evidence.
 A connector can expose a useful system, but it should not imply permission to
 read or act on every object in that system.
 
+Agentic resource discovery adds one more boundary that contributors should name
+explicitly. Discovery answers "what exists?" It does not answer "what is
+allowed here?" Catalog or registry results still need approval, pinning,
+auth, and scope review before an agent should connect or execute.
+
 The June 2026 refresh is a useful reminder that the stable handbook term is
-not just "local agent tooling." It is `local agent execution boundaries`:
-where the work runs, which approvals exist, which roots or resources are in
-scope, and what review surface remains after the action completes.
+not just "local agent tooling." It is `local agent discovery and execution
+boundaries`: where the work runs, how new capabilities are found, which
+approvals exist, which roots or resources are in scope, and what review
+surface remains after the action completes.
 
 ## Production-Readiness Note
 
@@ -188,6 +217,7 @@ surfaces side by side instead of treating them all as "tool access."
 | Direct local script | As a process on the user's machine | repo path, shell command, and explicit read/write scope | Broad shell authority turns one bad instruction into immediate file or credential access. | Minimal default privileges, explicit input review, isolated runtime, and auditable outputs. |
 | Local `stdio` MCP server | As a local process started by the client | startup-command review, project scope, `CLAUDE_PROJECT_DIR`, and `roots/list` | A trusted-looking local server can execute opaque startup commands or overreach into local files. | Exact startup-command review, sandboxing, restricted filesystem access, and narrow directory scope. |
 | Remote MCP server or connector | On a remote service | `server_url`, allowed tools, auth scope, and approval requirements | Over-broad tokens or weak auth let untrusted content trigger high-impact remote actions. | Scope minimization, short-lived tokens, authenticated transport, per-action confirmation, and request logging. |
+| ARD-style discovery registry | As a searchable catalog or federated registry service | catalog provenance, trust metadata, registry URL, and pinning rules | Discovery results can look trustworthy enough to skip real scope review, or can route an agent toward the wrong capability class. | Verify publisher identity, pin chosen capabilities, keep discovery separate from execution approval, and log which registry result was selected. |
 | Hosted computer environment | Inside a provider-managed container workspace | isolated filesystem, restricted network access, and explicit tool outputs | The platform hides the transport, so prompt injection can surface as plan drift or silent data overreach, or the runtime can drift from the developer's local machine. | Layered prompt-injection defenses, tool-chain analysis, human confirmation, and policy-level review of high-risk actions. |
 
 ## Where To Deepen This In The Handbook
@@ -195,7 +225,8 @@ surfaces side by side instead of treating them all as "tool access."
 - [Reference Notes](/contributor-kit/reference-notes): keep the source-map and
   contributor-briefing layer clear before drafting durable handbook pages.
 - [Protocols and Interoperability](/systems/protocols-and-interoperability):
-  use this when the draft needs the MCP, A2A, and remote-boundary comparison.
+  use this when the draft needs the MCP, A2A, ARD, and remote-boundary
+  comparison.
 - [Agent Runtime Building Blocks](/patterns/agent-runtime-building-blocks):
   use this when the draft needs a reusable breakdown of execution, memory,
   interface, and action layers inside an agent system.
@@ -220,6 +251,8 @@ Good local-agent case studies should make the boundary visible:
 - customer-support email agent: inbound message path plus local policy
   document path
 - coding agent: repository root plus issue, test, and branch permissions
+- registry-backed coding agent: ARD or catalog search result plus a pinned
+  remote MCP or skill decision before execution
 - operations agent: dashboard or database resource plus read-only query rules
 - research agent: source folder plus citation artifact output
 
@@ -237,6 +270,9 @@ requires human review.
 
 ## Update Log
 
+- 2026-06-21: Added agentic resource discovery sources, clarified discovery
+  versus connection boundaries, and extended the execution-boundary matrix to
+  include ARD-style registries.
 - 2026-06-06: Added current OpenAI MCP/connectors guidance and refreshed the
   matrix around explicit local-versus-hosted execution boundaries.
 - 2026-05-27: Replaced older prompt-injection sources with current OpenAI and
