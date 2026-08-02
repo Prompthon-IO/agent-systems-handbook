@@ -64,7 +64,8 @@
                   "patterns/agent-memory-and-retrieval",
                   "patterns/reasoning-and-control-patterns",
                   "patterns/planning-and-reflection",
-                  "patterns/agent-runtime-building-blocks"
+                  "patterns/agent-runtime-building-blocks",
+                  "patterns/tool-design-for-agent-systems"
                 ]
               },
               {
