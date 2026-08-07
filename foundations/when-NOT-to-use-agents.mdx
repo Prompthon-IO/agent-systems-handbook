@@ -29,3 +29,20 @@ Many product and engineering mistakes comes from using the wrong tool for the jo
 Choosing an agents when a simpler approach would work is often more damaging than choosing the wrong model. 
 
 ## Mental Model
+
+
+## Architecture Diagram 
+
+```mermaid
+flowchart TD
+    Start["Start: Is there a task?"] --> Q1{"Can a single prompt<br>or simple RAG solve it?"}
+    Q1 -->|YES| Stop1["DON'T USE AGENT"]
+    Q1 -->|NO| Q2{"Is the path fully known<br>and stable?"}
+    Q2 -->|YES| Stop2["DON'T USE AGENT"]
+    Q2 -->|NO| Q3{"Is sub-second latency<br>required?"}
+    Q3 -->|YES| Stop3["DON'T USE AGENT"]
+    Q3 -->|NO| Q4{"Is budget very limited<br>or scale very high?"}
+    Q4 -->|YES| Stop4["DON'T USE AGENT"]
+    Q4 -->|NO| Q5{"Is 100% accuracy<br>required?"}
+    Q5 -->|YES| Stop5["DON'T USE AGENT"]
+    Q5 -->|NO| Consider["CONSIDER USING AGENT"]
