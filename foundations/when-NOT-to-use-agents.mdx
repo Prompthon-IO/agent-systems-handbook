@@ -86,4 +86,9 @@ flowchart TD
 
 ## Tradeoffs
 
+The choice between using and not using an agent involves four core tradeoffs: 
+  - **Simplicity VS Adaptability**: Simpler solutions are easier to build and maintain, but agents adapt better to changing contexts. Workflows are easier to test and audit, but they are expensive to maintain when edge cases keep growing. 
+  - **Cost VS Capability**: The added capability must justify the added expense.
+  - **Speed VS Intelligence**: Agents are smarter but slower. Trade intelligence for speed if speed is critical in your situation. 
+  - **Predictability VS Flexibility**: Deterministic code is auditable and predictable. Agents are more flexible but harder to test and certify.
 
