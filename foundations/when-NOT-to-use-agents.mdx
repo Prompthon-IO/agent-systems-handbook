@@ -30,6 +30,27 @@ Choosing an agents when a simpler approach would work is often more damaging tha
 
 ## Mental Model
 
+The cleanest distinction between using an agent or using a simpler tool is about whether the task requires runtime adaptation.
+
+| Dimension | Use a Simpler Approach | Consider an Agent |
+|---|---|---|
+| **Path** | Fully known in advance | Unknown or changes dynamically |
+| **Rules** | Stable and predictable | Ambiguous or context-dependent |
+| **Cost tolerance** | Low (budget-conscious) | Higher (value justifies cost) |
+| **Latency tolerance** | Low (real-time needed) | Higher (seconds/minutes acceptable) |
+| **Accuracy requirement** | 100% (deterministic) | Tolerates some variability |
+| **Evaluation** | Easy to define and measure | Harder to define and measure |
+
+If most checks fall on the left side, don't use an agent.
+
+## Scenarios where you should NOT use an agent 
+
+**1. Simple tasks that a single prompt can solve**
+
+Example: Summarizing a customer support ticket 
+--
+
+
 
 ## Architecture Diagram 
 
@@ -46,3 +67,11 @@ flowchart TD
     Q4 -->|NO| Q5{"Is 100% accuracy<br>required?"}
     Q5 -->|YES| Stop5["DON'T USE AGENT"]
     Q5 -->|NO| Consider["CONSIDER USING AGENT"]
+
+## Tradeoffs 
+
+## Citations 
+
+## Reading Extensions 
+
+## Update log
