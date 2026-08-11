@@ -51,6 +51,16 @@ Use this framework to quickly assess your situation:
 
 If most checks fall on the left side, don't use an agent.
 
+### A Note on High-Stakes Scenarios
+
+This framework does **not** categorically ban agents from high-stakes work. Industry guidance from OpenAI and Google Cloud emphasizes:
+
+- **Bounded autonomy** — Limit the agent's scope, tool access, and decision-making power.
+- **Human-in-the-loop** — Require human approval for critical actions (e.g., approving a refund, executing a financial transaction).
+- **Deterministic validation layers** — Enforce rules, type checks, or business logic to validate agent outputs before any authoritative action is taken.
+
+For example, an agent can analyze a patient's symptoms and suggest potential diagnoses, but the final prescription should always be reviewed by a human doctor. The agent assists; the human authorizes.
+
 ## Scenarios where you should NOT use an agent 
 
 **1. Simple tasks that a single prompt can solve**
