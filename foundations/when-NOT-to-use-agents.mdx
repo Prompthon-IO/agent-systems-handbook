@@ -30,7 +30,15 @@ Choosing an agents when a simpler approach would work is often more damaging tha
 
 ## Mental Model
 
-The cleanest distinction between using an agent or using a simpler tool is about whether the task requires runtime adaptation.
+The core technical distinction is well established: **workflow** orchestrate LLMs and tools through predefined code paths, while **agents** let the LLM dynamically decide what to do next at runtime.
+
+The handbook already covers this choice in detail on the **Agents Vs Workflows** page. **This page does not rehash that debate.** Instead, it acts as a **pre-filter**. 
+
+Before you even ask *"Should I use a workflow or an agent?"*, you must first determine whether this task require run-time decision-making and adaptation. 
+
+If the answer is no, the workflow-vs-agent debate is premature. Default to the simplest solution—a single prompt, a deterministic script, or a traditional pipeline.
+
+Use this framework to quickly assess your situation:
 
 | Dimension | Use a Simpler Approach | Consider an Agent |
 |---|---|---|
