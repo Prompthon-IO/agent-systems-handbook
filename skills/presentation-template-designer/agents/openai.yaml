@@ -1,0 +1,4 @@
+interface:
+  display_name: "Presentation Template Designer"
+  short_description: "Plan and build reusable slide templates"
+  default_prompt: "Use $presentation-template-designer to turn my brief into a reviewed slide-template manifest and editable sample."
