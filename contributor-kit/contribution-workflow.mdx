@@ -117,16 +117,8 @@ The `prompthon-track-guard` check validates changed files against the linked
 issue's `track:*` label. If the check fails, use the comment it leaves to move
 files into an allowed path or ask a maintainer for an explicit exception.
 
-Use a draft PR whenever implementation, links, screenshots, or required checks
-are incomplete. A non-draft PR communicates that the change is ready for
-review, so mark it ready only after those items are complete.
-
-If review uncovers substantial follow-up work, convert the PR back to a draft
-while you address it, then mark it ready again when the revision is complete.
-GitHub supports both stage changes from the PR page; the GitHub CLI equivalents
-are `gh pr create --draft`, `gh pr ready`, and `gh pr ready --undo`. See
-[Changing the stage of a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/changing-the-stage-of-a-pull-request)
-for the current UI steps.
+Use a draft PR if the work is not ready but you want early review on direction.
+Mark it ready only when the page, links, screenshots, and checks are complete.
 
 ## Review And Merge
 
