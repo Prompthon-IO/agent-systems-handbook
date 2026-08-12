@@ -130,9 +130,16 @@ test("validates practitioner and builder path policy", () => {
   assert.equal(
     validateChangedFilesForTrack("builder", [
       ".github/workflows/prompthon-track-guard.yml",
+      "contributor-kit/contribution-workflow.mdx",
       "patterns/examples/deep-research-agent-starter/README.md",
       "systems/context-engineering.mdx",
     ]).valid,
     true,
+  );
+  assert.equal(
+    validateChangedFilesForTrack("builder", [
+      "contributor-kit/reference-notes/deep-research-product-signals.mdx",
+    ]).valid,
+    false,
   );
 });

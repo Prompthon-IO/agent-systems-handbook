@@ -57,6 +57,7 @@ export const TRACK_ALLOWED_PATHS = {
     "scripts/",
     "githooks/",
     ".github/",
+    "contributor-kit/contribution-workflow.mdx",
     "examples/",
     "patterns/examples/",
     "systems/examples/",
