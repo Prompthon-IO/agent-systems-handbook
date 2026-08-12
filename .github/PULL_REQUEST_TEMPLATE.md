@@ -8,6 +8,17 @@ Describe the change in 2-5 sentences. Keep the scope concrete.
 - Release PRs target `main` only when opened by `dprat0821` from same-repository `develop`.
 - `main` is the production Mintlify branch and should not receive direct feature PRs.
 
+## Pull Request Stage
+
+Select the current GitHub stage and remove the other line.
+
+- Draft — work or required checks remain; review is not requested yet.
+- Ready for review — the scoped change and required checks are complete.
+
+If substantial revisions are still in progress after feedback, convert the pull
+request back to a draft. See
+[Changing the stage of a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/changing-the-stage-of-a-pull-request).
+
 ## Contribution Type
 
 Select the best match and remove the rest.
