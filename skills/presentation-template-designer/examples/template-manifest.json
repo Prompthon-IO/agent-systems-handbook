@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.0",
+  "template_id": "community-workshop-clear",
+  "name": "Community Workshop Clear",
+  "aspect_ratio": "16:9",
+  "theme": {
+    "colors": {
+      "primary": "#2457C5",
+      "secondary": "#5B6B8C",
+      "accent": "#20A37A",
+      "background": "#F7F9FC",
+      "surface": "#FFFFFF",
+      "text": "#172033",
+      "muted": "#667085"
+    },
+    "typography": {
+      "heading": {
+        "family": "Aptos Display",
+        "size_pt": 30
+      },
+      "body": {
+        "family": "Aptos",
+        "size_pt": 18
+      },
+      "caption": {
+        "family": "Aptos",
+        "size_pt": 11
+      }
+    }
+  },
+  "assets": [],
+  "layouts": [
+    {
+      "id": "title",
+      "name": "Title and promise",
+      "usage_note": "Open with the workshop promise and essential presenter context.",
+      "placeholders": [
+        {"id": "title", "kind": "text", "required": true, "max_characters": 72},
+        {"id": "subtitle", "kind": "text", "required": false, "max_characters": 110},
+        {"id": "presenter", "kind": "text", "required": true, "max_characters": 70},
+        {"id": "date", "kind": "date", "required": false, "max_characters": 30}
+      ]
+    },
+    {
+      "id": "agenda",
+      "name": "Workshop agenda",
+      "usage_note": "Preview three to seven sections in the order participants will encounter them.",
+      "placeholders": [
+        {"id": "title", "kind": "text", "required": true, "max_characters": 60},
+        {"id": "sections", "kind": "rich-text", "required": true, "max_characters": 320}
+      ]
+    },
+    {
+      "id": "section-divider",
+      "name": "Section divider",
+      "usage_note": "Reset attention and name the next major workshop chapter.",
+      "placeholders": [
+        {"id": "section-number", "kind": "text", "required": false, "max_characters": 12},
+        {"id": "title", "kind": "text", "required": true, "max_characters": 65},
+        {"id": "prompt", "kind": "text", "required": false, "max_characters": 120}
+      ]
+    },
+    {
+      "id": "problem",
+      "name": "Problem framing",
+      "usage_note": "Explain one participant pain point and the evidence that makes it worth solving.",
+      "placeholders": [
+        {"id": "headline", "kind": "text", "required": true, "max_characters": 80},
+        {"id": "evidence", "kind": "rich-text", "required": true, "max_characters": 260},
+        {"id": "source", "kind": "source", "required": false, "max_characters": 160}
+      ]
+    },
+    {
+      "id": "comparison",
+      "name": "Side-by-side comparison",
+      "usage_note": "Compare two approaches using the same criteria and a clear takeaway.",
+      "placeholders": [
+        {"id": "title", "kind": "text", "required": true, "max_characters": 70},
+        {"id": "left", "kind": "rich-text", "required": true, "max_characters": 260},
+        {"id": "right", "kind": "rich-text", "required": true, "max_characters": 260},
+        {"id": "takeaway", "kind": "text", "required": true, "max_characters": 120}
+      ]
+    },
+    {
+      "id": "process",
+      "name": "Five-step process",
+      "usage_note": "Show a repeatable sequence with three to five named steps.",
+      "placeholders": [
+        {"id": "title", "kind": "text", "required": true, "max_characters": 70},
+        {"id": "steps", "kind": "rich-text", "required": true, "max_characters": 420},
+        {"id": "note", "kind": "text", "required": false, "max_characters": 120}
+      ]
+    },
+    {
+      "id": "metrics",
+      "name": "Headline metrics",
+      "usage_note": "Present one to four defined measures with context and sources.",
+      "placeholders": [
+        {"id": "title", "kind": "text", "required": true, "max_characters": 70},
+        {"id": "metrics", "kind": "metric", "required": true, "max_characters": 220},
+        {"id": "source", "kind": "source", "required": true, "max_characters": 160}
+      ]
+    },
+    {
+      "id": "case-study",
+      "name": "Compact case study",
+      "usage_note": "Summarize a challenge, approach, outcome, and supporting evidence.",
+      "placeholders": [
+        {"id": "title", "kind": "text", "required": true, "max_characters": 70},
+        {"id": "challenge", "kind": "rich-text", "required": true, "max_characters": 180},
+        {"id": "approach", "kind": "rich-text", "required": true, "max_characters": 220},
+        {"id": "outcome", "kind": "rich-text", "required": true, "max_characters": 180},
+        {"id": "source", "kind": "source", "required": false, "max_characters": 160}
+      ]
+    },
+    {
+      "id": "quote",
+      "name": "Attributed quote",
+      "usage_note": "Give one short, well-sourced voice a full visual beat.",
+      "placeholders": [
+        {"id": "quote", "kind": "rich-text", "required": true, "max_characters": 220},
+        {"id": "speaker", "kind": "text", "required": true, "max_characters": 70},
+        {"id": "source", "kind": "source", "required": true, "max_characters": 160}
+      ]
+    },
+    {
+      "id": "closing",
+      "name": "Closing action",
+      "usage_note": "End with one memorable takeaway and one clear next action.",
+      "placeholders": [
+        {"id": "takeaway", "kind": "text", "required": true, "max_characters": 100},
+        {"id": "call-to-action", "kind": "text", "required": true, "max_characters": 100},
+        {"id": "contact", "kind": "text", "required": false, "max_characters": 90}
+      ]
+    },
+    {
+      "id": "appendix",
+      "name": "Appendix detail",
+      "usage_note": "Hold supporting material that is useful after the main story.",
+      "placeholders": [
+        {"id": "title", "kind": "text", "required": true, "max_characters": 70},
+        {"id": "body", "kind": "rich-text", "required": true, "max_characters": 520},
+        {"id": "source", "kind": "source", "required": false, "max_characters": 160}
+      ]
+    }
+  ]
+}

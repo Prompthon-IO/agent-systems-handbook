@@ -1,0 +1,30 @@
+{
+  "project_name": "Agentic AI Community Workshop",
+  "audience": "Community members with mixed technical backgrounds",
+  "purpose": "Teach a practical agent workflow and leave participants with clear next steps",
+  "target_format": "editable-pptx",
+  "tone": [
+    "clear",
+    "welcoming",
+    "practical"
+  ],
+  "requested_layouts": [
+    "title",
+    "agenda",
+    "section-divider",
+    "problem",
+    "comparison",
+    "process",
+    "metrics",
+    "case-study",
+    "quote",
+    "closing",
+    "appendix"
+  ],
+  "constraints": {
+    "approximate_slide_count": 24,
+    "minimum_body_size_pt": 18,
+    "accessibility": "Use high contrast and do not encode meaning by color alone"
+  },
+  "brand_assets": []
+}
