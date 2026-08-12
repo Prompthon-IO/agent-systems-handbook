@@ -115,7 +115,7 @@ flowchart TD
 The choice between using and not using an agent involves four core tradeoffs: 
   - **Simplicity VS Adaptability**: Simpler solutions are easier to build and maintain, but agents adapt better to changing contexts. Workflows are easier to test and audit, but they are expensive to maintain when edge cases keep growing. 
   - **Cost VS Capability**: The added capability must justify the added expense.
-  - **Speed VS Intelligence**: Agents are smarter but slower. Trade intelligence for speed if speed is critical in your situation. 
+  - **Latency & Cost VS Task performance**: Agentic systems trade latency and cost for potentially better task performance — but performance isn't guaranteed by the agent pattern alone. Capability comes from the model,        tools, context, instructions, and evaluation harness. Each additional turn adds latency, each tool call adds cost, and errors can compound across steps.
   - **Predictability VS Flexibility**: Deterministic code is auditable and predictable. Agents are more flexible but harder to test and certify.
 
 **Useful Defaults:**
