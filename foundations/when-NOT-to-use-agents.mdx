@@ -98,7 +98,7 @@ flowchart TD
     
     Q2 -->|YES| Workflow["Use a deterministic workflow<br>— individual steps may use<br>LLM calls with RAG, but the<br>graph is fixed"]
     
-    Q2 -->|NO| Q3{"Does the task require<br>runtime adaptation<br>and model-driven<br>decision-making?"}
+    Q2 -->|NO| Q3{"Does the task require<br> runtime adaptation<br> and model-driven<br>decision-making?"}
     
     Q3 -->|NO| Hybrid["Use a hybrid approach:<br>workflow defines the structure,<br>agents handle reasoning-heavy<br>steps with RAG support"]
     
