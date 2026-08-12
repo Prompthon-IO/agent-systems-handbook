@@ -1,8 +1,8 @@
 ---
 title: Deep Research Product Signals
 owner: Prompthon IO
-updated: 2026-06-24
-scope: current deep research and Gemini Interactions API signals through June 2026
+updated: 2026-08-11
+scope: current deep research product, operator, and lifecycle signals through August 2026
 status: draft
 ---
 
@@ -15,7 +15,7 @@ import SupportCTA from "/snippets/support-cta.mdx";
 This note tracks the current official product signals around deep research as a
 category, not just as a single case study. It is meant to help contributors
 extend the lab's deep-research coverage with current product positioning from
-OpenAI and Google.
+OpenAI, Google, and Microsoft.
 
 ## Why It Matters
 
@@ -29,14 +29,17 @@ useful across case studies, platform comparisons, and future starter projects.
 Included:
 
 - OpenAI's current deep research positioning in ChatGPT
+- OpenAI's current planning, source-control, report-reuse, and workspace signals
 - Google's developer API framing for Gemini Deep Research
 - Google's June 2026 Interactions API general-availability shift
 - current Google ADK and A2A bridge signals for Interactions-based agents
+- Microsoft's migration signal away from its classic Deep Research tool
 
 Excluded:
 
 - implementation walkthroughs for one specific UI
 - benchmark deep dives beyond what the official product pages mention
+- short-lived quotas, plan limits, region lists, or model-version details
 - broader research-assistant tooling that is not framed as deep research
 
 ## Source Map
@@ -45,6 +48,16 @@ Excluded:
   OpenAI describes deep research as a multi-step internet research agent and
   notes the February 10, 2026 update that added MCP and app connections,
   trusted-site search controls, and improved progress tracking.
+- [Deep research in ChatGPT](https://help.openai.com/en/articles/10500283-deep-research-in-chatgpt):
+  OpenAI's current operator guide describes a reviewable research plan,
+  source selection across sites, files, and connected apps, in-run interruption,
+  cited reports with activity history, and downloads in Markdown, Word, and PDF.
+  It also states that connected apps are read-only during research and documents
+  workspace access controls.
+- [Accelerating scientific discovery with ChatGPT for Academic Researchers](https://openai.com/index/chatgpt-for-academic-researchers/):
+  OpenAI places expanded deep research alongside larger context, connectors,
+  skills, and Codex in longer scientific workflows. The signal is less about
+  one research feature and more about a governed workspace for research work.
 - [Build with Gemini Deep Research](https://blog.google/innovation-and-ai/technology/developers-tools/deep-research-agent-gemini-api/):
   Google exposes Gemini Deep Research through the Interactions API and frames it
   as an embeddable agent for long-running context gathering and synthesis.
@@ -61,31 +74,40 @@ Excluded:
   Google now connects the Interactions API to ADK-managed tools, A2A bridges,
   and enterprise deployment paths instead of treating deep research as an
   isolated product leaf.
+- [Deep Research tool in Microsoft Foundry (classic)](https://learn.microsoft.com/en-us/azure/foundry-classic/agents/how-to/tools-classic/deep-research?view=foundry-classic):
+  Microsoft marks the classic tool as deprecated and recommends using the
+  `o3-deep-research` model with web search or an MCP tool. This is a useful
+  lifecycle signal: the durable capability can outlast its first packaged tool
+  surface.
 
 ## Synthesis
 
-Four stable signals stand out across these sources:
+Five stable signals stand out across these sources:
 
-- Deep research is being framed as work product, not just chat. OpenAI
-  describes analyst-level reports built from many sources, while Google frames
-  Deep Research as a long-running synthesis agent.
-- The product boundary is moving beyond public web search. OpenAI added MCP and
-  app connections plus trusted-site restrictions in the February 10, 2026
-  update. Google keeps pushing the same direction through connected data,
-  managed tools, and long-running interaction state.
+- Deep research is being framed as reusable work product, not just chat. OpenAI
+  exposes a report view, citations, activity history, and multiple download
+  formats, while Google frames Deep Research as a long-running synthesis agent.
+- Operator control is becoming part of the product contract. OpenAI now
+  documents reviewable plans, explicit source selection, progress visibility,
+  interruption, and source changes during a run rather than treating the agent
+  as an opaque one-shot request.
+- The product boundary is moving beyond public web search. OpenAI supports
+  files and read-only connected apps plus site controls. Google keeps pushing
+  the same direction through connected data, managed tools, and long-running
+  interaction state.
 - Google is no longer only saying "Gemini Deep Research exists." The stronger
   June 2026 signal is that Interactions API is now the primary interface for
   Gemini models and agents, with Deep Research becoming one concrete surface on
   top of that wider runtime model.
-- Developer-facing agent systems are absorbing more of the product shape.
-  Server-side state, resumable background work, tool execution, and A2A bridges
-  now show up in the same interface family that previously looked like a single
-  research-agent feature.
+- Capability and packaging are separating. Microsoft's deprecation notice moves
+  developers from a classic bundled tool toward the underlying deep-research
+  model plus web search or MCP. That makes migration paths and lifecycle status
+  part of platform evaluation, alongside quality and feature coverage.
 
 This means the lab should treat deep research as a broader product category
 with shared traits such as planning, evidence gathering, traceability,
-artifact quality, and long-running interaction state rather than as one
-isolated feature from one vendor.
+operator control, artifact quality, lifecycle management, and long-running
+interaction state rather than as one isolated feature from one vendor.
 
 ## Contributor Implications
 
@@ -98,6 +120,9 @@ isolated feature from one vendor.
   [Deep Research Agent Starter](/case-studies/examples/deep-research-agent-starter)
   so the note points to durable implementation surfaces instead of remaining a
   pure market snapshot.
+- Compare products and developer surfaces on plan review, source restriction,
+  interruption, evidence visibility, reusable output, connected-data
+  permissions, and migration status instead of comparing only model quality.
 - Route future curation through the
   [Reference Notes hub](/contributor-kit/reference-notes) and the
   [Contributor reading path](/reading-paths/contributor) so product-signal
@@ -111,12 +136,18 @@ isolated feature from one vendor.
 - Add a follow-up note focused on evaluation and trust boundaries for
   long-running research agents that mix built-in agents with framework-owned
   outer loops.
+- Add a migration checklist for teams moving between packaged research tools
+  and model-plus-tool compositions without losing source controls, citations,
+  or report traceability.
 - Revisit whether a starter project should support trusted-source constraints or
   server-side interaction state alongside MCP-connected private data in a future
   iteration.
 
 ## Update Log
 
+- 2026-08-11: Added current OpenAI operator and report-reuse controls, the
+  academic-research workspace signal, and Microsoft's classic-tool migration
+  signal.
 - 2026-06-24: Refreshed the note around Google's Interactions API general
   availability and its new role as a primary Gemini agent interface.
 - 2026-04-23: Added a contributor-facing product-signals note based on current
