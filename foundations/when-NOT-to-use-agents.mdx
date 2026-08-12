@@ -73,14 +73,15 @@ For example, an agent can analyze a patient's symptoms and suggest potential dia
   - Example: A search bar that suggests results as the user types. Agents would be too slow
 
 **4. Cost-sensitive environments**
-
   - Example: A high-volume data processing pipeline processing 10M records daily. An agentic approach may be financially unsustainable if each record requires multiple LLM calls with expensive models and no caching
 
 **5. High-stakes/100% Accuracy Scenarios**
   - Example: Calculating tax withholdings. There is no room for an agent to "decide" the wrong number.
 
 **6. No clear evaluation metrics**
-  - Example: A creative writing assistant where "quality" is entirely subjective. 
+  - If you can't define how to measure success — no test set, clear criteria, or comparison method — you're building blindly. Agent development without evals is a recipe for unpredictable behavior and wasted effort.
+
+  **This is a readiness problem, not a categorical ban on agents.** Before launching any production system define what "good" looks like. Start with a small dataset, define a rubric, and run evaluation iteratively. Scale       only when you can reliably measure success.
 
 **7. Limited engineering resources**
   - Example: A small startup's first AI feature. Start with a prompt; add an agent later if needed.
