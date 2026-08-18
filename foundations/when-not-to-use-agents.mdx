@@ -117,6 +117,17 @@ flowchart TD
 ```
 ## Tool Landscape
 
+### Validate Before You Build
+
+Before investing in an agent, use existing tools to evaluate whether your current simpler approach already meets your requirements.
+
+1. **Establish a baseline** – Use **Ragas** or **LangSmith** to evaluate your current solution (single prompt or basic RAG). Measure faithfulness, answer relevancy, cost per task, and latency.
+
+2. **Trace and monitor** – Use **LangFuse** or **AgentOps** to trace your current system in production. Track cost, latency, and error rates.
+
+3. **Make a data-driven decision** – If your baseline metrics already meet your requirements, **don't use an agent**. If there's a clear, measurable gap that only runtime adaptation can fill, *then* consider an agent—but start with a bounded pilot and re-evaluate.
+
+
 ## Tradeoffs
 
 The choice between using and not using an agent involves four core tradeoffs: 
