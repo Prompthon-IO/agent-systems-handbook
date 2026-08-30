@@ -56,11 +56,18 @@ def validate_fields(store: Store, kind: str, data: dict) -> dict:
         if kind == "activity":
             if not isinstance(data.get("body"), str) or not data["body"].strip() or len(data["body"]) > 4000:
                 raise CourseError("INVALID_ACTIVITY", "Supply a synthetic activity note of 1–4000 characters.")
-            dt.date.fromisoformat(data["occurred_on"])
         if kind == "task":
             if data.get("status") not in {"open", "completed"}:
                 raise CourseError("INVALID_TASK", "Task status must be open or completed.")
-            dt.date.fromisoformat(data["due_date"])
+        if kind in {"activity", "task"}:
+            field = "occurred_on" if kind == "activity" else "due_date"
+            try:
+                value = data.get(field)
+                if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+                    raise ValueError()
+                dt.date.fromisoformat(value)
+            except ValueError:
+                raise CourseError("INVALID_" + kind.upper(), f"{field} must be a real ISO date in YYYY-MM-DD format.") from None
     return data
 
 
@@ -72,9 +79,11 @@ def all_records(store: Store, kind: str) -> list[dict]:
 
 
 def plan(store: Store, request: dict) -> dict:
+    if not isinstance(request, dict):
+        raise CourseError("INVALID_REQUEST", "Provide a JSON object with entity, match and patch.")
     demo_context(store)
     kind = request.get("entity")
-    if kind not in COLLECTION or not isinstance(request.get("match"), dict) or not isinstance(request.get("patch"), dict):
+    if not isinstance(kind, str) or kind not in COLLECTION or not isinstance(request.get("match"), dict) or not isinstance(request.get("patch"), dict):
         raise CourseError("INVALID_REQUEST", "Provide entity, match and patch; deletion and arbitrary table operations are unsupported.")
     match, patch = request["match"], request["patch"]
     if set(patch) - FIELDS[kind] or not patch:
@@ -104,6 +113,8 @@ def plan(store: Store, request: dict) -> dict:
         raise CourseError("AMBIGUOUS_ENTITY", "Multiple matches require manual resolution; do not merge or guess.")
     current = candidates[0] if candidates else None
     before = {k: v for k, v in current["data"].items() if k in FIELDS[kind]} if current else {}
+    if kind == "deal" and current and patch.get("contact_id", before["contact_id"]) != before["contact_id"]:
+        raise CourseError("ENTITY_MISMATCH", "Course operations cannot reassign an existing deal to another contact; use a separately reviewed owning-app workflow.")
     after = validate_fields(store, kind, {**before, **patch})
     if kind == "contact" and any(r["id"] != create_id and r["data"]["email"] == after["email"] for r in records):
         # A matched contact retains its stable id even after an approved identity update.

@@ -124,6 +124,41 @@ class BusinessLifecycleTests(unittest.TestCase):
             plan(self.store, duplicate)
         self.assertEqual("DUPLICATE_CONTACT", failure.exception.code)
 
+    def test_activity_and_task_dates_are_validated_without_any_write(self):
+        self.apply_crm("contact")
+        self.apply_crm("deal")
+        before = self.store.list("skill_runs")
+        for kind, field in (("activity", "occurred_on"), ("task", "due_date")):
+            for invalid in (None, 20260830, [], "2026-02-30", "20260830", "2026-08-30T09:00:00Z"):
+                request = self.request(kind)
+                request["patch"][field] = invalid
+                with self.subTest(kind=kind, invalid=invalid), self.assertRaises(CourseError) as failure:
+                    plan(self.store, request)
+                self.assertEqual("INVALID_" + kind.upper(), failure.exception.code)
+            request = self.request(kind)
+            del request["patch"][field]
+            with self.assertRaises(CourseError) as failure:
+                plan(self.store, request)
+            self.assertEqual("INVALID_" + kind.upper(), failure.exception.code)
+        self.assertEqual(before, self.store.list("skill_runs"))
+        self.assertEqual([], self.store.list("crm_activities"))
+        self.assertEqual([], self.store.list("crm_tasks"))
+
+    def test_existing_deal_cannot_be_moved_to_another_contact(self):
+        self.apply_crm("contact")
+        deal = self.apply_crm("deal")
+        second = {"entity": "contact", "match": {"id": "contact-demo-second"},
+                  "patch": {"name": "Second Demo", "email": "second@example.invalid"}}
+        operate(self.store, second, plan(self.store, second)["approval_sha256"])
+        before = self.store.get("crm_deals", deal["id"])
+        runs_before = self.store.list("skill_runs")
+        reassignment = {"entity": "deal", "match": {"id": deal["id"]}, "patch": {"contact_id": "contact-demo-second"}}
+        with self.assertRaises(CourseError) as failure:
+            operate(self.store, reassignment, "any-approval", True)
+        self.assertEqual("ENTITY_MISMATCH", failure.exception.code)
+        self.assertEqual(before, self.store.get("crm_deals", deal["id"]))
+        self.assertEqual(runs_before, self.store.list("skill_runs"))
+
     def test_crm_rejects_stale_plan_system_fields_foreign_scope_and_real_workspace(self):
         self.apply_crm("contact")
         request = self.request("contact")
