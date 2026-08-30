@@ -27,9 +27,9 @@ def validate_suite(suite: dict) -> dict:
     if not isinstance(suite, dict) or not isinstance(suite.get("steps"), list) or not 1 <= len(suite["steps"]) <= 50:
         raise CourseError("INVALID_SUITE", "Provide a suite with 1–50 ordered browser checks.")
     for step in suite["steps"]:
-        if step.get("action") not in {"visible", "fill", "click", "text", "url"}:
+        if not isinstance(step, dict) or not isinstance(step.get("action"), str) or step["action"] not in {"visible", "fill", "click", "text", "url"}:
             raise CourseError("INVALID_SUITE", "Only visible/fill/click/text/url actions are supported; no arbitrary eval.")
-        if step["action"] != "url" and not isinstance(step.get("selector"), str):
+        if step["action"] != "url" and (not isinstance(step.get("selector"), str) or not step["selector"].strip()):
             raise CourseError("INVALID_SUITE", "A browser step needs a CSS selector.")
         if step["action"] in {"fill", "text", "url"} and not isinstance(step.get("value"), str):
             raise CourseError("INVALID_SUITE", "This browser step needs a string value.")

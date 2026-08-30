@@ -14,7 +14,7 @@ for name in ("course-support", "web-builder", "webapp-testing", "vercel-deploy")
 from course_runtime import Config, CourseError, Store, digest, file_hash, read_json, write_json
 from web_builder import build, render
 from web_project import source_manifest
-from webapp_test import test_project as browser_test, serve
+from webapp_test import test_project as browser_test, serve, validate_suite
 from course_deploy import Provider, deployment_host, deploy, gate, verify, prerequisites
 
 
@@ -50,6 +50,27 @@ class WebLifecycleTests(unittest.TestCase):
         bold = copy.deepcopy(self.brief)
         bold["style_direction"] = "bold-contrast"
         self.assertNotEqual(render(self.brief)["style.css"], render(bold)["style.css"])
+
+    def test_invalid_suite_steps_fail_before_browser_or_state_creation(self):
+        for step in (None, [], "click", {}, {"action": []}, {"action": "visible"}, {"action": "visible", "selector": " "}):
+            with self.subTest(step=step), self.assertRaises(CourseError) as failure:
+                validate_suite({"steps": [step]})
+            self.assertEqual("INVALID_SUITE", failure.exception.code)
+        self.assertFalse(self.store.root.exists())
+        self.assertFalse(self.project.exists())
+
+    def test_missing_or_invalid_provider_token_never_contacts_vercel(self):
+        missing = self.root / "private-missing-token"
+        invalid = self.root / "invalid-token"
+        invalid.write_bytes(b"\xff\xfe")
+        for token_file in (missing, invalid, self.root):
+            provider = Provider(token_file)
+            with self.subTest(token_file=token_file), patch.object(provider.opener, "open") as request:
+                with self.assertRaises(CourseError) as failure:
+                    provider.deployment("dpl_synthetic")
+                self.assertEqual("PROVIDER_AUTH_REQUIRED", failure.exception.code)
+                self.assertNotIn(str(token_file), str(failure.exception))
+                request.assert_not_called()
 
     def test_real_browser_desktop_mobile_form_and_console_failure(self):
         self.build()

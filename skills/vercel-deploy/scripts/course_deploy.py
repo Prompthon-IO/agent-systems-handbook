@@ -43,7 +43,10 @@ class Provider:
             key = deployment_id
         else:
             key = deployment_host(deployment_id)
-        token = self.token_file.read_text().strip() if self.token_file else os.getenv("VERCEL_ACCESS_TOKEN", "")
+        try:
+            token = self.token_file.read_text(encoding="utf-8").strip() if self.token_file else os.getenv("VERCEL_ACCESS_TOKEN", "")
+        except (OSError, UnicodeError):
+            raise CourseError("PROVIDER_AUTH_REQUIRED", "The private Vercel token file is unavailable or invalid; check its existence, permissions and UTF-8 encoding.") from None
         if not token or any(c.isspace() for c in token):
             raise CourseError("PROVIDER_AUTH_REQUIRED", "Configure VERCEL_ACCESS_TOKEN or a private --vercel-token-file. Never put it in a brief or command argument.")
         query = {"withGitRepoInfo": "true"}
