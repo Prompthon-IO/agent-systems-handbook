@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "lesson": 3,
+  "capability": "Deploy",
+  "entrypoint": "scripts/course_deploy.py"
+}

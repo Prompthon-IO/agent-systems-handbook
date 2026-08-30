@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "lesson": 3,
+  "capability": "Build",
+  "entrypoint": "scripts/web_builder.py"
+}

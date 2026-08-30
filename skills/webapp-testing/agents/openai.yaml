@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web App Testing"
+  short_description: "Verify browser flows and capture local evidence"
+  default_prompt: "Use $webapp-testing to verify my local course site and report browser evidence."
