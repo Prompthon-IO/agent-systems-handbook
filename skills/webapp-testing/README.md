@@ -4,6 +4,10 @@ Lesson 3 · **Test** · `$webapp-testing`
 
 Verify a local web app in a real browser with page, element, click, form, console and screenshot evidence. Use after a build or UI change; do not implement features or publish deployments with this skill.
 
+Sample Codex prompt:
+
+> Use $webapp-testing on the local page produced by Build and this package's example suite. Exercise the desktop and mobile form flow, inspect console errors, and save screenshots plus a pass/fail report. Read back the test record and explain any failed step. Do not change the page just to make the test pass or contact external services.
+
 ## Prerequisites
 
 Requires the course foundation (PR #222), Python 3.10+, and the sibling Lesson 3 packages. Build needs Node.js; Test needs the pinned Playwright/Chromium environment; actual Deploy needs instructor-provisioned Vercel access. Run commands from the handbook root. On Windows, use `python` or `py` instead of `python3` as appropriate.

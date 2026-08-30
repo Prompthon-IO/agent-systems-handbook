@@ -4,6 +4,10 @@ Lesson 3 · **Deploy** · `$vercel-deploy`
 
 Deploy an approved and tested committed web project to a Vercel preview and verify provider identity, commit, status and actual URL. Use for publishing a website preview; production needs separate approval, and feature building or browser QA belong to other skills.
 
+Sample Codex prompt:
+
+> Use $vercel-deploy to inspect this course project's prerequisites without making provider requests. Verify the current source, committed revision and matching passing Build/Test records. If the instructor has supplied a real Vercel demo project and deployment id, read back that exact preview and page; stop for missing access and request explicit approval before any deployment.
+
 ## Prerequisites
 
 Requires the course foundation (PR #222), Python 3.10+, and the sibling Lesson 3 packages. Build needs Node.js; Test needs the pinned Playwright/Chromium environment; actual Deploy needs instructor-provisioned Vercel access. Run commands from the handbook root. On Windows, use `python` or `py` instead of `python3` as appropriate.

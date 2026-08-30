@@ -4,6 +4,10 @@ Lesson 3 · **Build** · `$web-builder`
 
 Inspect an existing web project and create or modify a working local page from a purpose, audience, sections, style and constraints brief. Use for building a website; leave final browser QA to webapp-testing and publishing to vercel-deploy.
 
+Sample Codex prompt:
+
+> Use $web-builder with this package's workshop brief. Inspect the target project first, preserve its existing stack and edits, and preview the files you propose. Build the reviewed page in a fresh local output directory, run its available build check and show the saved project record. Leave browser testing and deployment to their separate skills.
+
 ## Prerequisites
 
 Requires the course foundation (PR #222), Python 3.10+, and the sibling Lesson 3 packages. Build needs Node.js; Test needs the pinned Playwright/Chromium environment; actual Deploy needs instructor-provisioned Vercel access. Run commands from the handbook root. On Windows, use `python` or `py` instead of `python3` as appropriate.
