@@ -24,8 +24,11 @@ def main():
         assert spec["capability"] not in lessons.setdefault(spec["lesson"], set()), "Overlapping capability"
         lessons[spec["lesson"]].add(spec["capability"])
         assert (package / spec["entrypoint"]).is_file()
-        if (package / "tests").exists():
-            tests.append(package / "tests")
+        test_folder = package / "tests"
+        # Some packages expose only a Node harness, exercised by a Python
+        # lifecycle test elsewhere. Python 3.14 rejects empty discovery runs.
+        if any(test_folder.rglob("test_*.py")):
+            tests.append(test_folder)
     assert lessons, "No course packages found"
     for lesson, capabilities in lessons.items():
         assert len(capabilities) == 3, f"Lesson {lesson} must have three distinct capabilities"
