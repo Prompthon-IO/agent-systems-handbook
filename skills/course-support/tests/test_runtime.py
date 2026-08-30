@@ -105,6 +105,10 @@ class RuntimeTests(unittest.TestCase):
         with self.assertRaises(CourseError):
             a.reset("student-b")
         self.assertEqual(1, a.reset()["records"])
+        reset_preview = a.reset()
+        self.assertEqual(1, sum(reset_preview["collections"].values()))
+        self.assertEqual(1, len(reset_preview["affected_records"]))
+        self.assertFalse(reset_preview["preview_truncated"])
         a.reset("student-a")
         self.assertEqual([], a.list("crm_contacts"))
         self.assertEqual("Other student", b.get("crm_contacts", "contact-1")["data"]["name"])

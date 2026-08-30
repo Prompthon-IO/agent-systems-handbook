@@ -362,14 +362,16 @@ class Store:
             if any(self.list(collection, 1) for collection in COLLECTIONS):
                 raise CourseError("READBACK_MISMATCH", "Reset did not clear all course records.")
             return result
-        count = 0
+        count, collections, affected = 0, {}, []
         if (self.root / "course.sqlite").exists():
             with self._connect() as conn:
                 count = conn.execute("SELECT count(*) FROM course_records WHERE organization_id=? AND workspace_id=?", self.scope).fetchone()[0]
+                collections = {row[0]: row[1] for row in conn.execute("SELECT collection, count(*) FROM course_records WHERE organization_id=? AND workspace_id=? GROUP BY collection ORDER BY collection", self.scope).fetchall()}
+                affected = [{"collection": row[0], "id": row[1], "revision": row[2]} for row in conn.execute("SELECT collection, id, revision FROM course_records WHERE organization_id=? AND workspace_id=? ORDER BY collection, id LIMIT 200", self.scope).fetchall()]
                 if confirm is not None and not self.config.dry_run:
                     require_approval(confirm, self.config.workspace)
                     conn.execute("DELETE FROM course_records WHERE organization_id=? AND workspace_id=?", self.scope)
-        return {"organization_id": self.scope[0], "workspace_id": self.scope[1], "records": count,
+        return {"organization_id": self.scope[0], "workspace_id": self.scope[1], "records": count, "collections": collections, "affected_records": affected, "preview_truncated": count > len(affected),
                 "status": "reset" if confirm and not self.config.dry_run else "preview", "local_files_removed": False}
 
 
