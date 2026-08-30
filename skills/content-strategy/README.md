@@ -22,6 +22,10 @@ python3 skills/content-strategy/scripts/strategy.py show --strategy-id workshop-
 
 Expected: four topics grouped under three pillars, both searchable/shareable intent, four offset-aware calendar entries, revision 1, and `external_scheduling: false`. The practice-story topic is explicitly unvalidated. On Windows, install the `tzdata` Python package if the system does not provide IANA timezone data.
 
+Sample Codex prompt:
+
+> Use $content-strategy with the synthetic workshop brief in this package. Explain the pillars and topic priorities, identify unsupported assumptions, and preview a calendar in my local demo workspace. Show the reviewed plan hash before saving. Continue the same strategy id when I revise a score; do not schedule or publish content.
+
 ## 20–30 minute exercise and one modification
 
 Spend 5 minutes reviewing goal/audience, 10 minutes challenging topic scores and source support, 5 minutes saving and reading the strategy, and 5 minutes changing one topic score in a copied brief. Preview/save the same strategy with --expected-revision 1, then compare revision 2 and its calendar. Do not silently reuse revision 0 or call planned items scheduled.

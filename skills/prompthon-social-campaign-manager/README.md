@@ -17,6 +17,10 @@ python3 skills/course-support/scripts/course_store.py runs --skill prompthon-soc
 
 Expected: `status: prepared`, two parent-post previews with distinct LinkedIn/Facebook copy, a plan file/hash and `canonical_social_objects_created: false`. Open the returned JSON file. No real channel is connected or contacted, and the canonical Social tables are untouched.
 
+Sample Codex prompt:
+
+> Use $prompthon-social-campaign-manager in course mode with my saved workshop strategy and the example campaign request. Prepare LinkedIn and Facebook variants, show the strategy revision and plan hash, and read back the preview run. Stop at preparation; do not create a real campaign, schedule, connect a channel or publish anything.
+
 The backend's isolated-demo attestation, simulation worker policy and receipt reconciliation are **pending dependency #221**. Until provisioned and live verified, do not promise a real demo schedule/status. The offline contract harness can be run with `node skills/prompthon-social-campaign-manager/tests/test_course_browser.cjs PLAN_FILE` after preparing a test plan with explicit `--api-url https://course.example.invalid`; all fetches there are intercepted and no provider is contacted.
 
 ## 20–30 minute exercise and one modification

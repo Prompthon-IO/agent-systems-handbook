@@ -15,9 +15,13 @@ python3 skills/course-support/scripts/course_store.py read aeo_audits course-aeo
 
 Expected: five structural findings in the imperfect two-page fixture: missing entity introduction, skipped heading level, missing evidence attribution, an unanswered build question, and conflicting duration values (90/120 minutes). Each finding has source evidence or explicitly notes the missing signal. Files remain unchanged; no site was fetched, indexed or published.
 
+Sample Codex prompt:
+
+> Use $ai-search-visibility on this package's two local sample pages and target-query spec. Explain each finding with its page and line evidence, then save and read back the local audit. After I edit a copy, recheck the same audit id and scope. Do not alter the original pages or claim an improvement in live search rankings.
+
 ## 20–30 minute exercise and one modification
 
-Spend 5 minutes reviewing the target questions, 10 minutes checking findings against both pages, 5 minutes correcting a copy of the duration/entity/heading/build-answer issues using the synthetic brief, and 5 minutes rerunning the same audit id with --expected-revision 1. Modification: change the target-query set and observe that removed findings are not called resolved. Evidence quality still requires human judgment.
+Spend 5 minutes reviewing the target questions, 10 minutes checking findings against both pages, 5 minutes correcting a copy of the duration/entity/heading/build-answer issues using the [synthetic fact brief](../content-strategy/examples/synthetic-workshop-brief.md), and 5 minutes rerunning the same audit id with --expected-revision 1. The brief explicitly supplies the example build deliverable; do not infer workshop facts from campaign drafts. Those four supported fixes should resolve four findings. Leave missing evidence attribution open unless you have a relevant reviewed source; an unrelated external link is not a fix. Modification: change the target-query set and observe that removed findings are not called resolved. Evidence quality still requires human judgment.
 
 ## Persistence, readback and recovery
 

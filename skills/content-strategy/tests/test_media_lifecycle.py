@@ -1,4 +1,5 @@
 import copy
+import html
 import json
 import shutil
 import subprocess
@@ -91,11 +92,15 @@ class MediaLifecycleTests(unittest.TestCase):
         about = self.site / "about.html"
         about.write_text(about.read_text().replace("120 minutes", "90 minutes").replace("<h1>About the workshop</h1>", "<h1>Prompthon Course Studio</h1>").replace("<h3>", "<h2>").replace("</h3>", "</h2>"))
         index = self.site / "index.html"
-        index.write_text(index.read_text().replace("</body>", "<h2>What will I build?</h2><p>You will build a small local page and test its synthetic form.</p></body>"))
+        facts = (REPO / "skills/content-strategy/examples/synthetic-workshop-brief.md").read_text()
+        build_fact = facts.split("Build deliverable: ", 1)[1].splitlines()[0]
+        index.write_text(index.read_text().replace("</body>", "<h2>What will I build?</h2><p>" + html.escape(build_fact) + "</p></body>"))
         second = run_audit(self.store, self.site, self.spec, "course-aeo", 1)
         self.assertTrue(second["recheck"]["scope_comparable"])
         self.assertIn(conflict["id"], second["recheck"]["resolved"])
         self.assertNotIn("answer_gap", {f["code"] for f in second["findings"]})
+        self.assertEqual(4, len(second["recheck"]["resolved"]))
+        self.assertEqual({"evidence_attribution"}, {f["code"] for f in second["findings"]})
         self.assertEqual(2, self.store.get("aeo_audits", "course-aeo")["revision"])
 
     def test_audit_scope_change_is_not_claimed_as_resolution_and_rejects_escape(self):

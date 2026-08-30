@@ -10,7 +10,7 @@ Install `--lesson 5` with shared setup. Use separate workspaces and synthetic co
 
 1. Minutes 0–8: challenge the goal, audience, pillars, searchable/shareable choices and score assumptions. Save revision 1, modify one judgment and save revision 2 under the same strategy id.
 2. Minutes 8–16: adapt a core topic into two channel voices. Prepare the campaign, inspect strategy revision, dates, provider IDs and plan hash. Without live isolated-demo capability, stop at prepared and clearly report that no canonical posts/schedules exist. With verified course backend access, separately approve DRAFT then SCHEDULE and read back canonical evidence; production remains forbidden.
-3. Minutes 16–25: run [Discover](../../ai-search-visibility/README.md), inspect the five intentionally seeded findings, correct a copy against the synthetic brief, then recheck the same audit id/revision. Compare resolved versus still-open findings; changed query scope must not count as a fix.
+3. Minutes 16–25: run [Discover](../../ai-search-visibility/README.md), inspect the five intentionally seeded findings, correct a copy against the [synthetic fact brief](../../content-strategy/examples/synthetic-workshop-brief.md), then recheck the same audit id/revision. Its explicit build deliverable supports the missing answer. Four supported edits resolve four findings; missing evidence attribution stays open without a relevant reviewed source. Compare resolved versus still-open findings; changed query scope must not count as a fix.
 
 Modification: change one provider's copy (new plan hash) or remove a query (scope change, not resolution). Do not invent demand data or promise a search rank/model citation.
 
