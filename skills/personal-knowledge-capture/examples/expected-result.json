@@ -1,0 +1,13 @@
+{
+  "example_only": true,
+  "source_count": 3,
+  "unique_sources": 2,
+  "duplicates": 1,
+  "conflict": {
+    "field": "capacity",
+    "alternatives": [
+      "20",
+      "24"
+    ]
+  }
+}

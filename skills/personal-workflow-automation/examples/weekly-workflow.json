@@ -1,0 +1,48 @@
+{
+  "id": "weekly-course",
+  "trigger": {
+    "type": "manual"
+  },
+  "steps": [
+    {
+      "id": "classify",
+      "argv": [
+        "{python}",
+        "{repo}/skills/local-document-organizer/scripts/course_organizer.py",
+        "--state-dir",
+        "{state_dir}",
+        "--organization",
+        "{organization}",
+        "--workspace",
+        "{workspace}",
+        "scan",
+        "--folder",
+        "{repo}/.local-state/course-demo/lesson-2/incoming"
+      ],
+      "approval_required": false,
+      "retryable": true,
+      "timeout_seconds": 60
+    },
+    {
+      "id": "synthesize",
+      "argv": [
+        "{python}",
+        "{repo}/skills/personal-knowledge-capture/scripts/course_knowledge.py",
+        "--state-dir",
+        "{state_dir}",
+        "--organization",
+        "{organization}",
+        "--workspace",
+        "{workspace}",
+        "synthesize",
+        "--folder",
+        "{repo}/.local-state/course-demo/lesson-2/research",
+        "--note-id",
+        "weekly-note"
+      ],
+      "approval_required": true,
+      "retryable": true,
+      "timeout_seconds": 60
+    }
+  ]
+}

@@ -163,3 +163,11 @@ When reporting `apply` results, include:
 
 When reporting `undo` results, include the restored count and any skipped
 files (e.g. because the original path now contains a different file).
+
+## Adult course adapter (Organize)
+
+For classroom work, synthesis requests, or a storage-mode request, use `scripts/course_organizer.py` in this same package. The original helper remains the standalone baseline. Classify and safely relocate local files, with preview, approval and undo. Do not synthesize their knowledge.
+
+Read the course section of `README.md`, then use the shared setup and synthetic fixtures. Put storage/context flags before the command. Keep source files and recovery journals local, honor all approval gates, and verify canonical reads after persistence. Remote mode requires the provisioned [contract](references/persistence-contract.md); a missing backend is a dependency failure, never a reason to invent credentials or silently use local state.
+
+The course adapter reuses existing classification rules and preview generation. Moves stay within the selected directory and use atomic no-clobber hard links before removing the old directory entry; no file contents are deleted. It fails safely on filesystems without hard-link support. It refuses stale/tampered plans, changed sources, symlinks, collisions and replayed plans. Every intent and action is fsynced in a local journal. Undo checks content hashes and refuses collisions; use `--storage local` for recovery while the remote API is down. It does not upload file binaries.

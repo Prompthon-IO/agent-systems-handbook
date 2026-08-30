@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "lesson": 2,
+  "capability": "Understand",
+  "entrypoint": "scripts/course_knowledge.py"
+}

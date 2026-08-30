@@ -75,3 +75,59 @@ Treat this package as a Practitioner example of a local knowledge workflow:
 - `SKILL.md` explains the Codex invocation contract
 - `scripts/personal_knowledge_capture.py` implements deterministic local state and scanning
 - `references/supported-file-types.md` documents extraction boundaries
+
+## Adult course: Understand
+
+### What you will learn
+
+Extract and deduplicate selected sources into a cited note, flag contradictions and track changes. Never relocate source files.
+
+### Prerequisites
+
+Use Python 3.10+, a fork/clone opened in Codex, and the [shared course setup](../course-support/README.md). Run from the repository root. Seed the synthetic Lesson 2 files once; choose a fresh output directory if they already exist. PDF extraction optionally requires `pypdf`; TXT/Markdown/DOCX need no extra package.
+
+### 5-minute quick start
+
+```bash
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py synthesize --folder .local-state/course-demo/lesson-2/research --note-id weekly-note
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py show --note-id weekly-note
+```
+
+Sample prompt:
+
+```text
+Use $personal-knowledge-capture on the course research folder; deduplicate repeated sources, surface the conflicting capacity claims and create a cited weekly note without changing originals.
+```
+
+### Expected result
+
+Three sources produce two unique texts, one duplicate and a capacity conflict (20 versus 24), with source ids/hashes and actionable notes. Repeating the run marks unchanged sources and increments the same note revision. These are examples, not recorded production results.
+
+### 20–30 minute classroom exercise
+
+Ask Codex to inspect the source-grounded extractive draft and distinguish the two capacity claims. Explain which source is authoritative without guessing. Edit only a synthetic source, rerun and compare the note revision, changed-source metadata and citations. Source file hashes must remain unchanged by the helper. Resolve `workflow.py` / `course_organizer.py` command shorthand to this package's `scripts/` directory.
+
+### What to modify
+
+Change a synthetic capacity or action line; add a semantically conflicting sentence without a field label. Observe that deterministic field checks have limits and use Codex to cite the semantic conflict. Edit the canonical package, rerun course setup, and commit only source changes to your fork.
+
+### How to verify persistence
+
+All course commands accept the shared storage flags before the subcommand. Start locally, then use `--storage prompthon` only after the Web App owner provisions the contract and scoped course access.
+
+```bash
+python3 skills/course-support/scripts/course_store.py runs --skill personal-knowledge-capture
+python3 skills/course-support/scripts/course_store.py read skill_runs <printed-run-id>
+```
+
+The helper performs a separate canonical GET after writes. Check organization/workspace, actor, revision and content, not only a success message. Remote mode has no SQLite fallback. [Production dependency](../course-support/references/backend-dependency.md).
+
+### How to reset demo data
+
+Preview `course_store.py reset`, then explicitly confirm your workspace id to clear only course records. Preserve/undo local file moves first. Source files, knowledge caches and recovery journals are not erased by record reset. Seed a new fixture folder for a clean comparison.
+
+### Safety and approval points
+
+Only the named folder is scanned; source files are never modified. Incremental extraction caches remain local and are keyed by content hash and modification time. Remote notes contain derived extractive summaries and source metadata, not original binaries or the complete extracted text. `--share-content` is an explicit extra opt-in for extracted text; review privacy first. The deterministic conflict detector only recognizes field:value disagreements and does not assign authority automatically. Read [safety rules](references/safety-rules.md) and [source notes](references/source-notes.md).
+
+Teaching guides: [English Lesson 2](../course-support/lessons/lesson-2.md) · [简体中文](../course-support/zh-Hans/lesson-2.md).

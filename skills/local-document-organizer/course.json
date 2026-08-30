@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "lesson": 2,
+  "capability": "Organize",
+  "entrypoint": "scripts/course_organizer.py"
+}
