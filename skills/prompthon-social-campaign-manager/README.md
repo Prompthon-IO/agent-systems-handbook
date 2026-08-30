@@ -1,100 +1,42 @@
 # Prompthon Social Campaign Manager
 
-## Why This Skill Exists
+Lesson 5 · **Distribute** · `$prompthon-social-campaign-manager`
 
-This package is a Practitioner-facing workflow example for production social
-operations.
+Prepare channel-specific Prompthon social campaigns from a saved strategy and use guarded canonical Social operations when an isolated demo workspace is available. Use for course distribution drafts or explicitly requested production operation; keep strategy design separate and verify the deployed auth contract before any legacy production flow.
 
-It exists because "help me post this campaign" sounds simple in chat, but the
-real workflow is not just copywriting. A production social operator needs:
+## Prerequisites and five-minute quickstart
 
-- the signed-in browser page as the source of truth
-- the correct Prompthon organization and agent context
-- Local mode plus the local companion bridge
-- channel-readiness checks before scheduling
-- API-backed media attachment and post readback after mutations
+Requires the course foundation (#222), Lesson 5 packages and Python 3.10+. Commands run from the handbook root; Windows users may substitute `python`/`py` for `python3`. Use synthetic fixtures and an isolated student workspace. Social browser-adapter contract tests also need Node.js; actual browser execution needs separately provisioned demo backend capability and a signed-in Host session.
 
-The package demonstrates a better pattern:
+First save the strategy using [Plan](../content-strategy/README.md), then run:
 
-- use the live production page for sign-in and handoff
-- use a deterministic helper for repeatable API operations
-- inspect live state before mutating anything
-- attach media through the canonical route instead of hidden draft fields
-- verify the created campaign and posts by reading them back
+```bash
+python3 skills/prompthon-social-campaign-manager/scripts/course_social.py --request skills/prompthon-social-campaign-manager/examples/course-campaign.json
+python3 skills/course-support/scripts/course_store.py runs --skill prompthon-social-campaign-manager
+```
 
-## Who It Is For
+Expected: `status: prepared`, two parent-post previews with distinct LinkedIn/Facebook copy, a plan file/hash and `canonical_social_objects_created: false`. Open the returned JSON file. No real channel is connected or contacted, and the canonical Social tables are untouched.
 
-This skill is for students, contributors, and operators who want to understand
-what a real Codex-compatible production workflow looks like when browser auth,
-bridge tokens, and organization-scoped APIs all matter.
+The backend's isolated-demo attestation, simulation worker policy and receipt reconciliation are **pending dependency #221**. Until provisioned and live verified, do not promise a real demo schedule/status. The offline contract harness can be run with `node skills/prompthon-social-campaign-manager/tests/test_course_browser.cjs PLAN_FILE` after preparing a test plan with explicit `--api-url https://course.example.invalid`; all fetches there are intercepted and no provider is contacted.
 
-It is most useful for requests such as:
+## 20–30 minute exercise and one modification
 
-- inspect connected social channels in production
-- create a scheduled campaign across multiple providers
-- attach media to a draft before scheduling
-- rewrite highlighted text from the live open editor context
+Spend 5 minutes choosing strategy topics, 10 minutes adapting the core message into two channel voices, 5 minutes generating/inspecting the plan, and 5 minutes checking strategy linkage and no-send state. Modification: change one provider copy and observe a new plan hash. With separately provisioned demo access, practice DRAFT then additional SCHEDULE approval and actual canonical readback; without it, use the clearly synthetic contract harness and mark live demo scheduling unresolved.
 
-## End-to-End Workflow
+## Persistence, readback and recovery
 
-The workflow is intentionally split across two surfaces:
+Social business objects remain in the existing `social_campaign`, `social_post_draft`, variant/schedule/publish-target/delivery and audit models. Course prep stores only `skill_runs` and a local plan; there are no new social course tables. Campaign/post metadata links strategy id/revision and course workspace. The proposed server receipt reconciler validates existing Host receipts and writes common skill-run evidence; no caller-supplied success file is trusted as live proof.
 
-1. Open the signed-in `agents.prompthon.io` Social Media Manager page.
-2. Switch to Local mode and keep the exact organization and agent context.
-3. Request or reuse a short handoff code through the page-owned browser event.
-4. Exchange that code for a bridge token.
-5. Inspect channels, campaigns, and posts through the production social API.
-6. Create or update campaigns and posts through the helper CLI.
-7. Attach media through the dedicated media route before scheduling.
-8. Read the resulting state back and report real production outcomes.
+Select global `--storage local|prompthon`, organization, workspace and state directory before subcommands; use the same scope for readback. The default is local/offline. Remote API/auth/Neon deployment is not created by installing these packages. A failed remote write does not silently become local success. See [shared setup](../course-support/README.md).
 
-The main teaching point is that this is not a UI-clicking workflow. It is a
-browser-auth plus API-execution workflow with explicit boundaries between the
-signed-in page, the local companion bridge, and the canonical social API.
+Read runs with `python3 skills/course-support/scripts/course_store.py runs --skill prompthon-social-campaign-manager`. Every reported id must come from the actual tool response; fixture domains and mock receipts are not live results.
 
-## What The Package Actually Does
+## Reset and instructor notes
 
-The package currently demonstrates:
+Preview the shared `course_store.py reset`, review its scope, then confirm the selected demo workspace with `--confirm demo-student`. It removes all course records in that workspace, not files, web pages, canonical Social campaigns/posts or external deliveries. Use a fresh workspace for repeat exercises and the owning app's separately authorized cleanup flow for actual Social objects; never silently delete them.
 
-- bridge-token bootstrap from a short Local-mode handoff code
-- organization-scoped reads for channels, campaigns, and posts
-- campaign creation and update flows
-- post creation, patching, and scheduling
-- media search and media attachment through `posts/:postId/media`
-- highlighted-selection rewrite and deterministic replacement using live editor
-  context
-- multi-post plan application through one JSON plan file
+Review the actual source, plan, canonical records and audit/report evidence. A content calendar is not a schedule; a course simulation is not public publication; an AEO heuristic is not measured ranking. [English lab](../course-support/lessons/lesson-5.md) · [中文课堂指引](../course-support/zh-Hans/lesson-5.md).
 
-It uses:
+Validate with `python3 -m unittest discover -s skills/content-strategy/tests -p 'test_*.py' -v`. This includes an entirely mocked Node Social contract harness; no external delivery is performed. See [safety](references/safety-rules.md), [persistence](references/persistence-contract.md), and [sources](references/source-notes.md).
 
-- `SKILL.md` for the Codex invocation contract
-- `agents/openai.yaml` for UI metadata
-- `scripts/manage_social_campaign.py` for deterministic production API calls
-- `references/api-contract.md` and `references/browser-bridge-contract.md` for
-  route names, payloads, and browser-event details
-
-## What It Does Not Do
-
-This package does not:
-
-- require a Prompthon repo checkout on disk
-- treat Chrome as the default browser surface
-- call page-owned handoff routes directly from the terminal
-- fabricate connected channel IDs or placeholder production state
-- rely on browser-only DOM edits as the persisted source of truth
-- default to local auth bypass for production work
-
-## How To Read It In The Handbook
-
-Treat this package as a Practitioner example of a production agent workflow:
-
-- `README.md` explains the human story and the operating model
-- `SKILL.md` explains when Codex should invoke the package
-- `scripts/manage_social_campaign.py` implements the deterministic helper
-- `references/*.md` document the API and browser-bridge contracts
-
-If you are a student reading the repo, the main lesson is:
-
-1. production agent workflows often depend on exact live auth state
-2. browser context and API execution should have clear boundaries
-3. a good skill package makes those boundaries explicit and repeatable
+The original production helper is preserved unchanged. Historical [production guide](references/production-guide.md), [production workflow](references/production-workflow.md), [API reference](references/api-contract.md), and [bridge reference](references/browser-bridge-contract.md) remain available, but current auth/transport must be verified before use. Read the [canonical Host contract](references/canonical-host-contract.md) and [course backend dependency](references/course-backend-dependency.md) before any browser execution.

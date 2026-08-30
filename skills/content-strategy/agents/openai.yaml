@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Strategy"
+  short_description: "Plan pillars, topic priorities and a content calendar"
+  default_prompt: "Use $content-strategy to develop and iterate my course content plan."
