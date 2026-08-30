@@ -4,6 +4,10 @@ Lesson 4 · **Structure** · `$business-data-structuring`
 
 Inspect messy CSV/XLSX tables and create a reviewed clean business dataset with normalized headers, types, dates and amounts. Use for preparing a table; do not operate CRM entities or turn the preparation step into business analysis.
 
+Sample Codex prompt:
+
+> Use $business-data-structuring on the synthetic pipeline fixture and its schema. Explain the headers, types, nulls and duplicate before proposing cleanup. Show the exact plan hash for review, then write only to a new output directory after approval. Verify that the source is unchanged and read back the saved dataset.
+
 ## Prerequisites and five-minute quickstart
 
 Requires the course foundation (#222), all Lesson 4 packages, Python 3.10+, and synthetic classroom data. Commands run from the handbook root. Windows users can substitute `python`/`py` for `python3`; no symlinks are required. CSV, CRM and analysis use Python standard libraries. XLSX requires the pinned `openpyxl==3.1.5` dependency from Structure's requirements.txt.

@@ -4,6 +4,10 @@ Lesson 4 · **Analyze** · `$business-data-analysis`
 
 Explain a business dataset with source-backed shape, grain, quality checks, distributions, numeric summaries, descriptive metrics and next questions. Use for read-only analysis; do not rewrite source tables, operate CRM entities or make unsupported causal claims.
 
+Sample Codex prompt:
+
+> Use $business-data-analysis on the cleaned synthetic pipeline. Explain its grain and quality limits, check the descriptive metrics against the source, and separate currencies. Save and read back the six-section report, clearly marking any provisional result. Do not clean the source, mutate CRM data or infer causation from this sample.
+
 ## Prerequisites and five-minute quickstart
 
 Requires the course foundation (#222), all Lesson 4 packages, Python 3.10+, and synthetic classroom data. Commands run from the handbook root. Windows users can substitute `python`/`py` for `python3`; no symlinks are required. CSV, CRM and analysis use Python standard libraries. XLSX requires the pinned `openpyxl==3.1.5` dependency from Structure's requirements.txt.

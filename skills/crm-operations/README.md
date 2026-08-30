@@ -4,6 +4,10 @@ Lesson 4 · **Operate** · `$crm-operations`
 
 Resolve and safely create/update demo CRM contacts, deals, activity notes and follow-up tasks with revision checks and an atomic audit trail. Use for business-object operations; do not clean spreadsheets, analyze business performance or send customer messages.
 
+Sample Codex prompt:
+
+> Use $crm-operations in my isolated local demo workspace with the example CRM requests. Resolve existing entities and duplicates, then show the proposed contact, deal, note and follow-up changes before applying an approved plan. Ask separately before stage or close changes. Read back each object and audit trail; do not contact anyone or delete records.
+
 ## Prerequisites and five-minute quickstart
 
 Requires the course foundation (#222), all Lesson 4 packages, Python 3.10+, and synthetic classroom data. Commands run from the handbook root. Windows users can substitute `python`/`py` for `python3`; no symlinks are required. CSV, CRM and analysis use Python standard libraries. XLSX requires the pinned `openpyxl==3.1.5` dependency from Structure's requirements.txt.
