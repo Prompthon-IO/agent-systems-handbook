@@ -19,7 +19,7 @@ for parent in Path(__file__).resolve().parents:
         break
 else:
     raise SystemExit("Install the course foundation (PR #222) before running this lesson.")
-from course_runtime import Config, CourseError, Run, Store, add_storage_args, cli_main, digest, emit, file_hash, identifier, read_json
+from course_runtime import Config, CourseError, Run, Store, add_storage_args, cli_main, digest, emit, file_hash, identifier, read_json, write_json
 from web_project import source_manifest
 
 
@@ -114,7 +114,7 @@ def run_browser(suite: dict, origin: str, evidence_dir: Path) -> dict:
                 # Store error class/count/hash, not arbitrary console strings that may expose data.
                 page.on("console", lambda msg: console_errors.append({"type": "console.error", "message_sha256": digest(msg.text)}) if msg.type == "error" else None)
                 page.on("pageerror", lambda error: console_errors.append({"type": "pageerror", "message_sha256": digest(str(error))}))
-                checks, failed_step = [], None
+                checks, failed_step, diagnostics = [], None, None
                 try:
                     response = page.goto(origin, wait_until="networkidle", timeout=15000)
                     if response is None or not response.ok:
@@ -140,7 +140,16 @@ def run_browser(suite: dict, origin: str, evidence_dir: Path) -> dict:
                     # Delayed browser console errors also count as failures.
                     page.wait_for_timeout(100)
                 except Exception as exc:
-                    checks.append({"step": failed_step, "status": "failed", "error_type": type(exc).__name__})
+                    failed = suite["steps"][failed_step] if failed_step is not None else {"action": "open"}
+                    detail = {"step": failed_step, "action": failed["action"], "selector": failed.get("selector"), "expected": failed.get("value"), "observed": None, "error_type": type(exc).__name__, "error_message": str(exc)[:1200]}
+                    try:
+                        detail["observed"] = page.url if failed["action"] in {"open", "url"} else page.locator(failed["selector"]).inner_text(timeout=1000)[:1200]
+                    except Exception:
+                        pass
+                    diagnostic_file = evidence_dir / f"diagnostics-viewport-{index + 1}.json"
+                    write_json(diagnostic_file, detail)  # Actual page text is local only; remote sees a reference.
+                    diagnostics = {"source_ref": diagnostic_file.name, "sha256": file_hash(diagnostic_file)}
+                    checks.append({"step": failed_step, "action": failed["action"], "selector": failed.get("selector"), "status": "failed", "error_type": type(exc).__name__})
                 screenshot = evidence_dir / f"viewport-{index + 1}.png"
                 try:
                     page.screenshot(path=str(screenshot), full_page=True)
@@ -149,7 +158,7 @@ def run_browser(suite: dict, origin: str, evidence_dir: Path) -> dict:
                     checks.append({"status": "failed", "error_type": "screenshot_failed"})
                     evidence = None
                 results.append({"viewport": viewport, "checks": checks, "failed_step": failed_step,
-                                "status": "failed" if any(c["status"] == "failed" for c in checks) else "passed", "screenshot": evidence})
+                                "status": "failed" if any(c["status"] == "failed" for c in checks) else "passed", "screenshot": evidence, "local_diagnostics": diagnostics})
                 context.close()
         finally:
             browser.close()
@@ -170,10 +179,11 @@ def test_project(store: Store, project: Path, project_id: str, suite: dict, url:
     try:
         with contextlib.nullcontext(url) if url else serve(project) as origin:
             result = run_browser(suite, origin, evidence_dir)
-    except CourseError as exc:
-        run.event("browser_unavailable", {"error": exc.code})
+    except (CourseError, OSError) as exc:
+        error = exc if isinstance(exc, CourseError) else CourseError("LOCAL_SERVER_UNAVAILABLE", "Local browser/server startup was refused. Use an authorized local runtime that permits loopback listening; do not change the test into a simulated pass.")
+        run.event("browser_unavailable", {"error": error.code})
         run.save("failed")
-        raise
+        raise error from None
     if source_manifest(project) != files:
         result["status"] = "failed"
         result["source_changed_during_test"] = True

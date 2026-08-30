@@ -15,7 +15,7 @@ from course_runtime import Config, CourseError, Store, digest, file_hash, read_j
 from web_builder import build, render
 from web_project import source_manifest
 from webapp_test import test_project as browser_test, serve
-from course_deploy import Provider, deployment_host, deploy, gate, verify
+from course_deploy import Provider, deployment_host, deploy, gate, verify, prerequisites
 
 
 class WebLifecycleTests(unittest.TestCase):
@@ -82,6 +82,33 @@ class WebLifecycleTests(unittest.TestCase):
                     urllib.request.urlopen(origin + path)
                 self.assertEqual(403, error.exception.code)
                 error.exception.close()
+
+    def test_startup_refusal_is_terminal_and_offline_prerequisites_never_deploy(self):
+        self.build()
+        with patch("webapp_test.serve", side_effect=PermissionError("synthetic sandbox refusal")):
+            with self.assertRaises(CourseError) as failure:
+                browser_test(self.store, self.project, "course-site", self.suite)
+            self.assertEqual("LOCAL_SERVER_UNAVAILABLE", failure.exception.code)
+        run = self.store.list("skill_runs", 1)[0]["data"]
+        self.assertEqual("failed", run["status"])
+        self.assertIn("finished_at", run)
+        with patch("course_deploy.Provider.deployment") as remote:
+            result = prerequisites(self.store, self.project, "course-site", "missing-test")
+            self.assertEqual("needs_setup", result["status"])
+            self.assertFalse(result["provider_contacted"])
+            self.assertFalse(result["deployed"])
+            remote.assert_not_called()
+
+    def test_failed_assertion_keeps_observed_text_only_in_local_diagnostics(self):
+        self.build()
+        suite = {"steps": [{"action": "text", "selector": "h1", "value": "deliberately wrong"}], "viewports": [{"width": 800, "height": 600}]}
+        result = browser_test(self.store, self.project, "course-site", suite)
+        self.assertEqual("failed", result["status"])
+        detail = read_json(Path(result["evidence_dir"]) / result["results"][0]["local_diagnostics"]["source_ref"])
+        self.assertEqual("deliberately wrong", detail["expected"])
+        self.assertIn(self.brief["purpose"], detail["observed"])
+        canonical = self.store.get("web_test_runs", result["test_id"])
+        self.assertNotIn('"observed"', json.dumps(canonical))
 
     def test_deployment_requires_matching_sources_commit_and_provider_readback(self):
         self.build()

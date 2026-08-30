@@ -105,6 +105,26 @@ def gate(store: Store, project: Path, project_id: str, test_id: str, expected_co
     return {"project_id": project_id, "project_fingerprint": fingerprint, "test_id": test_id, "commit_sha": commit}
 
 
+def prerequisites(store: Store, project: Path, project_id: str, test_id: str) -> dict:
+    """Read-only learner exercise: no provider requests, credentials or deployment side effects."""
+    fingerprint = digest(source_manifest(project))
+    checks = {}
+    for collection, key, status_key, expected in (("web_projects", project_id, "build_status", "succeeded"), ("web_test_runs", test_id, "status", "passed")):
+        record = store.maybe_get(collection, key)
+        valid = record and record["data"].get(status_key) == expected and record["data"].get("project_fingerprint") == fingerprint and record["data"].get("project_id") == project_id
+        checks[collection] = "passed" if valid else "missing_or_stale"
+    try:
+        commit = git_commit(project)
+        checks["committed_source"] = "passed"
+    except CourseError as exc:
+        commit = None
+        checks["committed_source"] = exc.code
+    checks["vercel_link"] = "passed" if (project / ".vercel/project.json").is_file() else "instructor_setup_required"
+    return {"status": "ready_for_provider_review" if all(v == "passed" for v in checks.values()) else "needs_setup", "checks": checks,
+            "project_id": project_id, "project_fingerprint": fingerprint, "commit_sha": commit, "provider_contacted": False,
+            "deployed": False, "next": "Use the instructor-provisioned Git-linked preview flow, then verify the real provider deployment. Local checks do not prove provider readiness."}
+
+
 def verify(store: Store, provider: Provider, evidence: dict, deployment_id: str, vercel_project: str, target: str, expected_text: str) -> dict:
     if store.config.dry_run:
         return {"status": "preview", "target": target, "deployment_id": deployment_id, **evidence}
@@ -182,6 +202,10 @@ def main():
     p.add_argument("--vercel-token-file", type=Path)
     p.add_argument("--team-id")
     sub = p.add_subparsers(dest="command", required=True)
+    local = sub.add_parser("prerequisites", help="Read-only offline setup exercise; never contacts Vercel.")
+    local.add_argument("--project", type=Path, required=True)
+    local.add_argument("--project-id", default="course-site")
+    local.add_argument("--test-id", required=True)
     for name in ("verify", "deploy"):
         s = sub.add_parser(name)
         s.add_argument("--project", type=Path, required=True)
@@ -200,6 +224,10 @@ def main():
             s.add_argument("--production-approved", action="store_true")
     a = p.parse_args()
     store, provider = Store(Config.from_args(a)), Provider(a.vercel_token_file, a.team_id)
+    if a.command == "prerequisites":
+        result = prerequisites(store, a.project, a.project_id, a.test_id)
+        emit(result)
+        return 0 if result["status"] == "ready_for_provider_review" else 1
     evidence = gate(store, a.project, a.project_id, a.test_id, a.expected_commit)
     if a.command == "verify":
         result = verify(store, provider, evidence, a.deployment, a.vercel_project, a.target, a.expected_text)

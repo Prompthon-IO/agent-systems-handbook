@@ -22,6 +22,15 @@ Expected: three local files, a successful `node --check app.js`, a `web_projects
 
 Spend 5 minutes reviewing the brief, 10 minutes changing audience and one section in a copied brief, 5 minutes building, and 5 minutes comparing the page against the request. Change `style_direction` to `bold-contrast` and use a new output directory. For an existing React/Next app, inspect and use its existing scripts instead of this scaffold.
 
+## Read back the saved result
+
+Use the same `--storage`, organization, workspace and state directory as the original run. Replace uppercase IDs with the actual returned value:
+
+```bash
+python3 skills/course-support/scripts/course_store.py read web_projects course-site
+python3 skills/course-support/scripts/course_store.py runs --skill web-builder
+```
+
 ## Persistence, reset and recovery
 
 `web_projects` stores the approved brief, file names/hashes, source fingerprint, build check, last run and explicit `ui_qa: not_run`. `skill_runs` stores actions and evidence references. Existing-stack `record` preserves source only in Git; do not upload source or command output.

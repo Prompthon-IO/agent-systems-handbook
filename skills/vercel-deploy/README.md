@@ -10,11 +10,13 @@ Requires the course foundation (PR #222), Python 3.10+, and the sibling Lesson 3
 
 ## Five-minute quickstart
 
-With no Vercel credentials, run the local contract checks below and inspect `examples/readback-cases.json`; these are synthetic tests and produce **no real preview URL**.
+After Build and Test, replace `TEST_ID` below with the actual passing test id. This offline exercise reads local prerequisites, never contacts Vercel, and produces **no real preview URL**:
 
 ```bash
-.local-state/course-venv/bin/python -m unittest discover -s skills/web-builder/tests -p 'test_*.py' -v
+python3 skills/vercel-deploy/scripts/course_deploy.py prerequisites --project .local-state/course-site --test-id TEST_ID
 ```
+
+Expect `needs_setup` (exit 1) for the uncommitted starter or missing provider link. Inspect each check and `provider_contacted: false`; these are setup findings, not a failed deployment. A ready local check still requires provider verification. `examples/readback-cases.json` explains the later provider outcomes.
 
 For a real preview, the instructor supplies an existing Git-linked Vercel demo project, a reviewed commit, matching build/test records and its actual deployment id. Set `VERCEL_ACCESS_TOKEN` privately or use a protected `--vercel-token-file`; never paste the credential into a prompt. Substitute the angle-bracket values (they are placeholders, not runnable sample IDs):
 
@@ -27,6 +29,15 @@ Expected: either an actual provider-verified preview URL and commit, or an expli
 ## 20–30 minute exercise and one modification
 
 With preprovisioned course access, spend 5 minutes checking project/commit/test identity, 10 minutes creating an approved Git preview, 5 minutes reading back READY and the page marker, and 5 minutes comparing the stored deployment record to Vercel. Modify a heading, rebuild, commit and retest before the next preview. Without provider access, use the synthetic cases and report the deployment prerequisite as unresolved; do not claim a live lesson outcome.
+
+## Read back the saved result
+
+Use the same `--storage`, organization, workspace and state directory as the original run. Replace uppercase IDs with the actual returned value:
+
+```bash
+python3 skills/course-support/scripts/course_store.py read deployment_records DEPLOYMENT_ID
+python3 skills/course-support/scripts/course_store.py runs --skill vercel-deploy
+```
 
 ## Persistence, reset and recovery
 

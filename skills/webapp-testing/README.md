@@ -27,6 +27,15 @@ Expected: `status: passed`, two viewport results, 0 console errors, 0 blocked re
 
 Spend 5 minutes reading the suite, 10 minutes adding a heading assertion and checking both screenshots, 5 minutes intentionally changing the expected heading to see a failing step, and 5 minutes fixing it and comparing two persisted runs. Optional: introduce a synthetic console.error, observe a failure, remove it and rerun.
 
+## Read back the saved result
+
+Use the same `--storage`, organization, workspace and state directory as the original run. Replace uppercase IDs with the actual returned value:
+
+```bash
+python3 skills/course-support/scripts/course_store.py read web_test_runs TEST_ID
+python3 skills/course-support/scripts/course_store.py runs --skill webapp-testing
+```
+
 ## Persistence, reset and recovery
 
 `web_test_runs` stores suite, project id, source fingerprint, viewport checks, failed step, console error hashes/counts and screenshot file references/hashes. PNG binaries and raw console strings stay out of the API. `skill_runs` records final state. Evidence files live below the current workspace's `web-evidence/<test_id>` directory.
@@ -42,3 +51,5 @@ Use synthetic fixtures and separate student workspaces. Preinstall dependencies 
 Run the web lifecycle tests with the Playwright venv. They exercise the browser and deployment safety/readback contracts; provider responses in those unit tests are mocks, not evidence of a live Vercel deployment.
 
 See [safety rules](references/safety-rules.md), [persistence contract](references/persistence-contract.md), and [source notes](references/source-notes.md).
+
+Assertion failures save expected/observed text and a bounded error explanation in local diagnostics-viewport-N.json. Canonical records contain only its relative reference/hash; inspect before sharing. A refused loopback server is recorded failed with LOCAL_SERVER_UNAVAILABLE, never left running. For existing apps, use a local preview server whose behavior fits the isolated classroom mode; HMR WebSockets and external APIs are intentionally blocked.
