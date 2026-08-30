@@ -26,12 +26,16 @@ def validate(definition: dict) -> dict:
         raise CourseError("INVALID_WORKFLOW", "Provide 1–20 ordered steps.")
     ids = set()
     for step in steps:
+        if not isinstance(step, dict):
+            raise CourseError("INVALID_WORKFLOW", "Each ordered step must be a JSON object.")
         sid = identifier(step.get("id"), "step id")
         argv = step.get("argv")
         if sid in ids or not isinstance(argv, list) or not argv or not all(isinstance(x, str) and x and "\x00" not in x for x in argv):
             raise CourseError("INVALID_WORKFLOW", "Use unique step ids and an argv string array; no shell command strings.")
         if not isinstance(step.get("approval_required"), bool) or not isinstance(step.get("retryable"), bool):
             raise CourseError("INVALID_WORKFLOW", "Each step explicitly declares approval_required and retryable.")
+        if not isinstance(step.get("inherit_course_access", False), bool):
+            raise CourseError("INVALID_WORKFLOW", "inherit_course_access must be an explicitly reviewed boolean.")
         if not isinstance(step.get("timeout_seconds", 60), int) or not 1 <= step.get("timeout_seconds", 60) <= 300:
             raise CourseError("INVALID_WORKFLOW", "Step timeout must be 1–300 seconds.")
         ids.add(sid)
@@ -49,6 +53,39 @@ def expand(argv: list, store: Store) -> list:
     return output
 
 
+def validate_journal(journal: dict, definition: dict, previous_id: str) -> None:
+    if (not isinstance(journal, dict) or journal.get("run_id") != previous_id
+            or not isinstance(journal.get("scope"), list) or len(journal["scope"]) != 2
+            or not isinstance(journal.get("workflow_sha256"), str)
+            or journal.get("workflow_id") != definition["id"]
+            or not isinstance(journal.get("steps"), list) or len(journal["steps"]) != len(definition["steps"])):
+        raise CourseError("INVALID_JOURNAL", "Recovery journal is incomplete or belongs to another run; inspect it before retrying.")
+    boundary = False
+    for step, state in zip(definition["steps"], journal["steps"]):
+        if (not isinstance(state, dict) or state.get("id") != step["id"]
+                or not isinstance(state.get("status"), str) or state["status"] not in {"pending", "running", "succeeded", "failed", "awaiting_approval"}
+                or (boundary and state["status"] != "pending")
+                or (state["status"] == "succeeded" and (type(state.get("returncode")) is not int or state["returncode"] != 0))):
+            raise CourseError("INVALID_JOURNAL", "Recovery steps must match the workflow order and contain a valid completed prefix.")
+        boundary = boundary or state["status"] != "succeeded"
+
+
+def child_environment(store: Store, step: dict) -> dict:
+    env = {k: v for k, v in os.environ.items() if not any(word in k.upper() for word in ("TOKEN", "SECRET", "PASSWORD", "DATABASE_URL", "API_KEY"))}
+    env.update(PROMPTHON_STORAGE=store.config.storage, PROMPTHON_COURSE_ORGANIZATION=store.scope[0], PROMPTHON_COURSE_WORKSPACE=store.scope[1])
+    env.pop("PROMPTHON_COURSE_API_URL", None)
+    if store.config.api_url:
+        env["PROMPTHON_COURSE_API_URL"] = store.config.api_url
+    # This opt-in is part of the approved manifest hash. Never forward unrelated
+    # credentials, and never turn a remote child into a silent local success.
+    if store.config.storage == "prompthon" and step.get("inherit_course_access", False):
+        if store.config.token_file:
+            env["PROMPTHON_COURSE_TOKEN_FILE"] = str(store.config.token_file.expanduser().resolve())
+        elif os.getenv("PROMPTHON_COURSE_TOKEN"):
+            env["PROMPTHON_COURSE_TOKEN"] = os.environ["PROMPTHON_COURSE_TOKEN"]
+    return env
+
+
 def execute(store: Store, definition: dict, confirm: str | None, approved_steps: list, *, previous_id: str | None = None) -> dict:
     validate(definition)
     fingerprint = digest(definition)
@@ -62,9 +99,13 @@ def execute(store: Store, definition: dict, confirm: str | None, approved_steps:
     if previous_id:
         identifier(previous_id, "prior run")
         prior_path = store.root / "workflow-journals" / (previous_id + ".json")
-        if not prior_path.is_file():
+        if prior_path.is_symlink() or not prior_path.is_file():
             raise CourseError("RECOVERY_REQUIRED", "Retry requires the local journal; do not infer executed steps from an incomplete remote record.")
-        journal = read_json(prior_path)
+        try:
+            journal = read_json(prior_path)
+        except (ValueError, OSError):
+            raise CourseError("INVALID_JOURNAL", "Recovery journal cannot be read as JSON; inspect it before retrying.") from None
+        validate_journal(journal, definition, previous_id)
         if journal["workflow_sha256"] != fingerprint or journal["scope"] != list(store.scope):
             raise CourseError("WORKFLOW_CHANGED", "The workflow or workspace changed; review a new run instead of retrying.")
         if any(s["status"] == "running" for s in journal["steps"]):
@@ -79,9 +120,6 @@ def execute(store: Store, definition: dict, confirm: str | None, approved_steps:
     run.data["metadata"] = {"workflow_id": definition["id"], "workflow_sha256": fingerprint, "retry_of": previous_id}
     run.save("running")
     write_json(log, journal)
-    # Child steps get no course bearer token or production database credentials by default.
-    child_env = {k: v for k, v in os.environ.items() if not any(word in k.upper() for word in ("TOKEN", "SECRET", "PASSWORD", "DATABASE_URL", "API_KEY"))}
-    child_env["PROMPTHON_STORAGE"] = "local"
     for step, state in zip(definition["steps"], states):
         if state["status"] == "succeeded":
             run.event("step_reused", {"step_id": step["id"], "previous_run_id": previous_id})
@@ -97,7 +135,7 @@ def execute(store: Store, definition: dict, confirm: str | None, approved_steps:
         run.event("step_started", {"step_id": step["id"]})
         run.save("running")
         try:
-            result = subprocess.run(expand(step["argv"], store), cwd=REPO, env=child_env, shell=False,
+            result = subprocess.run(expand(step["argv"], store), cwd=REPO, env=child_environment(store, step), shell=False,
                                     capture_output=True, timeout=step.get("timeout_seconds", 60))
             state.update(status="succeeded" if result.returncode == 0 else "failed", returncode=result.returncode,
                          stdout_sha256=digest(result.stdout.decode(errors="replace")), stderr_sha256=digest(result.stderr.decode(errors="replace")))

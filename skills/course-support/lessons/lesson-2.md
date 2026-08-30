@@ -53,3 +53,5 @@ Undo file moves before clearing course run records. Preview `course_store.py res
 ## Instructor notes
 
 Allow five minutes for setup, ten for preview/undo and source citations, ten for gates/retries, and five for evidence review. Check that students can identify a paused versus failed versus succeeded run. Inject a harmless command failure; do not retry a timed-out or interrupted step without inspecting its effects. Provision server-attested demo/course scopes before teaching remote persistence. See [backend dependency](../references/backend-dependency.md).
+
+Remote workflow note: the sample steps explicitly set `inherit_course_access: true` for the same scoped course API. Review this flag with the manifest hash. Other steps receive no credential by default and must fail remote authentication rather than fall back to local storage. Never forward database or unrelated provider credentials.

@@ -15,3 +15,5 @@ Define and run ordered, repeatable tool workflows, stopping at approval gates an
 6. Report succeeded, awaiting_approval and failed steps separately, with run id, revision/readback evidence and the local journal. No scheduler or daemon is installed.
 
 Read `README.md` for the runnable fixture and classroom modification exercise. Shared [persistence contract](references/persistence-contract.md) and [source notes](references/source-notes.md) define remote dependencies and attribution. Resolve scripts relative to this package; execute from the handbook root.
+
+Before execution, review each step's optional `inherit_course_access` flag. Mode/scope follow the parent; only an opted-in step receives the scoped course credential, never unrelated provider or database credentials. A malformed recovery journal must be refused before any step or new run is created.

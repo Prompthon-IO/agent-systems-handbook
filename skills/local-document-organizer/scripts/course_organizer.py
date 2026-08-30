@@ -3,6 +3,7 @@
 from __future__ import annotations
 import argparse
 import os
+import re
 import sys
 import uuid
 from pathlib import Path
@@ -28,17 +29,32 @@ def public_plan(plan: dict) -> dict:
 
 def checked_plan(path: Path, store: Store) -> dict:
     plan = read_json(path)
+    if not isinstance(plan, dict):
+        raise CourseError("INVALID_PLAN", "Use the JSON plan produced by scan, not a list or another file.")
     signature = plan.pop("plan_sha256", None)
     if not signature or digest(plan) != signature:
         raise CourseError("PLAN_CHANGED", "Plan content changed after preview; scan again.")
     plan["plan_sha256"] = signature
+    if (not isinstance(plan.get("run_id"), str) or not re.fullmatch(r"[a-zA-Z0-9][a-zA-Z0-9_.-]{0,127}", plan["run_id"])
+            or not isinstance(plan.get("folder"), str) or not plan["folder"]
+            or not isinstance(plan.get("suggestions"), list) or not isinstance(plan.get("skipped", []), list)):
+        raise CourseError("INVALID_PLAN", "Plan metadata is incomplete; scan the source folder again.")
     if plan.get("scope") != list(store.scope):
         raise CourseError("SCOPE_MISMATCH", "Plan belongs to another organization/workspace.")
     root = Path(plan["folder"])
     safe, _ = baseline.is_safe_target(root)
-    if not safe or root.is_symlink():
+    if not safe or not root.is_absolute() or root.resolve() != root or root.is_symlink():
         raise CourseError("UNSAFE_PATH", "Organizer target is unsafe.")
+    for item in plan.get("skipped", []):
+        if not isinstance(item, dict) or not all(isinstance(item.get(k), str) and item[k] for k in ("path", "reason")):
+            raise CourseError("INVALID_PLAN", "Skipped-file entries require path and reason strings.")
+        if Path(item["path"]).parent != root:
+            raise CourseError("UNSAFE_PATH", "Skipped-file evidence must belong to the selected folder.")
     for s in plan["suggestions"]:
+        if (not isinstance(s, dict) or not all(isinstance(s.get(k), str) and s[k] for k in ("old_path", "new_path", "category", "confidence", "sha256"))
+                or not re.fullmatch(r"[0-9a-f]{64}", s["sha256"])
+                or type(s.get("size_bytes", 0)) is not int or s.get("size_bytes", 0) < 0):
+            raise CourseError("INVALID_PLAN", "Every proposed move needs complete source, destination and file evidence.")
         old, new = Path(s["old_path"]), Path(s["new_path"])
         if old.parent != root or not new.resolve().is_relative_to(root) or new.parent == root or old.is_symlink() or new.is_symlink():
             raise CourseError("UNSAFE_PATH", "Plan contains an out-of-folder action or symlink.")

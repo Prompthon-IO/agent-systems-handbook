@@ -53,3 +53,5 @@ python3 skills/personal-knowledge-capture/scripts/course_knowledge.py show --not
 ## 教师提示
 
 建议准备 5 分钟，预览/恢复与引用 10 分钟，审批/重试 10 分钟，证据检查 5 分钟。确认学生能区分暂停、失败和成功。可注入无害的命令失败；超时或中断后的副作用未经检查不可直接重试。远程课程开始前必须配置服务端确认的 demo/course 权限，见[后台依赖](../references/backend-dependency.md)。
+
+远端工作流：样例步骤明确设置 `inherit_course_access: true`，仅继承同一课程 API 的 scoped credential。审批 manifest hash 时一并检查此字段。其他步骤默认不继承凭据；缺少访问权限时应认证失败，不能自动改为写本地。不得转发数据库或其他平台凭据。

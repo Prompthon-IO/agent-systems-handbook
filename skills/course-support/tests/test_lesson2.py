@@ -3,16 +3,21 @@ import contextlib
 import importlib.util
 import io
 import json
+import os
 import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import unittest
+from http.server import ThreadingHTTPServer
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from course_runtime import Config, CourseError, REPO, Store, digest, file_hash, read_json
 from setup_course_skills import install
+from test_runtime import ContractHandler
 
 
 def load(name, relative):
@@ -84,6 +89,23 @@ class LessonTwoTests(unittest.TestCase):
             organizer.checked_plan(plan_path, self.store)
         self.assertEqual("PLAN_CHANGED", failure.exception.code)
 
+    def test_malformed_organizer_plans_never_move_files(self):
+        original = {p.name: file_hash(p) for p in (self.fixture / "incoming").iterdir()}
+        valid = read_json(self.scan())
+        bad_path = self.root / "bad-plan.json"
+        mutations = [[], None, {"folder": str(self.fixture)},
+                     {**valid, "suggestions": [None]}, {**valid, "suggestions": [{}]},
+                     {**valid, "run_id": "../../escape"}, {**valid, "skipped": ["wrong-shape"]}]
+        for value in mutations:
+            if isinstance(value, dict):
+                value.pop("plan_sha256", None)
+                value["plan_sha256"] = digest(value)
+            bad_path.write_text(json.dumps(value))
+            with self.subTest(value=value), self.assertRaises(CourseError):
+                organizer.apply(argparse.Namespace(plan=bad_path, confirm="ORGANIZE", dry_run=False), self.store)
+        self.assertEqual(original, {p.name: file_hash(p) for p in (self.fixture / "incoming").iterdir()})
+        self.assertFalse(list((self.store.root / "organizer").glob("*-actions.json")))
+
     def test_remote_failure_after_move_leaves_local_undo(self):
         plan = self.scan()
         class FailsOnFinish(Store):
@@ -133,6 +155,67 @@ class LessonTwoTests(unittest.TestCase):
         done = workflow.execute(self.store, definition, digest(definition), ["two"], previous_id=paused["run_id"])
         self.assertEqual("succeeded", done["status"])
         self.assertEqual("xx", counter.read_text())
+
+    def test_corrupt_workflow_journal_cannot_skip_or_replay_steps(self):
+        definition = {"id": "journal-check", "trigger": {"type": "manual"}, "steps": [
+            {"id": "one", "argv": [sys.executable, "-c", "pass"], "approval_required": False, "retryable": False},
+            {"id": "two", "argv": [sys.executable, "-c", "pass"], "approval_required": True, "retryable": False}]}
+        paused = workflow.execute(self.store, definition, digest(definition), [])
+        path = Path(paused["journal"])
+        valid = read_json(path)
+        variants = [None, {}, {**valid, "steps": valid["steps"][:1]},
+                    {**valid, "steps": list(reversed(valid["steps"]))},
+                    {**valid, "steps": [None, valid["steps"][1]]},
+                    {**valid, "steps": [{"id": "one", "status": []}, valid["steps"][1]]},
+                    {**valid, "run_id": "different-run"}]
+        records_before = self.store.list("skill_runs")
+        with patch.object(workflow.subprocess, "run") as child:
+            for value in variants:
+                path.write_text(json.dumps(value))
+                with self.subTest(value=value), self.assertRaises(CourseError) as failure:
+                    workflow.execute(self.store, definition, digest(definition), ["two"], previous_id=paused["run_id"])
+                self.assertEqual("INVALID_JOURNAL", failure.exception.code)
+            path.write_text('{"steps":')
+            with self.assertRaises(CourseError) as failure:
+                workflow.execute(self.store, definition, digest(definition), ["two"], previous_id=paused["run_id"])
+            self.assertEqual("INVALID_JOURNAL", failure.exception.code)
+            child.assert_not_called()
+        self.assertEqual(records_before, self.store.list("skill_runs"))
+        path.write_text(json.dumps(valid))
+        self.assertEqual("succeeded", workflow.execute(self.store, definition, digest(definition), ["two"], previous_id=paused["run_id"])["status"])
+
+    def test_remote_children_keep_scope_and_require_explicit_course_access(self):
+        handler = type("WorkflowContract", (ContractHandler,), {"records": {}, "calls": [], "mode": "ok"})
+        server = ThreadingHTTPServer(("127.0.0.1", 0), handler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        remote = Store(Config(storage="prompthon", workspace="student-a", state_dir=self.root / "remote",
+                             api_url=f"http://127.0.0.1:{server.server_port}", allow_loopback=True))
+        code = ("import argparse,os;from course_runtime import Config,Store,add_storage_args,cli_main;"
+                "assert 'OTHER_SERVICE_TOKEN' not in os.environ and 'DATABASE_URL' not in os.environ;"
+                "p=argparse.ArgumentParser();add_storage_args(p);"
+                "cli_main(lambda: (Store(Config.from_args(p.parse_args())).put('knowledge_notes','child-note',{'text':'synthetic'}),None)[1])")
+        definition = {"id": "remote-children", "trigger": {"type": "manual"}, "steps": [
+            {"id": "child", "argv": ["{python}", "-c", code, "--allow-loopback", "--state-dir", "{state_dir}"],
+             "approval_required": False, "retryable": False}]}
+        try:
+            with patch.dict(os.environ, {"PROMPTHON_COURSE_TOKEN": "synthetic-test-token", "OTHER_SERVICE_TOKEN": "never-forward",
+                                         "DATABASE_URL": "never-forward", "PROMPTHON_COURSE_WORKSPACE": "wrong-env-workspace",
+                                         "PYTHONPATH": str(REPO / "skills/course-support/scripts")}):
+                blocked = workflow.execute(remote, definition, digest(definition), [])
+                self.assertEqual("failed", blocked["status"])
+                key = remote.prefix + "/records/knowledge_notes/child-note"
+                self.assertNotIn(key, handler.records)
+                definition["steps"][0]["inherit_course_access"] = True
+                passed = workflow.execute(remote, definition, digest(definition), [])
+                self.assertEqual("succeeded", passed["status"])
+                saved = remote.get("knowledge_notes", "child-note")
+                self.assertEqual(("student-a", "server-user", {"text": "synthetic"}), (saved["workspace_id"], saved["actor_id"], saved["data"]))
+                self.assertFalse(list((self.root / "remote").rglob("*.sqlite*")))
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
 
     def test_workflow_failure_stops_following_command(self):
         flag = self.root / "should-not-exist"
