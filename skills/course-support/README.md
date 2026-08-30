@@ -25,6 +25,8 @@ python3 skills/course-support/scripts/course_store.py context
 
 Mention `$local-document-organizer` in Codex. Reload/restart Codex if its skill list has not refreshed. The installer copies files on Windows, macOS and Linux; it does not require symlink permissions. It refuses to overwrite unmanaged packages or edited installed copies. Edit canonical `skills/<name>/` files, then rerun setup; `--replace` explicitly discards edits to generated copies only.
 
+The installer also copies the `course-support` companion so relative reference links work inside discovered packages. It has no `SKILL.md` and is not an additional course skill. Copied scripts retain the canonical repository/state root; installing a lesson does not create a second database under `.agents`.
+
 Local exercises use organization `demo-org`, workspace `demo-student`, and actor `demo-student`. Set `--organization`, `--workspace` and `--state-dir` **before** the subcommand to keep students separate on a shared machine. Local identity is a classroom label, not authentication. Runtime files stay in ignored `.local-state/`, never in fixtures or a student's commit.
 
 ## Classroom mode and the backend dependency

@@ -158,9 +158,14 @@ class LessonTwoTests(unittest.TestCase):
     def test_setup_preserves_edits_and_syncs_discovery_copies(self):
         repo = self.root / "clone"
         (repo / "skills").mkdir(parents=True)
-        for name in ("local-document-organizer", "personal-knowledge-capture", "personal-workflow-automation"):
+        for name in ("local-document-organizer", "personal-knowledge-capture", "personal-workflow-automation", "course-support"):
             shutil.copytree(REPO / "skills" / name, repo / "skills" / name)
         self.assertEqual(3, len(install(repo, "2")["skills"]))
+        self.assertTrue((repo / ".agents/skills/course-support/references/backend-contract.md").is_file())
+        self.assertFalse((repo / ".agents/skills/course-support/SKILL.md").exists())
+        installed_runtime = repo / ".agents/skills/course-support/scripts"
+        check_root = subprocess.run([sys.executable, "-c", "import sys;sys.path.insert(0," + repr(str(installed_runtime)) + ");from course_runtime import REPO;print(REPO)"], capture_output=True, text=True, check=True)
+        self.assertEqual(str(repo.resolve()), check_root.stdout.strip())
         self.assertNotIn("*", (repo / ".agents/.gitignore").read_text())
         install(repo, "2", check=True)
         installed = repo / ".agents/skills/personal-workflow-automation/SKILL.md"

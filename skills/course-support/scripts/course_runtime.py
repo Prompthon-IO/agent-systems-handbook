@@ -22,6 +22,8 @@ from pathlib import Path
 from typing import Any
 
 REPO = Path(__file__).resolve().parents[3]
+if REPO.name == ".agents":
+    REPO = REPO.parent  # Generated discovery copies still use the canonical repository and state root.
 COLLECTIONS = frozenset({
     "skill_runs", "knowledge_sources", "knowledge_notes", "workflow_definitions",
     "web_projects", "web_test_runs", "deployment_records", "business_datasets",

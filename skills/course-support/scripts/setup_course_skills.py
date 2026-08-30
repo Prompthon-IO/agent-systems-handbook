@@ -50,7 +50,11 @@ def packages(repo: Path, lesson: str) -> list[Path]:
 
 def install(repo: Path, lesson: str, *, check: bool = False, dry_run: bool = False, replace: bool = False) -> dict:
     repo = repo.resolve()
-    sources = packages(repo, lesson)
+    skill_sources = packages(repo, lesson)
+    support = repo / "skills/course-support"
+    if not (support / "scripts/course_runtime.py").is_file():
+        raise CourseError("DEPENDENCY_MISSING", "The canonical course-support companion is required.")
+    sources = [*skill_sources, support]
     agents = repo / ".agents"
     destination = agents / "skills"
     if agents.is_symlink() or destination.is_symlink():
@@ -91,7 +95,7 @@ def install(repo: Path, lesson: str, *, check: bool = False, dry_run: bool = Fal
                 staged.replace(target)
             installed[source.name] = current_hash
             write_json(manifest_path, installed)
-    return {"status": "checked" if check else "preview" if dry_run else "installed", "skills": [p.name for p in sources],
+    return {"status": "checked" if check else "preview" if dry_run else "installed", "skills": [p.name for p in skill_sources], "companions": ["course-support"],
             "discovery": ".agents/skills", "source_of_truth": "skills", "next": "Invoke $skill-name in Codex; reload/restart if the list is stale."}
 
 
