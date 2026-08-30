@@ -80,6 +80,9 @@ class MediaLifecycleTests(unittest.TestCase):
         summary = json.loads(process.stdout)
         self.assertEqual(0, summary["real_network_requests"])
         self.assertTrue(summary["synthetic_only"])
+        self.assertEqual(len(summary["checks"]), summary["cases"])
+        self.assertIn("webcrypto-without-randomUUID", summary["checks"])
+        self.assertIn("missing-secure-random-refused", summary["checks"])
 
     def test_aeo_extraction_conflict_evidence_and_same_scope_recheck(self):
         before = {p.name: file_hash(p) for p in self.site.iterdir()}
@@ -102,6 +105,18 @@ class MediaLifecycleTests(unittest.TestCase):
         self.assertEqual(4, len(second["recheck"]["resolved"]))
         self.assertEqual({"evidence_attribution"}, {f["code"] for f in second["findings"]})
         self.assertEqual(2, self.store.get("aeo_audits", "course-aeo")["revision"])
+
+    def test_invalid_audit_page_entries_never_create_records_or_modify_sources(self):
+        before = {p.name: file_hash(p) for p in self.site.iterdir()}
+        for entry in (None, [], "index.html", {}, {"path": 2, "url": "https://example.invalid"},
+                      {"path": "", "url": "https://example.invalid"}, {"path": "index.html", "url": []}):
+            bad = {**self.spec, "pages": [entry]}
+            with self.subTest(entry=entry), self.assertRaises(CourseError) as failure:
+                run_audit(self.store, self.site, bad, "invalid-audit", 0)
+            self.assertEqual("INVALID_AUDIT", failure.exception.code)
+        self.assertEqual(before, {p.name: file_hash(p) for p in self.site.iterdir()})
+        self.assertEqual([], self.store.list("aeo_audits"))
+        self.assertEqual([], self.store.list("skill_runs"))
 
     def test_audit_scope_change_is_not_claimed_as_resolution_and_rejects_escape(self):
         first = run_audit(self.store, self.site, self.spec, "course-aeo", 0)

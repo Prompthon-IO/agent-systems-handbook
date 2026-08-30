@@ -105,6 +105,9 @@ def audit_site(root: Path, spec: dict) -> dict:
         raise CourseError("INVALID_AUDIT", "Supply 1–20 explicit audience questions.")
     if not isinstance(selected, list) or not 1 <= len(selected) <= 10:
         raise CourseError("INVALID_AUDIT", "Select 1–10 local page snapshots with path and source URL.")
+    if not all(isinstance(entry, dict) and isinstance(entry.get("path"), str) and entry["path"].strip()
+               and isinstance(entry.get("url"), str) and entry["url"].strip() for entry in selected):
+        raise CourseError("INVALID_AUDIT", "Every page entry must be an object with nonempty path and source URL strings.")
     fields = spec.get("consistency_fields", [])
     if not isinstance(fields, list) or not all(isinstance(f, str) for f in fields):
         raise CourseError("INVALID_AUDIT", "consistency_fields must be explicit fact labels such as duration or audience.")

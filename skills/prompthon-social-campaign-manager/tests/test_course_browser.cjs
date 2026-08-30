@@ -1,7 +1,12 @@
 // Synthetic contract harness only. Every fetch is intercepted; no network or social send.
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-if (!globalThis.crypto) globalThis.crypto = require("node:crypto").webcrypto;
+const nodeCrypto = require("node:crypto");
+if (!globalThis.crypto) globalThis.crypto = {
+  subtle: nodeCrypto.webcrypto.subtle,
+  getRandomValues: nodeCrypto.webcrypto.getRandomValues.bind(nodeCrypto.webcrypto),
+  randomUUID: nodeCrypto.randomUUID
+};
 const adapter = require("../scripts/course_browser.js");
 const plan = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
 const clone = value => JSON.parse(JSON.stringify(value));
@@ -84,16 +89,20 @@ class FakeHost {
 }
 
 (async () => {
+  const checks = [];
   const host = new FakeHost();
   assert.equal((await host.run()).status, "canonical_drafts_saved");
   assert.equal(host.campaigns.length, 1);
   assert.equal(host.posts.size, plan.posts.length);
   assert.equal(host.writes().some(c => /schedule|publish/.test(c.input.input.path)), false);
   for (const post of host.posts.values()) assert.ok(post.metadata.course.strategyId);
+  checks.push("canonical-draft-readback");
   assert.equal((await host.run("schedule")).status, "demo_scheduled");
+  checks.push("approved-demo-schedule");
   assert.equal((await host.run("publish")).status, "demo_simulated");
   assert.equal(host.campaigns.length, 1, "Same plan does not create a new campaign when progressing from draft to schedule");
   assert.equal(host.posts.size, plan.posts.length);
+  checks.push("simulated-publish-reuses-canonical-objects");
   for (const [options, code] of [
     [{ missing: true }, "BACKEND_DEPENDENCY_UNAVAILABLE"],
     [{ context: { environment: "production" } }, "DEMO_CAPABILITY_REQUIRED"],
@@ -104,16 +113,40 @@ class FakeHost {
     const blocked = new FakeHost(options);
     await assert.rejects(() => blocked.run(), e => e.code === code);
     assert.equal(blocked.writes().length, 0);
+    checks.push(code);
   }
   const noApproval = new FakeHost();
   await assert.rejects(() => noApproval.run("schedule", { confirm: "DRAFT" }), e => e.code === "APPROVAL_REQUIRED");
   assert.equal(noApproval.calls.length, 0);
+  checks.push("explicit-action-approval");
   const mismatch = new FakeHost({ wrongCopy: true });
   assert.equal((await mismatch.run("schedule")).status, "partial_or_unknown");
   assert.equal(mismatch.writes().some(c => c.input.input.path.endsWith("/schedule")), false);
+  checks.push("canonical-copy-mismatch-stops-scheduling");
   const partial = new FakeHost({ partialSchedule: true });
   const partialResult = await partial.run("schedule");
   assert.equal(partialResult.error, "SCHEDULE_READBACK_MISMATCH");
   assert.equal(partialResult.actual_external_delivery, null);
-  console.log(JSON.stringify({ status: "passed", synthetic_only: true, real_network_requests: 0, cases: 10 }));
+  checks.push("every-provider-schedule-readback");
+  const descriptor = Object.getOwnPropertyDescriptor(globalThis, "crypto");
+  try {
+    Object.defineProperty(globalThis, "crypto", { configurable: true, value: {
+      subtle: nodeCrypto.webcrypto.subtle,
+      getRandomValues: nodeCrypto.webcrypto.getRandomValues.bind(nodeCrypto.webcrypto)
+    } });
+    const compatible = new FakeHost();
+    assert.equal((await compatible.run()).status, "canonical_drafts_saved");
+    assert.equal((await compatible.run()).status, "canonical_drafts_saved");
+    const readKeys = compatible.calls.filter(c => c.input?.operationId === "social.http.read").map(c => c.input.idempotencyKey);
+    assert.equal(new Set(readKeys).size, readKeys.length, "Read keys stay fresh without randomUUID");
+    checks.push("webcrypto-without-randomUUID");
+    Object.defineProperty(globalThis, "crypto", { configurable: true, value: { subtle: nodeCrypto.webcrypto.subtle } });
+    const noRandom = new FakeHost();
+    await assert.rejects(() => noRandom.run(), e => e.code === "SECURE_RANDOM_REQUIRED");
+    assert.equal(noRandom.writes().length, 0);
+    checks.push("missing-secure-random-refused");
+  } finally {
+    Object.defineProperty(globalThis, "crypto", descriptor);
+  }
+  console.log(JSON.stringify({ status: "passed", synthetic_only: true, real_network_requests: 0, cases: checks.length, checks }));
 })().catch(error => { console.error(error); process.exitCode = 1; });

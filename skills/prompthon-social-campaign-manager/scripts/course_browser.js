@@ -5,6 +5,11 @@
 (function (root) {
   "use strict";
   const fail = code => { const error = new Error(code); error.code = code; throw error; };
+  const readNonce = () => {
+    if (typeof root.crypto?.randomUUID === "function") return root.crypto.randomUUID();
+    if (typeof root.crypto?.getRandomValues !== "function") fail("SECURE_RANDOM_REQUIRED");
+    return Array.from(root.crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, "0")).join("");
+  };
   const canonical = value => JSON.stringify(value, (_, v) => v && !Array.isArray(v) && typeof v === "object" ? Object.fromEntries(Object.keys(v).sort().map(k => [k, v[k]])) : v);
   async function sha(value) {
     const bytes = await root.crypto.subtle.digest("SHA-256", new TextEncoder().encode(canonical(value)));
@@ -44,7 +49,7 @@
     if (currentStrategy.organization_id !== plan.organization_id || currentStrategy.workspace_id !== plan.workspace_id || currentStrategy.revision !== plan.strategy_revision) fail("STALE_STRATEGY");
     async function operation(method, path, body, slot) {
       const operationId = method === "GET" ? "social.http.read" : "social.http.write";
-      const key = `${plan.plan_sha256}:${slot}` + (method === "GET" ? ":" + root.crypto.randomUUID() : "");
+      const key = `${plan.plan_sha256}:${slot}` + (method === "GET" ? ":" + readNonce() : "");
       const result = await json(`/api/agent-applications/workspaces/${workspace}/operations`, "POST", {
         operationId, organizationId: plan.organization_id, idempotencyKey: key,
         input: { organizationId: plan.organization_id, path, method, body: body ?? null }
