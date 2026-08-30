@@ -1,0 +1,4 @@
+interface:
+  display_name: "Business Data Structuring"
+  short_description: "Turn messy CSV or XLSX into a reviewed dataset"
+  default_prompt: "Use $business-data-structuring to inspect and clean my synthetic course dataset."

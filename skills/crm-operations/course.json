@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "lesson": 4,
+  "capability": "Operate",
+  "entrypoint": "scripts/crm.py"
+}

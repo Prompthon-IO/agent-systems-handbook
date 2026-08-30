@@ -1,0 +1,4 @@
+interface:
+  display_name: "CRM Operations"
+  short_description: "Operate demo contacts, deals and follow-ups safely"
+  default_prompt: "Use $crm-operations to resolve and update my demo CRM records with an audit trail."

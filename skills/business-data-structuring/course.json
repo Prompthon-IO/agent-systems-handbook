@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "lesson": 4,
+  "capability": "Structure",
+  "entrypoint": "scripts/structure_data.py"
+}
