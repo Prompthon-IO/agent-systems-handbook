@@ -1,6 +1,6 @@
 ---
 name: personal-knowledge-capture
-description: Capture local or explicitly provided web knowledge sources into cited Markdown notes. Use when a user asks Codex to watch a research folder, register local folders for later scans, summarize new or modified local Markdown/TXT/PDF/DOCX files, capture a provided URL, maintain SQLite state for personal knowledge capture, or generate searchable source-grounded daily notes.
+description: Capture and synthesize local or explicitly provided web sources into cited Markdown notes. Use to register a research folder, summarize new or modified Markdown/TXT/PDF/DOCX files, deduplicate sources, surface conflicting claims, capture a provided URL or persist course knowledge notes with provenance. Do not use to move or organize files or schedule workflows.
 ---
 
 # Personal Knowledge Capture

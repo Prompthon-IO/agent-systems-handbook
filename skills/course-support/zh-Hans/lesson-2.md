@@ -31,7 +31,7 @@ python3 skills/personal-workflow-automation/scripts/workflow.py define --file sk
 python3 skills/personal-workflow-automation/scripts/workflow.py preview --workflow weekly-course
 ```
 
-审阅完整 argv 列表后，用输出的 SHA-256 执行 `run --workflow weekly-course --confirm <sha256>`。流程完成分类后，在理解资料前暂停。批准后执行 `retry --workflow weekly-course --run-id <run-id> --confirm <sha256> --approve-step synthesize`，不会重复已完成的分类步骤，也不会创建后台任务。
+审阅完整 argv 列表后，用输出的 SHA-256 执行 `run --workflow weekly-course --confirm <sha256>`。流程完成分类后，在理解资料前暂停。批准后执行 `retry --workflow weekly-course --run-id <run-id> --confirm <sha256> --approve-step synthesize`，不会重复已完成的分类步骤，也不会创建后台任务。等待审批的退出码为 3，不代表流程完成。笔记从正文提取要点，只对 `synthesis-rules.json` 中配置的单值字段检查矛盾；独立行动项不算冲突。
 
 缩写命令均位于对应包的 `scripts/`。`--workspace student-02` 等共享参数放在子命令前，三个包使用相同上下文。
 

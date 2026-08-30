@@ -131,3 +131,5 @@ Preview `course_store.py reset`, then explicitly confirm your workspace id to cl
 Only the named folder is scanned; source files are never modified. Incremental extraction caches remain local and are keyed by content hash and modification time. Remote notes contain derived extractive summaries and source metadata, not original binaries or the complete extracted text. `--share-content` is an explicit extra opt-in for extracted text; review privacy first. The deterministic conflict detector only recognizes field:value disagreements and does not assign authority automatically. Read [safety rules](references/safety-rules.md) and [source notes](references/source-notes.md).
 
 Teaching guides: [English Lesson 2](../course-support/lessons/lesson-2.md) · [简体中文](../course-support/zh-Hans/lesson-2.md).
+
+The course adapter skips document headings when drafting body insights. Configure singleton facts versus independent action fields in `references/synthesis-rules.json`, or pass `synthesize --rules <file>`. Only singleton disagreements are flagged; compatible actions remain separate action notes.

@@ -73,11 +73,12 @@ def install(repo: Path, lesson: str, *, check: bool = False, dry_run: bool = Fal
     if not check and not dry_run:
         destination.mkdir(parents=True, exist_ok=True)
         ignore = agents / ".gitignore"
+        patterns = ["course-installed.json", *["skills/" + source.name + "/" for source in sources]]
         if not ignore.exists():
-            ignore.write_text("*\n", encoding="utf-8")
+            ignore.write_text(".gitignore\n" + "\n".join(patterns) + "\n", encoding="utf-8")
         else:
             existing = ignore.read_text()
-            additions = [x for x in ("skills/", "course-installed.json") if x not in existing.splitlines()]
+            additions = [x for x in patterns if x not in existing.splitlines()]
             if additions:
                 ignore.write_text(existing.rstrip() + "\n" + "\n".join(additions) + "\n")
         for source, target, current_hash in planned:

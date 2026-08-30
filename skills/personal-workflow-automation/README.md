@@ -54,6 +54,8 @@ Preview `course_store.py reset`, then explicitly confirm your workspace id to cl
 
 ### Safety and approval points
 
+CLI exit codes: 0 means the requested operation completed, 1 means a failed run, 2 means invalid input/auth or an unsafe operation, and 3 means awaiting approval. Always inspect JSON status as well. A retry creates a new run id linked to the prior run; it preserves the earlier paused/failed record and reuses completed steps.
+
 A manifest is untrusted input, not authorization. Preview its commands before approving the exact manifest SHA-256. Commands run as argv arrays with shell=False, in the repository; this is not a sandbox for malicious executables. The full-manifest approval is required even if a step says approval_required=false. No scheduler, background daemon or automatic retries. Child processes do not inherit named token/password/secret/DB/API-key environment variables. Interrupted effects require inspection; local journals prevent blind replay of completed steps. Read [safety rules](references/safety-rules.md) and [source notes](references/source-notes.md).
 
 Teaching guides: [English Lesson 2](../course-support/lessons/lesson-2.md) · [简体中文](../course-support/zh-Hans/lesson-2.md).

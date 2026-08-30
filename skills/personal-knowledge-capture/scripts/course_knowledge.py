@@ -48,7 +48,19 @@ def collect(folder: Path, store: Store, *, dry_run: bool = False) -> tuple[list,
     return sources, skipped
 
 
-def synthesize(sources: list, skipped: list) -> dict:
+def extractive_summary(text: str, count: int) -> str:
+    body = [line.strip() for line in text.splitlines() if line.strip() and not line.lstrip().startswith("#")]
+    facts = [line for line in body if not re.match(r"(?i)^(action|next step|todo):", line)]
+    return " ".join((facts or body)[:count])[:600] or "No body text available; inspect the source."
+
+
+def synthesize(sources: list, skipped: list, rules: dict | None = None) -> dict:
+    rules = rules or read_json(Path(__file__).resolve().parents[1] / "references/synthesis-rules.json")
+    singles = {str(x).strip().lower() for x in rules["single_value_fields"]}
+    action_fields = {str(x).strip().lower() for x in rules["action_fields"]}
+    line_count = int(rules["summary_body_lines"])
+    if not 1 <= line_count <= 10 or singles & action_fields:
+        raise CourseError("INVALID_INPUT", "Use 1–10 summary lines and disjoint single-value/action fields.")
     unique, by_hash, claims = [], {}, {}
     for source in sources:
         if source["text_hash"] in by_hash:
@@ -60,15 +72,16 @@ def synthesize(sources: list, skipped: list) -> dict:
             match = re.fullmatch(r"\s*([\w][\w -]{1,50}):\s*(.{1,180})\s*", line)
             if match:
                 key, value = match.group(1).strip().lower(), match.group(2).strip()
-                claims.setdefault(key, {}).setdefault(value, []).append({"source_id": source["id"], "line": line_no})
+                if key in singles:
+                    claims.setdefault(key, {}).setdefault(value, []).append({"source_id": source["id"], "line": line_no})
     conflicts = [{"field": key, "alternatives": [{"value": value, "citations": refs} for value, refs in alternatives.items()]} for key, alternatives in claims.items() if len(alternatives) > 1]
-    insights = [{"text": baseline.concise_summary(s["text"]), "source_id": s["id"]} for s in unique]
-    actions = [{"text": m.group(1), "source_id": s["id"]} for s in unique for m in re.finditer(r"(?im)^action:\s*(.+)$", s["text"])]
+    insights = [{"text": extractive_summary(s["text"], line_count), "source_id": s["id"]} for s in unique]
+    actions = [{"text": m.group(2), "source_id": s["id"]} for s in unique for m in re.finditer(r"(?im)^([\w -]+):\s*(.+)$", s["text"]) if m.group(1).strip().lower() in action_fields]
     return {"summary": "Source-grounded extractive draft; review with Codex before treating it as a synthesis.",
             "key_insights": insights, "action_notes": actions, "conflicts": conflicts,
             "source_refs": [{k: v for k, v in s.items() if k != "text"} for s in sources],
             "skipped": skipped, "unique_sources": len(unique), "duplicates": len(sources) - len(unique),
-            "limitations": ["Conflicts detect explicit field:value differences only; ask Codex to review semantic contradictions.",
+            "limitations": ["Conflicts detect differences in configured single-value fields only; independent action items are not contradictions. Ask Codex to review semantic conflicts.",
                             "Modification time is freshness evidence, not proof of authority. Source authority is unassessed."]}
 
 
@@ -92,6 +105,7 @@ def main():
     s.add_argument("--folder", type=Path, required=True)
     s.add_argument("--note-id", default="weekly-note")
     s.add_argument("--share-content", action="store_true", help="Explicitly permit extracted text upload in addition to the derived note.")
+    s.add_argument("--rules", type=Path, default=Path(__file__).resolve().parents[1] / "references/synthesis-rules.json")
     show = sub.add_parser("show")
     show.add_argument("--note-id", default="weekly-note")
     a = p.parse_args()
@@ -102,7 +116,7 @@ def main():
         return
     store.context("course:write")
     sources, skipped = collect(a.folder.resolve(), store, dry_run=a.dry_run)
-    note = synthesize(sources, skipped)
+    note = synthesize(sources, skipped, read_json(a.rules))
     if not sources:
         raise CourseError("NO_SOURCES", "No supported sources could be extracted; inspect the folder or optional PDF dependency.")
     if a.share_content:
@@ -124,6 +138,7 @@ def main():
     run.artifact("knowledge_note", "Verified knowledge note", {"note_id": a.note_id, "revision": record["revision"], "unique_sources": note["unique_sources"], "duplicates": note["duplicates"], "conflicts": len(note["conflicts"])})
     run.save("partial" if skipped else "succeeded")
     emit({"status": "partial" if skipped else "succeeded", "run_id": run.id, "note_id": a.note_id, "revision": record["revision"], "note_path": str(output), "unique_sources": note["unique_sources"], "duplicates": note["duplicates"], "conflicts": note["conflicts"], "skipped": skipped})
+    return 1 if skipped else 0
 
 
 if __name__ == "__main__":

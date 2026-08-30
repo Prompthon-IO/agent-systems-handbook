@@ -48,6 +48,8 @@ Start with [Lesson 2](lessons/lesson-2.md) and its [Simplified Chinese version](
 
 Modify one classification rule, source, workflow gate, data field, test assertion or content criterion at a time. Preview the effect, run the helper, compare the persisted result, and commit only the canonical source change to your fork. The deterministic outputs are evidence and starting drafts; use Codex for judgment, cited synthesis and context-specific design.
 
+Course helpers use exit 0 for a completed request (including an explicit preview), 1 for failed/partial execution, 2 for refused or invalid operations, and 3 for an approval pause. Inspect the JSON status and readback evidence as well.
+
 ## Reset and recovery
 
 ```bash

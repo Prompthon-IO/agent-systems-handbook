@@ -70,6 +70,8 @@ def scan(a, store: Store):
     destination = store.root / "organizer" / (plan["run_id"] + "-plan.json")
     write_json(destination, plan)
     baseline.write_report(plan, destination.with_suffix(".md"))
+    report = destination.with_suffix(".md")
+    report.write_text(report.read_text().replace("undo --log <log.json>", "undo --log <log.json> --confirm UNDO"), encoding="utf-8")
     emit({"status": "previewed", "run_id": run.id, "plan": str(destination), "proposed_moves": len(plan["suggestions"]), "plan_sha256": plan["plan_sha256"]})
 
 
@@ -121,6 +123,7 @@ def apply(a, store: Store):
         emit({"status": "local_actions_recorded_remote_unverified", "error": exc.code, "run_id": run.id, "journal": str(log), "next": "Do not reapply. Use undo with --storage local, or inspect the canonical run and reconcile."})
         return 2
     emit({"status": status, "run_id": run.id, "journal": str(log), "actions": results})
+    return 1 if status == "partial" else 0
 
 
 def undo(a, store: Store):
@@ -171,6 +174,7 @@ def undo(a, store: Store):
         emit({"status": "local_undo_recorded_remote_unverified", "error": exc.code, "journal": str(a.log)})
         return 2
     emit({"status": status, "run_id": run.id, "restored": sum(x.get("undo_status") == "restored" for x in journal["actions"]), "journal": str(a.log)})
+    return 1 if status == "partial" else 0
 
 
 def main():

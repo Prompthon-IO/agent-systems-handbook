@@ -31,7 +31,7 @@ python3 skills/personal-workflow-automation/scripts/workflow.py define --file sk
 python3 skills/personal-workflow-automation/scripts/workflow.py preview --workflow weekly-course
 ```
 
-Review the full argv list. Run with the printed SHA-256 using `run --workflow weekly-course --confirm <sha256>`. It classifies, then pauses before synthesis. After approval, use `retry --workflow weekly-course --run-id <run-id> --confirm <sha256> --approve-step synthesize`. The completed classify step is not repeated. No background task is created.
+Review the full argv list. Run with the printed SHA-256 using `run --workflow weekly-course --confirm <sha256>`. It classifies, then pauses before synthesis. After approval, use `retry --workflow weekly-course --run-id <run-id> --confirm <sha256> --approve-step synthesize`. The completed classify step is not repeated. No background task is created. An approval pause exits with code 3; it is not a completed workflow. The note uses body facts, and only configured singleton fields in `synthesis-rules.json` are checked for contradictions; independent actions are not conflicts.
 
 All abbreviated helper commands resolve to the package's `scripts/` directory. Shared flags such as `--workspace student-02` belong before the subcommand and must be consistent across the three packages.
 

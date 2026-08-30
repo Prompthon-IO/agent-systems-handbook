@@ -49,6 +49,7 @@ class LessonTwoTests(unittest.TestCase):
         source = self.fixture / "incoming"
         original = {p.name: file_hash(p) for p in source.iterdir()}
         plan = self.scan()
+        self.assertIn("--confirm UNDO", plan.with_suffix(".md").read_text())
         self.assertEqual(original, {p.name: file_hash(p) for p in source.iterdir()})
         a = argparse.Namespace(plan=plan, confirm=None, dry_run=False)
         with self.assertRaises(CourseError):
@@ -108,6 +109,9 @@ class LessonTwoTests(unittest.TestCase):
         note = knowledge.synthesize(sources, skipped)
         self.assertEqual((2, 1), (note["unique_sources"], note["duplicates"]))
         conflict = next(x for x in note["conflicts"] if x["field"] == "capacity")
+        self.assertEqual({"capacity"}, {x["field"] for x in note["conflicts"]})
+        self.assertTrue(all("Capacity:" in x["text"] for x in note["key_insights"]))
+        self.assertEqual(2, len(note["action_notes"]))
         self.assertEqual({"20", "24"}, {x["value"] for x in conflict["alternatives"]})
         again, _ = knowledge.collect(folder, self.store)
         self.assertTrue(all(s["change"] == "unchanged" for s in again))
@@ -141,12 +145,23 @@ class LessonTwoTests(unittest.TestCase):
         with self.assertRaises(CourseError):
             workflow.execute(self.store, definition, digest(definition), [], previous_id=failed["run_id"])
 
+    def test_cli_pause_is_not_a_success_exit(self):
+        definition = {"id": "cli-pause", "trigger": {"type": "manual"}, "steps": [
+            {"id": "gate", "argv": [sys.executable, "-c", "print('synthetic')"], "approval_required": True, "retryable": False}]}
+        self.store.put("workflow_definitions", definition["id"], definition)
+        result = subprocess.run([sys.executable, str(REPO / "skills/personal-workflow-automation/scripts/workflow.py"),
+                                 "--state-dir", str(self.store.config.state_dir), "run", "--workflow", definition["id"],
+                                 "--confirm", digest(definition)], capture_output=True, text=True)
+        self.assertEqual(3, result.returncode, result.stderr)
+        self.assertEqual("awaiting_approval", json.loads(result.stdout)["status"])
+
     def test_setup_preserves_edits_and_syncs_discovery_copies(self):
         repo = self.root / "clone"
         (repo / "skills").mkdir(parents=True)
         for name in ("local-document-organizer", "personal-knowledge-capture", "personal-workflow-automation"):
             shutil.copytree(REPO / "skills" / name, repo / "skills" / name)
         self.assertEqual(3, len(install(repo, "2")["skills"]))
+        self.assertNotIn("*", (repo / ".agents/.gitignore").read_text())
         install(repo, "2", check=True)
         installed = repo / ".agents/skills/personal-workflow-automation/SKILL.md"
         installed.write_text(installed.read_text() + "\nlocal edit\n")

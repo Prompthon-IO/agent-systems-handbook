@@ -146,7 +146,7 @@ def main():
     else:
         result = execute(store, definition, a.confirm, a.approve_step, previous_id=getattr(a, "run_id", None))
         emit(result)
-        return 1 if result["status"] == "failed" else 0
+        return {"failed": 1, "awaiting_approval": 3}.get(result["status"], 0)
 
 
 if __name__ == "__main__":

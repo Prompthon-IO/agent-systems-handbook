@@ -1,6 +1,6 @@
 ---
 name: local-document-organizer
-description: Preview-first local file organizer. Scan a user-named folder, classify files into category subfolders using readable rules, write a preview Markdown report and JSON plan, execute confirmed moves with persistent SQLite state, and reverse moves with undo. Use when a user asks Codex to organize Downloads, sort a messy folder into Invoices/Receipts/School/Images/Software/PDFs subfolders, propose a folder structure before moving anything, or undo a previous organization run.
+description: Preview-first local file organizer. Scan a user-named folder, classify files with readable rules, show a plan, execute approved moves and undo them. Use for sorting Downloads, renaming into category folders, or reviewing organization history, including scoped metadata-only course persistence. Do not use for knowledge synthesis, source analysis or workflow orchestration.
 ---
 
 # Local Document Organizer
