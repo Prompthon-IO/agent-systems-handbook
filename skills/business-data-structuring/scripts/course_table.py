@@ -60,7 +60,7 @@ def read_table(path: Path, sheet: str | None = None) -> tuple[list[str], list[li
     body = [row for row in rows[1:] if any(v.strip() for v in row)]
     if any(len(row) != len(headers) for row in body):
         raise CourseError("RAGGED_ROWS", "Row widths differ; repair the source copy instead of silently dropping cells.")
-    return headers, body, {"source_ref": path.name, "source_sha256": file_hash(path), "sheet": selected}
+    return headers, body, {"source_ref": path.name, "source_sha256": file_hash(path), "format": path.suffix.lower().lstrip("."), "sheet": selected}
 
 
 def headers_normalized(headers: list[str]) -> list[str]:
@@ -166,7 +166,7 @@ def normalize(headers: list[str], rows: list[list[str]], schema: dict | None = N
         output.append(normalized)
     return {"columns": columns, "rows": output, "shape": {"input_rows": len(rows), "output_rows": len(output), "columns": len(fields)},
             "grain": schema.get("grain", "unspecified; confirm what one row represents"), "errors": errors, "duplicates": duplicates,
-            "deduplication_applied": dedupe, "assumptions": ["UTF-8 comma-separated CSV", "English numeric separators", "No date or currency locale guessed"]}
+            "deduplication_applied": dedupe, "assumptions": ["One explicit header row", "English numeric separators", "No date or currency locale guessed"]}
 
 
 def safe_csv_value(value):

@@ -59,6 +59,11 @@ class BusinessLifecycleTests(unittest.TestCase):
         self.assertEqual(1, canonical["data_quality"]["null_counts"]["contact_name"])
         self.assertEqual(clean_before, file_hash(clean))
         self.assertEqual(5, run_analysis(self.store, None, "pipeline", {})["overview"]["rows"])
+        duplicate_report = run_analysis(self.store, self.source, None, self.schema)
+        self.assertEqual("provisional", duplicate_report["business_insights"]["metric_status"])
+        self.assertEqual("business-data-structuring", duplicate_report["business_insights"]["next_owner"])
+        self.assertEqual({"CAD": "5350.00"}, duplicate_report["business_insights"]["metrics"]["open_pipeline_by_currency"])
+        self.assertTrue(duplicate_report["key_patterns"]["numeric_summary_by_unit"]["deal_value"]["CAD"]["provisional"])
         with self.assertRaises(CourseError):
             structure(self.store, self.source, self.root / "clean", "pipeline", self.schema, reviewed["plan_sha256"], dedupe=True)
 
@@ -72,6 +77,8 @@ class BusinessLifecycleTests(unittest.TestCase):
         book.save(xlsx)
         before = file_hash(xlsx)
         self.assertEqual(preview(self.source, self.schema)["rows"], preview(xlsx, self.schema)["rows"])
+        self.assertEqual("xlsx", preview(xlsx, self.schema)["source"]["format"])
+        self.assertFalse(any("CSV" in item for item in preview(xlsx, self.schema)["assumptions"]))
         self.assertEqual(before, file_hash(xlsx))
         book.active["E2"] = "=1+1"
         book.save(self.root / "formula.xlsx")

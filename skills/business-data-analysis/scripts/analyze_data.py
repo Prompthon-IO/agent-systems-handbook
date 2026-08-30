@@ -115,10 +115,20 @@ def analyze(data: dict, source: dict) -> dict:
     if any(nulls.values()):
         questions.append("Are nulls unknown, not applicable, or missing because of an import problem?")
     questions.append("What date range and denominator make the reported business metric meaningful?")
+    warnings = []
+    if duplicate_count:
+        warnings.append(f"Provisional totals include {duplicate_count} exact duplicate row(s). Return to Structure to resolve whether they should be retained; this analysis did not deduplicate.")
+    if not data.get("grain") or str(data["grain"]).casefold().startswith("unspecified"):
+        warnings.append("Provisional metrics: confirm the row grain with the source owner before using totals or a deal-based denominator.")
+    if data.get("errors") or suspicious:
+        warnings.append("Provisional metrics: inspect unparsed or suspicious values with Structure and the source owner.")
+    for summaries in numeric.values():
+        for summary in summaries.values():
+            summary["provisional"] = bool(warnings)
     return {"overview": {"rows": len(rows), "columns": len(columns), "grain": data.get("grain", "unspecified"), "column_types": {c["name"]: c["type"] for c in columns}},
             "data_quality": {"null_counts": nulls, "exact_duplicate_rows": duplicate_count, "normalization_errors": data.get("errors", []), "suspicious_values": suspicious},
             "key_patterns": {"categorical_distributions": categorical, "numeric_summary_by_unit": numeric},
-            "business_insights": {"metrics": metrics, "interpretation": "Descriptive sample metrics only. Confirm grain and duplicates before using totals; no causal claim or forecast."},
+            "business_insights": {"metrics": metrics, "metric_status": "provisional" if warnings else "descriptive", "warnings": warnings, "next_owner": "business-data-structuring" if warnings else None, "interpretation": "Descriptive sample metrics only. Confirm grain and duplicates before using totals; no causal claim or forecast."},
             "recommended_next_questions": questions, "source_query_evidence": {**source, "row_digest": digest(rows), "calculation": "All selected rows; no implicit filtering, no currency conversion, no SQL mutation"}}
 
 

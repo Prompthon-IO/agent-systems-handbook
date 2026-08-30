@@ -35,3 +35,7 @@ Preview `python3 skills/course-support/scripts/course_store.py reset`, review al
 Check actual source/output hashes, canonical record revisions and audit/report evidence. A plan is not an applied change, a record save is not customer contact, and a sample metric is not a business forecast. Review source provenance and privacy before permitting `--share-rows` in remote mode.
 
 The [English lab](../course-support/lessons/lesson-4.md) and [中文课堂指引](../course-support/zh-Hans/lesson-4.md) connect the three capabilities. Validate with `python3 -m unittest discover -s skills/business-data-structuring/tests -p 'test_*.py' -v` using the openpyxl-enabled venv. See [safety](references/safety-rules.md), [persistence](references/persistence-contract.md), and [sources](references/source-notes.md).
+
+On a shared machine, put `--organization demo-org --workspace student-01 --state-dir .local-state/course` before every subcommand (or before source arguments in Analyze); use the same flags in readback/reset. The reset preview includes collection counts and up to 200 affected id/revision entries; inspect the truncation flag before deciding to reset.
+
+Duplicate-inclusive or uncertain-grain totals are explicitly provisional beside the report metrics/numeric summaries. The report routes unresolved input issues back to Structure without changing the selected rows.
