@@ -1,0 +1,12 @@
+{
+  "fixture": "business-data-structuring/examples/messy-pipeline.csv after reviewed exact deduplication",
+  "synthetic_only": true,
+  "rows": 5,
+  "columns": 7,
+  "closed_deals": 2,
+  "win_rate_closed_only": "0.5",
+  "open_pipeline_by_currency": {"CAD": "4150.00"},
+  "won_value_by_currency": {"CAD": "3000.00"},
+  "nulls": {"contact_name": 1, "close_date": 1},
+  "note": "These are descriptive synthetic fixture metrics, not company performance or a forecast."
+}

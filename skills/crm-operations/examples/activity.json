@@ -1,0 +1,1 @@
+{"entity":"activity","match":{"id":"activity-demo-call"},"patch":{"contact_id":"contact-demo-alex","deal_id":"deal-demo-workshop","body":"Synthetic discovery call: asked for a workshop outline. No real customer contacted.","occurred_on":"2026-08-30"}}
