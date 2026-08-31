@@ -1,0 +1,11 @@
+{
+  "purpose": "Build your first useful AI website",
+  "audience": "Adult beginners at a Prompthon practice workshop",
+  "style_direction": "calm-editorial",
+  "constraints": ["no_external_requests", "demo_form_only", "responsive", "keyboard_accessible"],
+  "sections": [
+    {"heading": "Start with a purpose", "body": "Choose one audience and one useful outcome before asking an agent to build."},
+    {"heading": "Test the real page", "body": "Check desktop and phone layouts, submit the demo form and inspect browser evidence."},
+    {"heading": "Share a verified preview", "body": "Review the exact commit, test results and deployment readback before sharing a link."}
+  ]
+}

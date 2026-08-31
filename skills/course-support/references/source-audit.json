@@ -1,0 +1,155 @@
+[
+  {
+    "project": "anthropics/knowledge-work-plugins",
+    "commit": "8c3ec5534fc6948b461c6a0275bdfdb8ab0c9888",
+    "reviewed": "2026-08-30",
+    "repository_license": "Apache-2.0",
+    "license_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/LICENSE",
+    "files": [
+      {
+        "path": "enterprise-search/skills/knowledge-synthesis/SKILL.md",
+        "url": "https://github.com/anthropics/knowledge-work-plugins/blob/8c3ec5534fc6948b461c6a0275bdfdb8ab0c9888/enterprise-search/skills/knowledge-synthesis/SKILL.md",
+        "blob_sha": "a5e816fb52c4d2055513eeaea446e79b81aa54f2",
+        "license_declarations": [],
+        "reviewed_license": "Apache-2.0",
+        "license_url": "https://github.com/anthropics/knowledge-work-plugins/blob/8c3ec5534fc6948b461c6a0275bdfdb8ab0c9888/LICENSE",
+        "license_blob_sha": "f53c679acba79cbb292961fd9fb9e87ca20eab22"
+      },
+      {
+        "path": "operations/skills/process-optimization/SKILL.md",
+        "url": "https://github.com/anthropics/knowledge-work-plugins/blob/8c3ec5534fc6948b461c6a0275bdfdb8ab0c9888/operations/skills/process-optimization/SKILL.md",
+        "blob_sha": "8d1f2c9b81ff9b6c6cb4d32fd2ee7df3e525fd31",
+        "license_declarations": [],
+        "reviewed_license": "Apache-2.0",
+        "license_url": "https://github.com/anthropics/knowledge-work-plugins/blob/8c3ec5534fc6948b461c6a0275bdfdb8ab0c9888/LICENSE",
+        "license_blob_sha": "f53c679acba79cbb292961fd9fb9e87ca20eab22"
+      },
+      {
+        "path": "small-business/skills/crm-maintenance/SKILL.md",
+        "url": "https://github.com/anthropics/knowledge-work-plugins/blob/8c3ec5534fc6948b461c6a0275bdfdb8ab0c9888/small-business/skills/crm-maintenance/SKILL.md",
+        "blob_sha": "f848fddd55142c360f9a07af1d62fedc6c3e0705",
+        "license_declarations": [],
+        "reviewed_license": "Apache-2.0",
+        "license_url": "https://github.com/anthropics/knowledge-work-plugins/blob/8c3ec5534fc6948b461c6a0275bdfdb8ab0c9888/LICENSE",
+        "license_blob_sha": "f53c679acba79cbb292961fd9fb9e87ca20eab22"
+      },
+      {
+        "path": "data/skills/explore-data/SKILL.md",
+        "url": "https://github.com/anthropics/knowledge-work-plugins/blob/8c3ec5534fc6948b461c6a0275bdfdb8ab0c9888/data/skills/explore-data/SKILL.md",
+        "blob_sha": "f1e7032d0abee77903fc3abbfdc7646e383d4993",
+        "license_declarations": [],
+        "reviewed_license": "Apache-2.0",
+        "license_url": "https://github.com/anthropics/knowledge-work-plugins/blob/8c3ec5534fc6948b461c6a0275bdfdb8ab0c9888/LICENSE",
+        "license_blob_sha": "f53c679acba79cbb292961fd9fb9e87ca20eab22"
+      }
+    ]
+  },
+  {
+    "project": "anthropics/skills",
+    "commit": "3b3fad96af16a10759d930941b4520ba0c40edae",
+    "reviewed": "2026-08-30",
+    "repository_license": "UNVERIFIED",
+    "license_url": null,
+    "files": [
+      {
+        "path": "skills/xlsx/SKILL.md",
+        "url": "https://github.com/anthropics/skills/blob/3b3fad96af16a10759d930941b4520ba0c40edae/skills/xlsx/SKILL.md",
+        "blob_sha": "9da54804cc8c938586f89363c8da3b3a6e2a563d",
+        "license_declarations": [
+          "license: Proprietary. LICENSE.txt has complete terms"
+        ],
+        "reviewed_license": "Custom terms; behavior reference only",
+        "license_url": "https://github.com/anthropics/skills/blob/3b3fad96af16a10759d930941b4520ba0c40edae/skills/xlsx/LICENSE.txt",
+        "license_blob_sha": "c55ab42224874608473643de0a85736b7fec0730"
+      },
+      {
+        "path": "skills/webapp-testing/SKILL.md",
+        "url": "https://github.com/anthropics/skills/blob/3b3fad96af16a10759d930941b4520ba0c40edae/skills/webapp-testing/SKILL.md",
+        "blob_sha": "4726215301db64a0cc4d41fc3219c61f37a30f4a",
+        "license_declarations": [
+          "license: Complete terms in LICENSE.txt"
+        ],
+        "reviewed_license": "Apache-2.0",
+        "license_url": "https://github.com/anthropics/skills/blob/3b3fad96af16a10759d930941b4520ba0c40edae/skills/webapp-testing/LICENSE.txt",
+        "license_blob_sha": "4f881c52d1f72f4cfb720e339e2d35c3058d01a9"
+      },
+      {
+        "path": "skills/frontend-design/SKILL.md",
+        "url": "https://github.com/anthropics/skills/blob/3b3fad96af16a10759d930941b4520ba0c40edae/skills/frontend-design/SKILL.md",
+        "blob_sha": "decdff43d05908b4c1fc2cfd2d80fc5743440934",
+        "license_declarations": [
+          "license: Complete terms in LICENSE.txt"
+        ],
+        "reviewed_license": "Apache-2.0",
+        "license_url": "https://github.com/anthropics/skills/blob/3b3fad96af16a10759d930941b4520ba0c40edae/skills/frontend-design/LICENSE.txt",
+        "license_blob_sha": "f433b1a53f5b830a205fd2df78e2b34974656c7b"
+      }
+    ]
+  },
+  {
+    "project": "coreyhaines31/marketingskills",
+    "commit": "e55de886fe7580ec75cdb7ded5092b33f7d4ed58",
+    "reviewed": "2026-08-30",
+    "repository_license": "MIT",
+    "license_url": "https://github.com/coreyhaines31/marketingskills/blob/main/LICENSE",
+    "files": [
+      {
+        "path": "skills/content-strategy/SKILL.md",
+        "url": "https://github.com/coreyhaines31/marketingskills/blob/e55de886fe7580ec75cdb7ded5092b33f7d4ed58/skills/content-strategy/SKILL.md",
+        "blob_sha": "b8a26a008ed59a4eef2b46794be9baeeb7e22d57",
+        "license_declarations": [],
+        "reviewed_license": "MIT",
+        "license_url": "https://github.com/coreyhaines31/marketingskills/blob/e55de886fe7580ec75cdb7ded5092b33f7d4ed58/LICENSE",
+        "license_blob_sha": "7c48dd638a9ebed49a8ef0c0c4eea90105381cdf"
+      },
+      {
+        "path": "skills/social/SKILL.md",
+        "url": "https://github.com/coreyhaines31/marketingskills/blob/e55de886fe7580ec75cdb7ded5092b33f7d4ed58/skills/social/SKILL.md",
+        "blob_sha": "ab1d083ef4a9dd2a91c1eaedfb5cb745c3055d24",
+        "license_declarations": [],
+        "reviewed_license": "MIT",
+        "license_url": "https://github.com/coreyhaines31/marketingskills/blob/e55de886fe7580ec75cdb7ded5092b33f7d4ed58/LICENSE",
+        "license_blob_sha": "7c48dd638a9ebed49a8ef0c0c4eea90105381cdf"
+      },
+      {
+        "path": "skills/ai-seo/SKILL.md",
+        "url": "https://github.com/coreyhaines31/marketingskills/blob/e55de886fe7580ec75cdb7ded5092b33f7d4ed58/skills/ai-seo/SKILL.md",
+        "blob_sha": "97c5261d4b2caf13fb87c207114e36334ccbe3f6",
+        "license_declarations": [],
+        "reviewed_license": "MIT",
+        "license_url": "https://github.com/coreyhaines31/marketingskills/blob/e55de886fe7580ec75cdb7ded5092b33f7d4ed58/LICENSE",
+        "license_blob_sha": "7c48dd638a9ebed49a8ef0c0c4eea90105381cdf"
+      }
+    ]
+  },
+  {
+    "project": "vercel-labs/agent-skills",
+    "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+    "reviewed": "2026-08-30",
+    "repository_license": "UNVERIFIED",
+    "license_url": null,
+    "files": [
+      {
+        "path": "skills/deploy-to-vercel/SKILL.md",
+        "url": "https://github.com/vercel-labs/agent-skills/blob/063bee94c3f4df8453406c830b0a7df0f2860278/skills/deploy-to-vercel/SKILL.md",
+        "blob_sha": "a0251ce89a7636230be9c5b989a81e1a54a52a96",
+        "license_declarations": []
+      }
+    ]
+  },
+  {
+    "project": "ComposioHQ/awesome-claude-skills",
+    "commit": "be2a406907dbc61b73e6827ded415c96139d13a2",
+    "reviewed": "2026-08-30",
+    "repository_license": "UNVERIFIED",
+    "license_url": null,
+    "files": [
+      {
+        "path": "file-organizer/SKILL.md",
+        "url": "https://github.com/ComposioHQ/awesome-claude-skills/blob/be2a406907dbc61b73e6827ded415c96139d13a2/file-organizer/SKILL.md",
+        "blob_sha": "66762b8349d70c3a12643a55b04d39d0ebdc349f",
+        "license_declarations": []
+      }
+    ]
+  }
+]

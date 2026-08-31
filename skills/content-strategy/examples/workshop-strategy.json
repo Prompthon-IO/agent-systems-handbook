@@ -1,0 +1,12 @@
+{
+  "business_goal": "Help adult beginners decide whether a synthetic AI practice workshop fits their needs",
+  "target_audience": "Adult beginners who want useful, verifiable projects without prior coding experience",
+  "content_pillars": ["Getting started", "Evidence and trust", "Practice stories"],
+  "calendar": {"start_date": "2026-09-01", "timezone": "America/Toronto", "weekdays": [1, 4], "hour": 9},
+  "topics": [
+    {"id": "first-workshop", "title": "What happens in a first AI workshop?", "pillar": "Getting started", "intent": "searchable", "query": "What happens in a first AI workshop?", "business_fit": 5, "audience_value": 5, "effort": 2, "evidence_refs": ["synthetic-workshop-brief.md"]},
+    {"id": "verify-a-page", "title": "Three checks before sharing an AI-built page", "pillar": "Evidence and trust", "intent": "shareable", "query": "How do I know my generated page works?", "business_fit": 5, "audience_value": 4, "effort": 2, "evidence_refs": ["lesson-3-browser-evidence"]},
+    {"id": "beginner-fit", "title": "Can beginners join without coding experience?", "pillar": "Getting started", "intent": "searchable", "query": "Can I join without coding experience?", "business_fit": 4, "audience_value": 4, "effort": 1, "evidence_refs": ["synthetic-workshop-brief.md"]},
+    {"id": "practice-story", "title": "A demo learner fixes a broken signup form", "pillar": "Practice stories", "intent": "shareable", "query": "What can I learn by testing a small page?", "business_fit": 3, "audience_value": 4, "effort": 2, "evidence_refs": []}
+  ]
+}

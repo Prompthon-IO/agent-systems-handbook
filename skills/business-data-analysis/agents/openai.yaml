@@ -1,0 +1,4 @@
+interface:
+  display_name: "Business Data Analysis"
+  short_description: "Explain dataset quality and business patterns"
+  default_prompt: "Use $business-data-analysis to analyze my course dataset without changing the source."

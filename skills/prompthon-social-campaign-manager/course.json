@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "lesson": 5,
+  "capability": "Distribute",
+  "entrypoint": "scripts/course_social.py"
+}

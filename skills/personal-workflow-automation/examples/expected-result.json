@@ -1,0 +1,14 @@
+{
+  "example_only": true,
+  "status": "awaiting_approval",
+  "steps": [
+    {
+      "id": "classify",
+      "status": "succeeded"
+    },
+    {
+      "id": "synthesize",
+      "status": "awaiting_approval"
+    }
+  ]
+}

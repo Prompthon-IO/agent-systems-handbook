@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web Builder"
+  short_description: "Build a local website from a reviewed brief"
+  default_prompt: "Use $web-builder to inspect my project and build a local site from the course brief."

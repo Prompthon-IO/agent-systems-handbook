@@ -1,0 +1,12 @@
+{
+  "grain": "One synthetic deal per row; exact repeated rows are accidental copies in this fixture",
+  "columns": {
+    "contact_name": {"type": "text"},
+    "email": {"type": "email"},
+    "company": {"type": "text"},
+    "stage": {"type": "text"},
+    "deal_value": {"type": "currency", "currency": "CAD", "symbol": "$"},
+    "currency": {"type": "text"},
+    "close_date": {"type": "date", "format": "%m/%d/%Y"}
+  }
+}

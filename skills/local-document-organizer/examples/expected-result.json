@@ -1,0 +1,8 @@
+{
+  "example_only": true,
+  "status": "previewed",
+  "proposed_moves": 2,
+  "unknown_files_left_in_place": 1,
+  "action_gate": "ORGANIZE",
+  "undo_gate": "UNDO"
+}

@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "lesson": 5,
+  "capability": "Discover",
+  "entrypoint": "scripts/aeo_audit.py"
+}

@@ -1,0 +1,10 @@
+{
+  "synthetic_only": true,
+  "cases": [
+    {"ready_state": "READY", "commit_matches": true, "target": "preview", "url_http": 200, "expected_text_found": true, "expected_status": "verified"},
+    {"ready_state": "BUILDING", "commit_matches": true, "target": "preview", "expected_status": "unverified"},
+    {"ready_state": "READY", "commit_matches": false, "target": "preview", "expected_error": "DEPLOYMENT_MISMATCH"},
+    {"ready_state": "READY", "commit_matches": true, "target": "production", "requested_target": "preview", "expected_error": "DEPLOYMENT_MISMATCH"},
+    {"ready_state": "READY", "commit_matches": true, "target": "preview", "url_http": 401, "expected_status": "unverified"}
+  ]
+}

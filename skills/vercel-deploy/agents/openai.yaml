@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vercel Preview Deployment"
+  short_description: "Deploy a preview and verify provider status"
+  default_prompt: "Use $vercel-deploy to preview the deployment plan and verify a Vercel preview URL."
