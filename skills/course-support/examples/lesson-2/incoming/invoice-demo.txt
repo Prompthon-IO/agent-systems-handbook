@@ -1,0 +1,2 @@
+Synthetic invoice: COURSE-001
+Amount: CAD 120.00

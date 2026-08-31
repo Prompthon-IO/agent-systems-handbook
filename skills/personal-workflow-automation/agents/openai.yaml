@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal Workflow Automation"
+  short_description: "Run reviewed workflows with explicit approval gates"
+  default_prompt: "Use $personal-workflow-automation to preview the weekly course workflow, show the exact command sequence and approval hash, and stop before its gated synthesis step."
