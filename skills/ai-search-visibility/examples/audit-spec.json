@@ -1,0 +1,6 @@
+{
+  "entity": "Prompthon Course Studio",
+  "target_queries": ["Who is the workshop for?", "How long is the workshop?", "What will I build?"],
+  "consistency_fields": ["duration", "audience"],
+  "pages": [{"path": "index.html", "url": "https://course.example.invalid/"}, {"path": "about.html", "url": "https://course.example.invalid/about"}]
+}

@@ -1,0 +1,8 @@
+{
+  "strategy_id": "workshop-strategy",
+  "campaign": {"topic": "Synthetic beginner workshop", "brief": "Adapt the reviewed beginner questions into demo channel copy; no real publication.", "startAt": "2026-09-01T09:00:00-04:00", "endAt": "2026-09-12T18:00:00-04:00"},
+  "posts": [
+    {"key": "intro", "topic_id": "first-workshop", "title": "Your first useful AI project", "copy": "Start with one useful question, build a small page, and check what actually works. This is a synthetic classroom preview, not an event announcement.", "publishAt": "2026-09-01T09:00:00-04:00", "timezone": "America/Toronto", "providers": ["linkedin", "facebook"], "providerCopy": {"linkedin": "A practical first AI project begins with a useful question and verifiable evidence. Synthetic course example; nothing is being published.", "facebook": "What would you build first? Our demo learners try a small page and test the form. Classroom example only; no registration or real event."}, "hashtags": ["AIPractice"]},
+    {"key": "check", "topic_id": "verify-a-page", "title": "Check before sharing", "copy": "Open the page, try its form and inspect the console. A generated page still needs evidence. This is a synthetic classroom draft.", "publishAt": "2026-09-04T09:00:00-04:00", "timezone": "America/Toronto", "providers": ["linkedin"], "hashtags": ["BuildAndTest"]}
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Search Visibility"
+  short_description: "Audit answerability, evidence and site consistency"
+  default_prompt: "Use $ai-search-visibility to audit my pages for clear, supportable answers and recheck changes."

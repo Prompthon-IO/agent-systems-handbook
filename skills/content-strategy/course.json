@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "lesson": 5,
+  "capability": "Plan",
+  "entrypoint": "scripts/strategy.py"
+}
