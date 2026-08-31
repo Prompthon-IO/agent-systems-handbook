@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{purpose}} — for {{audience}}">
+  <title>{{purpose}} · Course Studio</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header><a class="brand" href="#main">COURSE / STUDIO</a><a href="#contact">Try the demo <span aria-hidden="true">↗</span></a></header>
+  <main id="main">
+    <div class="hero"><p class="eyebrow">MAKE SOMETHING YOU CAN VERIFY</p><h1>{{purpose}}</h1><p class="lead">Built for {{audience}}.</p><a class="button" href="#contact">Explore the local demo</a><p class="caption">A classroom prototype. Nothing is sent to a server.</p></div>
+    <div class="cards">{{sections}}</div>
+    <section class="contact" id="contact"><div><p class="eyebrow">YOUR NEXT STEP</p><h2>Make it your own.</h2><p>Try the form, inspect the result, then change one part of the experience.</p></div>
+      <form id="demo-form"><label for="name">Name</label><input id="name" name="name" required autocomplete="off"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="off"><button type="submit">Try the demo</button><p id="form-result" role="status" aria-live="polite"></p></form>
+    </section>
+  </main>
+  <footer><p>LOCAL FIRST. EVIDENCE BEFORE CONFIDENCE.</p><p>Prompthon course example · No registration or external submission</p></footer>
+</body>
+</html>

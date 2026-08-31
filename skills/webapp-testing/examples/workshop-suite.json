@@ -1,0 +1,13 @@
+{
+  "name": "workshop-signup-demo",
+  "viewports": [{"width": 1280, "height": 800}, {"width": 390, "height": 844}],
+  "steps": [
+    {"action": "visible", "selector": "h1"},
+    {"action": "text", "selector": "h1", "value": "Build your first useful AI website"},
+    {"action": "click", "selector": "header a[href='#contact']"},
+    {"action": "fill", "selector": "#name", "value": "Demo Learner"},
+    {"action": "fill", "selector": "#email", "value": "learner@example.invalid"},
+    {"action": "click", "selector": "#demo-form button[type='submit']"},
+    {"action": "text", "selector": "#form-result", "value": "Demo Learner"}
+  ]
+}
