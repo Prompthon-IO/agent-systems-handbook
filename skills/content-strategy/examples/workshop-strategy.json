@@ -1,6 +1,6 @@
 {
-  "business_goal": "Help adult beginners decide whether a synthetic AI practice workshop fits their needs",
-  "target_audience": "Adult beginners who want useful, verifiable projects without prior coding experience",
+  "business_goal": "Help Professional AI Agent Course learners decide whether a synthetic AI practice workshop fits their needs",
+  "target_audience": "Professional AI Agent Course learners who want useful, verifiable projects without prior coding experience",
   "content_pillars": ["Getting started", "Evidence and trust", "Practice stories"],
   "calendar": {"start_date": "2026-09-01", "timezone": "America/Toronto", "weekdays": [1, 4], "hour": 9},
   "topics": [
