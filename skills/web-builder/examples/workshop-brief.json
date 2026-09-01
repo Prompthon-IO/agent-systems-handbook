@@ -1,6 +1,6 @@
 {
   "purpose": "Build your first useful AI website",
-  "audience": "Adult beginners at a Prompthon practice workshop",
+  "audience": "Professional AI Agent Course learners at a Prompthon practice workshop",
   "style_direction": "calm-editorial",
   "constraints": ["no_external_requests", "demo_form_only", "responsive", "keyboard_accessible"],
   "sections": [

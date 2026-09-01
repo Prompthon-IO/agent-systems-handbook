@@ -164,7 +164,7 @@ When reporting `apply` results, include:
 When reporting `undo` results, include the restored count and any skipped
 files (e.g. because the original path now contains a different file).
 
-## Adult course adapter (Organize)
+## Professional AI Agent Course adapter (Organize)
 
 For classroom work, synthesis requests, or a storage-mode request, use `scripts/course_organizer.py` in this same package. The original helper remains the standalone baseline. Classify and safely relocate local files, with preview, approval and undo. Do not synthesize their knowledge.
 

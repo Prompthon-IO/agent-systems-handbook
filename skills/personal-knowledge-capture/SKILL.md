@@ -122,7 +122,7 @@ When reporting results to the user, include:
 - skipped files and extraction reasons
 - source-reference expectations for any summary text
 
-## Adult course adapter (Understand)
+## Professional AI Agent Course adapter (Understand)
 
 For classroom work, synthesis requests, or a storage-mode request, use `scripts/course_knowledge.py` in this same package. The original helper remains the standalone baseline. Extract and deduplicate selected sources into a cited note, flag contradictions and track changes. Never relocate source files.
 

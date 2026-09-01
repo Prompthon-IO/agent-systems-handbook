@@ -76,7 +76,7 @@ Treat this package as a Practitioner example of a local knowledge workflow:
 - `scripts/personal_knowledge_capture.py` implements deterministic local state and scanning
 - `references/supported-file-types.md` documents extraction boundaries
 
-## Adult course: Understand
+## Professional AI Agent Course: Understand
 
 ### What you will learn
 

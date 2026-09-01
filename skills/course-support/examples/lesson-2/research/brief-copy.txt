@@ -1,4 +1,4 @@
 # Workshop brief
-Audience: Adult beginners
+Audience: Professional AI Agent Course learners
 Capacity: 20
 Action: Confirm room capacity before sending invitations.
