@@ -58,6 +58,6 @@ Each rule in `classification-rules.csv` has a confidence: `high`, `medium`, or
 - None of these are committed to git unless the user explicitly asks for
   sample artifacts.
 
-## Adult course adapter
+## Professional AI Agent Course adapter
 
 The course adapter reuses existing classification rules and preview generation. Moves stay within the selected directory and use atomic no-clobber hard links before removing the old directory entry; no file contents are deleted. It fails safely on filesystems without hard-link support. It refuses stale/tampered plans, changed sources, symlinks, collisions and replayed plans. Every intent and action is fsynced in a local journal. Undo checks content hashes and refuses collisions; use `--storage local` for recovery while the remote API is down. It does not upload file binaries.

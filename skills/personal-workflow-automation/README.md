@@ -2,7 +2,7 @@
 
 Define and run ordered, repeatable tool workflows, stopping at approval gates and recording each step. Delegate classification and synthesis to their own skills.
 
-## Adult course: Automate
+## Professional AI Agent Course: Automate
 
 ### What you will learn
 

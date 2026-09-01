@@ -3,6 +3,13 @@
   "theme": "maple",
   "name": "Agent Systems Handbook by Prompthon",
   "description": "A practical AI agents handbook for students, practitioners, and builders exploring agent systems, agentic workflows, context engineering, MCP, A2A, evaluation, observability, and multi-agent architecture.",
+  "redirects": [
+    {
+      "source": "/skills/adult-course",
+      "destination": "/skills/professional-ai-agent-course",
+      "permanent": true
+    }
+  ],
   "logo": {
     "light": "https://github.com/Prompthon-IO.png?size=96",
     "dark": "https://github.com/Prompthon-IO.png?size=96",
@@ -31,14 +38,6 @@
                   "reading-paths/practitioner",
                   "reading-paths/builder",
                   "reading-paths/contributor"
-                ]
-              },
-              {
-                "group": "Setup and examples",
-                "pages": [
-                  "reading-paths/environment-setup",
-                  "reading-paths/sample-projects",
-                  "skills/index"
                 ]
               }
             ]
@@ -157,12 +156,13 @@
             ]
           },
           {
-            "tab": "Examples",
-            "icon": "code",
+            "tab": "Specialization",
+            "icon": "graduation-cap",
             "groups": [
               {
-                "group": "Starter projects",
+                "group": "Course 1 · Setup and Examples",
                 "pages": [
+                  "reading-paths/environment-setup",
                   "reading-paths/sample-projects",
                   "patterns/examples/agent-memory-retrieval-starter/index",
                   "patterns/examples/prompt-cache-agent-starter/index",
@@ -172,6 +172,13 @@
                   "case-studies/examples/deep-research-agent-starter/index",
                   "case-studies/examples/customer-support-email-agent-starter/index",
                   "case-studies/examples/customer-email-assist-starter/index"
+                ]
+              },
+              {
+                "group": "PAAC-101 · Professional AI Agent Course",
+                "pages": [
+                  "skills/index",
+                  "skills/professional-ai-agent-course"
                 ]
               }
             ]
@@ -275,14 +282,6 @@
                   "zh-Hans/reading-paths/practitioner",
                   "zh-Hans/reading-paths/builder",
                   "zh-Hans/reading-paths/contributor"
-                ]
-              },
-              {
-                "group": "环境与示例",
-                "pages": [
-                  "zh-Hans/reading-paths/environment-setup",
-                  "zh-Hans/reading-paths/sample-projects",
-                  "zh-Hans/skills/index"
                 ]
               }
 
@@ -400,12 +399,13 @@
             ]
           },
           {
-            "tab": "示例",
-            "icon": "code",
+            "tab": "专项课程",
+            "icon": "graduation-cap",
             "groups": [
               {
-                "group": "入门项目",
+                "group": "课程 1 · 环境与示例",
                 "pages": [
+                  "zh-Hans/reading-paths/environment-setup",
                   "zh-Hans/reading-paths/sample-projects",
                   "zh-Hans/patterns/examples/agent-memory-retrieval-starter/index",
                   "zh-Hans/patterns/examples/prompt-cache-agent-starter/index",
@@ -415,6 +415,13 @@
                   "zh-Hans/case-studies/examples/deep-research-agent-starter/index",
                   "zh-Hans/case-studies/examples/customer-support-email-agent-starter/index",
                   "zh-Hans/case-studies/examples/customer-email-assist-starter/index"
+                ]
+              },
+              {
+                "group": "PAAC-101 · 专业 AI Agent 课程",
+                "pages": [
+                  "zh-Hans/skills/index",
+                  "zh-Hans/skills/professional-ai-agent-course"
                 ]
               }
             ]
