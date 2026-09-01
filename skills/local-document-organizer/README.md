@@ -97,7 +97,7 @@ If you are a student reading the repo, the main lessons are:
    accident than a free-form "yes"
 3. an action log is the difference between a regret and a recovery
 
-## Adult course: Organize
+## Professional AI Agent Course: Organize
 
 ### What you will learn
 

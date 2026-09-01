@@ -3,6 +3,13 @@
   "theme": "maple",
   "name": "Agent Systems Handbook by Prompthon",
   "description": "A practical AI agents handbook for students, practitioners, and builders exploring agent systems, agentic workflows, context engineering, MCP, A2A, evaluation, observability, and multi-agent architecture.",
+  "redirects": [
+    {
+      "source": "/skills/adult-course",
+      "destination": "/skills/professional-ai-agent-course",
+      "permanent": true
+    }
+  ],
   "logo": {
     "light": "https://github.com/Prompthon-IO.png?size=96",
     "dark": "https://github.com/Prompthon-IO.png?size=96",
@@ -37,8 +44,25 @@
                 "group": "Setup and examples",
                 "pages": [
                   "reading-paths/environment-setup",
-                  "reading-paths/sample-projects",
+                  "reading-paths/sample-projects"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Skills",
+            "icon": "puzzle-piece",
+            "groups": [
+              {
+                "group": "Skill library",
+                "pages": [
                   "skills/index"
+                ]
+              },
+              {
+                "group": "Professional AI Agent Course",
+                "pages": [
+                  "skills/professional-ai-agent-course"
                 ]
               }
             ]
@@ -281,11 +305,28 @@
                 "group": "环境与示例",
                 "pages": [
                   "zh-Hans/reading-paths/environment-setup",
-                  "zh-Hans/reading-paths/sample-projects",
-                  "zh-Hans/skills/index"
+                  "zh-Hans/reading-paths/sample-projects"
                 ]
               }
 
+            ]
+          },
+          {
+            "tab": "技能",
+            "icon": "puzzle-piece",
+            "groups": [
+              {
+                "group": "技能库",
+                "pages": [
+                  "zh-Hans/skills/index"
+                ]
+              },
+              {
+                "group": "专业 AI Agent 课程",
+                "pages": [
+                  "zh-Hans/skills/professional-ai-agent-course"
+                ]
+              }
             ]
           },
           {

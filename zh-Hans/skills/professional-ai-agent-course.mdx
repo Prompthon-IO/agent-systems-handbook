@@ -1,0 +1,36 @@
+---
+title: "专业 AI Agent 课程技能"
+description: "面向专业 AI Agent 课程的十二项边界清晰、可安装能力。"
+---
+
+import SupportCTA from "/snippets/support-cta-zh-Hans.mdx";
+
+<SupportCTA />
+
+专业 AI Agent 课程将十二项能力拆分为四课，每课包含三个步骤。下表中的每个 Skill 都直接链接到完整代码库，包括面向人的指南、Codex 指令、元数据、脚本、参考资料和课堂 fixtures。
+
+| 课程 | 能力 | Skill 代码库 |
+| --- | --- | --- |
+| 2 — 电脑与资料 | 整理文件 | [`local-document-organizer`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/local-document-organizer) |
+| 2 — 电脑与资料 | 理解资料来源 | [`personal-knowledge-capture`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/personal-knowledge-capture) |
+| 2 — 电脑与资料 | 自动化工具步骤 | [`personal-workflow-automation`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/personal-workflow-automation) |
+| 3 — 网站 | 构建本地网站 | [`web-builder`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/web-builder) |
+| 3 — 网站 | 测试实际行为 | [`webapp-testing`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/webapp-testing) |
+| 3 — 网站 | 部署预览环境 | [`vercel-deploy`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/vercel-deploy) |
+| 4 — 商业数据 | 结构化数据集 | [`business-data-structuring`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/business-data-structuring) |
+| 4 — 商业数据 | 操作 CRM 对象 | [`crm-operations`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/crm-operations) |
+| 4 — 商业数据 | 分析证据 | [`business-data-analysis`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/business-data-analysis) |
+| 5 — 媒体与 AEO | 规划内容 | [`content-strategy`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/content-strategy) |
+| 5 — 媒体与 AEO | 通过规范的 Social 操作进行分发 | [`prompthon-social-campaign-manager`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/prompthon-social-campaign-manager) |
+| 5 — 媒体与 AEO | 发现可见性缺口 | [`ai-search-visibility`](https://github.com/Prompthon-IO/agent-systems-handbook/tree/develop/skills/ai-search-visibility) |
+
+请使用[课程包指南](https://github.com/Prompthon-IO/agent-systems-handbook/blob/develop/skills/course-support/README.md)完成安装，并获取合成 fixtures、中英文练习、修改任务和重置说明。也可以直接查看[第 2 课](https://github.com/Prompthon-IO/agent-systems-handbook/blob/develop/skills/course-support/zh-Hans/lesson-2.md)、[第 3 课](https://github.com/Prompthon-IO/agent-systems-handbook/blob/develop/skills/course-support/zh-Hans/lesson-3.md)、[第 4 课](https://github.com/Prompthon-IO/agent-systems-handbook/blob/develop/skills/course-support/zh-Hans/lesson-4.md)和[第 5 课](https://github.com/Prompthon-IO/agent-systems-handbook/blob/develop/skills/course-support/zh-Hans/lesson-5.md)。现有的文件整理、知识捕获和 Social 包是在原边界上扩展，而不是重复创建。
+
+```bash
+python3 skills/course-support/scripts/setup_course_skills.py --lesson 2
+python3 skills/course-support/scripts/seed_demo.py
+```
+
+公开/离线模式在本地保存课程记录。计划中的教师配置课程模式将使用受限的 Prompthon API 和服务端 Neon/PostgreSQL。远程课堂启用前，Web App 负责人必须完成并验证[后端依赖](https://github.com/Prompthon-IO/agent-systems-handbook/blob/develop/skills/course-support/references/backend-dependency.md)。本页不声称生产课程服务已经部署。
+
+每个 Skill 只负责一个工作，重要操作必须先预览，原始文件必须保留，持久化状态必须通过回读验证。课堂 fixtures 不得分发生产数据库凭据，也不得允许学生发布到真实 Social 渠道。
