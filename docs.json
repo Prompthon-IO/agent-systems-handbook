@@ -160,7 +160,7 @@
             "icon": "graduation-cap",
             "groups": [
               {
-                "group": "Course 1 · Setup and Examples",
+                "group": "GW01 · Setup and Examples",
                 "pages": [
                   "reading-paths/environment-setup",
                   "reading-paths/sample-projects",
@@ -175,10 +175,16 @@
                 ]
               },
               {
-                "group": "PAAC-101 · Professional AI Agent Course",
+                "group": "GW02 · Professional AI Agent Course",
                 "pages": [
                   "skills/index",
                   "skills/professional-ai-agent-course"
+                ]
+              },
+              {
+                "group": "PT01 · AI-Native Internship",
+                "pages": [
+                  "specializations/ai-native-internship"
                 ]
               }
             ]
@@ -403,7 +409,7 @@
             "icon": "graduation-cap",
             "groups": [
               {
-                "group": "课程 1 · 环境与示例",
+                "group": "GW01 · 环境与示例",
                 "pages": [
                   "zh-Hans/reading-paths/environment-setup",
                   "zh-Hans/reading-paths/sample-projects",
@@ -418,10 +424,16 @@
                 ]
               },
               {
-                "group": "PAAC-101 · 专业 AI Agent 课程",
+                "group": "GW02 · 专业 AI Agent 课程",
                 "pages": [
                   "zh-Hans/skills/index",
                   "zh-Hans/skills/professional-ai-agent-course"
+                ]
+              },
+              {
+                "group": "PT01 · AI 原生实习专项",
+                "pages": [
+                  "zh-Hans/specializations/ai-native-internship"
                 ]
               }
             ]
