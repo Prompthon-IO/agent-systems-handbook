@@ -33,6 +33,7 @@ def load(name, relative):
 organizer = load("course_organizer", "skills/local-document-organizer/scripts/course_organizer.py")
 knowledge = load("course_knowledge", "skills/personal-knowledge-capture/scripts/course_knowledge.py")
 workflow = load("course_workflow", "skills/personal-workflow-automation/scripts/workflow.py")
+SEED_DEMO = REPO / "skills/course-support/scripts/seed_demo.py"
 
 
 class LessonTwoTests(unittest.TestCase):
@@ -44,11 +45,110 @@ class LessonTwoTests(unittest.TestCase):
         self.fixture = self.root / "fixture"
         shutil.copytree(REPO / "skills/course-support/examples/lesson-2", self.fixture)
 
-    def scan(self):
-        a = argparse.Namespace(folder=self.fixture / "incoming", rules=organizer.baseline.DEFAULT_RULES, include_low_confidence=False, dry_run=False)
+    def seed_demo(self, scenario, output, *, dry_run=False):
+        command = [sys.executable, str(SEED_DEMO), "--scenario", scenario, "--output", str(output)]
+        if dry_run:
+            command.append("--dry-run")
+        return subprocess.run(command, capture_output=True, text=True)
+
+    def scan(self, fixture=None):
+        a = argparse.Namespace(folder=(fixture or self.fixture) / "incoming", rules=organizer.baseline.DEFAULT_RULES, include_low_confidence=False, dry_run=False)
         with contextlib.redirect_stdout(io.StringIO()):
             organizer.scan(a, self.store)
         return next((self.store.root / "organizer").glob("*-plan.json"))
+
+    def scenario_plan(self, scenario):
+        fixture = self.root / scenario
+        seeded = self.seed_demo(scenario, fixture)
+        self.assertEqual(0, seeded.returncode, seeded.stderr or seeded.stdout)
+        plan_path = self.scan(fixture)
+        plan = read_json(plan_path)
+        root = Path(plan["folder"])
+        moves = {Path(item["old_path"]).name: Path(item["new_path"]).relative_to(root).as_posix()
+                 for item in plan["suggestions"]}
+        skipped = {Path(item["path"]).name for item in plan["skipped"]}
+        return fixture, plan_path, moves, skipped
+
+    def test_seed_demo_supports_organizer_scenarios_safely(self):
+        scenarios = ("organizer-student-files", "organizer-freelancer-rules", "organizer-safe-recovery")
+        for scenario in scenarios:
+            with self.subTest(scenario=scenario):
+                dry_output = self.root / f"{scenario}-dry-run"
+                dry_run = self.seed_demo(scenario, dry_output, dry_run=True)
+                self.assertEqual(0, dry_run.returncode, dry_run.stderr or dry_run.stdout)
+                self.assertFalse(dry_output.exists())
+
+                output = self.root / f"{scenario}-seeded"
+                seeded = self.seed_demo(scenario, output)
+                self.assertEqual(0, seeded.returncode, seeded.stderr or seeded.stdout)
+                self.assertEqual({"synthetic": True, "lesson": 2, "scenario": scenario},
+                                 read_json(output / ".course-demo.json"))
+
+                repeated = self.seed_demo(scenario, output)
+                self.assertEqual(2, repeated.returncode)
+                self.assertEqual("WOULD_OVERWRITE", json.loads(repeated.stdout)["error"])
+
+    def test_organizer_student_files_suggestions(self):
+        fixture, _, moves, skipped = self.scenario_plan("organizer-student-files")
+        self.assertEqual({
+            "tuition-invoice.txt": "Invoices/tuition-invoice.txt",
+            "school-reading.md": "School/school-reading.md",
+            "internship-resume.txt": "Resumes/internship-resume.txt",
+        }, moves)
+        self.assertIn("random-download.zzz", skipped)
+        self.assertTrue((fixture / "incoming/random-download.zzz").is_file())
+
+    def test_organizer_freelancer_default_rule_suggestions(self):
+        _, _, moves, _ = self.scenario_plan("organizer-freelancer-rules")
+        self.assertEqual({
+            "client-invoice-2026-09.txt": "Invoices/client-invoice-2026-09.txt",
+            "client-service-agreement.md": "Contracts/client-service-agreement.md",
+            "client-meeting-notes.txt": "Notes/client-meeting-notes.txt",
+            "website-project-ideas.md": "Notes/website-project-ideas.md",
+        }, moves)
+
+    def test_organizer_safe_recovery_collision_apply_and_undo(self):
+        fixture, plan_path, moves, skipped = self.scenario_plan("organizer-safe-recovery")
+        incoming = fixture / "incoming"
+        revised_invoice = incoming / "invoice-august.txt"
+        reviewed_invoice = incoming / "Invoices/invoice-august.txt"
+        revised_content = revised_invoice.read_text()
+        reviewed_content = reviewed_invoice.read_text()
+        self.assertEqual({
+            "invoice-august.txt": "Invoices/invoice-august.txt",
+            "coffee-receipt.txt": "Receipts/coffee-receipt.txt",
+            "expense-notes.md": "Notes/expense-notes.md",
+        }, moves)
+        self.assertIn("mystery.zzz", skipped)
+
+        with contextlib.redirect_stdout(io.StringIO()):
+            result = organizer.apply(argparse.Namespace(plan=plan_path, confirm="ORGANIZE", dry_run=False), self.store)
+        self.assertEqual(1, result)
+        log = next((self.store.root / "organizer").glob("*-actions.json"))
+        actions = {Path(item["old_path"]).name: item for item in read_json(log)["actions"]}
+        self.assertEqual("conflict", actions["invoice-august.txt"]["status"])
+        self.assertEqual("moved", actions["coffee-receipt.txt"]["status"])
+        self.assertEqual("moved", actions["expense-notes.md"]["status"])
+        self.assertEqual(revised_content, revised_invoice.read_text())
+        self.assertEqual(reviewed_content, reviewed_invoice.read_text())
+        self.assertFalse((incoming / "coffee-receipt.txt").exists())
+        self.assertTrue((incoming / "Receipts/coffee-receipt.txt").is_file())
+        self.assertFalse((incoming / "expense-notes.md").exists())
+        self.assertTrue((incoming / "Notes/expense-notes.md").is_file())
+        self.assertTrue((incoming / "mystery.zzz").is_file())
+
+        with contextlib.redirect_stdout(io.StringIO()):
+            organizer.undo(argparse.Namespace(log=log, dry_run=False, confirm="UNDO"), self.store)
+        undone = {Path(item["old_path"]).name: item for item in read_json(log)["actions"]}
+        self.assertNotIn("undo_status", undone["invoice-august.txt"])
+        self.assertEqual("restored", undone["coffee-receipt.txt"]["undo_status"])
+        self.assertEqual("restored", undone["expense-notes.md"]["undo_status"])
+        self.assertTrue((incoming / "coffee-receipt.txt").is_file())
+        self.assertTrue((incoming / "expense-notes.md").is_file())
+        self.assertFalse((incoming / "Receipts/coffee-receipt.txt").exists())
+        self.assertFalse((incoming / "Notes/expense-notes.md").exists())
+        self.assertEqual(revised_content, revised_invoice.read_text())
+        self.assertEqual(reviewed_content, reviewed_invoice.read_text())
 
     def test_organize_preview_approval_apply_undo_and_no_overwrite(self):
         source = self.fixture / "incoming"

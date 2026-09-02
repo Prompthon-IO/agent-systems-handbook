@@ -1,0 +1,7 @@
+SYNTHETIC COURSE DATA - FICTIONAL RECEIPT
+
+Harbour Coffee
+Date: August 21, 2026
+Coffee: CAD 3.50
+Muffin: CAD 4.00
+Total: CAD 7.50
