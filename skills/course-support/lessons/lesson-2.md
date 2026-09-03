@@ -18,6 +18,175 @@ python3 skills/course-support/scripts/course_store.py context
 
 The first command prints three discoverable Codex skill names. The second creates `.local-state/course-demo/lesson-2/` without replacing existing work. A seeded incoming folder contains synthetic invoice/school files and an unknown extension; the research folder contains duplicate material and conflicting capacity statements. The context is a local demo, not a signed-in production account.
 
+## Optional expanded Organize practice
+
+An instructor can choose one example, or students can complete all three in
+order. The examples are independent, so work in one folder does not affect
+the others. Use only the synthetic files created by these commands. Do not
+practice on a real Downloads folder.
+
+In the exercises below, a **preview** shows proposed moves without making
+them, a **plan** saves those proposals for review, a **conflict** is a move
+that is safely skipped, and a **journal** records what happened during
+apply. See the Local Document Organizer
+[beginner terminology](../../local-document-organizer/README.md#beginner-terminology)
+for the other terms.
+
+Each seed command refuses to delete or replace an existing output directory.
+When repeating an exercise, keep the earlier work and add `--output` with a
+fresh path, for example `--output .local-state/course-demo/student-files-attempt-2`.
+
+### 1. Student files: preview only
+
+**Purpose.** Learn how readable filename and extension rules produce a plan,
+and see that an uncertain file stays where it is.
+
+**Setup.** Create a fresh copy of the synthetic student-files example:
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario organizer-student-files
+```
+
+**Command.** Scan the incoming folder. This command looks and proposes; it
+does not move files.
+
+```bash
+python3 skills/local-document-organizer/scripts/course_organizer.py scan --folder .local-state/course-demo/lesson-2-organizer-student-files/incoming
+```
+
+**Sample Codex prompt.**
+
+```text
+Use $local-document-organizer to preview the student-files practice folder. Explain every proposed category and leave uncertain files in place. Do not move anything.
+```
+
+**Expected result.**
+
+- `tuition-invoice.txt` -> `Invoices/`
+- `school-reading.md` -> `School/`
+- `internship-resume.txt` -> `Resumes/`
+- `random-download.zzz` stays in place
+- the preview does not move any files
+
+**Reflection question.** Why is leaving an unknown file in place safer than
+guessing a category?
+
+### 2. Freelancer rules: customize classification
+
+**Purpose.** See how a specific filename rule can improve a classification,
+and why rule order changes the result.
+
+**Setup.** Create a fresh copy of the synthetic freelancer example:
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario organizer-freelancer-rules
+```
+
+**Command.** Generate the first preview with the default rules:
+
+```bash
+python3 skills/local-document-organizer/scripts/course_organizer.py scan --folder .local-state/course-demo/lesson-2-organizer-freelancer-rules/incoming
+```
+
+At first, `client-meeting-notes.txt` goes to `Notes` because the generic
+text-extension rule matches `.txt`. In the canonical
+`skills/local-document-organizer/references/classification-rules.csv`, add
+this row before the generic `ext-text` rule:
+
+```csv
+keyword-meeting,Meetings,filename_keyword,meeting|minutes,medium,true
+```
+
+Before rerunning or invoking the skill, refresh the installed skill copy
+from the canonical package:
+
+```bash
+python3 skills/course-support/scripts/setup_course_skills.py --lesson 2
+```
+
+Run the same scan command again to generate a fresh plan. Do not edit an
+existing plan after it has been reviewed or approved.
+
+**Sample Codex prompt.**
+
+```text
+Use $local-document-organizer to compare the freelancer practice previews before and after the Meetings rule. Explain which rule matched each file. Do not apply either plan.
+```
+
+**Expected result.**
+
+- the invoice remains in `Invoices/`
+- the agreement remains in `Contracts/`
+- the meeting notes change from `Notes/` to `Meetings/`
+- the website project ideas remain in `Notes/`
+- rule order matters because the first matching rule wins
+
+Restore the rule afterward if you do not intend to keep this repository
+modification. If you remove the `Meetings` rule manually, run the same setup
+command again so the installed copy stays synchronized.
+
+**Reflection question.** Why must the more specific meeting rule appear
+before the generic text-extension rule?
+
+### 3. Safe recovery: conflict and undo
+
+**Purpose.** Practice approval, collision protection, partial results, and
+undo without risking real files.
+
+**Setup.** Create a fresh copy of the synthetic safe-recovery example:
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario organizer-safe-recovery
+```
+
+**Command.** Scan the incoming folder:
+
+```bash
+python3 skills/local-document-organizer/scripts/course_organizer.py scan --folder .local-state/course-demo/lesson-2-organizer-safe-recovery/incoming
+```
+
+The preview proposes moving `invoice-august.txt` to `Invoices/`. That is
+only a proposal. The same-name collision is checked and enforced safely
+during apply.
+
+**Sample Codex prompt.**
+
+```text
+Use $local-document-organizer to preview the safe-recovery practice folder. Explain the proposed moves and the existing invoice collision, then wait for my explicit approval before applying anything.
+```
+
+After reviewing the preview, replace `<printed-plan-path>` with the actual
+plan path printed by the scan command, including any generated identifier:
+
+```bash
+python3 skills/local-document-organizer/scripts/course_organizer.py apply --plan <printed-plan-path> --confirm ORGANIZE
+```
+
+**Expected result after apply.**
+
+- the invoice move is recorded as `conflict`
+- the existing CAD 120 invoice is not overwritten
+- the revised CAD 145 invoice remains at its source
+- the coffee receipt and expense notes move successfully
+- the run status is `partial`
+- `mystery.zzz` stays in place
+
+Next, replace `<printed-journal-path>` with the actual journal path printed
+by apply:
+
+```bash
+python3 skills/local-document-organizer/scripts/course_organizer.py undo --log <printed-journal-path> --confirm UNDO
+```
+
+**Expected result after undo.**
+
+- successfully moved files return to their original locations
+- the conflicted invoice is not incorrectly moved
+- both invoice versions remain unchanged
+
+**Reflection question.** Why does undo use the action journal instead of
+trying to reverse every move from the original preview?
+
 ## Exercise (20–30 minutes)
 
 1. Ask `$local-document-organizer` to scan `.local-state/course-demo/lesson-2/incoming`. Inspect the plan and category counts. No files move during preview. Add one classification rule and compare a fresh preview.

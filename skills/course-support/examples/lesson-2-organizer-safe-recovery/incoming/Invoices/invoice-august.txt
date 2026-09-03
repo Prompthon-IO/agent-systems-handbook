@@ -1,0 +1,7 @@
+SYNTHETIC COURSE DATA - EARLIER FICTIONAL INVOICE
+
+Invoice: AUG-2026-18
+Vendor: Maple Office Supplies
+Item: Printer paper
+Earlier total: CAD 120.00
+Status: Reviewed and already filed
