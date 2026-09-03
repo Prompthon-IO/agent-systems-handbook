@@ -52,6 +52,18 @@ export const TRACK_ALLOWED_PATHS = {
     "snippets/",
     "workshops/",
     "templates/",
+    "specializations/",
+    "zh-Hans/skills/",
+    "zh-Hans/snippets/",
+    "zh-Hans/workshops/",
+    "zh-Hans/templates/",
+    "zh-Hans/specializations/",
+    // Course navigation and onboarding pages accompany practitioner material.
+    "docs.json",
+    "reading-paths/environment-setup.mdx",
+    "reading-paths/sample-projects.mdx",
+    "zh-Hans/reading-paths/environment-setup.mdx",
+    "zh-Hans/reading-paths/sample-projects.mdx",
   ],
   builder: [
     "scripts/",
@@ -168,7 +180,9 @@ export function findLinkedIssueNumbers(text) {
 export function validateChangedFilesForTrack(track, changedFiles, pathPolicy = TRACK_ALLOWED_PATHS) {
   const allowedPaths = pathPolicy[track] || [];
   const invalidFiles = changedFiles.filter((filePath) =>
-    !allowedPaths.some((allowedPath) => filePath.startsWith(allowedPath)),
+    !allowedPaths.some((allowedPath) => allowedPath.endsWith("/")
+      ? filePath.startsWith(allowedPath)
+      : filePath === allowedPath),
   );
   return {
     allowedPaths,

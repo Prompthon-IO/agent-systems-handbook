@@ -33,25 +33,42 @@ It is most useful for requests such as:
 - preview what would happen before any file is touched
 - reverse a previous organization run
 
-## End-to-End Workflow
+## A Simple Mental Model
 
-The workflow is split into three commands so each phase has a clear
-boundary:
+Think of the workflow as three separate steps:
 
-1. **Scan.** The user names a folder. The skill walks it, classifies each
-   file using the rules in `references/classification-rules.csv`, and writes
-   a Markdown report plus a JSON plan. No files are moved.
-2. **Apply.** After the user reviews the preview and explicitly approves,
-   the skill runs `apply --confirm ORGANIZE` against the plan. It creates
-   category subfolders, moves files, and writes an action log. Conflicts
-   and permission errors are recorded as skipped actions.
-3. **Undo.** If the user wants to revert the run, the skill reads the
-   action log and moves each file back to its original path.
+1. **Scan means looking and proposing.** The user names a folder. The skill
+   checks its files and writes a readable preview plus a JSON plan. Nothing
+   moves during a scan.
+2. **Apply means carrying out only the reviewed plan.** After explicit
+   approval with `--confirm ORGANIZE`, the skill creates category folders,
+   performs the eligible moves, and records what happened. Conflicts and
+   permission errors stay visible instead of being hidden.
+3. **Undo means reversing recorded moves.** The skill reads the action log
+   and restores only files that were successfully moved. It still refuses
+   to overwrite anything.
 
 The agent surfaces the report, the plan, the action log path, and the
 results. The user owns the decision to apply and the decision to undo.
 
+## Beginner Terminology
+
+| Term | Plain-language meaning |
+| --- | --- |
+| Preview | A readable description of the moves the skill proposes. A preview does not move files. |
+| Plan | The saved JSON record of proposed source and destination paths that `apply` can review and use. |
+| Confidence | The strength assigned by the matching rule. Low confidence normally means the file stays where it is. |
+| Approval | The user's explicit permission to apply a reviewed plan, given with the required `ORGANIZE` confirmation token. |
+| SHA-256 / hash | A fingerprint of a file's contents. The skill uses it to notice when a file has changed since the plan was created. |
+| Journal / action log | A durable record of attempted moves and their results. It provides the evidence needed for recovery. |
+| Conflict | A move that cannot safely happen, often because a file with the same name already exists at the destination. The existing file is not overwritten. |
+| Undo | A recovery operation that uses the action log to reverse moves that actually succeeded. |
+
 ## What The Package Actually Does
+
+This skill organizes files with readable filename keywords and file
+extensions. It does not understand, interpret, or summarize the knowledge
+inside a document. That is a different kind of task.
 
 - Reads classification rules from a small CSV (extension and filename
   keyword matches with confidence scores).
@@ -97,6 +114,45 @@ If you are a student reading the repo, the main lessons are:
    accident than a free-form "yes"
 3. an action log is the difference between a regret and a recovery
 
+## Three Progressive Learning Examples
+
+Each example uses independent synthetic course files. Run its generation
+command once from the repository root. The command refuses to replace an
+existing output folder.
+
+### Student files
+
+Preview how an invoice, school reading, and internship resume are classified
+while an unknown file stays in place.
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario organizer-student-files
+```
+
+### Freelancer rules
+
+Observe that meeting notes initially go to `Notes`. Add a readable
+`Meetings` filename rule, make a fresh preview, and compare the proposed
+destinations before applying anything.
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario organizer-freelancer-rules
+```
+
+### Safe recovery
+
+Approve the eligible moves and observe that an existing same-name invoice
+is protected from overwrite. Inspect the partial result, then undo the moves
+that succeeded.
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario organizer-safe-recovery
+```
+
+The [Lesson 2 teaching guide](../course-support/lessons/lesson-2.md) contains
+the detailed command-by-command exercises. This README keeps the mental
+model and safety boundaries close at hand.
+
 ## Professional AI Agent Course: Organize
 
 ### What you will learn
@@ -126,7 +182,11 @@ The preview proposes an invoice and a school document; the unknown extension sta
 
 ### 20–30 minute classroom exercise
 
-Read the emitted plan and report. Approve only those moves; run `course_organizer.py apply --plan <printed-plan-path> --confirm ORGANIZE`. Inspect the action journal and moved files. Run `course_organizer.py undo --log <printed-journal-path> --confirm UNDO`, then compare file hashes to prove restoration. Resolve `workflow.py` / `course_organizer.py` command shorthand to this package's `scripts/` directory.
+Follow the [Lesson 2 teaching guide](../course-support/lessons/lesson-2.md)
+for the full exercise. It covers reviewing the plan and report, approving
+moves, inspecting the action journal, undoing a run, and comparing hashes
+to prove restoration. Command shorthand such as `course_organizer.py`
+resolves to this package's `scripts/` directory.
 
 ### What to modify
 

@@ -1,0 +1,8 @@
+SYNTHETIC COURSE DATA - FICTIONAL CLIENT INVOICE
+
+Invoice: FR-2026-09
+From: Rowan Lee Web Services
+To: Cedar Lane Bakery
+Service: September website updates
+Amount due: CAD 650.00
+Due date: September 30, 2026
