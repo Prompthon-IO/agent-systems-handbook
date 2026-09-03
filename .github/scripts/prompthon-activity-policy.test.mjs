@@ -136,3 +136,42 @@ test("validates practitioner and builder path policy", () => {
     true,
   );
 });
+
+test("accepts a bilingual course specialization with its navigation and setup guides", () => {
+  const validation = validateChangedFilesForTrack("practitioner", [
+    "docs.json",
+    "reading-paths/environment-setup.mdx",
+    "reading-paths/sample-projects.mdx",
+    "skills/course-support/README.md",
+    "skills/index.mdx",
+    "skills/professional-ai-agent-course.mdx",
+    "specializations/ai-native-internship.mdx",
+    "zh-Hans/reading-paths/environment-setup.mdx",
+    "zh-Hans/reading-paths/sample-projects.mdx",
+    "zh-Hans/skills/index.mdx",
+    "zh-Hans/skills/professional-ai-agent-course.mdx",
+    "zh-Hans/specializations/ai-native-internship.mdx",
+  ]);
+  assert.equal(validation.valid, true);
+  assert.deepEqual(validation.invalidFiles, []);
+});
+
+test("course support paths do not allow unrelated content, CI, or lookalike filenames", () => {
+  const invalidFiles = [
+    ".github/workflows/prompthon-track-guard.yml",
+    "scripts/check_filename_casing.py",
+    "foundations/the-agent-system.mdx",
+    "zh-Hans/foundations/the-agent-system.mdx",
+    "reading-paths/advanced-agents.mdx",
+    "docs.json.backup",
+    "reading-paths/environment-setup.mdx.bak",
+    "zh-Hans/reading-paths/sample-projects.mdx/other.md",
+    "specializations-private/notes.md",
+  ];
+  const validation = validateChangedFilesForTrack("practitioner", [
+    "skills/course-support/README.md",
+    ...invalidFiles,
+  ]);
+  assert.equal(validation.valid, false);
+  assert.deepEqual(validation.invalidFiles, invalidFiles);
+});
