@@ -1,4 +1,4 @@
-# PAAC-101 Professional AI Agent Course skill support
+# GW02 Professional AI Agent Course skill support
 
 This is shared infrastructure, not a thirteenth skill. Tier 1 Lessons 2–5 teach twelve separate jobs. The canonical packages remain under `skills/`; generated Codex copies go under `.agents/skills/`.
 
