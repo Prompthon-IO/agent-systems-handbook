@@ -3,6 +3,7 @@
 import fs from "node:fs";
 
 import {
+  TRACKS,
   extractLabelNames,
   extractTrackFromLabels,
   findLinkedIssueNumbers,
@@ -96,6 +97,15 @@ function failureComment({ allowedPaths, invalidFiles, track }) {
   ].join("\n");
 }
 
+function reportFailure(message) {
+  // Keep the actionable failure visible even when GitHub rejects the comment.
+  console.error(message);
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${message}\n`);
+  }
+  process.exitCode = 1;
+}
+
 function isReleasePullRequest(pullRequest, repo) {
   return pullRequest.base?.ref === "main" &&
     pullRequest.head?.ref === "develop" &&
@@ -128,20 +138,24 @@ async function main() {
   const issueLabels = extractLabelNames(linkedIssue?.labels);
   const prLabels = extractLabelNames(pullRequest.labels);
   const track = extractTrackFromLabels(issueLabels) || extractTrackFromLabels(prLabels);
-  const changedFiles = dryRun && Array.isArray(event.changed_files)
-    ? event.changed_files
-    : await listPullRequestFiles(repo, pullRequest.number);
-
   if (!track) {
-    const message = "prompthon-track-guard could not determine a contribution track from the linked issue or PR labels.";
+    const message = [
+      "prompthon-track-guard could not determine a contribution track from the linked issue or PR labels.",
+      `Add the matching label to this PR: ${TRACKS.map((value) => `\`track: ${value}\``).join(", ")}.`,
+      "Alternatively, link a labeled issue in the PR body using `Closes #123`.",
+      `Linked issue: ${linkedIssueNumber ? `#${linkedIssueNumber}` : "none"}.`,
+      "The selected track must allow every changed path; adding a label triggers a new check.",
+    ].join("\n");
+    reportFailure(message);
     if (!dryRun) {
       await tryUpsertFailureComment(repo, pullRequest.number, `${COMMENT_MARKER}\n${message}`);
     }
-    console.error(message);
-    process.exitCode = 1;
     return;
   }
 
+  const changedFiles = dryRun && Array.isArray(event.changed_files)
+    ? event.changed_files
+    : await listPullRequestFiles(repo, pullRequest.number);
   const validation = validateChangedFilesForTrack(track, changedFiles);
   const summary = {
     changedFiles,
@@ -151,11 +165,11 @@ async function main() {
   };
 
   if (!validation.valid) {
+    reportFailure(failureComment({ track, ...validation }));
     if (!dryRun) {
       await tryUpsertFailureComment(repo, pullRequest.number, failureComment({ track, ...validation }));
     }
     console.error(JSON.stringify(summary, null, 2));
-    process.exitCode = 1;
     return;
   }
 
