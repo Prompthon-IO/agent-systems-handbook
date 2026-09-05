@@ -124,6 +124,8 @@ When reporting results to the user, include:
 
 ## Professional AI Agent Course adapter (Understand)
 
+For Lesson 2 learning examples, follow the course README links and use `course_knowledge.py` directly; these exercises do not require registering watch paths. Use a separate note id for each scenario and the same id for repeated runs within that scenario. When students customize rules, edit only the seeded scenario's `rules.json` and pass it with `--rules`; preserve the shared defaults.
+
 For classroom work, synthesis requests, or a storage-mode request, use `scripts/course_knowledge.py` in this same package. The original helper remains the standalone baseline. Extract and deduplicate selected sources into a cited note, flag contradictions and track changes. Never relocate source files.
 
 Read the course section of `README.md`, then use the shared setup and synthetic fixtures. Put storage/context flags before the command. Keep source files and recovery journals local, honor all approval gates, and verify canonical reads after persistence. Remote mode requires the provisioned [contract](references/persistence-contract.md); a missing backend is a dependency failure, never a reason to invent credentials or silently use local state.

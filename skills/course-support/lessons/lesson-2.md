@@ -204,6 +204,96 @@ Review the full argv list. Run with the printed SHA-256 using `run --workflow we
 
 All abbreviated helper commands resolve to the package's `scripts/` directory. Shared flags such as `--workspace student-02` belong before the subcommand and must be consistent across the three packages.
 
+<a id="personal-knowledge-capture-learning-examples"></a>
+
+## Personal Knowledge Capture learning examples
+
+These three independent exercises extend the Understand practice. Allow 10–15 minutes each, or select one for class and use the others as homework. Run commands from the repository root after the shared Lesson 2 setup. They use local storage and synthetic TXT/Markdown only; no watch registration or extra package is needed.
+
+Edit only the seeded copies under `.local-state/course-demo/`, never the tracked fixtures. If an output folder exists, seed with `--output <fresh-folder>` and substitute that folder in later commands. For a fresh version history also choose a new note id. Keep each scenario's id distinct from `weekly-note` used by the combined workflow.
+
+### 1. Study notes: summarize and deduplicate
+
+**Purpose.** Turn a small reading folder into a cited note without counting a copied document twice.
+
+**Prepare and run.**
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario knowledge-study-notes
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local synthesize --folder .local-state/course-demo/lesson-2-knowledge-study-notes/research --note-id study-notes
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local show --note-id study-notes
+```
+
+**Codex prompt.**
+
+```text
+Use $personal-knowledge-capture on .local-state/course-demo/lesson-2-knowledge-study-notes/research with local storage and note id study-notes. Explain the duplicate, show the sources behind the insights and actions, and preserve the original files. Distinguish the saved extractive draft from any further explanation you provide.
+```
+
+The prompt is an alternative way to invoke the run, not an extra required step. Running both saves another revision.
+
+**Expected result.** Three source references, two unique texts, one duplicate, two action notes and no configured-field conflicts. Open the printed `note_path`. Trace each insight and action to its source id in Source References. The duplicate stays listed with `duplicate_of` in the stored record; neither input copy is deleted. Do not depend on which copy is designated the representative.
+
+**Reflection.** Why retain three source references when only two distinct texts contribute insights? Text deduplication does not prove two differently worded documents say the same thing.
+
+### 2. Workshop plans: customize conflict rules
+
+**Purpose.** Distinguish conflicting single-value claims from compatible action items.
+
+**Prepare and run.**
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario knowledge-conflict-rules
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local synthesize --folder .local-state/course-demo/lesson-2-knowledge-conflict-rules/research --note-id conflict-notes --rules .local-state/course-demo/lesson-2-knowledge-conflict-rules/rules.json
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local show --note-id conflict-notes
+```
+
+Initially only `capacity` conflicts: 20 versus 24. Budget values are present in the sources but are not yet configured for conflict detection.
+
+**Customize.** Open the seeded `.local-state/course-demo/lesson-2-knowledge-conflict-rules/rules.json`. Append `"budget"` to `single_value_fields`, preserving valid JSON and all other settings. Leave the skill's shared `references/synthesis-rules.json` unchanged. Repeat the same synthesize and show commands with the same note id and `--rules` path. No reinstall is needed because the command reads that file directly.
+
+**Codex prompt.**
+
+```text
+In the seeded knowledge-conflict-rules exercise, add budget to the local rules.json single_value_fields and rerun $personal-knowledge-capture with local storage, note id conflict-notes and that --rules file. Compare the before/after conflicts, cite both alternatives and explain why the two action items are compatible. Do not choose an authoritative source or edit shared defaults.
+```
+
+**Expected result.** Two unique sources and no duplicates. After the edit, capacity remains 20/24 and budget adds CAD 300/CAD 450. Each alternative has source citations. Both action notes remain; they do not become a conflict. The sources remain unchanged, and the note revision increases. Reusing cached extraction does not prevent new rules from being applied.
+
+**Reflection.** Why does adding a field change the result without editing any source? The detector checks configured `field: value` statements only; no detected conflict is not proof that the sources agree semantically.
+
+### 3. Weekly update: follow changes and versions
+
+**Purpose.** Separate a new save from an actual source change.
+
+**Prepare and run.**
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario knowledge-weekly-update
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local synthesize --folder .local-state/course-demo/lesson-2-knowledge-weekly-update/research --note-id weekly-update-notes
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local show --note-id weekly-update-notes
+```
+
+Record the revision and each source's `sha256`, `modified_ns` and `change`. Repeat synthesize and show without edits: both sources now say `unchanged`, hashes stay the same, and the revision increases.
+
+Next edit only the seeded `research/weekly-update.txt`: replace `Completed examples: 2` with `Completed examples: 3`. Repeat the same two commands a third time, using `weekly-update-notes` again.
+
+**Codex prompt.**
+
+```text
+Use $personal-knowledge-capture with local storage and note id weekly-update-notes on .local-state/course-demo/lesson-2-knowledge-weekly-update/research. Compare the current run with the prior result: explain which source changed, check its hash and citations, and distinguish source changes from note revisions. Do not modify the source files yourself.
+```
+
+**Expected result.** The edited file says `modified` and has a different hash; `project-brief.md` stays `unchanged` with its original hash. The note reflects three completed examples with a valid source reference. Two unique sources, zero duplicates and no configured-field conflicts remain. A fresh note id progresses through revisions 1, 2 and 3; existing ids continue from their current revision. The Markdown file is the latest draft and is overwritten on each save, so retain the displayed before/after evidence for comparison.
+
+**Reflection.** Does a newer timestamp prove a source is more authoritative? No. Does a higher note revision prove the facts changed? No: unchanged inputs also produce a new saved revision.
+
+### Verify the exercises
+
+Use the printed `note_path` and the `show` readback to check content and references, not just exit status. A source id identifies an input; a hash fingerprints its content; a revision identifies a saved version. Compare source hashes before and after each helper run: only the student's deliberate edit in exercise 3 should change file content. Keep all state and notes outside git.
+
+The saved output is an extractive draft, not a full semantic analysis. Codex refinements must retain citations and must not be described as persisted course changes unless separately saved and verified. These exercises need no remote service and do not change workflow approval gates.
+
 ## Persistence and evidence
 
 ```bash
