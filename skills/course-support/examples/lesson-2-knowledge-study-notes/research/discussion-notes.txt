@@ -1,0 +1,3 @@
+Synthetic course data: this is a fictional study group discussion.
+The group wants to separate facts from open questions when taking notes.
+Action: Prepare a question about a claim whose source is unclear.

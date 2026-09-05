@@ -199,6 +199,96 @@ python3 skills/personal-workflow-automation/scripts/workflow.py preview --workfl
 
 缩写命令均位于对应包的 `scripts/`。`--workspace student-02` 等共享参数放在子命令前，三个包使用相同上下文。
 
+<a id="personal-knowledge-capture-learning-examples"></a>
+
+## Personal Knowledge Capture 递进练习
+
+以下三个独立案例扩展 Understand 练习。每个建议 10–15 分钟，可选一个课堂演示，其余作为课后练习。完成 Lesson 2 共享准备后，从仓库根目录运行命令。案例只使用本地存储与合成 TXT/Markdown，不需要注册监听目录或安装额外依赖。
+
+只编辑 `.local-state/course-demo/` 下生成的副本，不编辑仓库中的原始样例。输出目录已存在时，用 `--output <新目录>` 生成，再替换后续命令中的目录；需要全新版本记录时，也换一个笔记 id。各案例使用独立 id，不与组合流程的 `weekly-note` 混用。
+
+### 1. 学习资料：汇总与去重
+
+**目的。** 把阅读资料变成带引用的笔记，不重复计算复制的文档。
+
+**准备与运行。**
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario knowledge-study-notes
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local synthesize --folder .local-state/course-demo/lesson-2-knowledge-study-notes/research --note-id study-notes
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local show --note-id study-notes
+```
+
+**Codex 示例提示。**
+
+```text
+使用 $personal-knowledge-capture 理解 .local-state/course-demo/lesson-2-knowledge-study-notes/research，使用本地存储和笔记 id study-notes。解释重复资料，指出摘要和行动项的来源，保持原文件不变。区分已保存的抽取式初稿与后续解释。
+```
+
+提示词是运行练习的另一种方式，不是额外必做步骤；命令和提示都执行会多保存一个版本。
+
+**预期结果。** 三个来源、两个唯一文本、一份重复、两个行动项，没有配置字段冲突。打开输出的 `note_path`，从每条要点和行动项的来源 id 找到 Source References。重复文件仍保留，在存储记录中标有 `duplicate_of`，不会删除任何副本。不要求固定由哪份副本作为代表。
+
+**思考问题。** 为什么只有两份文本贡献要点，却仍应保留三个来源？文本去重不代表能识别所有不同措辞的同义资料。
+
+### 2. 活动方案：定制冲突规则
+
+**目的。** 区分单值事实的矛盾与可以同时执行的行动项。
+
+**准备与运行。**
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario knowledge-conflict-rules
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local synthesize --folder .local-state/course-demo/lesson-2-knowledge-conflict-rules/research --note-id conflict-notes --rules .local-state/course-demo/lesson-2-knowledge-conflict-rules/rules.json
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local show --note-id conflict-notes
+```
+
+首次只显示 `capacity` 的 20/24 冲突。资料虽有预算金额，但规则尚未要求检测预算冲突。
+
+**修改规则。** 打开生成的 `.local-state/course-demo/lesson-2-knowledge-conflict-rules/rules.json`，在 `single_value_fields` 数组末尾增加 `"budget"`，保持 JSON 有效及其他设置不变。不修改 Skill 共享的 `references/synthesis-rules.json`。使用相同笔记 id 和 `--rules` 路径，重复 synthesize 和 show 命令。命令直接读取该文件，不需要重新安装 Skill。
+
+**Codex 示例提示。**
+
+```text
+在生成的 knowledge-conflict-rules 案例中，将 budget 加入本地 rules.json 的 single_value_fields，再用 $personal-knowledge-capture 重新运行，使用本地存储、笔记 id conflict-notes 和这个 --rules 文件。比较修改前后的冲突，引用双方资料，解释为什么两条行动项可以同时成立。不要判断哪个来源更权威，不修改共享默认规则。
+```
+
+**预期结果。** 两个唯一来源，无重复。修改后容量仍为 20/24，并增加 CAD 300/CAD 450 的预算冲突，每个候选值都有引用。两个行动项均保留，不被误判为冲突。资料未修改，笔记版本递增。复用文本抽取缓存不影响重新应用规则。
+
+**思考问题。** 为什么不改资料，只增加一个规则字段就能改变结果？程序只检查已配置的 `字段: 值`；没有检测出冲突不代表语义上完全一致。
+
+### 3. 每周更新：追踪资料与版本
+
+**目的。** 区分“又保存了一次”与“资料真的发生变化”。
+
+**准备与运行。**
+
+```bash
+python3 skills/course-support/scripts/seed_demo.py --scenario knowledge-weekly-update
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local synthesize --folder .local-state/course-demo/lesson-2-knowledge-weekly-update/research --note-id weekly-update-notes
+python3 skills/personal-knowledge-capture/scripts/course_knowledge.py --storage local show --note-id weekly-update-notes
+```
+
+记录笔记 revision，以及每个来源的 `sha256`、`modified_ns` 和 `change`。不改文件，重复 synthesize 和 show：两个来源均显示 `unchanged`，哈希不变，笔记版本仍会递增。
+
+接着只编辑生成的 `research/weekly-update.txt`，把 `Completed examples: 2` 改为 `Completed examples: 3`。第三次执行相同的两条命令，继续使用 `weekly-update-notes`。
+
+**Codex 示例提示。**
+
+```text
+使用 $personal-knowledge-capture 理解 .local-state/course-demo/lesson-2-knowledge-weekly-update/research，使用本地存储和笔记 id weekly-update-notes。比较本次与上次结果：指出哪个来源变了，核对哈希与引用，区分资料变化和笔记版本变化。不要自行修改原文件。
+```
+
+**预期结果。** 编辑过的文件显示 `modified`，哈希变化；`project-brief.md` 保持 `unchanged`，哈希不变。笔记体现已完成三个示例，并保留有效引用。仍为两个唯一来源、零重复，无配置字段冲突。全新的笔记 id 对应版本 1、2、3；已有 id 从当前版本继续递增。Markdown 文件每次保存会更新为最新初稿，因此应保留前后显示结果供比较。
+
+**思考问题。** 修改时间更新能证明资料更权威吗？不能。笔记版本提高能证明事实改变了吗？也不能，未变的资料同样会产生新保存版本。
+
+### 检查练习结果
+
+使用输出的 `note_path` 和 show 回读核对内容及引用，不只看退出状态。来源 id 用于定位资料；哈希是内容指纹；revision 是保存版本。比较每次运行前后的原文件哈希，只有第三个案例中学生主动修改资料才应改变文件内容。运行状态和笔记均不提交 git。
+
+保存的结果是抽取式初稿，不是完整语义分析。Codex 的进一步完善必须保留引用；未经另行保存和验证，不应声称对话中的完善已写回课程记录。案例不需要远程服务，不改变组合流程的审批点。
+
 ## 持久化与证据
 
 ```bash
