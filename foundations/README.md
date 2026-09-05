@@ -28,3 +28,4 @@ they go deeper into implementation details.
   history from symbolic systems to modern agent stacks.
 - [LLM Foundations For Agent Systems](./llm-foundations-for-agent-systems.mdx):
   the minimum model concepts needed to design agent systems well.
+- [When to Not Use Agents](./when-not-to-use-agents.mdx): a guide to knowing when to start simple and avoid agent over-engineering.
