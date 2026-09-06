@@ -3,12 +3,12 @@
 import fs from "node:fs";
 
 import {
-  TRACKS,
   extractLabelNames,
-  extractTrackFromLabels,
   findLinkedIssueNumbers,
   validateChangedFilesForTrack,
 } from "./prompthon-activity-policy.mjs";
+
+import { resolveClassification } from "./prompthon-pr-classification.mjs";
 
 const COMMENT_MARKER = "<!-- prompthon-track-guard -->";
 
@@ -115,13 +115,16 @@ function isReleasePullRequest(pullRequest, repo) {
 async function main() {
   const dryRun = process.argv.includes("--dry-run");
   const event = readEventPayload();
-  const pullRequest = event.pull_request;
+  let pullRequest = event.pull_request;
   const repo = event.repository?.full_name || process.env.GITHUB_REPOSITORY;
   if (!pullRequest?.number || !repo) {
     console.log(JSON.stringify({ skipped: true, reason: "missing_pull_request_payload" }, null, 2));
     return;
   }
 
+  // Serialize runs and read current metadata: event snapshots can predate label edits.
+  if (!dryRun) pullRequest = await githubRequest(`/repos/${repo}/pulls/${pullRequest.number}`);
+  if (pullRequest.state === "closed") return;
   if (isReleasePullRequest(pullRequest, repo)) {
     console.log(JSON.stringify({
       skipped: true,
@@ -131,35 +134,30 @@ async function main() {
   }
 
   const linkedIssueNumbers = findLinkedIssueNumbers(pullRequest.body);
-  const linkedIssueNumber = linkedIssueNumbers[0] || null;
-  const linkedIssue = linkedIssueNumber
-    ? await githubRequest(`/repos/${repo}/issues/${linkedIssueNumber}`)
-    : null;
-  const issueLabels = extractLabelNames(linkedIssue?.labels);
-  const prLabels = extractLabelNames(pullRequest.labels);
-  const track = extractTrackFromLabels(issueLabels) || extractTrackFromLabels(prLabels);
-  if (!track) {
-    const message = [
-      "prompthon-track-guard could not determine a contribution track from the linked issue or PR labels.",
-      `Add the matching label to this PR: ${TRACKS.map((value) => `\`track: ${value}\``).join(", ")}.`,
-      "Alternatively, link a labeled issue in the PR body using `Closes #123`.",
-      `Linked issue: ${linkedIssueNumber ? `#${linkedIssueNumber}` : "none"}.`,
-      "The selected track must allow every changed path; adding a label triggers a new check.",
-    ].join("\n");
+  const linkedIssues = [];
+  for (const number of linkedIssueNumbers) {
+    const issue = await githubRequest(`/repos/${repo}/issues/${number}`);
+    if (issue.pull_request) throw new Error(`#${number} is a PR; link an Issue for classification inheritance.`);
+    linkedIssues.push({ ...issue, number });
+  }
+  let classification;
+  try {
+    classification = resolveClassification({ body: pullRequest.body, labels: pullRequest.labels, issues: linkedIssues });
+  } catch (error) {
+    const message = `prompthon-track-guard: ${error.message}\n\nExample for a skill package:\n## Repository track\n- [x] \`practitioner\`\n## Work kind\n- [x] \`skill-package\`\n\nChoose the values matching your contribution; paths are still validated.`;
     reportFailure(message);
-    if (!dryRun) {
-      await tryUpsertFailureComment(repo, pullRequest.number, `${COMMENT_MARKER}\n${message}`);
-    }
+    if (!dryRun) await tryUpsertFailureComment(repo, pullRequest.number, `${COMMENT_MARKER}\n${message}`);
     return;
   }
-
+  const { track } = classification;
   const changedFiles = dryRun && Array.isArray(event.changed_files)
     ? event.changed_files
     : await listPullRequestFiles(repo, pullRequest.number);
   const validation = validateChangedFilesForTrack(track, changedFiles);
   const summary = {
     changedFiles,
-    linkedIssueNumber,
+    linkedIssueNumbers,
+    kind: classification.kind,
     track,
     ...validation,
   };
@@ -173,6 +171,29 @@ async function main() {
     return;
   }
 
+  if (!dryRun) {
+    const latest = await githubRequest(`/repos/${repo}/pulls/${pullRequest.number}`);
+    if (latest.state === "closed" || latest.head?.sha !== pullRequest.head?.sha || latest.body !== pullRequest.body ||
+        JSON.stringify(extractLabelNames(latest.labels).sort()) !== JSON.stringify(extractLabelNames(pullRequest.labels).sort())) {
+      throw new Error("PR changed during classification; rerun against the current metadata and commit.");
+    }
+    const missing = classification.labels.filter(label => !extractLabelNames(pullRequest.labels).includes(label));
+    if (missing.length) {
+      await githubRequest(`/repos/${repo}/issues/${pullRequest.number}/labels`, {
+        method: "POST", body: JSON.stringify({ labels: missing }),
+      });
+    }
+    const persisted = await githubRequest(`/repos/${repo}/issues/${pullRequest.number}/labels`);
+    // Recheck the authoritative labels, including conflicting labels added concurrently.
+    resolveClassification({ body: pullRequest.body, labels: persisted, issues: linkedIssues });
+    if (classification.labels.some(label => !extractLabelNames(persisted).includes(label))) {
+      throw new Error("Classification labels were not persisted; rerun the check.");
+    }
+    // Adding labels with GITHUB_TOKEN does not trigger a second workflow. This run
+    // completes validation and replaces the old failure message itself.
+    await tryUpsertFailureComment(repo, pullRequest.number,
+      `${COMMENT_MARKER}\nClassification and path checks passed: \`${classification.labels.join("\`, \`")}\`. No model inference was used. This does not approve or merge the PR.`);
+  }
   console.log(JSON.stringify({ status: "passed", ...summary }, null, 2));
 }
 

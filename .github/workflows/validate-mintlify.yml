@@ -41,7 +41,7 @@ jobs:
           node-version: ${{ steps.node-version.outputs.version }}
 
       - name: Test contribution policy and track guard
-        run: node --test .github/scripts/prompthon-activity-policy.test.mjs .github/scripts/prompthon-track-guard.test.mjs
+        run: node --test .github/scripts/prompthon-activity-policy.test.mjs .github/scripts/prompthon-track-guard.test.mjs .github/scripts/prompthon-pr-classification.test.mjs
 
       - name: Validate Mintlify docs
         run: npx --yes mint validate
