@@ -1,0 +1,3 @@
+Synthetic course data: this weekly update is fictional.
+Completed examples: 2
+Action: Ask a teammate to check the source references.

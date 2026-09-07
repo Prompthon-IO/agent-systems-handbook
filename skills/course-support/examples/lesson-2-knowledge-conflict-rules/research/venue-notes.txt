@@ -1,0 +1,4 @@
+Synthetic course data: these venue notes describe the same fictional workshop.
+Capacity: 24
+Budget: CAD 450
+Action: Check the room equipment.

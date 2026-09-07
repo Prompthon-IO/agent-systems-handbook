@@ -1,0 +1,5 @@
+{
+  "single_value_fields": ["capacity", "date", "deadline", "location", "price", "currency", "audience", "status"],
+  "action_fields": ["action", "next step", "todo"],
+  "summary_body_lines": 3
+}

@@ -78,6 +78,22 @@ Treat this package as a Practitioner example of a local knowledge workflow:
 
 ## Professional AI Agent Course: Understand
 
+### Three progressive learning examples
+
+Start with the [English Lesson 2 guide](../course-support/lessons/lesson-2.md#personal-knowledge-capture-learning-examples) or the [简体中文练习](../course-support/zh-Hans/lesson-2.md#personal-knowledge-capture-learning-examples). Each example includes synthetic files, commands, a Codex prompt, expected results and a reflection question.
+
+| Example | Practice | Evidence to inspect |
+| --- | --- | --- |
+| Study notes | Summarize two distinct texts and a duplicate | Three source references, two unique texts, one duplicate and cited actions |
+| Conflict rules | Add `budget` to a scenario's single-value fields | Capacity and budget alternatives retain citations; separate actions stay separate |
+| Weekly update | Rerun, then change one source using the same note id | Unchanged/modified sources, hashes and increasing note revisions |
+
+Use `seed_demo.py --scenario knowledge-study-notes`, `knowledge-conflict-rules` or `knowledge-weekly-update` to create the selected exercise under `.local-state/course-demo/`. Existing output folders are never overwritten. The guides provide full repository-root commands; no watch registration, PDF package or remote account is needed.
+
+A **source reference** connects a note to its input file. A **hash** is a content fingerprint. A **revision** counts saved note versions, including repeat saves with unchanged inputs; it does not guarantee a new factual finding. **Deduplication** here compares normalized extracted text, not semantic similarity. A more recent modification time does not establish authority.
+
+The helper produces an extractive draft. Codex can explain or refine it while preserving citations, but conversational edits are not automatically saved back to the course record. Keep the saved draft and any refinement clearly distinguished. Edit only seeded synthetic files and the scenario's rules copy during these exercises.
+
 ### What you will learn
 
 Extract and deduplicate selected sources into a cited note, flag contradictions and track changes. Never relocate source files.
