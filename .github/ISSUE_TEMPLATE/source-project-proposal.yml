@@ -30,7 +30,7 @@ body:
     id: work_kind
     attributes:
       label: Work kind
-      description: Used by Prompthon to apply the safe `kind:*` label.
+      description: "Choose the most specific deliverable. The workflow applies the matching kind label automatically."
       options:
         - demo
         - script
