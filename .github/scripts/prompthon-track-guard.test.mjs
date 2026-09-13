@@ -104,3 +104,21 @@ test("a concurrent description edit prevents stale classification writes",t=>{
   assert.equal(r.status,1);assert.match(r.stderr,/PR changed during classification/);
   assert.equal(r.calls.filter(c=>c.url.endsWith("/labels")&&c.method==="POST").length,0);
 });
+
+test("Explorer article and required navigation pass with linked Issue classification", t => {
+  const r = runGuard(t, {
+    body: "Closes #200", live: true,
+    issues: {200: {labels: ["track: explorer", "kind: article"]}},
+    files: ["docs.json", "foundations/README.md", "foundations/index.mdx",
+      "foundations/when-not-to-use-agents.mdx"],
+  });
+  assert.equal(r.status, 0, r.stderr);
+  assert.equal(JSON.parse(r.stdout).status, "passed");
+});
+
+test("Builder contributions may include shared navigation", t => {
+  const r = runGuard(t, {labels: ["track: builder", "kind: docs"], live: true,
+    files: ["docs.json", "systems/context-engineering.mdx"]});
+  assert.equal(r.status, 0, r.stderr);
+  assert.equal(JSON.parse(r.stdout).status, "passed");
+});
