@@ -7,6 +7,9 @@ from course_runtime import CourseError, REPO, cli_main, emit, write_json
 
 
 SCENARIOS = {
+    "knowledge-study-notes": "lesson-2-knowledge-study-notes",
+    "knowledge-conflict-rules": "lesson-2-knowledge-conflict-rules",
+    "knowledge-weekly-update": "lesson-2-knowledge-weekly-update",
     "organizer-student-files": "lesson-2-organizer-student-files",
     "organizer-freelancer-rules": "lesson-2-organizer-freelancer-rules",
     "organizer-safe-recovery": "lesson-2-organizer-safe-recovery",

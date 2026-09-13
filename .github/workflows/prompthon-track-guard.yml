@@ -16,6 +16,11 @@ permissions:
   issues: read
   pull-requests: write
 
+# Avoid simultaneous label reconciliation for the same PR.
+concurrency:
+  group: pr-classification-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
 jobs:
   prompthon-track-guard:
     name: prompthon-track-guard
@@ -27,7 +32,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
           persist-credentials: false
 
-      - name: Validate changed paths
+      - name: Classify contribution and validate changed paths
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: node .github/scripts/prompthon-track-guard.mjs

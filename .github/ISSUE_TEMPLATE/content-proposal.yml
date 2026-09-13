@@ -20,7 +20,7 @@ body:
     id: contribution_track
     attributes:
       label: Repository track
-      description: Pick the path policy Prompthon should apply as a safe `track:*` label.
+      description: "Choose Explorer for articles/research, Practitioner for Skills/templates/workshops, or Builder for engineering/repository tools. Labels are applied automatically; no label permissions are needed."
       options:
         - Explorer
         - Practitioner
@@ -31,7 +31,7 @@ body:
     id: work_kind
     attributes:
       label: Work kind
-      description: Used by Prompthon to apply the safe `kind:*` label.
+      description: "Choose the most specific deliverable. The workflow applies the matching kind label automatically."
       options:
         - article
         - radar-note
