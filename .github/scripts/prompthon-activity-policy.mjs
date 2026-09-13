@@ -35,8 +35,12 @@ export const STATUS_LABELS = [
   "expired",
 ];
 
+// Shared site navigation is reviewed with the contribution, regardless of track.
+const SHARED_CONTRIBUTOR_PATHS = ["docs.json"];
+
 export const TRACK_ALLOWED_PATHS = {
   explorer: [
+    ...SHARED_CONTRIBUTOR_PATHS,
     "foundations/",
     "patterns/",
     "ecosystem/",
@@ -48,6 +52,7 @@ export const TRACK_ALLOWED_PATHS = {
     "zh-Hans/",
   ],
   practitioner: [
+    ...SHARED_CONTRIBUTOR_PATHS,
     "skills/",
     "snippets/",
     "workshops/",
@@ -58,14 +63,14 @@ export const TRACK_ALLOWED_PATHS = {
     "zh-Hans/workshops/",
     "zh-Hans/templates/",
     "zh-Hans/specializations/",
-    // Course navigation and onboarding pages accompany practitioner material.
-    "docs.json",
+    // Course onboarding pages accompany practitioner material.
     "reading-paths/environment-setup.mdx",
     "reading-paths/sample-projects.mdx",
     "zh-Hans/reading-paths/environment-setup.mdx",
     "zh-Hans/reading-paths/sample-projects.mdx",
   ],
   builder: [
+    ...SHARED_CONTRIBUTOR_PATHS,
     "scripts/",
     "githooks/",
     ".github/",

@@ -103,6 +103,7 @@ test("validates explorer path policy", () => {
     ]),
     {
       allowedPaths: [
+        "docs.json",
         "foundations/",
         "patterns/",
         "ecosystem/",
@@ -174,4 +175,23 @@ test("course support paths do not allow unrelated content, CI, or lookalike file
   ]);
   assert.equal(validation.valid, false);
   assert.deepEqual(validation.invalidFiles, invalidFiles);
+});
+
+test("all contributor tracks allow only the exact shared navigation filename", () => {
+  for (const track of ["explorer", "practitioner", "builder"]) {
+    assert.equal(validateChangedFilesForTrack(track, ["docs.json"]).valid, true, track);
+    const lookalikes = ["docs.json.backup", "docs.json/other.md", "docs-private.json"];
+    assert.deepEqual(validateChangedFilesForTrack(track, lookalikes).invalidFiles, lookalikes, track);
+  }
+  assert.equal(validateChangedFilesForTrack("unknown", ["docs.json"]).valid, false);
+});
+
+test("shared navigation does not grant access to other track-specific paths", () => {
+  for (const [track, forbidden] of [
+    ["explorer", ".github/workflows/prompthon-track-guard.yml"],
+    ["practitioner", ".github/scripts/prompthon-activity-policy.mjs"],
+    ["builder", "foundations/when-not-to-use-agents.mdx"],
+  ]) {
+    assert.deepEqual(validateChangedFilesForTrack(track, ["docs.json", forbidden]).invalidFiles, [forbidden]);
+  }
 });

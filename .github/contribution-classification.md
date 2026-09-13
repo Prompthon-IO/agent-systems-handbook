@@ -17,6 +17,11 @@ PR. Existing PR labels also work. Values supplied in multiple places must agree.
 - Practitioner: Skills, templates and workshop materials.
 - Builder: engineering implementations and repository tools.
 
+All three tracks may update the root `docs.json` alongside their contribution.
+Reviewers check the navigation and site configuration changes; normal review
+and required validation still apply. Other files remain subject to the track
+allowlist.
+
 The path policy still applies. Choosing Builder does not allow a Skill-only PR
 to change arbitrary paths, and classification does not grant approval or merge
 permission. The existing Issue proposal/claim process still governs scope;
@@ -64,6 +69,9 @@ PR 时，在 **Repository track** 和 **Work kind** 中各勾选一项。Issue �
 - Explorer：文章、研究与学习内容。
 - Practitioner：Skill、模板与工作坊材料。
 - Builder：工程实现与仓库工具。
+
+三个轨道都可以在贡献 PR 中修改根目录的 `docs.json`。导航与站点配置变更由
+审阅者把关，仍须完成正常 Review 和必需校验；其他文件继续受各轨道路径范围限制。
 
 漏选、多选、未知值时，编辑 PR 描述后保存即可重跑。与已有标签冲突时，检查会
 指出来源；修正自己的选择，或请维护者修正标签。系统不会根据标题、正文或路径
