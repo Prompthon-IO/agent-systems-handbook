@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "lesson": 6,
+  "capability": "Produce",
+  "entrypoint": "scripts/init_project.py"
+}

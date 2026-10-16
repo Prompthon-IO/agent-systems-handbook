@@ -1,0 +1,42 @@
+{
+  "product": "Three Things",
+  "audience": "People planning a busy day",
+  "width": 720,
+  "height": 1280,
+  "fps": 24,
+  "background": "#0E141D",
+  "accent": "#F5560D",
+  "audio": [],
+  "scenes": [
+    {
+      "duration": 3,
+      "heading": "Too much to do?",
+      "body": "Start with what matters today."
+    },
+    {
+      "duration": 5,
+      "heading": "Make room for three things",
+      "body": "A simple way to focus your day."
+    },
+    {
+      "duration": 7,
+      "heading": "One task at a time.",
+      "body": "Keep the next action in view.",
+      "checklist": [
+        "Choose a priority",
+        "Work on one task",
+        "Mark it complete"
+      ]
+    },
+    {
+      "duration": 6,
+      "heading": "A clearer next step",
+      "body": "Bring your priorities into focus."
+    },
+    {
+      "duration": 4,
+      "heading": "Try your first list",
+      "body": "Begin with the work that matters today."
+    }
+  ]
+}
