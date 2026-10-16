@@ -101,7 +101,7 @@ def install(repo: Path, lesson: str, *, check: bool = False, dry_run: bool = Fal
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--lesson", choices=("2", "3", "4", "5", "all"), default="all")
+    p.add_argument("--lesson", choices=("2", "3", "4", "5", "6", "all"), default="all")
     p.add_argument("--repo", type=Path, default=REPO)
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--check", action="store_true")

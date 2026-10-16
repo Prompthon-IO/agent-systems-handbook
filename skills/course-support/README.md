@@ -1,6 +1,6 @@
 # GW02 Professional AI Agent Course skill support
 
-This is shared infrastructure, not a thirteenth skill. Tier 1 Lessons 2–5 teach twelve separate jobs. The canonical packages remain under `skills/`; generated Codex copies go under `.agents/skills/`.
+This is shared infrastructure, not an additional skill. Tier 1 Lessons 2–5 teach twelve separate jobs; the Lesson 6 extension adds one standalone local video-production package. The canonical packages remain under `skills/`; generated Codex copies go under `.agents/skills/`.
 
 | Lesson | Capabilities | Packages |
 | --- | --- | --- |
@@ -8,8 +8,9 @@ This is shared infrastructure, not a thirteenth skill. Tier 1 Lessons 2–5 teac
 | 3 | Build → Test → Deploy | web-builder, webapp-testing, vercel-deploy |
 | 4 | Structure → Operate → Analyze | business-data-structuring, crm-operations, business-data-analysis |
 | 5 | Plan → Distribute → Discover | content-strategy, prompthon-social-campaign-manager, ai-search-visibility |
+| 6 | Produce a local promotion video | local-promotion-video |
 
-The installer discovers the `course.json` files actually present in your checkout. A lesson is ready only when all three packages and its lab exist; a name in this curriculum map is not deployment evidence.
+The installer discovers the `course.json` files actually present in your checkout. Core Lessons 2–5 need all three packages and their lab. Lesson 6 instead has one standalone package and [its lab](lessons/lesson-6.md); it needs no course database. A name in this map is not evidence of an actual render or deployment.
 
 ## Prerequisites and five-minute setup
 
