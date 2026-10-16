@@ -1,0 +1,22 @@
+{
+  "name": "local-promotion-video-project",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "check": "node scripts/render.mjs check",
+    "preview": "node scripts/render.mjs preview",
+    "render": "node scripts/render.mjs render"
+  },
+  "dependencies": {
+    "remotion": "4.0.532",
+    "@remotion/bundler": "4.0.532",
+    "@remotion/renderer": "4.0.532",
+    "@remotion/media": "4.0.532",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  }
+}

@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {validateBrief,assetPath} from './brief.mjs';
+const fixture=()=>({product:'Demo',audience:'Students',width:720,height:1280,fps:24,background:'#0E141D',accent:'#F5560D',audio:[],scenes:[{duration:3,heading:'A real example'},{duration:22,heading:'A clear action'}]});
+test('scene durations match the MP4 timeline',()=>assert.deepEqual(validateBrief(fixture(),'.'),{frames:600,durationSeconds:25}));
+test('invalid timing fails before invoking a browser',()=>{const b=fixture();b.scenes[0].duration=0;assert.throws(()=>validateBrief(b,'.'),/one frame/);});
+test('remote and escaping assets are refused',()=>{for(const p of ['https://example.com/a.png','../a.png','/tmp/a.png','C:\\a.png'])assert.throws(()=>assetPath('.',p),/relative local/);});
+test('asset symlinks cannot escape the project media directory',()=>{const d=fs.mkdtempSync(path.join(os.tmpdir(),'promo-asset-'));try{fs.mkdirSync(path.join(d,'public'));fs.writeFileSync(path.join(d,'outside.txt'),'x');fs.symlinkSync('../outside.txt',path.join(d,'public','escape.txt'));assert.throws(()=>assetPath(d,'escape.txt'),/outside/);}finally{fs.rmSync(d,{recursive:true});}});

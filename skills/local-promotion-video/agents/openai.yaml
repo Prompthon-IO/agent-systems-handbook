@@ -1,0 +1,4 @@
+interface:
+  display_name: "Local Promotion Video"
+  short_description: "Create an editable local product promotion video"
+  default_prompt: "Use $local-promotion-video to make a short editable product video from my brief and screenshots."
